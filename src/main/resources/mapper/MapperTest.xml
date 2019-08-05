@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bitcamp.mapper.TestMapper">
+	<insert id="insertTest" parameterType="com.bitcamp.DTO.MainViewDTO">
+		INSERT INTO MAIN_VIEW VALUES (#{main_view_no}, #{main_view_name}, #{main_view_use}, #{main_view_product})
+	</insert>
+	<select id="selectTest" resultType="com.bitcamp.DTO.MainViewDTO">
+		SELECT MAIN_VIEW_NO,
+			   MAIN_VIEW_NAME,
+			   MAIN_VIEW_USE,
+			   MAIN_VIEW_PRODUCT
+		FROM   MAIN_VIEW
+	</select>
+</mapper>
