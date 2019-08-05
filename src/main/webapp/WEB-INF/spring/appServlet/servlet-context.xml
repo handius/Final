@@ -29,6 +29,5 @@
 
 	<context:component-scan	base-package="com.bitcamp.controller" />
 	<context:component-scan base-package="com.bitcamp.service"></context:component-scan>
-	<mybatis-spring:scan base-package="com.bitcamp.mapper"/>
 	
 </beans:beans>
