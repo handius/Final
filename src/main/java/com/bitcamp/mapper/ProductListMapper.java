@@ -9,6 +9,7 @@ public interface ProductListMapper {
 	public List<ListDTO> getList(HashMap<String,Object> listData);
 	public int getCount(HashMap<String, Object> countData);
 	public List<String> getImages(int list_no);
+	public List<String> getHash(String list_category);
 	/*public int insertPerfectOrderData(ListDTO dto);
 	public int insertOrderMadeData(ListDTO dto);
 	public int insertListMainImages(HashMap<String, Object> imageData);
