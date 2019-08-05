@@ -11,8 +11,8 @@ public class JoinService {
 	@Autowired
 	JoinMapper joinMapper;
 	
-	public int userIdCheck(String user_id) {
-		return 1;
+	public int userIdCheck(String user_id) {	//중복 ID 체크
+		return joinMapper.userIdCheck(user_id);
 	}
 
 }
