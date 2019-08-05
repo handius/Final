@@ -35,13 +35,13 @@ public class ProductTest {
 		
 		assertNotNull(mapper);
 		String searchType = "artist";
-		String searchData = "temp";
+		String searchData = "";
 		String list_category = "book";
 		List<String> hashTag = new ArrayList<>();
 		
 		PageDTO dto = new PageDTO();
 		dto.setStartrow(1);
-		dto.setEndrow(4);
+		dto.setEndrow(8);
 		int hasStock = 1;
 		int status = 1;
 		List<ListDTO> pList = service.getListService(searchType, searchData, dto, list_category, hashTag, hasStock, status);

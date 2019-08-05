@@ -21,13 +21,14 @@ public class ProductController {
 	private ProductService service;
 	
 	@RequestMapping(value="/sell", method= {RequestMethod.POST, RequestMethod.GET})
-	public String sellProduct(@RequestParam(defaultValue="")String searchType, @RequestParam(defaultValue="")String searchData, @RequestParam(defaultValue="1")int currpage, @RequestParam(defaultValue="")String list_category, List<String> hashTag, @RequestParam(defaultValue="0")int hasStock, @RequestParam(defaultValue="1")int status, Model model) {
+	public String sellProduct(@RequestParam(defaultValue="")String searchType, @RequestParam(defaultValue="")String searchData, @RequestParam(defaultValue="1")int currpage, @RequestParam(defaultValue="")String list_category, @RequestParam(defaultValue="")List<String> hashTag, @RequestParam(defaultValue="0")int hasStock, @RequestParam(defaultValue="1")int status, Model model) {
 		int pagePerCount = 5;
 		int blockSize = 5;
 		int totalCount = service.getCountService(searchType, searchData, list_category, hashTag, hasStock, status);
 		PageDTO dto = new PageDTO(currpage, totalCount, pagePerCount, blockSize);
 		List<ListDTO> list = service.getListService(searchType, searchData, dto, list_category, hashTag, hasStock, status);
 		model.addAttribute("list", list);
-		return "sell";
+		model.addAttribute("PageDTO", dto);
+		return "sell/sell";
 	}
 }
