@@ -1,5 +1,8 @@
 package com.bitcamp.service;
 
-public class ProductService {
+import org.springframework.stereotype.Service;
 
+@Service
+public class ProductService {
+	
 }
