@@ -5,7 +5,6 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Getter @Setter
-@ToString
 public class MainViewDTO {
 	private int main_view_no;
 	private String main_view_name;
