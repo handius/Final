@@ -27,13 +27,15 @@ public class JunitTest {
 	
 	@Test
 	public void test() {
-/*		MainViewDTO mainview = new MainViewDTO();
+/*		
+ 		MainViewDTO mainview = new MainViewDTO();
 		mainview.setMain_view_no(2);
 		mainview.setMain_view_name("test");
 		mainview.setMain_view_use(1);
 		mainview.setMain_view_product("products");
 		int result = mapper.insertTest(mainview);
-		assertEquals(1, result);*/
+		assertEquals(1, result);
+*/
 		List<MainViewDTO> list = mapper.selectTest();
 		assertEquals("products", list.get(0).getMain_view_product());
 	}
