@@ -7,7 +7,6 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.bitcamp.DTO.Product.ListDTO;
 
-@Mapper
 public interface ProductListMapper {
 	public List<ListDTO> getList(HashMap<String,Object> listData);
 	public int getCount(HashMap<String, Object> countData);
