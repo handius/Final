@@ -1,7 +1,8 @@
 package com.bitcamp.controller;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,13 +12,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.bitcamp.DTO.Product.ListDTO;
-import com.bitcamp.DTO.Product.ProductDTO;
 import com.bitcamp.DTO.comm.PageDTO;
 import com.bitcamp.service.ProductService;
 
 @Controller
 public class ProductController {
-	@Autowired
+	@Resource(name="pservice")
 	private ProductService service;
 	
 	@RequestMapping(value="/sell", method= {RequestMethod.POST, RequestMethod.GET})
@@ -26,8 +26,7 @@ public class ProductController {
 		int blockSize = 5;
 		int totalCount = service.getCountService(searchType, searchData, list_category, hashTag, hasStock, status);
 		PageDTO dto = new PageDTO(currpage, totalCount, pagePerCount, blockSize);
-		
-		
+		List<ListDTO> list = service.getListService(searchType, searchData, dto, list_category, hashTag, hasStock, status);
 		model.addAttribute("list", list);
 		return "sell";
 	}

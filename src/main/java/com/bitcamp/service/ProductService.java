@@ -10,7 +10,7 @@ import com.bitcamp.DTO.Product.ListDTO;
 import com.bitcamp.DTO.comm.PageDTO;
 import com.bitcamp.mapper.ProductListMapper;
 
-@Service("service")
+@Service("pservice")
 public class ProductService {
 	@Autowired
 	private ProductListMapper mapper;
