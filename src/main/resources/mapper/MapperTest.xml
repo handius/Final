@@ -6,7 +6,7 @@
 	<insert id="insertTest" parameterType="com.bitcamp.DTO.MainViewDTO">
 		INSERT INTO MAIN_VIEW VALUES (#{main_view_no}, #{main_view_name}, #{main_view_use}, #{main_view_product})
 	</insert>
-	<select id="selectTest" resultType="com.bitcamp.DTO.MainViewDTO">
+	<select id="selectTest" resultType="com.bitcamp.DTO.admin.MainViewDTO">
 		SELECT MAIN_VIEW_NO,
 			   MAIN_VIEW_NAME,
 			   MAIN_VIEW_USE,
