@@ -3,5 +3,84 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bitcamp.mapper.ProductListMapper">
-
+	<select id="getList" parameterType="HashMap" resultType="com.bitcamp.DTO.Product.ListDTO">
+	select list_no, list_artist, list_title, list_product, list_category, list_content, list_base_price, list_date, buy_count, isordered, ordered_content, list_status
+	from(
+		select lbb.*, rownum as rnum
+		from(
+			select distinct lb.*
+			from list_board lb, list_option_board lob, list_hash_tag lht 
+			where lb.list_no = lob.list_no and lob.list_no = lht.list_no
+				<if test="searchType == 'artist'">
+					AND lb.list_artist like '%'||#{searchData}||'%'
+				</if>
+				<if test="searchType == 'title'">
+					AND lb.list_title like '%'||#{searchData}||'%'
+				</if>
+				<if test="searchType == 'product'">
+					AND lb.list_product like '%'||#{searchData}||'%'
+				</if>
+				<if test="list_category != null">
+					AND lb.list_category like '%'||#{list_category}||'%'
+				</if>
+				<if test="hashTag != null">
+					AND lht.list_hash in 
+					<foreach item="hash" index="index" collection="hashTag" separator="," open="(" close=")">
+						#{hash}
+					</foreach>
+				</if>
+				<if test="hasStock != 0">
+					AND lob.option_stock != 0
+				</if>
+				<if test="status != 0">
+					AND lb.list_status = 1
+				</if>
+				order by lb.list_no
+			) lbb
+			where rownum<![CDATA[ <= ]]>#{PageDTO.endrow}
+		)
+		where rnum<![CDATA[ >= ]]>#{PageDTO.startrow}
+	</select>
+	<select id="getCount" parameterType="HashMap" resultType="int">
+	select count(*)
+	from(
+		select lbb.*
+		from(
+			select distinct lb.*
+			from list_board lb, list_option_board lob, list_hash_tag lht 
+			where lb.list_no = lob.list_no and lob.list_no = lht.list_no
+				<if test="searchType == 'artist'">
+					AND lb.list_artist like '%'||#{searchData}||'%'
+				</if>
+				<if test="searchType == 'title'">
+					AND lb.list_title like '%'||#{searchData}||'%'
+				</if>
+				<if test="searchType == 'product'">
+					AND lb.list_product like '%'||#{searchData}||'%'
+				</if>
+				<if test="list_category != null">
+					AND lb.list_category like '%'||#{list_category}||'%'
+				</if>
+				<if test="hashTag != null">
+					AND lht.list_hash in 
+					<foreach item="hash" index="index" collection="hashTag" separator="," open="(" close=")">
+						#{hash}
+					</foreach>
+				</if>
+				<if test="hasStock != 0">
+					AND lob.option_stock != 0
+				</if>
+				<if test="status != 0">
+					AND lb.list_status = 1
+				</if>
+				order by lb.list_no
+			) lbb
+		)
+		
+	</select> 
+	<select id="getImages" parameterType="int" resultType="String">
+		select list_image_loc 
+		from list_image_board
+		where list_no = #{list_no}
+	</select>
 </mapper>
