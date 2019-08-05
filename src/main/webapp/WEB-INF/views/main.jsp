@@ -9,6 +9,7 @@
 <title>HandiUs :: 우리가 만드는 핸드메이드 쇼핑몰</title>
 <style>
 	#temp_main_page_logo {
+		padding-left: 50px;
 		font-size: 5em;
 		font-family: 'Saira Stencil One', cursive;
 	}
