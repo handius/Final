@@ -1,4 +1,4 @@
-package com.bitcamp.DTO;
+package com.bitcamp.DTO.admin;
 
 import lombok.Getter;
 import lombok.Setter;
