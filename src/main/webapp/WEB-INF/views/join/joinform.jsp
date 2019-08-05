@@ -24,23 +24,24 @@
 						$("#id_check").css("color", "red");
 						$("#reg_submit").attr("disabled", true);
 					} else {
-						
-						if(idJ.test(user_id)){
-							// 0 : 아이디 길이 / 문자열 검사
-							$("#id_check").text("");
-							$("#reg_submit").attr("disabled", false);
-				
-						} else if(user_id == ""){
+						for(i=0; i<id.length; i++){
+							ch = id.charAt(i);
+							console.log(ch);
+							if(!(ch >= '0' && ch <= '9') && !(ch >= 'a' && ch <= 'z')&&!(ch >= 'A' && ch <= 'Z')){
+								// 0 : 아이디 길이 / 문자열 검사
+								$('#id_check').text("아이디는 소문자와 숫자 4~12자리만 가능합니다 :)");
+								$('#id_check').css('color', 'red');
+								$("#reg_submit").attr("disabled", true);
+							}
+						} if(id == ""){
 							
 							$('#id_check').text('아이디를 입력해주세요 :)');
 							$('#id_check').css('color', 'red');
 							$("#reg_submit").attr("disabled", true);				
 							
 						} else {
-							
-							$('#id_check').text("아이디는 소문자와 숫자 4~12자리만 가능합니다 :) :)");
-							$('#id_check').css('color', 'red');
-							$("#reg_submit").attr("disabled", true);
+							$("#id_check").text("");
+							$("#reg_submit").attr("disabled", false);
 						}
 						
 					}
@@ -51,6 +52,10 @@
 			
 		});
 	});
+	
+	function validate(){
+		var id = $('#id').val();
+	}
 </script>
 <body>
 	<h1>Handius 회원 가입</h1>
