@@ -42,7 +42,7 @@
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjrt</artifactId>
 			<version>${org.aspectj-version}</version>
-		</dependency>	
+		</dependency>
 		<dependency>
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjweaver</artifactId>
@@ -133,16 +133,16 @@
 
 		<!-- AOP -->
 		<dependency>
-    		<groupId>org.springframework</groupId>
-   			<artifactId>spring-aop</artifactId>
-   			<version>${org.springframework-version}</version>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+			<version>${org.springframework-version}</version>
 		</dependency>
 
 		<!-- Transaction -->
 		<dependency>
-    		<groupId>org.springframework</groupId>
-   			<artifactId>spring-tx</artifactId>
-   			<version>${org.springframework-version}</version>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+			<version>${org.springframework-version}</version>
 		</dependency>
 
 		<!-- HikariCP -->
@@ -167,17 +167,17 @@
 			<version>${org.spring-security-version}</version>
 		</dependency>
 
-         <dependency>
+		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-web</artifactId>
 			<version>${org.spring-security-version}</version>
 		</dependency>
-        <dependency>
+		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-config</artifactId>
 			<version>${org.spring-security-version}</version>
 		</dependency>
-        <dependency>
+		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-taglibs</artifactId>
 			<version>${org.spring-security-version}</version>
