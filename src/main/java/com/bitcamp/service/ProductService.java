@@ -11,10 +11,10 @@ import com.bitcamp.mapper.ProductListMapper;
 
 @Service("service")
 public class ProductService {
-	@Autowired
-	private ProductListMapper mapper;
+	/*@Autowired
+	private ProductListMapper mapper;*/
 	
-	public List<ListDTO> getListService(String searchType, String searchData, PageDTO dto, String list_category, List<String> hashTag, Boolean hasStock, int status){
+	/*public List<ListDTO> getListService(String searchType, String searchData, PageDTO dto, String list_category, List<String> hashTag, Boolean hasStock, int status){
 		return null;
 	}
 	
@@ -32,5 +32,5 @@ public class ProductService {
 	
 	public int insertOrderOptionService(List<Integer> list_order_no, List<String> order_value) {
 		return 0;
-	}
+	}*/
 }
