@@ -5,9 +5,11 @@ import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @NoArgsConstructor
 @Getter @Setter
+@ToString
 public class ListDTO {
 	private int list_no;
 	private String list_title;
@@ -27,4 +29,5 @@ public class ListDTO {
 	private List<String> order_name;
 	private List<String> order_option;
 	private int buy_count;
+	private int list_status;
 }

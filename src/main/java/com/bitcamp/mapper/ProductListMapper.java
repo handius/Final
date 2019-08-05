@@ -1,9 +1,14 @@
 package com.bitcamp.mapper;
 
+import java.util.HashMap;
+import java.util.List;
+
+import com.bitcamp.DTO.Product.ListDTO;
+
 public interface ProductListMapper {
-	/*public List<ProductDTO> getList(HashMap<String,Object> listData);*/
-	/*public int getCount(HashMap<String, Object> countData);*/
-	
+	public List<ListDTO> getList(HashMap<String,Object> listData);
+	public int getCount(HashMap<String, Object> countData);
+	public List<String> getImages(int list_no);
 	/*public int insertPerfectOrderData(ListDTO dto);
 	public int insertOrderMadeData(ListDTO dto);
 	public int insertListMainImages(HashMap<String, Object> imageData);
