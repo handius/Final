@@ -11,8 +11,12 @@ public class JoinService {
 	@Autowired
 	JoinMapper joinMapper;
 	
-	public int userIdCheck(String user_id) {	//중복 ID 체크
+	public int userIdCheckService(String user_id) {	//중복 ID 체크
 		return joinMapper.userIdCheck(user_id);
+	}
+
+	public void userJoinService(String id, String password, String name, String email, String address) {
+		joinMapper.userJoin(id, password, name, email, address);
 	}
 
 }
