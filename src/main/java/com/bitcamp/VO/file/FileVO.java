@@ -1,7 +1,5 @@
 package com.bitcamp.VO.file;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,5 +10,6 @@ import lombok.Setter;
 @Getter @Setter
 public class FileVO {
 	private String fileName;
-	private MultipartFile file;
+	private String uploadPath;
+	private String uuid;
 }
