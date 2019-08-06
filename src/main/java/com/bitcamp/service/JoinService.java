@@ -13,7 +13,6 @@ public class JoinService {
 	@Autowired
 	JoinMapper joinMapper;
 	
-	@Autowired
 	MailDAO mailDAO;
 
 	public int userIdCheckService(String user_id) {	//중복 ID 체크
