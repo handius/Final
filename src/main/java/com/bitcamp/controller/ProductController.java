@@ -21,7 +21,7 @@ public class ProductController {
 	@Resource(name="pservice")
 	private ProductService service;
 	
-	@RequestMapping(value="/sell", method= {RequestMethod.POST, RequestMethod.GET})
+	@RequestMapping(value="/orderList", method= {RequestMethod.POST, RequestMethod.GET})
 	public String sellProduct(@RequestParam(defaultValue="")String searchType, @RequestParam(defaultValue="")String searchData, @RequestParam(defaultValue="1")int currpage, @RequestParam(defaultValue="")List<String> hashTag, @RequestParam(defaultValue="0")int hasStock, @RequestParam(defaultValue="1")int status, Model model) {
 		String list_category = "";
 		int pagePerCount = 8;
@@ -34,10 +34,10 @@ public class ProductController {
 		model.addAttribute("list", list);
 		model.addAttribute("PageDTO", dto);
 		model.addAttribute("hashList", hashList);
-		return "sell/sell";
+		return "sell/orderList";
 	}
 	
-	@RequestMapping(value="/sell/{category}", method= {RequestMethod.POST, RequestMethod.GET})
+	@RequestMapping(value="/orderList/{category}", method= {RequestMethod.POST, RequestMethod.GET})
 	public String sellProduct(@RequestParam(defaultValue="")String searchType, @RequestParam(defaultValue="")String searchData, @RequestParam(defaultValue="1")int currpage, @PathVariable(required=false, name="category")String list_category, @RequestParam(defaultValue="")List<String> hashTag, @RequestParam(defaultValue="0")int hasStock, @RequestParam(defaultValue="1")int status, Model model) {
 		int pagePerCount = 8;
 		int blockSize = 5;
@@ -48,7 +48,7 @@ public class ProductController {
 		model.addAttribute("list", list);
 		model.addAttribute("PageDTO", dto);
 		model.addAttribute("hashList", hashList);
-		return "sell/sell";
+		return "sell/orderList";
 	}
 	
 	@ResponseBody

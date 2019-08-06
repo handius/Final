@@ -94,22 +94,22 @@
 	<div class="container-fluid category">
 		<div class="row">
 			<div class="col-md-2">
-				<h5><a href="/controller/sell/book">책</a></h5>
+				<h5><a href="/controller/orderList/book">책</a></h5>
 			</div>
 			<div class="col-md-2">
-				<h5><a href="/controller/sell/cup">머그컵</a></h5>
+				<h5><a href="/controller/orderList/cup">머그컵</a></h5>
 			</div>
 			<div class="col-md-2">
-				<h5><a href="/controller/sell/table">가구</a></h5>
+				<h5><a href="/controller/orderList/table">가구</a></h5>
 			</div>
 			<div class="col-md-2">
-				<h5><a href="/controller/sell/accessary">악세사리</a></h5>
+				<h5><a href="/controller/orderList/accessary">악세사리</a></h5>
 			</div>
 			<div class="col-md-2">
-				<h5><a href="/controller/sell/handmade">공예</a></h5>
+				<h5><a href="/controller/orderList/handmade">공예</a></h5>
 			</div>
 			<div class="col-md-2">
-				<h5><a href="/controller/sell/anything">기타</a></h5>
+				<h5><a href="/controller/orderList/anything">기타</a></h5>
 			</div>
 		</div>
 	</div>
