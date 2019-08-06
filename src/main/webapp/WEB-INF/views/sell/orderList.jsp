@@ -2,9 +2,10 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Insert title here</title>
 <style>
 	body{
@@ -13,6 +14,12 @@
 	}
 	.category{
 		background-color: silver;
+	}
+	.category .row{
+		text-align: center;
+	}
+	.category .row h5{
+		font-weight: bolder;
 	}
 	.jumbotron{
 		margin-bottom:0 !important;
@@ -85,9 +92,8 @@
 	
 	<div class="jumbotron">
   		<div class="container">
-  			<h1>Hello, world!</h1>
+  			<h1>상품 구매 페이지</h1>
     		<p>상품 구매 페이지</p>
-    		<p><a class="btn btn-primary btn-lg">Learn more</a></p>
 	  	</div>
 	</div>
 
@@ -155,8 +161,11 @@
 		      				<img src="/controller/resources/image/caat.jpg" alt="이미지가 없습니다.">
 		      			</c:forEach>
 		          		<div class="caption">
-		            		<h3>${item.list_title } </h3>
-		            		<p>${item.list_artist }</p>
+		            		<h3><a href="#">${item.list_title }</a></h3>
+		            		<p>${item.list_date }</p>
+		            		<p>작가명 : ${item.list_artist }</p>
+		            		<p>상품명 : ${item.list_product }</p>
+		            		<p>가격 : ${item.list_base_price }원</p>
 		      			</div>
 		      		</div>
 		   		</div>
