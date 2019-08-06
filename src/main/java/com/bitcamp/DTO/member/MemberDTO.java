@@ -18,11 +18,11 @@ public class MemberDTO {
 	private String user_nick;
 	private String user_email;
 	private String user_address;
-	private Date user_regiDate;
+	private Date user_regidate;
 	private int user_status;
 	private int user_call;
-	private String user_certKey;
-	private int user_certStatus;
+	private String user_certkey;
+	private int user_certstatus;
 	private String user_flatform;
 	public int getMember_no() {
 		return member_no;
@@ -66,11 +66,11 @@ public class MemberDTO {
 	public void setUser_address(String user_address) {
 		this.user_address = user_address;
 	}
-	public Date getUser_regiDate() {
-		return user_regiDate;
+	public Date getUser_regidate() {
+		return user_regidate;
 	}
-	public void setUser_regiDate(Date user_regiDate) {
-		this.user_regiDate = user_regiDate;
+	public void setUser_regidate(Date user_regidate) {
+		this.user_regidate = user_regidate;
 	}
 	public int getUser_status() {
 		return user_status;
@@ -84,17 +84,17 @@ public class MemberDTO {
 	public void setUser_call(int user_call) {
 		this.user_call = user_call;
 	}
-	public String getUser_certKey() {
-		return user_certKey;
+	public String getUser_certkey() {
+		return user_certkey;
 	}
-	public void setUser_certKey(String user_certKey) {
-		this.user_certKey = user_certKey;
+	public void setUser_certkey(String user_certkey) {
+		this.user_certkey = user_certkey;
 	}
-	public int getUser_certStatus() {
-		return user_certStatus;
+	public int getUser_certstatus() {
+		return user_certstatus;
 	}
-	public void setUser_certStatus(int user_certStatus) {
-		this.user_certStatus = user_certStatus;
+	public void setUser_certstatus(int user_certstatus) {
+		this.user_certstatus = user_certstatus;
 	}
 	public String getUser_flatform() {
 		return user_flatform;
@@ -102,6 +102,5 @@ public class MemberDTO {
 	public void setUser_flatform(String user_flatform) {
 		this.user_flatform = user_flatform;
 	}
-	
-	
+		
 }
