@@ -101,7 +101,7 @@
 
 		//비밀번호 유효성검사
 		if (!getCheck.test($("#password").val())) {
-			alert("형식에 맞게 입력해주세요");
+			alert("비밀번호 형식에 맞게 입력해주세요");
 			$("#password").val("");
 			$("#password").focus();
 			return false;

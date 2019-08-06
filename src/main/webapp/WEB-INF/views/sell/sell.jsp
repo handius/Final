@@ -56,7 +56,7 @@
 			</div>
 			<div class="col-md-6">
 				<h2>완제품 등록하기</h2>
-				<a href="#" id="perfectOrder"></a>
+				<a href="/controller/sell/insertPerfectOrder" id="perfectOrder"></a>
 			</div>
 		</div>
 	</div>
