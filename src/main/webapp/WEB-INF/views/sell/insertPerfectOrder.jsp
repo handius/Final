@@ -20,6 +20,26 @@
 <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.css" rel="stylesheet">
 <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.js"></script>
 <script>
+	function optionAppend(){
+		var optionform = "";
+		
+		optionform += '<div class="form-group">';
+		optionform += '<label class="col-md-2 control-label">옵션명</label>';
+		optionform += '<div class="col-md-4">';
+		optionform += '<input type="text" class="form-control" name="option_name" placeholder="옵션명을 입력해주세요.">';
+		optionform += '</div>';
+		optionform += '<label class="col-md-1 control-label">재고</label>';
+		optionform += '<div class="col-md-1">';
+		optionform += '<input type="number" class="form-control" name="option_stock" value="0">';
+		optionform += '</div>';
+		optionform += '<label class="col-md-1 control-label">가격</label>';
+		optionform += '<div class="col-md-2">';
+		optionform += '<input type="number" step="1000" class="form-control" name="option_price" value="0">';
+		optionform += '</div>';
+		optionform += '</div>';
+		
+		$('#optionForm').append(optionform);
+	}
 	$(function(){
 		$('#summernote').summernote({
 			toolbar:[
@@ -198,7 +218,7 @@
 					</div>
 				</div>
 			</div>
-			<input type="button" class="btn" value="+">
+			<input type="button" class="btn" value="+" onclick="optionAppend()">
 			
 		</form>
 	</div>
