@@ -83,9 +83,15 @@
 		from list_image_board
 		where list_no = #{list_no}
 	</select>
-	<select id="getHash" parameterType="String" resultType="String">
-		select distinct lht.list_hash
-		from list_board lb, list_hash_tag lht
-		where lb.list_no = lht.list_no and lb.list_category like '%'||#{list_category}||'%'
+	<select id="getHash" parameterType="int" resultType="String">
+	select list_hash
+	from(
+		select lbb.*, rownum as rnum
+		from(
+			select distinct lht.list_hash
+			from list_hash_tag lht
+			) lbb
+		where rownum<![CDATA[ <= ]]>#{hashPage}
+		)
 	</select>
 </mapper>

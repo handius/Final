@@ -57,8 +57,8 @@ public class ProductService {
 		return productCount;
 	}
 	
-	public List<String> getHashService(String list_category){
-		return mapper.getHash(list_category);
+	public List<String> getHashService(int hashPage){
+		return mapper.getHash(hashPage);
 	}
 	
 	/*public int insertPerfectOrderDataService(ListDTO dto) {
