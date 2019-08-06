@@ -1,5 +1,6 @@
 package com.bitcamp.controller;
 
+import java.io.File;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.bitcamp.DTO.Product.ListDTO;
 import com.bitcamp.DTO.comm.PageDTO;
@@ -61,5 +63,28 @@ public class ProductController {
 	@RequestMapping(value="/sell", method= {RequestMethod.POST, RequestMethod.GET})
 	public String sellProduct() {
 		return "sell/sell";
+	}
+	
+	@RequestMapping(value="/sell/insertPerfectOrder", method= {RequestMethod.POST, RequestMethod.GET})
+	public String sellPerfectOrder() {
+		return "sell/insertPerfectOrder";
+	}
+	
+	@RequestMapping(value="/uploadAjaxAction", method= {RequestMethod.POST, RequestMethod.GET})
+	public @ResponseBody void uploadAjaxPost(MultipartFile[] uploadFile) {
+		System.out.println("ajax controller 입장");
+		String uploadFolder = "C:\\Users\\hb2005\\git\\Final\\src\\main\\webapp\\resources\\image";
+		for(MultipartFile multipartFile : uploadFile) {
+			String uploadFileName = multipartFile.getOriginalFilename();
+			
+			uploadFileName = uploadFileName.substring(uploadFileName.lastIndexOf("\\")+1);
+			File saveFile = new File(uploadFolder, multipartFile.getOriginalFilename());
+			
+			try {
+				multipartFile.transferTo(saveFile);
+			}catch(Exception e) {
+				System.out.println(e.getMessage());
+			}
+		}
 	}
 }
