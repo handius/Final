@@ -10,13 +10,18 @@ public class OrderController {
 		return "order/order";
 	}
 
-	@RequestMapping("order/success")
+	@RequestMapping("order/payment")
 	public String b() {
+		return "order/payment";
+	}
+
+	@RequestMapping("order/success")
+	public String c() {
 		return "order/success";
 	}
 
 	@RequestMapping("order/failure")
-	public String c() {
+	public String d() {
 		return "order/failure";
 	}
 }
