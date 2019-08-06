@@ -36,7 +36,7 @@ public class JoinController {
 	}
 	
 	@RequestMapping("join/joinResult")
-	public String join(@RequestParam("id") String user_id, @RequestParam("password") String user_password, @RequestParam("name") String user_name, @RequestParam("email") String user_email, @RequestParam String address1, @RequestParam String address2) {
+	public String join(@RequestParam("id") String user_id, @RequestParam("password") String user_password, @RequestParam("name") String user_name, @RequestParam("email") String user_email, @RequestParam String address1, @RequestParam String address2) throws Exception {
 		String user_address = address1+" "+address2;
 //		System.out.println(user_id+ user_password+ user_name+user_email+user_address);
 		joinService.userRegisterService(user_id, user_password, user_name, user_email, user_address);

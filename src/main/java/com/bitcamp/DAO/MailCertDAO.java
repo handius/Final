@@ -46,7 +46,4 @@ public class MailCertDAO {
 		return sb.toString();
 	}
 	
-	public void print() {
-		System.out.println("dao test print");
-	}
 }
