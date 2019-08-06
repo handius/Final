@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.bitcamp.DTO.member.MemberDTO;
 import com.bitcamp.service.JoinService;
 
 @Controller
@@ -30,16 +31,17 @@ public class JoinController {
 	@RequestMapping(value="/user/idCheck", method=RequestMethod.GET)
 	@ResponseBody
 	public int check(@RequestParam("userId") String user_id) {
-		System.out.println(joinService.userIdCheck(user_id));
-		return joinService.userIdCheck(user_id);
+		System.out.println(joinService.userIdCheckService(user_id));
+		return joinService.userIdCheckService(user_id);
 	}
 	
 	@RequestMapping("join/joinResult")
 	public String join(@RequestParam String id, @RequestParam String password, @RequestParam String name, @RequestParam String email, @RequestParam String address1, @RequestParam String address2) {
 		System.out.println(id);
 		System.out.println(password+name+email);
-		String address = address1+address2; 
-		joinService.userJoin(id, password, name, email, address);
+		String address = address1+" "+address2;
+		System.out.println("주소"+address);
+		joinService.userJoinService(id, password, name, email, address);
 		return "";
 	}
 	

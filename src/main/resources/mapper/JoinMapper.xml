@@ -6,4 +6,8 @@
   	<select id="userIdCheck" parameterType="String" resultType="int">
   		select count(*) from member where user_id = #{user_id}
   	</select>
+  	
+  	<insert id="userJoin" parameterType="String">
+  		insert into member values(member_seq.nextval, #{id}, #{password}, #{name}, null, #{email}, sysdate, 0, null, null, 0, null)
+  	</insert>
   </mapper>
