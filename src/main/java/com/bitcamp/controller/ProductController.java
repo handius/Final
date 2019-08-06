@@ -22,7 +22,7 @@ public class ProductController {
 	private ProductService service;
 	
 	@RequestMapping(value="/orderList", method= {RequestMethod.POST, RequestMethod.GET})
-	public String sellProduct(@RequestParam(defaultValue="")String searchType, @RequestParam(defaultValue="")String searchData, @RequestParam(defaultValue="1")int currpage, @RequestParam(defaultValue="")List<String> hashTag, @RequestParam(defaultValue="0")int hasStock, @RequestParam(defaultValue="1")int status, Model model) {
+	public String listProduct(@RequestParam(defaultValue="")String searchType, @RequestParam(defaultValue="")String searchData, @RequestParam(defaultValue="1")int currpage, @RequestParam(defaultValue="")List<String> hashTag, @RequestParam(defaultValue="0")int hasStock, @RequestParam(defaultValue="1")int status, Model model) {
 		String list_category = "";
 		int pagePerCount = 8;
 		int blockSize = 5;
@@ -38,7 +38,7 @@ public class ProductController {
 	}
 	
 	@RequestMapping(value="/orderList/{category}", method= {RequestMethod.POST, RequestMethod.GET})
-	public String sellProduct(@RequestParam(defaultValue="")String searchType, @RequestParam(defaultValue="")String searchData, @RequestParam(defaultValue="1")int currpage, @PathVariable(required=false, name="category")String list_category, @RequestParam(defaultValue="")List<String> hashTag, @RequestParam(defaultValue="0")int hasStock, @RequestParam(defaultValue="1")int status, Model model) {
+	public String listProduct(@RequestParam(defaultValue="")String searchType, @RequestParam(defaultValue="")String searchData, @RequestParam(defaultValue="1")int currpage, @PathVariable(required=false, name="category")String list_category, @RequestParam(defaultValue="")List<String> hashTag, @RequestParam(defaultValue="0")int hasStock, @RequestParam(defaultValue="1")int status, Model model) {
 		int pagePerCount = 8;
 		int blockSize = 5;
 		int totalCount = service.getCountService(searchType, searchData, list_category, hashTag, hasStock, status);
@@ -56,5 +56,10 @@ public class ProductController {
 	public List<String> ajaxHashPager(@RequestParam int hashPage) {
 		int endrow = hashPage * 12;
 		return service.getHashService(endrow);
+	}
+	
+	@RequestMapping(value="/sell", method= {RequestMethod.POST, RequestMethod.GET})
+	public String sellProduct() {
+		return "sell/sell";
 	}
 }
