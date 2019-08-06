@@ -1,5 +1,6 @@
 package com.bitcamp.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -24,13 +25,17 @@ public class ProductService {
 			hashMap.put("list_category", list_category);
 		if(hashTag == null || hashTag.size() == 0) {
 			hashTag = null;
-			hashMap.put("hashTag", hashTag);
 		}
+		hashMap.put("hashTag", hashTag);
 		hashMap.put("hasStock", hasStock);
 		hashMap.put("status", status);
 		List<ListDTO> pList = mapper.getList(hashMap);
 		for(int i=0; i<pList.size(); i++) {
-			pList.get(i).setList_image_loc(mapper.getImages(pList.get(i).getList_no()));
+			List<String> images = mapper.getImages(pList.get(i).getList_no());
+			String firstImage = images.get(0);
+			List<String> MainImage = new ArrayList<>();
+			MainImage.add(firstImage);
+			pList.get(i).setList_image_loc(MainImage);
 		}
 		return pList;
 	}
@@ -44,12 +49,16 @@ public class ProductService {
 		if(hashTag == null || hashTag.size() == 0) {
 			System.out.println("널 입력");
 			hashTag = null;
-			hashMap.put("hashTag", hashTag);
 		}
+		hashMap.put("hashTag", hashTag);
 		hashMap.put("hasStock", hasStock);
 		hashMap.put("status", status);
 		int productCount = mapper.getCount(hashMap);
 		return productCount;
+	}
+	
+	public List<String> getHashService(String list_category){
+		return mapper.getHash(list_category);
 	}
 	
 	/*public int insertPerfectOrderDataService(ListDTO dto) {

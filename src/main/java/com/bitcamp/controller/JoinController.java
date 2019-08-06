@@ -37,8 +37,7 @@ public class JoinController {
 	@RequestMapping(value="/user/idCheck", method=RequestMethod.GET)
 	@ResponseBody
 	public int check(@RequestParam("userId") String user_id) {
-		System.out.println("dddddddddddd");
-		System.out.println(user_id);
+		System.out.println(joinService.userIdCheck(user_id));
 		return joinService.userIdCheck(user_id);
 	}
 	
