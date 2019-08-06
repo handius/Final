@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.bitcamp.DAO.MailDAO;
 import com.bitcamp.DTO.member.MemberDTO;
 import com.bitcamp.service.JoinService;
 
@@ -17,7 +18,7 @@ public class JoinController {
 	
 	@Resource(name="joinService")
 	private JoinService joinService;
-
+	
 	@RequestMapping("join/terms")
 	private String terms() {
 		return "join/terms";
@@ -36,12 +37,12 @@ public class JoinController {
 	}
 	
 	@RequestMapping("join/joinResult")
-	public String join(@RequestParam String id, @RequestParam String password, @RequestParam String name, @RequestParam String email, @RequestParam String address1, @RequestParam String address2) {
-		System.out.println(id);
-		System.out.println(password+name+email);
-		String address = address1+" "+address2;
-		System.out.println("주소"+address);
-		joinService.userJoinService(id, password, name, email, address);
+	public String join(@RequestParam("id") String user_id, @RequestParam("password") String user_password, @RequestParam("name") String user_name, @RequestParam("email") String user_email, @RequestParam String address1, @RequestParam String address2) {
+		String user_address = address1+" "+address2;
+		System.out.println("주소"+user_address);
+		
+		joinService.userRegisterService(user_id, user_password, user_name, user_email, user_address);
+		
 		return "";
 	}
 	
