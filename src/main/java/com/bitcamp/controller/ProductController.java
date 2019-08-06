@@ -1,10 +1,15 @@
 package com.bitcamp.controller;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.bitcamp.DTO.Product.ListDTO;
 import com.bitcamp.DTO.comm.PageDTO;
+import com.bitcamp.VO.file.FileVO;
 import com.bitcamp.service.ProductService;
 
 @Controller
@@ -71,20 +77,32 @@ public class ProductController {
 	}
 	
 	@RequestMapping(value="/uploadAjaxAction", method= {RequestMethod.POST, RequestMethod.GET})
-	public @ResponseBody void uploadAjaxPost(MultipartFile[] uploadFile) {
+	@ResponseBody
+	public ResponseEntity<List<FileVO>> uploadAjaxPost(HttpSession session, MultipartFile[] uploadFile) {
+		List<FileVO> list = new ArrayList<>();
 		System.out.println("ajax controller 입장");
-		String uploadFolder = "C:\\Users\\hb2005\\git\\Final\\src\\main\\webapp\\resources\\image";
+		String path = session.getServletContext().getRealPath("/resources/image");
+		System.out.println(path);
+		String uploadFolder = path;
 		for(MultipartFile multipartFile : uploadFile) {
+			FileVO filevo = new FileVO();
 			String uploadFileName = multipartFile.getOriginalFilename();
-			
-			uploadFileName = uploadFileName.substring(uploadFileName.lastIndexOf("\\")+1);
-			File saveFile = new File(uploadFolder, multipartFile.getOriginalFilename());
-			
+			filevo.setFileName(uploadFileName);
+			uploadFileName = uploadFileName.substring(uploadFileName.lastIndexOf("\\")+1);	
+			UUID uuid = UUID.randomUUID();
+			uploadFileName = uuid.toString() + "-" + uploadFileName;
 			try {
+				File saveFile = new File(uploadFolder, uploadFileName);
 				multipartFile.transferTo(saveFile);
+				
+				filevo.setUploadPath(uploadFolder);
+				filevo.setUuid(uuid.toString());
+				list.add(filevo);
+				
 			}catch(Exception e) {
 				System.out.println(e.getMessage());
 			}
 		}
+		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 }
