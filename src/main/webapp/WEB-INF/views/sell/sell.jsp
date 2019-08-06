@@ -16,8 +16,29 @@
 	}
 	.jumbotron{
 		margin-bottom:0 !important;
-		background-image: url("resources/image/back.jpg");
+		background-image: url("/controller/resources/image/back.jpg");
 		background-size: cover;
+	}
+	.paging{
+		text-align: center;
+	}
+	#hashform label{
+		padding:10px;
+		border: 1px solid silver;
+		border-radius: 5px;
+		margin: 10px;
+	}
+	#hashform input[type="checkbox"]{
+		display: none;
+	}
+	#hashplus{
+		position: relative;
+		margin-bottom: 30px;
+	}
+	form > hr{
+	}
+	.searchClass{
+		text-align: right;
 	}
 </style>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -47,7 +68,9 @@
 				$.each(data, function(index, value){
 					result += '<label>'+value+'<input type="checkbox" name="hashTag" value="'+value+'"></label>';
 				});
+				result += '<input type="button" id="hashplus" onclick="loadHash()" value="+">';
 				$('#hashform').html(result);
+				
 			}
 		});
 	}
@@ -90,23 +113,37 @@
 			</div>
 		</div>
 	</div>
-	<div>
+	<div class="container">
 		
-		<form action="" method="get" id="frm">
+		<form class="form-inline" action="" method="get" role="form">
 			<div class="container" id="hashform">
 				
 			</div>
-			<input type="button" id="hashplus" onclick="loadHash()" value="+">
-			<input type="checkbox" id="hasStock" name="hasStock" value="1">
-			<label for="searchType">필터 :</label>
-			<select name="searchType" id="searchType">
-				<option value="title">제목</option>
-				<option value="aritst">작성자</option>
-				<option value="product">상품명</option>
-			</select>
-			<input type="text" id="searchData" name="searchData">
-			<input type="submit" value="검색">
-			<input type="reset" value="취소">
+			<hr>
+			<div class="row">
+				<div class="col-md-2">
+					<label class="checkbox-inline">
+						<input type="checkbox" id="hasStock" name="hasStock" value="1">
+						<span>품절 품목 제외</span>
+					</label>
+				</div>
+				<div class="col-md4 col-md-offset-6 searchClass">
+					<label for="searchType">
+						<select name="searchType" id="searchType" class="form-control">
+							<option value="title">제목</option>
+							<option value="aritst">작성자</option>
+							<option value="product">상품명</option>
+						</select>
+					</label>
+					<div class="form-group">
+						<input type="text" id="searchData" class="form-control" name="searchData" placeholder="내용을 입력해주세요.">
+					</div>
+					<div class="form-group">
+						<input type="submit" value="검색">
+						<input type="reset" value="취소">
+					</div>
+				</div>
+			</div>
 		</form>
 	</div>
 	<div class="container"> 
@@ -115,7 +152,7 @@
 		    	<div class="col-sm-6 col-md-3">
 		      		<div class="thumbnail">
 		      			<c:forEach var="image" items="${item.list_image_loc }" end="1">
-		      				<img src="resources\image\cat.jpg" alt="이미지가 없습니다.">
+		      				<img src="/controller/resources/image/caat.jpg" alt="이미지가 없습니다.">
 		      			</c:forEach>
 		          		<div class="caption">
 		            		<h3>${item.list_title } </h3>
@@ -135,19 +172,24 @@
 			}
 		}
 	%>
-	<c:if test="${PageDTO.startblock>1 }">
-		<a href="?currpage=${PageDTO.startblock-1 }&<%=hashTagValues %>hasStock=${Stock}&searchType=${Type}&searchData=${Data}">이전</a>
-	</c:if>
-	<c:forEach var="i" begin="${PageDTO.startblock }" end="${PageDTO.endblock }">
-		<c:if test="${i==PageDTO.currpage }">
-			<c:out value="${i }"></c:out>
-		</c:if>
-		<c:if test="${i!=PageDTO.currpage }">
-			<a href="?currpage=${i }&<%=hashTagValues %>hasStock=${Stock}&searchType=${Type}&searchData=${Data}"><c:out value="${i}"></c:out></a>
-		</c:if>
-	</c:forEach>
-	<c:if test="${PageDTO.endblock < PageDTO.totalpage }">
-		<a href="?currpage=${PageDTO.endblock+1}&<%=hashTagValues %>hasStock=${Stock}&searchType=${Type}&searchData=${Data}">▶</a> 
-	</c:if>
+	
+	<div class="row paging">
+		<ul class="pagination">
+			<c:if test="${PageDTO.startblock>1 }">
+				<li><a href="?currpage=${PageDTO.startblock-1 }&<%=hashTagValues %>hasStock=${Stock}&searchType=${Type}&searchData=${Data}">◀</a></li>
+			</c:if>
+			<c:forEach var="i" begin="${PageDTO.startblock }" end="${PageDTO.endblock }">
+				<c:if test="${i==PageDTO.currpage }">
+					<li class="active"><a href="#"><c:out value="${i }"></c:out></a></li>
+				</c:if>
+				<c:if test="${i!=PageDTO.currpage }">
+					<li><a href="?currpage=${i }&<%=hashTagValues %>hasStock=${Stock}&searchType=${Type}&searchData=${Data}"><c:out value="${i}"></c:out></a></li>
+				</c:if>
+			</c:forEach>
+			<c:if test="${PageDTO.endblock < PageDTO.totalpage }">
+				<li><a href="?currpage=${PageDTO.endblock+1}&<%=hashTagValues %>hasStock=${Stock}&searchType=${Type}&searchData=${Data}">▶</a></li> 
+			</c:if>
+		</ul>
+	</div>
 </body>
 </html>

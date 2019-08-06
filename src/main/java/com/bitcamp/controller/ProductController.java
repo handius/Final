@@ -24,7 +24,7 @@ public class ProductController {
 	@RequestMapping(value="/sell", method= {RequestMethod.POST, RequestMethod.GET})
 	public String sellProduct(@RequestParam(defaultValue="")String searchType, @RequestParam(defaultValue="")String searchData, @RequestParam(defaultValue="1")int currpage, @RequestParam(defaultValue="")List<String> hashTag, @RequestParam(defaultValue="0")int hasStock, @RequestParam(defaultValue="1")int status, Model model) {
 		String list_category = "";
-		int pagePerCount = 3;
+		int pagePerCount = 8;
 		int blockSize = 5;
 		int totalCount = service.getCountService(searchType, searchData, list_category, hashTag, hasStock, status);
 		System.out.println("hashList : " + hashTag);
@@ -39,7 +39,7 @@ public class ProductController {
 	
 	@RequestMapping(value="/sell/{category}", method= {RequestMethod.POST, RequestMethod.GET})
 	public String sellProduct(@RequestParam(defaultValue="")String searchType, @RequestParam(defaultValue="")String searchData, @RequestParam(defaultValue="1")int currpage, @PathVariable(required=false, name="category")String list_category, @RequestParam(defaultValue="")List<String> hashTag, @RequestParam(defaultValue="0")int hasStock, @RequestParam(defaultValue="1")int status, Model model) {
-		int pagePerCount = 3;
+		int pagePerCount = 8;
 		int blockSize = 5;
 		int totalCount = service.getCountService(searchType, searchData, list_category, hashTag, hasStock, status);
 		PageDTO dto = new PageDTO(currpage, totalCount, pagePerCount, blockSize);
@@ -54,7 +54,7 @@ public class ProductController {
 	@ResponseBody
 	@RequestMapping(value="/ajaxHashPager", method={RequestMethod.POST, RequestMethod.GET})
 	public List<String> ajaxHashPager(@RequestParam int hashPage) {
-		int endrow = hashPage * 20;
+		int endrow = hashPage * 12;
 		return service.getHashService(endrow);
 	}
 }
