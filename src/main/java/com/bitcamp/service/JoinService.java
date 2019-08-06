@@ -15,4 +15,9 @@ public class JoinService {
 		return joinMapper.userIdCheck(user_id);
 	}
 
+	public void userJoin(String id, String password, String name, String email, String address) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

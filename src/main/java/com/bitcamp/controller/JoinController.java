@@ -27,18 +27,20 @@ public class JoinController {
 		return "join/joinform";
 	}
 	
-	@RequestMapping("join/joinResult")
-	public String join(@RequestParam String id, @RequestParam String password1, @RequestParam String password2, @RequestParam String name, @RequestParam String email, @RequestParam String address1, @RequestParam String address2) {
-		System.out.println(id);
-		System.out.println(password1);
-		return "";
-	}
-	
 	@RequestMapping(value="/user/idCheck", method=RequestMethod.GET)
 	@ResponseBody
 	public int check(@RequestParam("userId") String user_id) {
 		System.out.println(joinService.userIdCheck(user_id));
 		return joinService.userIdCheck(user_id);
+	}
+	
+	@RequestMapping("join/joinResult")
+	public String join(@RequestParam String id, @RequestParam String password, @RequestParam String name, @RequestParam String email, @RequestParam String address1, @RequestParam String address2) {
+		System.out.println(id);
+		System.out.println(password+name+email);
+		String address = address1+address2; 
+		joinService.userJoin(id, password, name, email, address);
+		return "";
 	}
 	
 }
