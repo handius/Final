@@ -61,6 +61,10 @@ public class ProductService {
 		return mapper.getHash(hashPage);
 	}
 	
+	public List<String> getHashSearchService(String searchData){
+		return mapper.getHashSearch(searchData);
+	}
+	
 	/*public int insertPerfectOrderDataService(ListDTO dto) {
 		return 0;
 	}

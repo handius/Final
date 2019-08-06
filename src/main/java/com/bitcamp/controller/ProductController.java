@@ -66,6 +66,12 @@ public class ProductController {
 		return service.getHashService(endrow);
 	}
 	
+	@ResponseBody
+	@RequestMapping(value="/ajaxHashSearcher", method={RequestMethod.POST, RequestMethod.GET})
+	public List<String> ajaxHashPager(@RequestParam String searchData) {
+		return service.getHashSearchService(searchData);
+	}
+	
 	@RequestMapping(value="/sell", method= {RequestMethod.POST, RequestMethod.GET})
 	public String sellProduct() {
 		return "sell/sell";

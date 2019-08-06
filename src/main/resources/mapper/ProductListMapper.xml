@@ -94,4 +94,16 @@
 		where rownum<![CDATA[ <= ]]>#{hashPage}
 		)
 	</select>
+	<select id="getHashSearch" parameterType="String" resultType="String">
+	select list_hash
+	from(
+		select lbb.*, rownum as rnum
+		from(
+			select distinct lht.list_hash
+			from list_hash_tag lht
+			where list_hash like '%'||#{searchData}||'%'
+			) lbb
+		where rownum<![CDATA[ <= ]]>5
+		) 
+	</select>
 </mapper>
