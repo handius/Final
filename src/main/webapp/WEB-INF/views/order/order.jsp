@@ -8,8 +8,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<c:set var="memberdto" value="${sessionScope.member }"></c:set>
-	<c:set var="spondto" value="${requestScope.spondto }"></c:set>
 	<div id="wrapper">
 		<div class="progress">
 			<div class="progress-bar progress-bar-striped progress-bar-animated"
@@ -66,17 +64,22 @@
 						<tbody>
 							<tr class="table-default">
 								<td rowspan="3"></td>
-								<td><c:out value="${listDTO.list_title }"></c:out></td>
+								<td><c:out value="${OrderDTO.list_title }"></c:out></td>
 							</tr>
 							<tr class="table-primary">
-								<td><c:out value="${listDTO.nowmoney }"></c:out></td>
+								<td><c:forEach var="item"
+										items="${OrderDTO.order_option_name }">
+										<c:out value="${OrderDTO.option_name }"></c:out>
+									</c:forEach></td>
 							</tr>
 							<tr class="table-default">
-								<td><c:out value="${listDTO.destmoney }"></c:out></td>
+								<td><c:forEach var="item" items="${OrderDTO.order_amount }">
+										<c:out value="${OrderDTO.option_amount }"></c:out>
+									</c:forEach></td>
 							</tr>
 							<tr class="table-primary">
 								<td>결제금액</td>
-								<td><c:out value="${listDTO.finaldate }"></c:out></td>
+								<td><c:out value="${OrderDTO.order_price }"></c:out></td>
 							</tr>
 						</tbody>
 					</table>
