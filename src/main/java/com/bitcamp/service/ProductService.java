@@ -108,10 +108,10 @@ public class ProductService {
 		}
 	}
 	
-	/*public int insertOrderMadeDataService(ListDTO dto) {
+	public int insertOrderMadeDataService(ListDTO dto) {
 		return 0;
 	}
-	
+	/*
 	public int insertOrderOptionService(List<Integer> list_order_no, List<String> order_value) {
 		return 0;
 	}*/

@@ -82,6 +82,11 @@ public class ProductController {
 		return "sell/insertPerfectOrder";
 	}
 	
+	@RequestMapping(value="/sell/insertOrderMade", method= {RequestMethod.POST, RequestMethod.GET})
+	public String sellOrderMade() {
+		return "sell/insertOrderMade";
+	}
+	
 	@RequestMapping(value="*/uploadAjaxAction", method= {RequestMethod.POST, RequestMethod.GET})
 	@ResponseBody
 	public ResponseEntity<List<FileVO>> uploadAjaxPost(HttpSession session, MultipartFile[] uploadFile) {
@@ -116,6 +121,14 @@ public class ProductController {
 	public String insertPerfectOrder(ListDTO dto){
 		System.out.println(dto);
 		int result = service.insertPerfectOrderDataService(dto);
+		System.out.println("결과 : " + result);
+		return "redirect:/orderList";
+	}
+	
+	@RequestMapping(value="*/insertOrderMadeForm", method= {RequestMethod.POST, RequestMethod.GET})
+	public String insertOrderMade(ListDTO dto){
+		System.out.println(dto);
+		int result = service.insertOrderMadeDataService(dto);
 		System.out.println("결과 : " + result);
 		return "redirect:/orderList";
 	}
