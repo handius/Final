@@ -108,12 +108,15 @@
 			}
 			
 			$.ajax({
-				url:'/controller/uploadAjaxAction',
+				url:'/controller/sell/uploadAjaxAction',
 				processData:false,
 				contentType:false,
 				data:formData,
 				type:'POST',
 				dataType:'json',
+				beforeSend:function(xhr){
+					xhr.setRequestHeader("${_csrf.headerName}", "${_csrf.token}");
+				},
 				success:function(result){
 					console.log(result);
 					var loc = "";
@@ -184,7 +187,7 @@
 	<hr>
 	<div class="container">
 		<h2>기본 정보</h2>
-		<form class="form-horizontal" role="form" method="post" action="/controller/sell/insertPerfectOrderForm">
+		<form class="form-horizontal" role="form" method="post" action="/controller/sell/insertPerfectOrderForm?${_csrf.parameterName}=${_csrf.token}">
 			<div class="row">
 				<div class="col-md-8">
 					<div class="form-group">
