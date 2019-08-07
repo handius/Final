@@ -82,7 +82,7 @@ public class ProductController {
 		return "sell/insertPerfectOrder";
 	}
 	
-	@RequestMapping(value="/uploadAjaxAction", method= {RequestMethod.POST, RequestMethod.GET})
+	@RequestMapping(value="*/uploadAjaxAction", method= {RequestMethod.POST, RequestMethod.GET})
 	@ResponseBody
 	public ResponseEntity<List<FileVO>> uploadAjaxPost(HttpSession session, MultipartFile[] uploadFile) {
 		List<FileVO> list = new ArrayList<>();

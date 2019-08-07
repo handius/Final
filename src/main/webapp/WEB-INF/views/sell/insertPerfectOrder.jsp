@@ -116,7 +116,6 @@
 				dataType:'json',
 				success:function(result){
 					console.log(result);
-					var time = new Date().getTime();
 					var loc = "";
 					if(result.length > 0){
 						var firstImagePath = "/controller/resources/image/" + result[0].uuid + "-" + result[0].fileName;
