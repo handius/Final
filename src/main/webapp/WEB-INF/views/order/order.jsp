@@ -19,39 +19,23 @@
 		<form method="post" action="../orderresult" id="payment">
 			<div class="card border-primary mb-3">
 				<div class="card-header">
-					<h3>후원 정보</h3>
-				</div>
-				<div class="card-body">
-					<div class="form-group">
-						<label for="amount">후원 금액</label><input type="number"
-							name="amount" id="amount" min="${spondto.minmoney }"
-							class="form-control"
-							placeholder="최소 금액은 ${spondto.minmoney }만원입니다.">
-					</div>
-				</div>
-			</div>
-			<div class="card border-primary mb-3">
-				<div class="card-header">
 					<h3>구매자 정보</h3>
 				</div>
 				<div class="card-body">
 					<div class="form-group">
 						<label for="name">이름</label><input type="text" name="name"
 							id="name" required class="form-control" size="10"
-							placeholder="이름을 입력해주세요.">
+							placeholder="${memberDTO.user_name }">
 					</div>
 					<div class="form-group">
 						<label for="tel">연락처</label><input type="text" name="tel" id="tel"
-							required class="form-control" placeholder="${memberdto.tel }">
+							required class="form-control"
+							placeholder="${memberDTO.user_call }">
 					</div>
 					<div class="form-group">
 						<label for="addr">주소</label><input type="text" name="addr"
 							id="addr" required class="form-control"
-							placeholder="${memberdto.addr }">
-					</div>
-					<div class="form-group">
-						<input type="hidden" name="boardno" value=${spondto.boardno }
-							class="form-control">
+							placeholder="${memberDTO.user_address }">
 					</div>
 				</div>
 			</div>
@@ -63,27 +47,32 @@
 					<table class="table table-hover">
 						<tbody>
 							<tr class="table-default">
-								<td rowspan="3"></td>
-								<td><c:out value="${OrderDTO.list_title }"></c:out></td>
+								<td rowspan="3"><img alt="list_image" src=""></td>
+								<td><a href="detail/${orderDTO.list_no }"><c:out
+											value="${orderDTO.list_title }"></c:out></a></td>
 							</tr>
 							<tr class="table-primary">
 								<td><c:forEach var="item"
-										items="${OrderDTO.order_option_name }">
-										<c:out value="${OrderDTO.option_name }"></c:out>
+										items="${orderDTO.order_option_name }">
+										<c:out value="${orderDTO.option_name }"></c:out>
 									</c:forEach></td>
 							</tr>
 							<tr class="table-default">
-								<td><c:forEach var="item" items="${OrderDTO.order_amount }">
-										<c:out value="${OrderDTO.option_amount }"></c:out>
+								<td><c:forEach var="item" items="${orderDTO.order_amount }">
+										<c:out value="${orderDTO.option_amount }"></c:out>
 									</c:forEach></td>
 							</tr>
 							<tr class="table-primary">
 								<td>결제금액</td>
-								<td><c:out value="${OrderDTO.order_price }"></c:out></td>
+								<td><c:out value="${orderDTO.order_price }"></c:out>원</td>
 							</tr>
 						</tbody>
 					</table>
 				</div>
+			</div>
+			<div>
+				<input type="checkbox" name="agreeement" id="agreement" required><label
+					for="agreement">위 주문 내용을 확인 하였으며, 회원 본인은 결제에 동의합니다.</label>
 			</div>
 			<div class="submit">
 				<input type="submit" value="주문하기"

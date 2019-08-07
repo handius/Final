@@ -11,7 +11,7 @@ import com.bitcamp.service.OrderService;
 @Controller
 public class OrderController {
 	@Autowired
-	private OrderService orderService;
+	private OrderService service;
 
 	@RequestMapping("order/order/{list_no}")
 	public String a(@PathVariable int list_no, Model model) {

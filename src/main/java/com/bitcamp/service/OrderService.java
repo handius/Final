@@ -8,5 +8,7 @@ import com.bitcamp.mapper.OrderMapper;
 @Service("orderService")
 public class OrderService {
 	@Autowired
-	OrderMapper orderMapper;
+	OrderMapper mapper;
+	
+	public 
 }

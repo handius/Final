@@ -32,7 +32,7 @@ h3, p {
 			</div>
 		</div>
 		<div class="card border-success mb-3">
-			<img alt="success" src="image/checked.png">
+			<img alt="success" src="/controller/resources/image/high-five.png">
 			<h3>주문이 완료되었습니다!</h3>
 			<p>
 				Handius를 이용해 주셔서 감사합니다.<br>주문 내역은 마이 페이지 > 나의 구매 내역에서 확인하실 수
