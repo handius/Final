@@ -2,6 +2,7 @@ package com.bitcamp.controller;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -9,7 +10,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class LoginContoller {
 	
 	@RequestMapping("login")
-	public String login() {
+	public String login(String error, String logout, Model model) {
+		if(error!=null) {
+			model.addAttribute("error", "Login Error Check Your Account");
+		}
+		if(logout!=null) {
+			model.addAttribute("logout","logout..");
+		}
 		return "login/loginform";
 	}
 	
@@ -35,13 +42,10 @@ public class LoginContoller {
 	}
 	
 	@RequestMapping("login/loginResult")
-	public String loginResult(@RequestParam("username") String user_id, @RequestParam("password") String user_password) {
+	public String loginResult() {
+	
 		
-		System.out.println("아이디 패스워드");
-		System.out.println(user_id);
-		System.out.println(user_password);
-		
-		return "";
+		return "/main";
 	}
 	
 	@RequestMapping("login/searchIDResult")
@@ -55,6 +59,9 @@ public class LoginContoller {
 		return "";
 	}
 	
-	
+	@RequestMapping("login/loginFail")
+	public String loginFail() {
+		return "login/loginFail";
+	}
 	
 }

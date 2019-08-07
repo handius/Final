@@ -52,7 +52,7 @@
 		<div class="row order">
 			<div class="col-md-6">
 				<h2>주문 제작품 등록하기</h2>
-				<a href="#" id="orderMade"></a>
+				<a href="/controller/sell/insertOrderMade" id="orderMade"></a>
 			</div>
 			<div class="col-md-6">
 				<h2>완제품 등록하기</h2>
