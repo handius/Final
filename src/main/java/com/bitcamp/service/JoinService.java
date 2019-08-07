@@ -27,7 +27,6 @@ public class JoinService {
 
 	public void userRegisterService(String user_id, String user_password, String user_name, String user_email, String user_address) throws Exception{
 		
-		System.out.println("ddddddddd");
 		System.out.println(user_id+ user_password+ user_name+user_email+user_address);
 		MemberDTO dto = new MemberDTO();
 		dto.setUser_id(user_id);
@@ -35,21 +34,40 @@ public class JoinService {
 		dto.setUser_name(user_name);
 		dto.setUser_email(user_email);
 		dto.setUser_address(user_address);
-		dto.setUser_certStatus(0);
+		dto.setUser_certstatus(0);
 		
-		String authKey = mailCertDAO.createKey();
-		dto.setUser_certKey(authKey);
+		String authKey = mailCertDAO.createKey();	//메일 인증 키 생성
+		dto.setUser_certkey(authKey);
+		
+		joinMapper.userRegister(dto);
 		
 		MailUtils sendMail = new MailUtils(mailSender);
 
 		sendMail.setSubject("Handius 회원가입 이메일 인증");
 		sendMail.setText(new StringBuffer().append("<h1>[이메일 인증]</h1>").append("<p>아래 링크를 클릭하시면 이메일 인증이 완료됩니다.</p>")
-				.append("<a href='http://localhost:8080/controller/user/joinConfirm?userid=").append(dto.getUser_id()).append("&email=")
-				.append(dto.getUser_email()).append("&authkey=").append(authKey).append("' target='_blenk'>이메일 인증 확인</a>")
+				.append("<a href='http://localhost:8080/controller/join/joinConfirm?user_id=").append(dto.getUser_id()).append("&user_email=")
+				.append(dto.getUser_email()).append("&user_certkey=").append(authKey).append("' target='_blenk'>이메일 인증 확인</a>")
 				.toString());
 		sendMail.setFrom("handius00@gmail.com", "핸디어스");
 		sendMail.setTo(dto.getUser_email());
 		sendMail.send();
+	}
+
+	public void updateCertStatusService(String user_id, String user_email, String user_certkey) {
+		MemberDTO dto = new MemberDTO();
+		
+		System.out.println("받아온 키값=====");
+		System.out.println(user_certkey);
+		System.out.println("값이 ");
+		
+		dto.setUser_email(user_email);
+		dto.setUser_certkey(user_certkey);
+		
+		System.out.println(joinMapper.compareCertKey(dto));
+		
+		if(joinMapper.compareCertKey(dto)>0) {
+			joinMapper.updateCertStatus(user_id);			
+		}
 	}
 	
 
