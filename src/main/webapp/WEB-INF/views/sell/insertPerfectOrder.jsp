@@ -95,17 +95,6 @@
 		
 	});
 	$(function(){		
-		$('#summernote').summernote({
-			toolbar:[
-				['style', ['bold', 'italic', 'underline', 'clear']],
-			    ['font', ['strikethrough', 'superscript', 'subscript']],
-			    ['fontsize', ['fontsize']],
-			    ['color', ['color']],
-			    ['para', ['ul', 'ol', 'paragraph']],
-			    ['height', ['height']]
-			],
-			height: 400
-		});
 
 		$("#uploadBtn").on("click", function(e){
 			var formData = new FormData();
@@ -128,15 +117,33 @@
 				success:function(result){
 					console.log(result);
 					var time = new Date().getTime();
-					var firstImagePath = "/controller/resources/image/" + result[0].uuid + "-" + result[0].fileName;
-					console.log(firstImagePath);
-					$(".mainImage").prop('src', firstImagePath);
-					var secondImagePath = "/controller/resources/image/" + result[1].uuid + "-" + result[1].fileName;
-					$(".subImage:eq(0)").prop('src', secondImagePath);
-					var thirdImagePath = "/controller/resources/image/" + result[2].uuid + "-" + result[2].fileName;
-					$(".subImage:eq(1)").prop('src', thirdImagePath);
-					var fourthImagePath = "/controller/resources/image/" + result[3].uuid + "-" + result[3].fileName;
-					$(".subImage:eq(2)").prop('src', fourthImagePath);
+					var loc = "";
+					if(result.length > 0){
+						var firstImagePath = "/controller/resources/image/" + result[0].uuid + "-" + result[0].fileName;
+						$(".mainImage").prop('src', firstImagePath);
+						loc+='<input type="hidden" name="list_image_loc" value="'+firstImagePath+'">';
+					}
+					if(result.length > 1){
+						var secondImagePath = "/controller/resources/image/" + result[1].uuid + "-" + result[1].fileName;
+						$(".subImage:eq(0)").prop('src', secondImagePath);
+						loc+='<input type="hidden" name="list_image_loc" value="'+secondImagePath+'">';
+					}
+					if(result.length > 2){
+						var thirdImagePath = "/controller/resources/image/" + result[2].uuid + "-" + result[2].fileName;
+						$(".subImage:eq(1)").prop('src', thirdImagePath);
+						loc+='<input type="hidden" name="list_image_loc" value="'+thirdImagePath+'">';
+					}
+					if(result.length > 3){
+						var fourthImagePath = "/controller/resources/image/" + result[3].uuid + "-" + result[3].fileName;
+						$(".subImage:eq(2)").prop('src', fourthImagePath);
+						loc+='<input type="hidden" name="list_image_loc" value="'+fourthImagePath+'">';
+					}
+					if(result.length > 4){
+						alert("너무 많은 이미지를 업로드 하셨습니다. (4장까지 업로드)");
+					}
+					$('.imagehiddenloc').html(loc);
+					
+					
 				}
 			});
 		});
@@ -178,7 +185,7 @@
 	<hr>
 	<div class="container">
 		<h2>기본 정보</h2>
-		<form class="form-horizontal" role="form" method="post">
+		<form class="form-horizontal" role="form" method="post" action="/controller/sell/insertPerfectOrderForm">
 			<div class="row">
 				<div class="col-md-8">
 					<div class="form-group">
@@ -202,7 +209,7 @@
 					<div class="form-group">
 						<label class="col-md-2 control-label" for="list_category">카테고리</label>
 						<div class="col-md-10">
-							<select class="form-control">
+							<select class="form-control" name="list_category" id="list_category">
 								<option value="book">책</option>
 			          			<option value="cup">머그컵</option>
 			         	 		<option value="table">가구</option>
@@ -242,6 +249,9 @@
 						<div class="col-md-4" id="uploadedImage4">
 							<img class="subImage" src="" alt="업로드 된 이미지가 없습니다.">
 						</div>
+						<div id="hiddenImageLoc">
+						
+						</div>
 					</div>
 				</div>
 			</div>
@@ -252,6 +262,19 @@
 				<div class="col-md-9">
 					<textarea id="summernote" name="list_content"></textarea>
 				</div>
+				<script>
+					$('#summernote').summernote({
+						toolbar:[
+							['style', ['bold', 'italic', 'underline', 'clear']],
+						    ['font', ['strikethrough', 'superscript', 'subscript']],
+						    ['fontsize', ['fontsize']],
+						    ['color', ['color']],
+						    ['para', ['ul', 'ol', 'paragraph']],
+						    ['height', ['height']]
+						],
+						height: 400
+					});
+				</script>
 			</div>
 			<hr>
 			<div class="row">
@@ -326,7 +349,7 @@
 			</div>
 			<div class="form-group">
 				<input type="reset" class="btn btn-default" id="reset" value="취소"> 
-				<input type="button" class="btn btn-primary" id="submit" value="제출"> 
+				<input type="submit" class="btn btn-primary" id="submit" value="제출"> 
 			</div>
 			
 		</form>

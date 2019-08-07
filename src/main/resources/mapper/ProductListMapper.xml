@@ -106,4 +106,43 @@
 		where rownum<![CDATA[ <= ]]>5
 		) 
 	</select>
+	<insert id="insertPerfectOrderData" parameterType="com.bitcamp.DTO.Product.ListDTO">
+		<selectKey resultType="integer" order="AFTER">
+			select seq_list_no.currval from dual
+		</selectKey>
+		insert into list_board(list_no, list_artist, list_title, list_product, list_category, list_content, list_base_price, list_date, isordered)
+		values(seq_list_no.nextval, #{list_artist}, #{list_title}, #{list_product}, #{list_category}, #{list_content}, #{list_base_price}, sysdate, 0)
+	</insert>
+	<insert id="insertListMainImages" parameterType="HashMap">
+		insert into list_image_board(list_image_no, list_no, list_image_loc)
+		select seq_list_image_no.nextval, A.* from(
+		<foreach item="image_loc" collection="list_image_loc" separator="UNION ALL ">
+			select max(list_no) as list_no,
+					#{image_loc} as list_image_loc
+			from list_board
+		</foreach>
+		) A
+	</insert>
+	<insert id="insertListHashTag" parameterType="HashMap">
+		insert into list_hash_tag(hash_no, list_no, list_hash)
+		select seq_hash_no.nextval, A.* from(
+		<foreach item="hashv" collection="list_hash" separator="UNION ALL ">
+			select max(list_no) as list_no,
+					#{hashv} as list_hash
+			from list_board
+		</foreach>
+		) A
+	</insert>
+	<insert id="insertListOptionData" parameterType="HashMap">
+		insert into list_option_board(option_no, list_no, option_name, option_stock, option_price)
+		select seq_option_no.nextval, A.* from(
+		<foreach item="opt" collection="list_option" separator="UNION ALL ">
+			select max(list_no) as list_no,
+					#{opt.option_name} as option_name,
+					#{opt.option_stock} as option_stock,
+					#{opt.option_price} as option_price
+			from list_board
+		</foreach>
+		) A
+	</insert>
 </mapper>
