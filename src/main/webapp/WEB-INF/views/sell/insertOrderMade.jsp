@@ -28,6 +28,28 @@
 <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.css" rel="stylesheet">
 <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.js"></script>
 <script>
+	function OrderAppend(){
+		var Orderform = "";
+		
+		Orderform+='<div class="input-group">';
+		Orderform+='<input type="text" class="form-control" name="order_name" placeholder="요구 사항을 적어주세요. ex)머그컵 정면 사진">';
+		Orderform+='<div class="input-group-btn">';
+		Orderform+='<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">선택<span class="caret"></span>';
+		Orderform+='</button>';
+		Orderform+='<ul class="dropdown-menu pull-right" role="menu">';
+		Orderform+='<li><a href="#" class="bpic">사진</a></li>';
+		Orderform+='<li><a href="#" class="bcor">색상</a></li>';
+		Orderform+='<li><a href="#" class="btex">텍스트</a></li>';
+		Orderform+='</ul>';
+		Orderform+='</div>';       
+		Orderform+='</div>';
+		Orderform+='<div class="optOptionValue">';
+		Orderform+='<span>기본값 : 사진</span>';
+		Orderform+='<input type="hidden" name="order_option" value="picture">';
+		Orderform+='</div>';
+		
+		$('#orderfrm').append(Orderform);
+	}
 	
 	function TagAppend(){
 		var Tagform = "";
@@ -64,6 +86,28 @@
 		
 		$('#optionForm').append(optionform);
 	}
+	
+	$(document).on('click', '.bpic', function(){
+		var span = $(this).parent().parent().parent().parent().next().children('span');
+		var input = span.next('input');
+		input.val('picture');
+		span.text('사진');
+		return false;
+	});
+	$(document).on('click', '.bcor', function(){
+		var span = $(this).parent().parent().parent().parent().next().children('span');
+		var input = span.next('input');
+		input.val('color');
+		span.text('색상');
+		return false;
+	});
+	$(document).on('click', '.btex', function(){
+		var span = $(this).parent().parent().parent().parent().next().children('span');
+		var input = span.next('input');
+		input.val('text');
+		span.text('텍스트');
+		return false;
+	});
 	
 	$(document).on('click', '.simHash', function(){
 		$(this).parent().parent().children('.hashValue').children('input').val($(this).val());
@@ -335,24 +379,26 @@
 						height: 400
 					});
 				</script>
-				<div class="col-md-5">
+				<div class="col-md-5" id="orderfrm">
 					<div class="input-group">
-				         <input type="text" class="form-control" placeholder="요구 사항을 적어주세요. ex)머그컵 정면 사진">
+				         <input type="text" class="form-control" name="order_name" placeholder="요구 사항을 적어주세요. ex)머그컵 정면 사진">
 				         <div class="input-group-btn"> 
 				            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">선택<span class="caret"></span>
 				         	</button>
 				           	<ul class="dropdown-menu pull-right" role="menu">
-				            	<li><a href="#">사진</a></li>
-				            	<li><a href="#">색상</a></li>
-				            	<li><a href="#">텍스트</a></li>
+				            	<li><a href="#" class="bpic">사진</a></li>
+				            	<li><a href="#" class="bcor">색상</a></li>
+				            	<li><a href="#" class="btex">텍스트</a></li>
 				          	</ul>
-				         </div>
-				         <div class="optoptionform">
-				             <input type="hidden" name="order_option" value="picture">
-				         </div>        
+				         </div>       
+				    </div>
+				    <div class="optOptionValue">
+				         <span>기본값 : 사진</span>
+				         <input type="hidden" name="order_option" value="picture">
 				    </div>
 				</div>
 			</div>
+			<input type="button" class="btn" value="+" onclick="OrderAppend()">
 			<hr>
 			<div class="row">
 				<div class="col-md-4">
