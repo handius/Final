@@ -66,6 +66,12 @@ public class ProductController {
 		return service.getHashService(endrow);
 	}
 	
+	@ResponseBody
+	@RequestMapping(value="/ajaxHashSearcher", method={RequestMethod.POST, RequestMethod.GET})
+	public List<String> ajaxHashPager(@RequestParam String searchData) {
+		return service.getHashSearchService(searchData);
+	}
+	
 	@RequestMapping(value="/sell", method= {RequestMethod.POST, RequestMethod.GET})
 	public String sellProduct() {
 		return "sell/sell";
@@ -104,5 +110,13 @@ public class ProductController {
 			}
 		}
 		return new ResponseEntity<>(list, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="*/insertPerfectOrderForm", method= {RequestMethod.POST, RequestMethod.GET})
+	public String insertPerfectOrder(ListDTO dto){
+		System.out.println(dto);
+		int result = service.insertPerfectOrderDataService(dto);
+		System.out.println("결과 : " + result);
+		return "redirect:/orderList";
 	}
 }

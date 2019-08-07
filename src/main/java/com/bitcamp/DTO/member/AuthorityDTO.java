@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-public class Authority {
+public class AuthorityDTO {
 	
 	private int auth_no;
 	private int member_no;

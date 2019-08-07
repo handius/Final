@@ -4,6 +4,7 @@ import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -41,7 +42,19 @@ public class JoinController {
 //		System.out.println(user_id+ user_password+ user_name+user_email+user_address);
 		joinService.userRegisterService(user_id, user_password, user_name, user_email, user_address);
 		
-		return "";
+		return "join/joinResult";
+	}
+	
+	@RequestMapping(value="join/joinConfirm", method=RequestMethod.GET)
+	public String joinConfirm(@RequestParam("user_id") String user_id, @RequestParam("user_email") String user_email, @RequestParam() String user_certkey) {
+		
+		System.out.println("키키키");
+		System.out.println(user_email);
+		System.out.println(user_certkey);
+		
+		joinService.updateCertStatusService(user_id, user_email, user_certkey);
+		
+		return "join/joinConfirm";
 	}
 	
 }

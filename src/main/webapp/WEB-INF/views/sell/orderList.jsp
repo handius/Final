@@ -158,7 +158,7 @@
 		    	<div class="col-sm-6 col-md-3">
 		      		<div class="thumbnail">
 		      			<c:forEach var="image" items="${item.list_image_loc }" end="1">
-		      				<img src="/controller/resources/image/caat.jpg" alt="이미지가 없습니다.">
+		      				<img src="${image }" alt="이미지가 없습니다.">
 		      			</c:forEach>
 		          		<div class="caption">
 		            		<h3><a href="#">${item.list_title }</a></h3>
