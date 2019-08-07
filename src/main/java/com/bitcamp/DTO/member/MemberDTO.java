@@ -1,15 +1,13 @@
 package com.bitcamp.DTO.member;
 
 import java.util.Date;
+import java.util.List;
 
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 
 @ToString
 @NoArgsConstructor
-
 public class MemberDTO {
 	private int member_no;
 	private String user_id;
@@ -24,6 +22,8 @@ public class MemberDTO {
 	private String user_certkey;
 	private int user_certstatus;
 	private String user_flatform;
+	private List<AuthorityDTO> authorityList;
+	
 	public int getMember_no() {
 		return member_no;
 	}
@@ -102,5 +102,9 @@ public class MemberDTO {
 	public void setUser_flatform(String user_flatform) {
 		this.user_flatform = user_flatform;
 	}
+	public List<AuthorityDTO> getAuthorityList() {
+		return authorityList;
+	}
+	
 		
 }

@@ -19,16 +19,18 @@
 		0, #{user_certkey}, 0, null)
 	</insert>
 
-	<!-- <select id="compareCertKey" parameterType="com.bitcamp.DTO.member.MemberDTO"
-		resultType="int">
-		select count(*) from member where user_email =
+	<select id="compareCertKey"
+		parameterType="com.bitcamp.DTO.member.MemberDTO" resultType="int">
+		select
+		count(*) from member where user_email =
 		#{user_email} and
-		user_certkey= #{user_certkey}
+		user_certkey=
+		#{user_certkey}
 	</select>
 
 	<update id="updateCertStatus" parameterType="String">
 		update member set
-		user_certstatus = 1 where user_id =
+		user_certstatus = 1 , user_certkey=' ' where user_id =
 		#{user_id}
-	</update> -->
+	</update>
 </mapper>

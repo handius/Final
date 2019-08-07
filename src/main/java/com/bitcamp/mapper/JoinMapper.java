@@ -8,8 +8,8 @@ public interface JoinMapper {
 	
 	public void userRegister(MemberDTO dto);
 
-/*	public int compareCertKey(MemberDTO dto);
+	public int compareCertKey(MemberDTO dto);
 
-	public int updateCertStatus(String user_id);*/
+	public int updateCertStatus(String user_id);
 	
 }

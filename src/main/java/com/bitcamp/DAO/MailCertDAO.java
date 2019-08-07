@@ -11,9 +11,7 @@ public class MailCertDAO {
 	private boolean lowerCheck;
 
 	public String createKey() {
-		System.out.println("aaaaaaaaaaaa");
 		String authkey = getKey(50, false);
-		System.out.println("메일키"+authkey);
 		return authkey;
 	}
 	

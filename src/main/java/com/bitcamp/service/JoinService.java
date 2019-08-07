@@ -36,7 +36,7 @@ public class JoinService {
 		dto.setUser_address(user_address);
 		dto.setUser_certstatus(0);
 		
-		String authKey = mailCertDAO.createKey();
+		String authKey = mailCertDAO.createKey();	//메일 인증 키 생성
 		dto.setUser_certkey(authKey);
 		
 		joinMapper.userRegister(dto);
@@ -55,14 +55,19 @@ public class JoinService {
 
 	public void updateCertStatusService(String user_id, String user_email, String user_certkey) {
 		MemberDTO dto = new MemberDTO();
-		dto.setUser_id(user_id);
-		dto.setUser_email(user_email);
 		
+		System.out.println("받아온 키값=====");
+		System.out.println(user_certkey);
 		System.out.println("값이 ");
-		/*System.out.println(joinMapper.compareCertKey(dto));
-		if(joinMapper.compareCertKey(dto)==1) {
+		
+		dto.setUser_email(user_email);
+		dto.setUser_certkey(user_certkey);
+		
+		System.out.println(joinMapper.compareCertKey(dto));
+		
+		if(joinMapper.compareCertKey(dto)>0) {
 			joinMapper.updateCertStatus(user_id);			
-		}*/
+		}
 	}
 	
 
