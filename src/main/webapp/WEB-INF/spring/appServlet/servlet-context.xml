@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans:beans
-	xmlns="http://www.springframework.org/schema/mvc"
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
@@ -38,11 +37,6 @@
 	<security:global-method-security
 		pre-post-annotations="enabled" secured-annotations="enabled"></security:global-method-security>
 
-	<security:http>
-		<security:form-login/>
-	</security:http>
-	
-	<security:authentication-manager></security:authentication-manager>
 
 	<context:component-scan
 		base-package="com.bitcamp.controller" />
