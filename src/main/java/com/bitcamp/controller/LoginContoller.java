@@ -10,7 +10,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class LoginContoller {
 	
 	@RequestMapping("login")
-	public String login() {
+	public String login(String error, String logout, Model model) {
+		if(error!=null) {
+			model.addAttribute("error", "Login Error Check Your Account");
+		}
+		if(logout!=null) {
+			model.addAttribute("logout","logout..");
+		}
 		return "login/loginform";
 	}
 	
@@ -36,14 +42,8 @@ public class LoginContoller {
 	}
 	
 	@RequestMapping("login/loginResult")
-	public String loginResult(String error, String logout, Model model) {
-		
-		if(error!=null) {
-			model.addAttribute("error", "Login Error Check Your Account");
-		}
-		if(logout!=null) {
-			model.addAttribute("logout","logout..");
-		}
+	public String loginResult() {
+	
 		
 		return "/main";
 	}
