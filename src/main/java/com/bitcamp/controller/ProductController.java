@@ -30,7 +30,10 @@ public class ProductController {
 	private ProductService service;
 	
 	@RequestMapping(value="/orderList", method= {RequestMethod.POST, RequestMethod.GET})
-	public String listProduct(@RequestParam(defaultValue="")String searchType, @RequestParam(defaultValue="")String searchData, @RequestParam(defaultValue="1")int currpage, @RequestParam(defaultValue="")List<String> hashTag, @RequestParam(defaultValue="0")int hasStock, @RequestParam(defaultValue="1")int status, Model model) {
+	public String listProduct(HttpSession session, @RequestParam(defaultValue="")String searchType, @RequestParam(defaultValue="")String searchData, @RequestParam(defaultValue="1")int currpage, @RequestParam(defaultValue="")List<String> hashTag, @RequestParam(defaultValue="0")int hasStock, @RequestParam(defaultValue="1")int status, Model model) {
+		String path = session.getServletContext().getRealPath("/resources/image/dimage");
+		service.checkImageValidateService(path);
+		
 		String list_category = "";
 		int pagePerCount = 8;
 		int blockSize = 5;
@@ -133,11 +136,11 @@ public class ProductController {
 		return "redirect:/orderList";
 	}
 	
-	//@RequestMapping(value="*/checkImageValidate", method= {RequestMethod.POST, RequestMethod.GET})
-	//public int checkImageValidator(HttpSession session) {
-	//	String path = session.getServletContext().getRealPath("/resources/image");
-	//	int result = service.checkImageValidateService(path);
-	//	
-	//	return result;
-	//}
+	@RequestMapping(value="*/checkImageValidate", method= {RequestMethod.POST, RequestMethod.GET})
+	public int checkImageValidator(HttpSession session) {
+		String path = session.getServletContext().getRealPath("/resources/image/dimage");
+		int result = service.checkImageValidateService(path);
+		
+		return result;
+	}
 }
