@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 
 import com.bitcamp.DTO.Product.ListDTO;
 import com.bitcamp.DTO.Product.OptionDTO;
+import com.bitcamp.DTO.Product.OrderOptionDTO;
 import com.bitcamp.DTO.comm.PageDTO;
+import com.bitcamp.DTO.order.OrderDTO;
 import com.bitcamp.mapper.ProductListMapper;
 
 @Service("pservice")
@@ -109,7 +111,56 @@ public class ProductService {
 	}
 	
 	public int insertOrderMadeDataService(ListDTO dto) {
-		return 0;
+		//임시로 작가명 설정
+				dto.setList_artist("tempArtist");
+				
+				HashMap<String, Object> optionData = new HashMap<String, Object>();
+				HashMap<String, Object> imageData = new HashMap<String, Object>();
+		 		HashMap<String, Object> hashData = new HashMap<String, Object>();
+		 		HashMap<String, Object> orderData = new HashMap<String, Object>();
+		 		
+		 		int list_no = mapper.insertOrderMadeData(dto);
+				
+		 		if(list_no == 0) {
+		 			System.out.println("리스트 넘버 값이 0");
+		 			return 0;
+		 		}
+		 		
+		 		System.out.println("ListNo :: " + list_no);
+		 		
+		 		List<OptionDTO> odto = new ArrayList<>();
+		 		for(int i=0; i<dto.getOption_name().size(); i++) {
+		 			OptionDTO temp = new OptionDTO();
+		 			temp.setOption_name(dto.getOption_name().get(i));
+		 			temp.setOption_price(dto.getOption_price().get(i));
+		 			temp.setOption_stock(dto.getOption_stock().get(i));
+		 			odto.add(temp);
+		 		}
+		 		
+		 		List<OrderOptionDTO> ordto = new ArrayList<>();
+		 		for(int i=0; i<dto.getOrder_name().size(); i++) {
+		 			OrderOptionDTO temp = new OrderOptionDTO();
+		 			temp.setOrder_name(dto.getOption_name().get(i));
+		 			temp.setOrder_option(dto.getOrder_option().get(i));
+		 			ordto.add(temp);
+		 		}
+				
+				optionData.put("list_option", odto);
+				imageData.put("list_image_loc", dto.getList_image_loc());
+				hashData.put("list_hash", dto.getList_hash());
+				orderData.put("list_order", ordto);
+				
+				int obresult = mapper.insertListOptionData(optionData);
+				int imgresult = mapper.insertListMainImages(imageData);
+				int hshresult = mapper.insertListHashTag(hashData);
+				int ordresult = mapper.insertOrderData(orderData);
+				
+				if(obresult != 0 && imgresult != 0 && hshresult !=0 && ordresult !=0) {
+					return 1;
+				}else {
+					System.out.println("데이터베이스에 저장하지 못했습니다.");
+					return 0;
+				}
 	}
 	/*
 	public int insertOrderOptionService(List<Integer> list_order_no, List<String> order_value) {

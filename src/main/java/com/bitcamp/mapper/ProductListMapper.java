@@ -16,8 +16,8 @@ public interface ProductListMapper {
 	public int insertListMainImages(HashMap<String, Object> imageData);
 	public int insertListHashTag(HashMap<String, Object> hashData);
 	public int insertListOptionData(HashMap<String, Object> optionData);
-	
-	/*public int insertOrderMadeData(ListDTO dto);
+	public int insertOrderMadeData(ListDTO dto);
 	public int insertOrderData(HashMap<String, Object> orderData);
-	public int insertOrderOptionData(HashMap<String, Object> orderOptionData);*/
+	
+/*	public int insertOrderOptionData(HashMap<String, Object> orderOptionData);*/
 }

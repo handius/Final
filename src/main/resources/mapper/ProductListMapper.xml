@@ -113,6 +113,13 @@
 		insert into list_board(list_no, list_artist, list_title, list_product, list_category, list_content, list_base_price, list_date, isordered)
 		values(seq_list_no.nextval, #{list_artist}, #{list_title}, #{list_product}, #{list_category}, #{list_content}, #{list_base_price}, sysdate, 0)
 	</insert>
+	<insert id="insertOrderMadeData" parameterType="com.bitcamp.DTO.Product.ListDTO">
+		<selectKey resultType="integer" order="AFTER">
+			select seq_list_no.currval from dual
+		</selectKey>
+		insert into list_board(list_no, list_artist, list_title, list_product, list_category, list_content, list_base_price, list_date, isordered, ordered_content)
+		values(seq_list_no.nextval, #{list_artist}, #{list_title}, #{list_product}, #{list_category}, #{list_content}, #{list_base_price}, sysdate, 1, #{ordered_content})
+	</insert>
 	<insert id="insertListMainImages" parameterType="HashMap">
 		insert into list_image_board(list_image_no, list_no, list_image_loc)
 		select seq_list_image_no.nextval, A.* from(
@@ -141,6 +148,17 @@
 					#{opt.option_name} as option_name,
 					#{opt.option_stock} as option_stock,
 					#{opt.option_price} as option_price
+			from list_board
+		</foreach>
+		) A
+	</insert>
+	<insert id="insertOrderData" parameterType="HashMap">
+		insert into list_order_board(list_order_no, list_no, order_name, order_option)
+		select seq_list_order_no.nextval, A.* from(
+		<foreach item="ord" collection="list_order" separator="UNION ALL ">
+			select max(list_no) as list_no,
+					#{ord.order_name} as order_name,
+					#{ord.order_option} as order_option
 			from list_board
 		</foreach>
 		) A
