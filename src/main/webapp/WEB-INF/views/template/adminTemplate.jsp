@@ -55,7 +55,6 @@
         width: 250px;
         text-align: center;
         padding: 20px 0 13px;
-        color: #7C7877;
         background-color: #fffbf7;
     }
     .admin_content_wrap {
@@ -92,6 +91,9 @@
         padding: 10px 0;
         font-size: 1.5em;
     }
+    .admin_category_child > p > a {
+        color: #7C7877;
+    }
 </style>
 </head>
 <body>
@@ -113,35 +115,50 @@
             <div class="admin_category_parent pcateg1">화면
             </div>
                 <div class="admin_category_child categ1">
-                    <p>회원 관리</p>
+                    <p><a href="/admin">회원 관리</a></p>
                 </div>
                 
             <div class="admin_category_parent pcateg2">통계분석
             </div>
               <div class="admin_category_child categ2">
-                  <p>검색어 분석</p><p>신규회원 분석</p><p>판매순위 분석</p>
+                  <p><a href="#">검색어 분석</a></p>
+                  <p><a href="/admin/analnewmember">신규회원 분석</a></p>
+                  <p><a href="/admin/analproduct">판매순위 분석</a></p>
               </div>
                 
             <div class="admin_category_parent pcateg3">메인
             </div>
                 <div class="admin_category_child categ3">
-                    <p>메인페이지 관리</p>
+                    <p><a href="/admin/mainset">메인페이지 관리</a></p>
                 </div>
                 
             <div class="admin_category_parent pcateg4">운영
             </div>
                 <div class="admin_category_child categ4">
-                    <p>1 : 1 문의</p><p>욕설 관리</p>
+                    <p><a href="/admin/qna">1 : 1 문의</a></p>
+                    <p><a href="#">욕설 관리</a></p>
                 </div>
           </div>
           <div class="admin_content_wrap gridpaddingzero">
             <div class="admin_main_content"><tiles:insertAttribute name="body"/></div>
           </div>
+          <div id="senddata" data-categ="${admin_category}"></div>
     </div>
   </div>
 <script>
     $('.admin_category_child').hide();
-    $('.categ1').show();
+    
+    var categ_data = $('#senddata').data('categ');
+    if(categ_data == 'member') {
+    	$('.categ1').show();
+    } else if(categ_data == 'anal') {
+    	$('.categ2').show();
+    } else if(categ_data == 'mainset') {
+    	$('.categ3').show();
+    } else if(categ_data == 'operate') {
+    	$('.categ4').show();
+    }
+    
     $('.pcateg1').on('click', function() {
         $('.categ1').slideToggle('fast');
     })
