@@ -1,5 +1,6 @@
 package com.bitcamp.service;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -165,6 +166,22 @@ public class ProductService {
 					return 0;
 				}
 	}
+	
+	/*public int checkImageValidateService(String path) {
+		File root = new File(path); 
+		File[] list = root.listFiles();
+		if(list!=null) {
+			for(File f : list) {
+				if(f.isDirectory())
+			}
+		}
+		List<String> dbImages = mapper.getAllImages();
+		List<String> svImages = 
+		 
+		return 0;
+		
+	}*/
+	
 	/*
 	public int insertOrderOptionService(List<Integer> list_order_no, List<String> order_value) {
 		return 0;

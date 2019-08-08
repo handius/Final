@@ -163,4 +163,8 @@
 		</foreach>
 		) A
 	</insert>
+	<select id="getAllImages" resultType="String">
+		select list_image_loc
+		from list_image_board
+	</select>
 </mapper>

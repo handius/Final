@@ -92,7 +92,7 @@ public class ProductController {
 	public ResponseEntity<List<FileVO>> uploadAjaxPost(HttpSession session, MultipartFile[] uploadFile) {
 		List<FileVO> list = new ArrayList<>();
 		System.out.println("ajax controller 입장");
-		String path = session.getServletContext().getRealPath("/resources/image");
+		String path = session.getServletContext().getRealPath("/resources/image/dimage");
 		System.out.println(path);
 		String uploadFolder = path;
 		for(MultipartFile multipartFile : uploadFile) {
@@ -132,4 +132,12 @@ public class ProductController {
 		System.out.println("결과 : " + result);
 		return "redirect:/orderList";
 	}
+	
+	//@RequestMapping(value="*/checkImageValidate", method= {RequestMethod.POST, RequestMethod.GET})
+	//public int checkImageValidator(HttpSession session) {
+	//	String path = session.getServletContext().getRealPath("/resources/image");
+	//	int result = service.checkImageValidateService(path);
+	//	
+	//	return result;
+	//}
 }

@@ -121,22 +121,22 @@
 					console.log(result);
 					var loc = "";
 					if(result.length > 0){
-						var firstImagePath = "/controller/resources/image/" + result[0].uuid + "-" + result[0].fileName;
+						var firstImagePath = "/controller/resources/image/dimage/" + result[0].uuid + "-" + result[0].fileName;
 						$(".mainImage").prop('src', firstImagePath);
 						loc+='<input type="hidden" name="list_image_loc" value="'+firstImagePath+'">';
 					}
 					if(result.length > 1){
-						var secondImagePath = "/controller/resources/image/" + result[1].uuid + "-" + result[1].fileName;
+						var secondImagePath = "/controller/resources/image/dimage/" + result[1].uuid + "-" + result[1].fileName;
 						$(".subImage:eq(0)").prop('src', secondImagePath);
 						loc+='<input type="hidden" name="list_image_loc" value="'+secondImagePath+'">';
 					}
 					if(result.length > 2){
-						var thirdImagePath = "/controller/resources/image/" + result[2].uuid + "-" + result[2].fileName;
+						var thirdImagePath = "/controller/resources/image/dimage/" + result[2].uuid + "-" + result[2].fileName;
 						$(".subImage:eq(1)").prop('src', thirdImagePath);
 						loc+='<input type="hidden" name="list_image_loc" value="'+thirdImagePath+'">';
 					}
 					if(result.length > 3){
-						var fourthImagePath = "/controller/resources/image/" + result[3].uuid + "-" + result[3].fileName;
+						var fourthImagePath = "/controller/resources/image/dimage/" + result[3].uuid + "-" + result[3].fileName;
 						$(".subImage:eq(2)").prop('src', fourthImagePath);
 						loc+='<input type="hidden" name="list_image_loc" value="'+fourthImagePath+'">';
 					}
