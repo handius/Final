@@ -3,4 +3,14 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bitcamp.mapper.OrderMapper">
+	<insert id="insertOrder" parameterType="map">
+		insert into
+		order_board(order_no, list_no, member_no, order_price,
+		order_add_option, order_ amount, order_date, order_status,
+		ordermade_no) values(seq_order_no.nextval, #{list_no}, #{member_no},
+		#{order_price}, #{order_add_option}, #{order_amount}, #{order_date},
+		'결제완료', #{ordermade_no})
+	</insert>
+	<update id="updateOption_stock">
+	</update>
 </mapper>
