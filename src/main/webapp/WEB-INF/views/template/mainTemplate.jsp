@@ -15,7 +15,7 @@
 </head>
 <body>
 	<c:choose>
-		<c:when test="${test1 == 1 }">
+		<c:when test="${ifpagemain == 1 }">
 			<div id="header"><tiles:insertAttribute name="header"/></div>
 		</c:when>
 		<c:otherwise>

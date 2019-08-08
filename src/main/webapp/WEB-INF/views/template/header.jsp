@@ -29,9 +29,6 @@
         font-size: 4em;
         padding: 0 30px 0 10px;
     }
-    .menu-wrap_row .mainlogo > a:hover {
-        color: #333333;
-    }
     /**/
     .menu-wrap-row a {
         color: #333333;
@@ -49,6 +46,7 @@
     /**/
     .mainlogo > a:hover {
         text-decoration: none;
+        color: #333333;
     }
     #mainmenu > div {
         height: 100px;
@@ -137,8 +135,8 @@
                 <a href="#">Handius</a>
             </div>
             <div id="mainmenu1">
-                <a class="categoryfontcolor" href="#">완제품</a>
-                <a class="categoryfontcolor" href="#">주문제작</a>
+                <a class="categoryfontcolor" href="orderlist?order=0">완제품</a>
+                <a class="categoryfontcolor" href="orderlist?order=1">주문제작</a>
                 <a class="categoryfontcolor" href="#">커뮤니티</a>
                 <a class="categoryfontcolor" href="#">작가페이지</a>
             </div>
