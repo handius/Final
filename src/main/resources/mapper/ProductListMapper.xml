@@ -35,6 +35,12 @@
 				<if test="status != 0">
 					AND lb.list_status = 1
 				</if>
+				<if test="isordered == 0">
+					AND lb.isordered = 0
+				</if>
+				<if test="isordered == 1">
+					AND lb.isordered = 1
+				</if>
 				order by lb.list_no
 			) lbb
 			where rownum<![CDATA[ <= ]]>#{PageDTO.endrow}

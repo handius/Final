@@ -30,18 +30,22 @@ public class ProductController {
 	private ProductService service;
 	
 	@RequestMapping(value="/orderList", method= {RequestMethod.POST, RequestMethod.GET})
-	public String listProduct(HttpSession session, @RequestParam(defaultValue="")String searchType, @RequestParam(defaultValue="")String searchData, @RequestParam(defaultValue="1")int currpage, @RequestParam(defaultValue="")List<String> hashTag, @RequestParam(defaultValue="0")int hasStock, @RequestParam(defaultValue="1")int status, Model model) {
+	public String listProduct(HttpSession session, @RequestParam(defaultValue="")String searchType, @RequestParam(defaultValue="")String searchData, @RequestParam(defaultValue="1")int currpage, @RequestParam(defaultValue="")List<String> hashTag, @RequestParam(defaultValue="0")int hasStock, @RequestParam(defaultValue="1")int status, @RequestParam(defaultValue="")String order, Model model) {
 		//임시 파일 삭제
 		String path = session.getServletContext().getRealPath("/resources/image/dimage");
 		service.checkImageValidateService(path);
 		//리스트 띄우기
+		int orders = 3;
+		if(order != null && order != "" && order.length() > 0) {
+			orders = Integer.parseInt(order);
+		}
 		String list_category = "";
 		int pagePerCount = 8;
 		int blockSize = 5;
 		int totalCount = service.getCountService(searchType, searchData, list_category, hashTag, hasStock, status);
 		System.out.println("hashList : " + hashTag);
 		PageDTO dto = new PageDTO(currpage, totalCount, pagePerCount, blockSize);
-		List<ListDTO> list = service.getListService(searchType, searchData, dto, list_category, hashTag, hasStock, status);
+		List<ListDTO> list = service.getListService(searchType, searchData, dto, list_category, hashTag, hasStock, status, orders);
 		List<String> hashList = service.getHashService(20);
 		model.addAttribute("list", list);
 		model.addAttribute("PageDTO", dto);
@@ -50,12 +54,16 @@ public class ProductController {
 	}
 	
 	@RequestMapping(value="/orderList/{category}", method= {RequestMethod.POST, RequestMethod.GET})
-	public String listProduct(@RequestParam(defaultValue="")String searchType, @RequestParam(defaultValue="")String searchData, @RequestParam(defaultValue="1")int currpage, @PathVariable(required=false, name="category")String list_category, @RequestParam(defaultValue="")List<String> hashTag, @RequestParam(defaultValue="0")int hasStock, @RequestParam(defaultValue="1")int status, Model model) {
+	public String listProduct(@RequestParam(defaultValue="")String searchType, @RequestParam(defaultValue="")String searchData, @RequestParam(defaultValue="1")int currpage, @PathVariable(required=false, name="category")String list_category, @RequestParam(defaultValue="")List<String> hashTag, @RequestParam(defaultValue="0")int hasStock, @RequestParam(defaultValue="1")int status, @RequestParam(defaultValue="")String order, Model model) {
+		int orders = 3;
+		if(order != null && order != "" && order.length() > 0) {
+			orders = Integer.parseInt(order);
+		}
 		int pagePerCount = 8;
 		int blockSize = 5;
 		int totalCount = service.getCountService(searchType, searchData, list_category, hashTag, hasStock, status);
 		PageDTO dto = new PageDTO(currpage, totalCount, pagePerCount, blockSize);
-		List<ListDTO> list = service.getListService(searchType, searchData, dto, list_category, hashTag, hasStock, status);
+		List<ListDTO> list = service.getListService(searchType, searchData, dto, list_category, hashTag, hasStock, status, orders);
 		List<String> hashList = service.getHashService(20);
 		model.addAttribute("list", list);
 		model.addAttribute("PageDTO", dto);

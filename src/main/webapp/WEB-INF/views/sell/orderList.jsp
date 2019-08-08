@@ -91,6 +91,7 @@
 	<c:set var="Stock" value="${param.hasStock }"/>
 	<c:set var="Type" value="${param.searchType }"/>
 	<c:set var="Data" value="${param.searchData }"/>
+	<c:set var="Order" value="${param.order }"/>
 	
 		<div class="jumbotron">
 	  		<div class="container">
@@ -102,22 +103,22 @@
 		<div class="container-fluid category">
 			<div class="row">
 				<div class="col-md-2">
-					<h5><a href="/controller/orderList/book">책</a></h5>
+					<h5><a href="/controller/orderList/book?order=${Order}">책</a></h5>
 				</div>
 				<div class="col-md-2">
-					<h5><a href="/controller/orderList/cup">머그컵</a></h5>
+					<h5><a href="/controller/orderList/cup?order=${Order}">머그컵</a></h5>
 				</div>
 				<div class="col-md-2">
-					<h5><a href="/controller/orderList/table">가구</a></h5>
+					<h5><a href="/controller/orderList/table?order=${Order}">가구</a></h5>
 				</div>
 				<div class="col-md-2">
-					<h5><a href="/controller/orderList/accessary">악세사리</a></h5>
+					<h5><a href="/controller/orderList/accessary?order=${Order}">악세사리</a></h5>
 				</div>
 				<div class="col-md-2">
-					<h5><a href="/controller/orderList/handmade">공예</a></h5>
+					<h5><a href="/controller/orderList/handmade?order=${Order}">공예</a></h5>
 				</div>
 				<div class="col-md-2">
-					<h5><a href="/controller/orderList/anything">기타</a></h5>
+					<h5><a href="/controller/orderList/anything?order=${Order}">기타</a></h5>
 				</div>
 			</div>
 		</div>
@@ -145,11 +146,13 @@
 						</label>
 						<div class="form-group">
 							<input type="text" id="searchData" class="form-control" name="searchData" placeholder="내용을 입력해주세요.">
+							<input type="hidden" name="order" value="${Order }">
 						</div>
 						<div class="form-group">
 							<input type="submit" value="검색">
 							<input type="reset" value="취소">
 						</div>
+						
 					</div>
 				</div>
 			</form>
@@ -187,18 +190,18 @@
 		<div class="row paging">
 			<ul class="pagination">
 				<c:if test="${PageDTO.startblock>1 }">
-					<li><a href="?currpage=${PageDTO.startblock-1 }&<%=hashTagValues %>hasStock=${Stock}&searchType=${Type}&searchData=${Data}">◀</a></li>
+					<li><a href="?currpage=${PageDTO.startblock-1 }&<%=hashTagValues %>hasStock=${Stock}&searchType=${Type}&searchData=${Data}&order=${Order}">◀</a></li>
 				</c:if>
 				<c:forEach var="i" begin="${PageDTO.startblock }" end="${PageDTO.endblock }">
 					<c:if test="${i==PageDTO.currpage }">
 						<li class="active"><a href="#"><c:out value="${i }"></c:out></a></li>
 					</c:if>
 					<c:if test="${i!=PageDTO.currpage }">
-						<li><a href="?currpage=${i }&<%=hashTagValues %>hasStock=${Stock}&searchType=${Type}&searchData=${Data}"><c:out value="${i}"></c:out></a></li>
+						<li><a href="?currpage=${i }&<%=hashTagValues %>hasStock=${Stock}&searchType=${Type}&searchData=${Data}&order=${Order}"><c:out value="${i}"></c:out></a></li>
 					</c:if>
 				</c:forEach>
 				<c:if test="${PageDTO.endblock < PageDTO.totalpage }">
-					<li><a href="?currpage=${PageDTO.endblock+1}&<%=hashTagValues %>hasStock=${Stock}&searchType=${Type}&searchData=${Data}">▶</a></li> 
+					<li><a href="?currpage=${PageDTO.endblock+1}&<%=hashTagValues %>hasStock=${Stock}&searchType=${Type}&searchData=${Data}&order=${Order}">▶</a></li> 
 				</c:if>
 			</ul>
 		</div>

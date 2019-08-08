@@ -24,7 +24,7 @@ public class ProductService {
 	@Autowired
 	private ProductListMapper mapper;
 	
-	public List<ListDTO> getListService(String searchType, String searchData, PageDTO dto, String list_category, List<String> hashTag, int hasStock, int status){
+	public List<ListDTO> getListService(String searchType, String searchData, PageDTO dto, String list_category, List<String> hashTag, int hasStock, int status, int order){
 		HashMap<String, Object> hashMap = new HashMap<>();
 		hashMap.put("searchType", searchType);
 		hashMap.put("searchData", searchData);
@@ -37,6 +37,7 @@ public class ProductService {
 		hashMap.put("hashTag", hashTag);
 		hashMap.put("hasStock", hasStock);
 		hashMap.put("status", status);
+		hashMap.put("isordered", order);
 		List<ListDTO> pList = mapper.getList(hashMap);
 		for(int i=0; i<pList.size(); i++) {
 			List<String> images = mapper.getImages(pList.get(i).getList_no());
