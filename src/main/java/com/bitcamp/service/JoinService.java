@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.bitcamp.DAO.MailCertDAO;
@@ -24,6 +25,9 @@ public class JoinService {
 	
 	@Autowired
 	private MailCertDAO mailCertDAO;
+	
+	@Autowired
+	BCryptPasswordEncoder passwordEncoder;
 
 	public int userIdCheckService(String user_id) {	//중복 ID 체크
 		return joinMapper.userIdCheck(user_id);
@@ -34,7 +38,7 @@ public class JoinService {
 		System.out.println(user_id+ user_password+ user_name+user_email+user_address);
 		MemberDTO dto = new MemberDTO();
 		dto.setUser_id(user_id);
-		dto.setUser_password(user_password);	//암호화 해야됨
+		dto.setUser_password(passwordEncoder.encode(user_password));
 		dto.setUser_name(user_name);
 		dto.setUser_email(user_email);
 		dto.setUser_address(user_address);
@@ -43,10 +47,10 @@ public class JoinService {
 		String authKey = mailCertDAO.createKey();	//메일 인증 키 생성
 		dto.setUser_certkey(authKey);
 		
-		joinMapper.userRegister(dto);
+		joinMapper.userRegister(dto);	//유저 등록
 		int member_no = joinMapper.userSelect(dto.getUser_id());
 		System.out.println("멤버번호"+member_no);
-		joinMapper.userAuthRegister(member_no);
+		joinMapper.userAuthRegister(member_no);	//유저권한 등록
 		
 		MailUtils sendMail = new MailUtils(mailSender);
 
@@ -57,15 +61,11 @@ public class JoinService {
 				.toString());
 		sendMail.setFrom("handius00@gmail.com", "핸디어스");
 		sendMail.setTo(dto.getUser_email());
-		sendMail.send();
+		sendMail.send();	//인증메일 전송
 	}
 
 	public void updateCertStatusService(String user_id, String user_email, String user_certkey) {
 		MemberDTO dto = new MemberDTO();
-		
-		System.out.println("받아온 키값=====");
-		System.out.println(user_certkey);
-		System.out.println("값이 ");
 		
 		dto.setUser_email(user_email);
 		dto.setUser_certkey(user_certkey);
