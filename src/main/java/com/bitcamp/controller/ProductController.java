@@ -78,17 +78,17 @@ public class ProductController {
 	
 	@RequestMapping(value="/sell", method= {RequestMethod.POST, RequestMethod.GET})
 	public String sellProduct() {
-		return "sell/sell";
+		return "sell/sell.mall";
 	}
 	
 	@RequestMapping(value="/sell/insertPerfectOrder", method= {RequestMethod.POST, RequestMethod.GET})
 	public String sellPerfectOrder() {
-		return "sell/insertPerfectOrder";
+		return "sell/insertPerfectOrder.mall";
 	}
 	
 	@RequestMapping(value="/sell/insertOrderMade", method= {RequestMethod.POST, RequestMethod.GET})
 	public String sellOrderMade() {
-		return "sell/insertOrderMade";
+		return "sell/insertOrderMade.mall";
 	}
 	
 	@RequestMapping(value="*/uploadAjaxAction", method= {RequestMethod.POST, RequestMethod.GET})

@@ -145,7 +145,8 @@ public class ProductService {
 		 		List<OrderOptionDTO> ordto = new ArrayList<>();
 		 		for(int i=0; i<dto.getOrder_name().size(); i++) {
 		 			OrderOptionDTO temp = new OrderOptionDTO();
-		 			temp.setOrder_name(dto.getOption_name().get(i));
+		 			System.out.println("ordto" + ordto);
+		 			temp.setOrder_name(dto.getOrder_name().get(i));
 		 			temp.setOrder_option(dto.getOrder_option().get(i));
 		 			ordto.add(temp);
 		 		}

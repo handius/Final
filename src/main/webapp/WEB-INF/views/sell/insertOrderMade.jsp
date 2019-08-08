@@ -32,7 +32,7 @@
 		var Orderform = "";
 		
 		Orderform+='<div class="input-group">';
-		Orderform+='<input type="text" class="form-control" name="order_name" placeholder="요구 사항을 적어주세요. ex)머그컵 정면 사진">';
+		Orderform+='<input type="text" class="form-control" name="order_name" placeholder="요구 사항을 적어주세요. ex)머그컵 정면 사진" required="required">';
 		Orderform+='<div class="input-group-btn">';
 		Orderform+='<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">선택<span class="caret"></span>';
 		Orderform+='</button>';
@@ -56,7 +56,7 @@
 		Tagform+='<div class="row">';
 		Tagform+='<label class="col-md-2 control-label">태그 설정</label>';
 		Tagform+='<div class="col-md-3 hashValue">';
-		Tagform+='<input type="text" class="form-control" name="list_hash" placeholder="태그를 입력해주세요.">';
+		Tagform+='<input type="text" class="form-control" name="list_hash" placeholder="태그를 입력해주세요." required="required">';
 		Tagform+='</div>';
 		Tagform+='<div class="col-md-1">';
 		Tagform+='<input type="button" class="btn searchTag" value="검색")>';
@@ -72,15 +72,15 @@
 		optionform += '<div class="form-group">';
 		optionform += '<label class="col-md-2 control-label">옵션명</label>';
 		optionform += '<div class="col-md-4">';
-		optionform += '<input type="text" class="form-control" name="option_name" placeholder="옵션명을 입력해주세요.">';
+		optionform += '<input type="text" class="form-control" name="option_name" placeholder="옵션명을 입력해주세요." required="required">';
 		optionform += '</div>';
 		optionform += '<label class="col-md-1 control-label">재고</label>';
 		optionform += '<div class="col-md-1">';
-		optionform += '<input type="number" class="form-control" name="option_stock" value="0">';
+		optionform += '<input type="number" class="form-control" name="option_stock" value="0" required="required">';
 		optionform += '</div>';
 		optionform += '<label class="col-md-1 control-label">가격</label>';
 		optionform += '<div class="col-md-2">';
-		optionform += '<input type="number" step="1000" class="form-control" name="option_price" value="0">';
+		optionform += '<input type="number" step="1000" class="form-control" name="option_price" value="0" required="required">';
 		optionform += '</div>';
 		optionform += '</div>';
 		
@@ -215,7 +215,12 @@
 </style>
 </head>
 <body>
-	
+	<div class="jumbotron">
+	  		<div class="container">
+	  			<h1>주문제작 페이지</h1>
+	    		<p>주문제작 페이지</p>
+		  	</div>
+		</div>
 	<div class="container">
 		<p>뜨거운지라 인간의 동산에는 사랑의 풀이 돋고 이상의 꽃이 피고 희망의 놀이 뜨고 열락의 새가 운다사랑의 풀
 		이 없으면 인간은 사막이다 오아이스도 없는 사막이다 보이는 끝까지 찾아다녀도 목숨이 있는 때까지 방황하여도 보
@@ -234,19 +239,19 @@
 					<div class="form-group">
 						<label class="col-md-2 control-label" for="list_title">게시글 제목</label>
 						<div class="col-md-10">
-							<input type="text" class="form-control" name="list_title" id="list_title" placeholder="내용을 입력해주세요.">
+							<input type="text" class="form-control" name="list_title" id="list_title" placeholder="내용을 입력해주세요." required="required">
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-md-2 control-label" for="list_product">상품 이름</label>
 						<div class="col-md-10">
-							<input type="text" class="form-control" name="list_product" id="list_product" placeholder="내용을 입력해주세요.">
+							<input type="text" class="form-control" name="list_product" id="list_product" placeholder="내용을 입력해주세요." required="required">
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-md-2 control-label" for="list_base_price">상품 가격</label>
 						<div class="col-md-10">
-							<input type="text" class="form-control" name="list_base_price" id="list_base_price" placeholder="내용을 입력해주세요.">
+							<input type="number" class="form-control" name="list_base_price" id="list_base_price" placeholder="내용을 입력해주세요." required="required">
 						</div>
 					</div>
 					<div class="form-group">
@@ -303,7 +308,7 @@
 				<h2>상품 소개</h2>
 				<div id="introduce" class="col-md-3">상품 소개</div>
 				<div class="col-md-9">
-					<textarea id="summernote" name="list_content"></textarea>
+					<textarea id="summernote" name="list_content" required="required"></textarea>
 				</div>
 				<script>
 					$('#summernote').summernote({
@@ -326,15 +331,15 @@
 					<div class="form-group">
 						<label class="col-md-2 control-label">옵션명</label>
 						<div class="col-md-4">
-							<input type="text" class="form-control" name="option_name" value="기본(Default)">
+							<input type="text" class="form-control" name="option_name" value="기본(Default)" required="required">
 						</div>
 						<label class="col-md-1 control-label">재고</label>
 						<div class="col-md-1">
-							<input type="number" class="form-control" name="option_stock" value="10">
+							<input type="number" class="form-control" name="option_stock" value="10" required="required">
 						</div>
 						<label class="col-md-1 control-label">가격</label>
 						<div class="col-md-2">
-							<input type="number" step="1000" class="form-control" name="option_price" value="0">
+							<input type="number" step="1000" class="form-control" name="option_price" value="0" required="required">
 						</div>
 					</div>
 				</div>
@@ -347,7 +352,7 @@
 					<div class="row">
 						<label class="col-md-2 control-label">태그 설정</label>
 						<div class="col-md-3 hashValue">
-							<input type="text" class="form-control" name="list_hash" placeholder="태그를 입력해주세요.">
+							<input type="text" class="form-control" name="list_hash" placeholder="태그를 입력해주세요." required="required">
 						</div>
 						<div class="col-md-1">
 							<input type="button" class="btn searchTag" value="검색">
@@ -361,7 +366,7 @@
 			<div class="row">
 				<h2>소비자 요구 카테고리 설정</h2>
 				<div class="col-md-7">
-					<textarea id="summernote2" name="ordered_content"></textarea>
+					<textarea id="summernote2" name="ordered_content" required="required"></textarea>
 				</div>
 				<script>
 					$('#summernote2').summernote({
@@ -378,7 +383,7 @@
 				</script>
 				<div class="col-md-5" id="orderfrm">
 					<div class="input-group">
-				         <input type="text" class="form-control" name="order_name" placeholder="요구 사항을 적어주세요. ex)머그컵 정면 사진">
+				         <input type="text" class="form-control" name="order_name" placeholder="요구 사항을 적어주세요. ex)머그컵 정면 사진" required="required">
 				         <div class="input-group-btn"> 
 				            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">선택<span class="caret"></span>
 				         	</button>
