@@ -7,9 +7,22 @@
 <head>
 <meta charset="utf-8">
 <title>Handius :: 우리가 만드는 핸드메이드 쇼핑몰</title>
+<style>
+	#avoidHeader {
+		height: 120px;
+	}
+</style>
 </head>
 <body>
-	<div id="header"><tiles:insertAttribute name="header"/></div>
+	<c:choose>
+		<c:when test="${ifpagemain == 1 }">
+			<div id="header"><tiles:insertAttribute name="header"/></div>
+		</c:when>
+		<c:otherwise>
+			<div id="headerMain"><tiles:insertAttribute name="headerMain"/></div>
+			<div id="avoidHeader"></div>
+		</c:otherwise>
+	</c:choose>
 	<div id="main"><tiles:insertAttribute name="body"/></div>
 	<div id="footer"><tiles:insertAttribute name="footer"/></div>
 </body>

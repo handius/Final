@@ -6,7 +6,9 @@
                                  http://www.springframework.org/schema/beans/spring-beans.xsd
                                  http://www.springframework.org/schema/security
                                  http://www.springframework.org/schema/security/spring-security.xsd">
-	
+                                 
+		<beans:bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+
 		<http>
 			<intercept-url pattern="/**" access="permitAll"/>
 			<csrf disabled="true"/>
@@ -18,12 +20,15 @@
 			<logout logout-success-url="/login/loginResult"/>
 			<access-denied-handler error-page="/access_denied_page"/>
 		</http>
+		
         <authentication-manager>
             <authentication-provider>
                 <user-service>
                     <user name="member123" password="bit123" authorities="ROLE_MEMBER"/>
                     <user name="admin123" password="bit123" authorities="ROLE_ADMIN"/>
                 </user-service>
+                <jdbc-user-service data-source-ref="dbconf"/>
+                <password-encoder ref="bcryptPasswordEncoder"></password-encoder>
             </authentication-provider>
         </authentication-manager>
     

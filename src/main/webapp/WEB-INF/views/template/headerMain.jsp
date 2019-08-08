@@ -28,6 +28,7 @@
         font-family: 'Barriecito', cursive;
         font-size: 4em;
         padding: 0 30px 0 10px;
+        color: #333333;
     }
     /**/
     .menu-wrap-row a {
@@ -123,7 +124,7 @@
 </style>
 </head>
 <body>
-    <div id="mallmenu" class="menu-wrap">
+    <div id="mallmenu" class="menu-wrap-row">
             <div id="mainmenu2">
                 <a class="categoryfontcolor" href="#">로그인</a>
                 <a class="categoryfontcolor" href="#">회원가입</a>
@@ -155,29 +156,6 @@
        </form>
     </div>
     <script>
-        $(window).scroll(function() {
-            var height = $(document).scrollTop();
-            if(height > 500) {
-                $('#mallmenu').removeClass('menu-wrap');
-                $('#mallmenu').addClass('menu-wrap-row');
-            } else {
-                $('#mallmenu').removeClass('menu-wrap-row');
-                $('#mallmenu').addClass('menu-wrap');
-            }
-        });
-            if($('#mallmenu').attr('class') == 'menu-wrap') {
-                $('#mallmenu').mouseover(function() {
-                    $('#mallmenu').removeClass('menu-wrap');
-                    $('#mallmenu').addClass('menu-wrap-row');
-                });
-            }
-        
-        if($('#mallmenu').attr('class') == 'menu-wrap-row') {
-            $('#mallmenu').mouseover(function() {
-                $('#mallmenu').removeClass('menu-wrap');
-                $('#mallmenu').addClass('menu-wrap-row');
-            });
-        }
         $('#searchcategoryhover').mouseover(function() {
             $('.menuhoversearch').slideDown();
         });

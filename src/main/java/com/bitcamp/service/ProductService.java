@@ -1,8 +1,10 @@
 package com.bitcamp.service;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +24,7 @@ public class ProductService {
 	@Autowired
 	private ProductListMapper mapper;
 	
-	public List<ListDTO> getListService(String searchType, String searchData, PageDTO dto, String list_category, List<String> hashTag, int hasStock, int status){
+	public List<ListDTO> getListService(String searchType, String searchData, PageDTO dto, String list_category, List<String> hashTag, int hasStock, int status, int order){
 		HashMap<String, Object> hashMap = new HashMap<>();
 		hashMap.put("searchType", searchType);
 		hashMap.put("searchData", searchData);
@@ -35,6 +37,7 @@ public class ProductService {
 		hashMap.put("hashTag", hashTag);
 		hashMap.put("hasStock", hasStock);
 		hashMap.put("status", status);
+		hashMap.put("isordered", order);
 		List<ListDTO> pList = mapper.getList(hashMap);
 		for(int i=0; i<pList.size(); i++) {
 			List<String> images = mapper.getImages(pList.get(i).getList_no());
@@ -143,7 +146,8 @@ public class ProductService {
 		 		List<OrderOptionDTO> ordto = new ArrayList<>();
 		 		for(int i=0; i<dto.getOrder_name().size(); i++) {
 		 			OrderOptionDTO temp = new OrderOptionDTO();
-		 			temp.setOrder_name(dto.getOption_name().get(i));
+		 			System.out.println("ordto" + ordto);
+		 			temp.setOrder_name(dto.getOrder_name().get(i));
 		 			temp.setOrder_option(dto.getOrder_option().get(i));
 		 			ordto.add(temp);
 		 		}
@@ -165,6 +169,48 @@ public class ProductService {
 					return 0;
 				}
 	}
+	
+	public int checkImageValidateService(String path) {
+		List<String> dbImages = mapper.getAllImages();
+		List<String> shdbImages = new ArrayList<>();
+		List<String> svImages = new ArrayList<>();
+		
+		for(int i=0; i<dbImages.size(); i++) {
+			int pos = dbImages.get(i).lastIndexOf("/");
+			shdbImages.add(dbImages.get(i).substring(pos+1));
+		}
+		
+		File root = new File(path); 
+		File[] list = root.listFiles();
+		if(list!=null) {
+			for(File f : list) {
+				svImages.add(f.getName());
+			}
+		}
+		
+		
+		List<String> noImages = svImages.stream().filter(x->!shdbImages.contains(x)).collect(Collectors.toList());
+		System.out.println(noImages);
+		List<String> noImagesPath = new ArrayList<>();
+		for(int i=0; i<noImages.size(); i++) {
+			String nopath = path + "/" + noImages.get(i);
+			noImagesPath.add(nopath);
+		}
+		
+		for(int i=0; i<noImagesPath.size(); i++) {
+			
+			File f = new File(noImagesPath.get(i));
+			if(f.delete()) {
+				System.out.println("임시 파일 삭제");
+			}else {
+				System.out.println("파일 삭제 실패");
+			}
+		}
+		
+		return 0;
+		
+	}
+	
 	/*
 	public int insertOrderOptionService(List<Integer> list_order_no, List<String> order_value) {
 		return 0;
