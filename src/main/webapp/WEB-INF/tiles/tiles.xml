@@ -1,0 +1,36 @@
+<!DOCTYPE tiles-definitions PUBLIC
+  "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+  "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+ 
+<tiles-definitions>
+ 
+    <!-- 쇼핑몰 페이지 -->
+    
+    <definition name="mallBase" template="/WEB-INF/views/template/mainTemplate.jsp">
+        <put-attribute name="header" value="/WEB-INF/views/template/header.jsp" />
+        <put-attribute name="footer" value="/WEB-INF/views/template/footer.jsp" />
+    </definition>
+ 
+    <definition name="*.mall" extends="mallBase">
+        <put-attribute name="body" value="/WEB-INF/views/{1}.jsp" />
+    </definition>
+ 
+     <definition name="*/*.mall" extends="mallBase">
+         <put-attribute name="body" value="/WEB-INF/views/{1}/{2}.jsp" />
+     </definition>    
+    
+    <!-- 관리자 페이지 -->
+ 
+    <definition name="adminBase" template="/WEB-INF/views/template/adminTemplate.jsp">
+        <put-attribute name="header" value="/WEB-INF/views/template/header.jsp" />
+        <put-attribute name="footer" value="/WEB-INF/views/template/footer.jsp" />
+    </definition>
+    
+    <definition name="*.admin" extends="adminBase">
+        <put-attribute name="body" value="/WEB-INF/views/{1}.jsp" />
+    </definition>
+ 
+     <definition name="*/*.admin" extends="adminBase">
+         <put-attribute name="body" value="/WEB-INF/views/{1}/{2}.jsp" />
+     </definition>    
+</tiles-definitions>
