@@ -7,6 +7,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AdminController {
 	@RequestMapping("/")
 	public String main() {
-		return "main";
+		return "main.mall";
+	}
+	@RequestMapping("/admin")
+	public String adminmain() {
+		return "admin/memberlist.admin";
 	}
 }

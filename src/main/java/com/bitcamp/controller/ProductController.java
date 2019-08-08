@@ -45,7 +45,7 @@ public class ProductController {
 		model.addAttribute("list", list);
 		model.addAttribute("PageDTO", dto);
 		model.addAttribute("hashList", hashList);
-		return "sell/orderList";
+		return "sell/orderList.mall";
 	}
 	
 	@RequestMapping(value="/orderList/{category}", method= {RequestMethod.POST, RequestMethod.GET})

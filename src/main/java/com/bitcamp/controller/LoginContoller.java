@@ -64,4 +64,9 @@ public class LoginContoller {
 		return "login/loginFail";
 	}
 	
+	@RequestMapping(value="/access_denied_page")
+	public String accessDeniedPage() throws Exception{
+		return "login/access_denied_page";
+	}
+	
 }
