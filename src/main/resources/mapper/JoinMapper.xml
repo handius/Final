@@ -16,7 +16,7 @@
 		user_certstatus, user_flatform)
 		values(member_seq.nextval, #{user_id}, #{user_password}, #{user_name},
 		#{user_email}, #{user_address}, sysdate,
-		0, #{user_certkey}, 0, null)
+		1, #{user_certkey}, 0, null)
 	</insert>
 
 	<select id="compareCertKey"
