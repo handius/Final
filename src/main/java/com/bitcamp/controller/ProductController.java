@@ -31,9 +31,10 @@ public class ProductController {
 	
 	@RequestMapping(value="/orderList", method= {RequestMethod.POST, RequestMethod.GET})
 	public String listProduct(HttpSession session, @RequestParam(defaultValue="")String searchType, @RequestParam(defaultValue="")String searchData, @RequestParam(defaultValue="1")int currpage, @RequestParam(defaultValue="")List<String> hashTag, @RequestParam(defaultValue="0")int hasStock, @RequestParam(defaultValue="1")int status, Model model) {
+		//임시 파일 삭제
 		String path = session.getServletContext().getRealPath("/resources/image/dimage");
 		service.checkImageValidateService(path);
-		
+		//리스트 띄우기
 		String list_category = "";
 		int pagePerCount = 8;
 		int blockSize = 5;
@@ -59,7 +60,7 @@ public class ProductController {
 		model.addAttribute("list", list);
 		model.addAttribute("PageDTO", dto);
 		model.addAttribute("hashList", hashList);
-		return "sell/orderList";
+		return "sell/orderList.mall";
 	}
 	
 	@ResponseBody
@@ -136,11 +137,4 @@ public class ProductController {
 		return "redirect:/orderList";
 	}
 	
-	@RequestMapping(value="*/checkImageValidate", method= {RequestMethod.POST, RequestMethod.GET})
-	public int checkImageValidator(HttpSession session) {
-		String path = session.getServletContext().getRealPath("/resources/image/dimage");
-		int result = service.checkImageValidateService(path);
-		
-		return result;
-	}
 }

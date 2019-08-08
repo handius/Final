@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -186,10 +187,24 @@ public class ProductService {
 		}
 		
 		
-		System.out.println(shdbImages);
-		System.out.println(svImages);
+		List<String> noImages = svImages.stream().filter(x->!shdbImages.contains(x)).collect(Collectors.toList());
+		System.out.println(noImages);
+		List<String> noImagesPath = new ArrayList<>();
+		for(int i=0; i<noImages.size(); i++) {
+			String nopath = path + "/" + noImages.get(i);
+			noImagesPath.add(nopath);
+		}
 		
-		 
+		for(int i=0; i<noImagesPath.size(); i++) {
+			
+			File f = new File(noImagesPath.get(i));
+			if(f.delete()) {
+				System.out.println("임시 파일 삭제");
+			}else {
+				System.out.println("파일 삭제 실패");
+			}
+		}
+		
 		return 0;
 		
 	}
