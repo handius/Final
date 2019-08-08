@@ -1,11 +1,15 @@
 package com.bitcamp.service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import com.bitcamp.DAO.MailCertDAO;
 import com.bitcamp.DAO.MailUtils;
+import com.bitcamp.DTO.member.AuthorityDTO;
 import com.bitcamp.DTO.member.MemberDTO;
 import com.bitcamp.mapper.JoinMapper;
 
@@ -40,6 +44,9 @@ public class JoinService {
 		dto.setUser_certkey(authKey);
 		
 		joinMapper.userRegister(dto);
+		int member_no = joinMapper.userSelect(dto.getUser_id());
+		System.out.println("멤버번호"+member_no);
+		joinMapper.userAuthRegister(member_no);
 		
 		MailUtils sendMail = new MailUtils(mailSender);
 
@@ -64,9 +71,11 @@ public class JoinService {
 		dto.setUser_certkey(user_certkey);
 		
 		System.out.println(joinMapper.compareCertKey(dto));
-		
+		int member_no = joinMapper.userSelect(user_id);
+		System.out.println(member_no);
 		if(joinMapper.compareCertKey(dto)>0) {
-			joinMapper.updateCertStatus(user_id);			
+			joinMapper.updateCertStatus(user_id);
+			joinMapper.updateMemberAuth(member_no);
 		}
 	}
 	

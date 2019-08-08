@@ -19,6 +19,15 @@
 		1, #{user_certkey}, 0, null)
 	</insert>
 
+	<select id="userSelect" parameterType="String" resultType="int">
+		select member_no from member where user_id = #{user_id}
+	</select>
+
+	<insert id="userAuthRegister" parameterType="int">
+		insert into authority(auth_no, member_no, user_auth)
+		values(auth_seq.nextval, #{member_no}, 'ROLE_USER')
+	</insert>
+
 	<select id="compareCertKey"
 		parameterType="com.bitcamp.DTO.member.MemberDTO" resultType="int">
 		select
@@ -32,5 +41,10 @@
 		update member set
 		user_certstatus = 1 , user_certkey=' ' where user_id =
 		#{user_id}
+	</update>
+	
+	<update id="updateMemberAuth" parameterType="int">
+		insert into authority(auth_no, member_no, user_auth)
+		values(auth_seq.nextval, #{member_no}, 'ROLE_MEMBER')
 	</update>
 </mapper>
