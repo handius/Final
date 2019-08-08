@@ -31,8 +31,10 @@
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />
+        <beans:property name="order" value="2" />
 	</beans:bean>
 
+	<!-- file -->
 	<beans:bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<beans:property name="maxUploadSize" value="104858760"></beans:property>
@@ -41,6 +43,18 @@
 	<security:global-method-security
 		pre-post-annotations="enabled" secured-annotations="enabled"></security:global-method-security>
 
+    <!-- Tiles -->
+    <beans:bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
+        <beans:property name="definitions">
+            <beans:list>
+                <beans:value>/WEB-INF/tiles/tiles.xml</beans:value>
+            </beans:list>
+        </beans:property>
+    </beans:bean>        
+    <beans:bean id="tilesViewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+        <beans:property name="viewClass" value="org.springframework.web.servlet.view.tiles3.TilesView" />
+        <beans:property name="order" value="1" />
+    </beans:bean>  
 
 	<context:component-scan
 		base-package="com.bitcamp.controller" />
