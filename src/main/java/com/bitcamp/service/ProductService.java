@@ -169,7 +169,13 @@ public class ProductService {
 	
 	public int checkImageValidateService(String path) {
 		List<String> dbImages = mapper.getAllImages();
+		List<String> shdbImages = new ArrayList<>();
 		List<String> svImages = new ArrayList<>();
+		
+		for(int i=0; i<dbImages.size(); i++) {
+			int pos = dbImages.get(i).lastIndexOf("/");
+			shdbImages.add(dbImages.get(i).substring(pos+1));
+		}
 		
 		File root = new File(path); 
 		File[] list = root.listFiles();
@@ -179,7 +185,8 @@ public class ProductService {
 			}
 		}
 		
-		System.out.println(dbImages);
+		
+		System.out.println(shdbImages);
 		System.out.println(svImages);
 		
 		 
