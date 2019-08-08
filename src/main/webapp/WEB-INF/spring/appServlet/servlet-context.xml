@@ -5,11 +5,15 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
 	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.2.xsd
 		http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 
 	<!-- DispatcherServlet Context: defines this servlet's request-processing 
 		infrastructure -->
@@ -45,4 +49,6 @@
 	<context:component-scan
 		base-package="com.bitcamp.DAO"></context:component-scan>
 
+	<aop:aspectj-autoproxy/>
+	<tx:annotation-driven/>
 </beans:beans>

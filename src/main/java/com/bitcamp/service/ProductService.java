@@ -6,14 +6,17 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.bitcamp.DTO.Product.ListDTO;
 import com.bitcamp.DTO.Product.OptionDTO;
 import com.bitcamp.DTO.Product.OrderOptionDTO;
 import com.bitcamp.DTO.comm.PageDTO;
-import com.bitcamp.DTO.order.OrderDTO;
 import com.bitcamp.mapper.ProductListMapper;
 
+@Transactional(rollbackFor= {Exception.class}, propagation=Propagation.REQUIRED, isolation=Isolation.DEFAULT)
 @Service("pservice")
 public class ProductService {
 	@Autowired

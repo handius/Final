@@ -7,6 +7,7 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -39,5 +40,12 @@ public class DBConfigration {
 		SqlSessionFactory sqlSessionFactory = sqlSessionFactory();
 		SqlSessionTemplate sqlsession = new SqlSessionTemplate(sqlSessionFactory);
 		return sqlsession;
+	}
+	
+	@Bean(name="transactionManager")
+	public DataSourceTransactionManager transactionManager() {
+		DataSourceTransactionManager manager = new DataSourceTransactionManager();
+		manager.setDataSource(dbconf());
+		return manager;
 	}
 }
