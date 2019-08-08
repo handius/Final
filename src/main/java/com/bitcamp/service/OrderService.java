@@ -40,4 +40,9 @@ public class OrderService {
 		mapper.insertOrder(parameters);
 		mapper.updateOption_stock(add_option, amount);
 	}
+
+	public void updateUserInfo(int member_no, String user_name, String user_address) {
+		List<String> nameaddress = mapper.nameAddress(member_no);
+//		mapper.updateUserInfo(user_name, user_address);
+	}
 }

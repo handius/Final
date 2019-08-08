@@ -11,4 +11,6 @@ public interface OrderMapper {
 
 	void updateOption_stock(String add_option, String amount);
 
+	List<String> nameAddress(int member_no);
+
 }
