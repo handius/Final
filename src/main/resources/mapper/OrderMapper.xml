@@ -16,19 +16,19 @@
 		list_option_board set option_stock=option_stock-#{value} where
 		option_no=#{key}
 	</update>
-	<update id="nameAddress" parameterType="map">
+	<update id="updateName" parameterType="map">
 	update member set
 	user_name=#{user_name} where member_no=#{member_no}
 	and where
 	user_name is null;
 	</update>
-	<update id="nameAddress" parameterType="map">
+	<update id="updateCall" parameterType="map">
 	update member set
 	user_name=#{user_call} where member_no=#{member_no}
 	and where
 	user_call is null;
 	</update>
-	<update id="nameAddress" parameterType="map">
+	<update id="updateAddress" parameterType="map">
 	update member set
 	user_name=#{user_address} where member_no=#{member_no}
 	and where
