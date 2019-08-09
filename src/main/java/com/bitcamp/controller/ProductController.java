@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.bitcamp.DTO.Product.ListDTO;
+import com.bitcamp.DTO.Product.OrderOptionDTO;
 import com.bitcamp.DTO.comm.PageDTO;
 import com.bitcamp.VO.file.FileVO;
 import com.bitcamp.service.ProductService;
@@ -145,4 +146,25 @@ public class ProductController {
 		return "redirect:/orderList";
 	}
 	
+	@RequestMapping(value="*/checkIsOrdered", method= {RequestMethod.POST, RequestMethod.GET})
+	public String checkOrder(HttpSession session, @RequestParam() int no, Model model) {
+		int tempmemberno = 1;
+		System.out.println(no);
+		ListDTO dto = service.getNoListService(no);
+		if(dto.getIsordered() == 0) {
+			return "redirect:/productDetail?no="+no;
+		}else{
+			List<OrderOptionDTO> odto = service.getOrderListService(dto);
+			model.addAttribute("ListDTO",dto);
+			model.addAttribute("orders", odto);
+			model.addAttribute("member_no", tempmemberno);
+			return "sell/insertOrderOption";
+		}
+	}
+	
+	@RequestMapping(value="*/checking", method= {RequestMethod.POST, RequestMethod.GET})
+	public String check(@RequestParam(required=false)List<MultipartFile> order_picture, @RequestParam(required=false)List<String> order_color, @RequestParam(required=false)List<String> order_text, @RequestParam(required=false)List<String> order_count) {
+		System.out.println(order_count);
+		return "redirect:/orderList";
+	}
 }
