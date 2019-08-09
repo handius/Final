@@ -27,63 +27,45 @@
 	}); */
 
 	function id_checks() {
-		console.log("dddd");
 		var id = $("#id").val();
+		let isEnabled = false;
 		$.ajax({
-			url : '${pageContext.request.contextPath}/user/idCheck?userId='
-					+ id,
-			type : 'get',
+			url : '${pageContext.request.contextPath}/user/idCheck',
+			data : {
+				user_id : id
+			},
+			dataType : 'json',
+			type : 'post',
 			success : function(data) {
-				console.log(data);
-				if (data == 0) {
-					console.log(id.length + ".....");
-					for (var i = 0; i < id.length; i++) {
-						var ch = id.charAt(i);
-						console.log(ch);
-						if (!(ch >= '0' && ch <= '9')
-								&& !(ch >= 'a' && ch <= 'z')
-								&& !(ch >= 'A' && ch <= 'Z')) {
-							$("#id_check_result").text(
-									"아이디는 영문 대소문자, 숫자만 입력가능합니다.");
-						}
-					}
-					if (id.length<4 || id.length>12) {
-						$("#id_check_result").text("아이디를 4~12자까지 입력해주세요.");
-					}else{
-						$("#id_check_result").text("사용가능한 아이디입니다.");
-					}
-						
-				} else {
-					$("#id_check_result").text("중복된 아이디입니다.");
+				if (data == 1) {
+					$("#id_check_result").text("아이디는 영문 및 숫자만 입력 가능합니다.");
+					isEnabled = true;
+				} else if (data == 2)
+					$("#id_check_result").text("이미 사용중인 아이디입니다.");
+				else if (data == 3) {
+					$("#id_check_result").text("아이디를 4~12자까지 입력해주세요.");
+				}else if(data ==5){
+					$("#id_check_result").text("아이디를 입력해주세요.");
+				} 
+				else {
+					$("#id_check_result").text("사용가능한 아이디입니다.");
+					isEnabled = true;
 				}
 			},
 			error : function() {
 				console.log("실패");
+
 			}
 		});
+		console.log(isEnabled);
 	}
 
 	function checks() {
 		var getMail = RegExp(/^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/);
 		var getCheck = RegExp(/^[a-zA-Z0-9]{4,12}$/);
 		var getName = RegExp(/^[가-힣]+$/);
-		var fmt = RegExp(/^\d{6}[1234]\d{6}$/); //형식 설정
-
-		/* //아이디 공백 확인
-		if ($("#id").val() == "") {
-			alert("아이디를 입력해주세요.");
-			$("#id").focus();
-			return false;
-		}
-
-		//아이디 유효성검사
-		if (!getCheck.test($("#id").val())) {
-			alert("아이디는 4~12자리의 영문 및 숫자만 사용하실 수 있습니다.");
-			$("#id").val("");
-			$("#id").focus();
-			return false;
-		} */
-
+		var fmt = RegExp(/^\d{6}[1234]\d{6}$/);
+		
 		//비밀번호 공백 확인
 		if ($("#password").val() == "") {
 			alert("비밀번호를 입력해주세요.");

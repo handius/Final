@@ -11,7 +11,7 @@
 		#{order_price}, #{order_add_option}, #{order_amount}, #{order_date},
 		'결제완료', #{ordermade_no})
 	</insert>
-	<update id="updateOption_stock" parameterMap="map">
+	<update id="updateOption_stock" parameterType="map">
 		update
 		list_option_board set option_stock=option_stock-#{value} where
 		option_no=#{key}
