@@ -66,20 +66,21 @@
 					</div>
 					<div class="col-md-5">
 						<c:forEach var="ord" items="${orders}" varStatus="status">
-							<c:if test="ord.order_option == 'picture'">
+							<c:out value="${ord.order_option}"/>
+							<c:if test="${ord.order_option eq 'picture'}">
 								<div><label><c:out value="${ord.order_name }"/></label></div>
 								<div><input type="file" name="order_picture" required="required"></div>
-								<div><input type="hidden" name="order_count" value="p${status.index }o${ord.list_order_no"></div>
+								<div><input type="hidden" name="order_count" value="p${status.index }o${ord.list_order_no}"></div>
 							</c:if>
-							<c:if test="ord.order_option == 'color'">
+							<c:if test="${ord.order_option eq 'color'}">
 								<div><label><c:out value="${ord.order_name }"/></label></div>
 								<div><input type="color" name="order_color" required="required"></div>
-								<div><input type="hidden" name="order_count" value="c${status.index }o${ord.list_order_no"></div>
+								<div><input type="hidden" name="order_count" value="c${status.index }o${ord.list_order_no}"></div>
 							</c:if>
-							<c:if test="ord.order_option == 'text'">
+							<c:if test="${ord.order_option eq 'text'}">
 								<div><label><c:out value="${ord.order_name }"/></label></div>
 								<div><input type="text" name="order_text" required="required"></div>
-								<div><input type="hidden" name="order_count" value="t${status.index }o${ord.list_order_no"></div>
+								<div><input type="hidden" name="order_count" value="t${status.index }o${ord.list_order_no}"></div>
 							</c:if>
 						</c:forEach>
 					</div>

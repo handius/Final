@@ -146,7 +146,7 @@ public class ProductController {
 		return "redirect:/orderList";
 	}
 	
-	@RequestMapping(value="*/checkIsOrdered", method= {RequestMethod.POST, RequestMethod.GET})
+	@RequestMapping(value="/checkIsOrdered", method= {RequestMethod.POST, RequestMethod.GET})
 	public String checkOrder(HttpSession session, @RequestParam() int no, Model model) {
 		int tempmemberno = 1;
 		System.out.println(no);
@@ -155,6 +155,7 @@ public class ProductController {
 			return "redirect:/productDetail?no="+no;
 		}else{
 			List<OrderOptionDTO> odto = service.getOrderListService(dto);
+			System.out.println("odto" + odto);
 			model.addAttribute("ListDTO",dto);
 			model.addAttribute("orders", odto);
 			model.addAttribute("member_no", tempmemberno);
@@ -162,8 +163,9 @@ public class ProductController {
 		}
 	}
 	
-	@RequestMapping(value="*/checking", method= {RequestMethod.POST, RequestMethod.GET})
-	public String check(@RequestParam(required=false)List<MultipartFile> order_picture, @RequestParam(required=false)List<String> order_color, @RequestParam(required=false)List<String> order_text, @RequestParam(required=false)List<String> order_count) {
+	@RequestMapping(value="/checking", method= {RequestMethod.POST, RequestMethod.GET})
+	public String check(HttpSession session,@RequestParam(required=false)List<MultipartFile> order_picture, @RequestParam(required=false)List<String> order_color, @RequestParam(required=false)List<String> order_text, @RequestParam(required=false)List<String> order_count) {
+		
 		System.out.println(order_count);
 		return "redirect:/orderList";
 	}
