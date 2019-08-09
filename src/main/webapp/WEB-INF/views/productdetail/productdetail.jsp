@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -452,7 +453,6 @@
 
         #MobileBuyLinkButtonBox {
             width: 100%;
-            max-width: 750px;
             height: 10%;
             border-top: 3px solid silver;
             display: none;
@@ -472,6 +472,7 @@
         @media (max-width: 991px) {
             .container {
                 width: 100%;
+                max-width: 100%;
             }
             
             .productDetailMain {
@@ -537,11 +538,9 @@
             }
 
             #MobileBuyLinkButtonBox {
+            	max-width: 2000px;
+            	width: 100%;
                 display: inherit;
-            }
-            
-            #MobileBuyLinkButtonBox {
-                max-width: 100%;
             }
         }
 
@@ -572,7 +571,7 @@
             
             if(windowWidth > 991) {
                 if (endBlockTop > scrollPosition && scrollTogleValue == 0) {
-                    $('#productDetailAside').css('position', 'fixed').css('top', '0px');
+                    $('#productDetailAside').css('position', 'fixed').css('top', '120px');
                     scrollTogleValue = 1;
                 }
 
@@ -693,16 +692,15 @@
                     <!-- Carousel items -->
                     <div class="carousel-inner">
                         <div class="item active">
-                            <img src="./slide1.jpg" alt="슬라이드 0">
+                            <img src="" alt="슬라이드 0">
                         </div>
                         <div class="item">
-                            <img src="./slide2.jpg" alt="슬라이드 1">
+                            <img src="" alt="슬라이드 1">
+                        </div>
+                        	<div class="item" alt="슬라이드 2">
                         </div>
                         <div class="item">
-                            <img src="./slide3.jpg" alt="슬라이드 2">
-                        </div>
-                        <div class="item">
-                            <img src="./slide2.jpg" alt="슬라이드 3">
+                            <img src="" alt="슬라이드 3">
                         </div>
                     </div>
                     <!-- Controls -->
@@ -714,10 +712,10 @@
                     </a>
                 </div>
                 <div id="productDetailUnderImgBox">
-                    <img src="./slide1.jpg" alt="슬라이드 0" class="productDetailUnderImg img-rounded">
-                    <img src="./slide2.jpg" alt="슬라이드 1" class="productDetailUnderImg img-rounded">
-                    <img src="./slide3.jpg" alt="슬라이드 2" class="productDetailUnderImg img-rounded">
-                    <img src="./slide2.jpg" alt="슬라이드 3" class="productDetailUnderImg img-rounded">
+                    <img src="" alt="슬라이드 0" class="productDetailUnderImg img-rounded">
+                    <img src="" alt="슬라이드 1" class="productDetailUnderImg img-rounded">
+                    <img src="" alt="슬라이드 2" class="productDetailUnderImg img-rounded">
+                    <img src="" alt="슬라이드 3" class="productDetailUnderImg img-rounded">
                 </div>
             </div>
             <!-- 모바일 구매버튼 -->
@@ -731,10 +729,10 @@
                     <span class="glyphicon glyphicon-chevron-down MobileBuyCloseButton"></span>
                 </div>
                 <div class="productDetailAsideBlock" id="productDetailAsideProductName">
-                    	손으로 만든 상품이름
+                    	<c:out value="${ListDTO.list_title }"></c:out>
                 </div>
                 <div class="productDetailAsideBlock" id="productDetailAsideArtistName">
-                    <a href="#">판매자 정보</a>
+                    <a href="#"><c:out value="${ListDTO.list_artist }"></c:out></a>
                 </div>
                 <form method="get" action="buy">
                     <!-- 옵션박스 -->
@@ -775,7 +773,7 @@
                                 <input type="button" value="+" class="numButton plusButton">
                             </div>
                             <div class="col-xs-6 productDetailAsideOptionPrice">
-                                <input type="number" value="" name="productOptionPrice" class="productDetailAsideOptionPriceResult" readonly><span>원</span>
+                                <input type="number" value="${ListDTO.list_base_price }" name="productOptionPrice" class="productDetailAsideOptionPriceResult" readonly><span>원</span>
                             </div>
                         </div>
                     </div>
@@ -783,7 +781,7 @@
                     <div class="customerOrderBox productDetailAsideBlock">
                         <div class="col-xs-12 customerOrderTitle">소비자 요구사항1</div>
                         <div class="col-xs-12 customerOrderValue">
-                            <img src="./slide1.jpg" alt="슬라이드 0">
+                            <img src="" alt="슬라이드 0">
                         </div>
                     </div>
 
@@ -806,14 +804,7 @@
             </div>
             <div class="col-md-8 productDetailMain">
                 <div id="productDetailContent">
-                    <p>안녕하세요 상품 소개 설명란 입니다.
-                        안녕하세요 상품 소개 설명란 입니다.
-                        안녕하세요 상품 소개 설명란 입니다.
-                        안녕하세요 상품 소개 설명란 입니다.
-                        안녕하세요 상품 소개 설명란 입니다.
-                        안녕하세요 상품 소개 설명란 입니다.
-                        안녕하세요 상품 소개 설명란 입니다.
-                        안녕하세요 상품 소개 설명란 입니다.</p>
+                    <p><c:out value="${ListDTO.list_content }"></c:out></p>
                 </div>
                 <div class="productDetailLine">
                     <div class="row">
@@ -861,7 +852,7 @@
                         </div>
                         <div id="menu1" class="tab-pane fade productDetailBuyReview">
                             <div class="row productDetailBuyReview">
-                                <div class="col-xs-3 col-sm-3 col-md-3 productDetailBuyReviewImg"><img src="./slide1.jpg" alt="슬라이드 0"></div>
+                                <div class="col-xs-3 col-sm-3 col-md-3 productDetailBuyReviewImg"><img src="" alt="슬라이드 0"></div>
                                 <div class="col-xs-12 col-sm-12 col-md-9 productDetailBuyReviewOption">옵션내용입니다.옵션내용입니다.옵션내용입니다.옵션내용입니다.</div>
                                 <div class="col-xs-12 col-sm-12 col-md-9 productDetailBuyReviewContent">구매후기 내용입니다.구매후기 내용입니다.구매후기 내용입니다.구매후기 내용입니다.구매후기 내용입니다.구매후기 내용입니다.구매후기 내용입니다.구매후기 내용입니다.구매후기 내용입니다.구매후기 내용입니다.구매후기 내용입니다.</div>
                                 <div class="col-xs-4 col-sm-4 col-md-3 productDetailBuyReviewScore">★★★★★</div>
@@ -869,7 +860,7 @@
                                 <div class="col-xs-4 col-sm-4 col-md-3 productDetailBuyReviewWriteDate">2019.08.07</div>
                             </div>
                             <div class="row productDetailBuyReview">
-                                <div class="col-xs-3 col-sm-3 col-md-3 productDetailBuyReviewImg"><img src="./slide1.jpg" alt="슬라이드 0"></div>
+                                <div class="col-xs-3 col-sm-3 col-md-3 productDetailBuyReviewImg"><img src="" alt="슬라이드 0"></div>
                                 <div class="col-xs-12 col-sm-12 col-md-9 productDetailBuyReviewOption">옵션내용입니다.옵션내용입니다.옵션내용입니다.옵션내용입니다.</div>
                                 <div class="col-xs-12 col-sm-12 col-md-9 productDetailBuyReviewContent">구매후기 내용입니다.구매후기 내용입니다.구매후기 내용입니다.구매후기 내용입니다.구매후기 내용입니다.구매후기 내용입니다.구매후기 내용입니다.구매후기 내용입니다.구매후기 내용입니다.구매후기 내용입니다.구매후기 내용입니다.</div>
                                 <div class="col-xs-4 col-sm-4 col-md-3 productDetailBuyReviewScore">★★★★★</div>
