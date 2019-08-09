@@ -50,14 +50,15 @@ public class OrderService {
 		}
 	}
 
+	@Transactional
 	public void updateUserInfo(int member_no, String user_name, String user_call, String user_address) {
 		Map<String, Object> parameters = new HashMap<>();
 		parameters.put("member_no", member_no);
 		parameters.put("user_name", user_name);
 		parameters.put("user_call", user_call);
 		parameters.put("user_address", user_address);
-		mapper.updateName(parameters);
-		mapper.updateCall(parameters);
-		mapper.updateAddress(parameters);
+//		mapper.updateName(parameters);
+//		mapper.updateCall(parameters);
+//		mapper.updateAddress(parameters);
 	}
 }
