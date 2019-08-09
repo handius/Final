@@ -1,35 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans:beans xmlns="http://www.springframework.org/schema/security"
-             xmlns:beans="http://www.springframework.org/schema/beans"
-             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-             xsi:schemaLocation="http://www.springframework.org/schema/beans
+<beans:beans
+	xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
                                  http://www.springframework.org/schema/beans/spring-beans.xsd
                                  http://www.springframework.org/schema/security
                                  http://www.springframework.org/schema/security/spring-security.xsd">
-                                 
-		<beans:bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
 
-		<http>
-			<intercept-url pattern="/**" access="permitAll"/>
-			<csrf disabled="true"/>
-			<form-login
-				login-page="/login/loginform"
-				default-target-url="/login/loginResult"
-				authentication-failure-forward-url="/login?error"
-			/>
-			<logout logout-success-url="/login/loginResult"/>
-			<access-denied-handler error-page="/access_denied_page"/>
-		</http>
-		
-        <authentication-manager>
-            <authentication-provider>
-                <user-service>
-                    <user name="member123" password="bit123" authorities="ROLE_MEMBER"/>
-                    <user name="admin123" password="bit123" authorities="ROLE_ADMIN"/>
-                </user-service>
-                <jdbc-user-service data-source-ref="dbconf"/>
-                <password-encoder ref="bcryptPasswordEncoder"></password-encoder>
-            </authentication-provider>
-        </authentication-manager>
-    
+	<beans:bean id="bcryptPasswordEncoder"
+		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+	<beans:bean id="customUserDetailService"
+		class="com.bitcamp.service.CustomUserDetailService"></beans:bean>
+
+	<http>
+		<intercept-url pattern="/**" access="permitAll" />
+		<csrf disabled="true" />
+		<form-login login-page="/login/loginform"
+			default-target-url="/login/loginResult"
+			authentication-failure-forward-url="/login?error" />
+		<logout logout-success-url="/login/loginResult" />
+		<access-denied-handler
+			error-page="/access_denied_page" />
+	</http>
+
+	<authentication-manager>
+		<authentication-provider user-service-ref="customUserDetailService">
+			<!-- <password-encoder ref="bcryptPasswordEncoder"></password-encoder> -->
+		</authentication-provider>
+	</authentication-manager>
+
 </beans:beans>
