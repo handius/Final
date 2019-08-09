@@ -22,7 +22,7 @@ public class LoginContoller {
 		if(logout!=null) {
 			model.addAttribute("logout","logout..");
 		}
-
+		
 		return "login/loginform";
 	}
 	
