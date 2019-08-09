@@ -2,7 +2,9 @@ package com.bitcamp.controller;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.UUID;
 
 import javax.annotation.Resource;
@@ -20,6 +22,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.bitcamp.DTO.Product.ListDTO;
+import com.bitcamp.DTO.Product.OrderOptionDTO;
+import com.bitcamp.DTO.Product.OrderValueDTO;
 import com.bitcamp.DTO.comm.PageDTO;
 import com.bitcamp.VO.file.FileVO;
 import com.bitcamp.service.ProductService;
@@ -145,4 +149,86 @@ public class ProductController {
 		return "redirect:/orderList";
 	}
 	
+	@RequestMapping(value="/checkIsOrdered", method= {RequestMethod.POST, RequestMethod.GET})
+	public String checkOrder(HttpSession session, @RequestParam() int no, Model model) {
+		//임시 멤버 넘버
+		int tempmemberno = 1;
+		
+		System.out.println(no);
+		ListDTO dto = service.getNoListService(no);
+		if(dto.getIsordered() == 0) {
+			return "redirect:/productDetail/"+no;
+		}else{
+			List<OrderOptionDTO> odto = service.getOrderListService(dto);
+			System.out.println("odto" + odto);
+			model.addAttribute("ListDTO",dto);
+			model.addAttribute("orders", odto);
+			model.addAttribute("member_no", tempmemberno);
+			return "sell/insertOrderOption.mall";
+		}
+	}
+	@RequestMapping(value="/checking", method= {RequestMethod.POST, RequestMethod.GET})
+	public String check(HttpSession session,@RequestParam(required=false)List<MultipartFile> order_picture, @RequestParam(required=false)List<String> order_color, @RequestParam(required=false)List<String> order_text, @RequestParam(required=false)List<String> order_count, @RequestParam(required=true)int member_no, @RequestParam(required=true)int list_no) {
+		Queue<String> queue = new LinkedList<String>();
+		Queue<String> cqueue = new LinkedList<String>();
+		Queue<String> tqueue = new LinkedList<String>();
+		String uploadFileName = null;
+		if(order_picture != null) {
+			String path = session.getServletContext().getRealPath("/resources/image/fimage");
+			for(MultipartFile multipartFile:order_picture) {
+				uploadFileName = multipartFile.getOriginalFilename();
+				uploadFileName = uploadFileName.substring(uploadFileName.lastIndexOf("\\")+1);	
+				UUID uuid = UUID.randomUUID();
+				uploadFileName = uuid.toString() + "-" + uploadFileName;
+				try {
+				File file = new File(path, uploadFileName);
+				multipartFile.transferTo(file);
+				}catch(Exception e) {
+					System.out.println(e.getMessage());
+				}
+				String image = "/controller/resources/image/fimage/" + uuid + multipartFile.getOriginalFilename();
+				queue.offer(image);
+			}
+		}
+		if(order_color != null) {
+			for(int i=0; i<order_color.size(); i++) {
+				cqueue.offer(order_color.get(i));
+			}
+		}
+		if(order_text != null) {
+			for(int i=0; i<order_text.size(); i++) {
+				tqueue.offer(order_text.get(i));
+			}
+		}
+		List<OrderValueDTO> ovlist = new ArrayList<>();  
+		for(int i=0; i<order_count.size(); i++) {
+			OrderValueDTO dto = new OrderValueDTO();
+			if(order_count.get(i).contains("p")) {
+				int pos = order_count.get(i).indexOf("o");
+				int order_no = Integer.parseInt(order_count.get(i).substring(pos+1));
+				dto.setList_order_no(order_no);
+				dto.setOrder_value(queue.poll());
+				dto.setMember_no(member_no);
+			}else if(order_count.get(i).contains("c")) {
+				int pos = order_count.get(i).indexOf("o");
+				int order_no = Integer.parseInt(order_count.get(i).substring(pos+1));
+				dto.setList_order_no(order_no);
+				dto.setOrder_value(cqueue.poll());
+				dto.setMember_no(member_no);
+			}else if(order_count.get(i).contains("t")) {
+				int pos = order_count.get(i).indexOf("o");
+				int order_no = Integer.parseInt(order_count.get(i).substring(pos+1));
+				dto.setList_order_no(order_no);
+				dto.setOrder_value(tqueue.poll());
+				dto.setMember_no(member_no);
+			}
+			ovlist.add(dto);
+		}
+		List<Integer> list_order_member_no = service.insertOrderOptionService(ovlist);
+		
+		System.out.println(order_count);
+		System.out.println(list_order_member_no);
+		session.setAttribute("list_order_member_no", list_order_member_no);
+		return "redirect:/productDetail/"+list_no;
+	}
 }

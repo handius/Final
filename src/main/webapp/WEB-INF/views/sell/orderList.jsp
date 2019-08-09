@@ -166,7 +166,7 @@
 			      				<img src="${image }" alt="이미지가 없습니다.">
 			      			</c:forEach>
 			          		<div class="caption">
-			            		<h3><a href="#">${item.list_title }</a></h3>
+			            		<h3><a href="/controller/checkIsOrdered?no=${item.list_no} ">${item.list_title }</a></h3>
 			            		<p>${item.list_date }</p>
 			            		<p>작가명 : ${item.list_artist }</p>
 			            		<p>상품명 : ${item.list_product }</p>

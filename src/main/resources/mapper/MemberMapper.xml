@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bitcamp.mapper.MemberMapper">
+	<resultMap type="com.bitcamp.DTO.member.MemberDTO" id="memberMap">
+		<result property="member_no" column="member_no" />
+		<result property="user_id" column="user_id" />
+		<result property="user_password" column="user_password" />
+		<result property="user_name" column="user_name" />
+		<result property="user_nick" column="user_nick" />
+		<result property="user_email" column="user_email" />
+		<result property="user_address" column="user_address" />
+		<result property="user_regidate" column="user_regidate" />
+		<result property="user_status" column="user_status" />
+		<result property="user_call" column="user_call" />
+		<result property="user_certstatus" column="user_certstatus" />
+		<result property="user_flatform" column="user_flatform" />
+		<collection property="authorityList" resultMap="authMap"></collection>
+	</resultMap>
+
+	<resultMap type="com.bitcamp.DTO.member.AuthorityDTO"
+		id="authMap">
+		<result property="auth_no" column="auth_no" />
+		<result property="member_no" column="member_no" />
+		<result property="user_auth" column="user_auth" />
+	</resultMap>
+
+	<select id="readMember" resultMap="memberMap">
+		select member.member_no, member.user_id,
+		user_password, user_name,
+		user_nick, user_email, user_address,
+		user_regidate, user_status,
+		user_call, user_certstatus, user_flatform,
+		user_auth
+		from member LEFT OUTER JOIN authority on
+		member.member_no = authority.member_no
+		where member.user_id = #{user_id}
+	</select>
+
+</mapper>

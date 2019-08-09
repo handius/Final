@@ -1,18 +1,15 @@
 package com.bitcamp.service;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.bitcamp.DAO.CustomPasswordEncoder;
 import com.bitcamp.DAO.MailCertDAO;
 import com.bitcamp.DAO.MailUtils;
-import com.bitcamp.DTO.member.AuthorityDTO;
 import com.bitcamp.DTO.member.MemberDTO;
 import com.bitcamp.mapper.JoinMapper;
+import com.bitcamp.mapper.MemberMapper;
 
 @Service("joinService")
 public class JoinService {
@@ -21,13 +18,16 @@ public class JoinService {
 	JoinMapper joinMapper;
 	
 	@Autowired
+	MemberMapper member;
+	
+	@Autowired
 	private JavaMailSender mailSender;
 	
 	@Autowired
 	private MailCertDAO mailCertDAO;
 	
 	@Autowired
-	BCryptPasswordEncoder passwordEncoder;
+	CustomPasswordEncoder pwdEncoder;
 
 	public int userIdCheckService(String user_id) {	//중복 ID 체크
 		return joinMapper.userIdCheck(user_id);
@@ -38,7 +38,7 @@ public class JoinService {
 		System.out.println(user_id+ user_password+ user_name+user_email+user_address);
 		MemberDTO dto = new MemberDTO();
 		dto.setUser_id(user_id);
-		dto.setUser_password(passwordEncoder.encode(user_password));
+		dto.setUser_password(pwdEncoder.encode(user_password));
 		dto.setUser_name(user_name);
 		dto.setUser_email(user_email);
 		dto.setUser_address(user_address);

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bitcamp.mapper.ProductDetailMapper">
+<select id="productDetailGet" parameterType="int" resultType="com.bitcamp.DTO.Product.ListDTO">
+	select list_no, list_artist, list_title, list_product, list_content
+	, list_base_price, list_date, isordered, ordered_content
+	from list_board 
+	where list_no = #{list_no}
+</select>
+<select id="productDetailImgGet" parameterType="int" resultType="String">
+	select list_image_loc 
+	from list_image_board
+	where list_no = #{list_no}
+</select>
+<select id="productDetailOptionGet" parameterType="int" resultType="com.bitcamp.DTO.Product.OptionDTO">
+	select option_name, option_stock, option_price
+	from list_option_board
+	where list_no = #{list_no}
+</select>
+</mapper>
+  

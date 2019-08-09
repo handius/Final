@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.bitcamp.DTO.Product.ListDTO;
+import com.bitcamp.DTO.Product.OrderOptionDTO;
+import com.bitcamp.DTO.Product.OrderValueDTO;
 
 public interface ProductListMapper {
 	public List<ListDTO> getList(HashMap<String,Object> listData);
@@ -19,5 +21,8 @@ public interface ProductListMapper {
 	public int insertOrderMadeData(ListDTO dto);
 	public int insertOrderData(HashMap<String, Object> orderData);
 	public List<String> getAllImages();
-/*	public int insertOrderOptionData(HashMap<String, Object> orderOptionData);*/
+	public int insertOrderOptionData(OrderValueDTO orderValue);
+	public ListDTO getNoList(int no);
+	public List<OrderOptionDTO> getOrderOptionList(int no);
+	public Integer getListOrderMember();
 }

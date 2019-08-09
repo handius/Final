@@ -173,4 +173,22 @@
 		select list_image_loc
 		from list_image_board
 	</select>
+	<select id="getNoList" parameterType="int" resultType="com.bitcamp.DTO.Product.ListDTO">
+		select list_no, list_title, list_product, list_base_price, ordered_content, isordered
+		from list_board
+		where list_no = #{no}
+	</select>
+	<select id="getOrderOptionList" parameterType="int" resultType="com.bitcamp.DTO.Product.OrderOptionDTO">
+		select list_order_no, order_name, order_option
+		from list_order_board
+		where list_no = #{no}
+	</select>
+	<insert id="insertOrderOptionData" parameterType="com.bitcamp.DTO.Product.OrderValueDTO">
+		insert into list_order_member_board 
+		values(seq_list_order_member_no.nextval, #{member_no}, #{list_order_no}, #{order_value})
+	</insert>
+	<select id="getListOrderMember" resultType="int">
+		select nvl(max(list_order_member_no),0)
+		from list_order_member_board
+	</select>
 </mapper>
