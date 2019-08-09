@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.bitcamp.DTO.Product.ListDTO;
+import com.bitcamp.DTO.Product.OptionDTO;
 import com.bitcamp.service.ProductDetailService;
 
 @Controller
@@ -19,13 +20,15 @@ public class ProductDetailController {
 
 	@RequestMapping("/productDetail/{list_no}")
 	public String productDetail(@PathVariable int list_no , Model model) {
-		System.out.println(list_no);
+		System.out.println(list_no); //테스트
 		
-		ListDTO dto = service.productDetailService(list_no);
+		ListDTO listdto = service.productDetailService(list_no);
 		List<String> imglist = service.productDetailImgGetService(list_no);
-		System.out.println(imglist);
-		model.addAttribute("ListDTO", dto);
-		model.addAttribute("imgList", imglist.get(0));
+		List<OptionDTO> optionlist = service.productDetailOptionGet(list_no);
+		
+		model.addAttribute("listDTO", listdto);
+		model.addAttribute("imgList", imglist);
+		model.addAttribute("optionList", optionlist);
 		return "productdetail/productdetail.mall";
 	}
 }

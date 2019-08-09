@@ -614,7 +614,7 @@
         }
 
         function productDetailAsideOptionSelect() {
-            let optionName = $(this).children('.productDetailAsideOptionSelectName').text();
+            let optionName = $(this).children('.productDetailAsideOptionSelectName').text().trim();
             let optionPrice = $(this).children('.productDetailAsideOptionSelectPrice').text().replace(/[^0-9]/g, '');
             let resultBox = $(this).parent().parent().parent().next();
             resultBox.children('.productDetailAsideOptionName').children('.productDetailAsideOptionNameResult').val(optionName);
@@ -692,16 +692,13 @@
                     <!-- Carousel items -->
                     <div class="carousel-inner">
                         <div class="item active">
-                            <img src="" alt="슬라이드 0">
+                            <img src="${imgList.get(0) }" alt="슬라이드 0">
                         </div>
-                        <div class="item">
-                            <img src="" alt="슬라이드 1">
-                        </div>
-                        	<div class="item" alt="슬라이드 2">
-                        </div>
-                        <div class="item">
-                            <img src="" alt="슬라이드 3">
-                        </div>
+                        <c:forEach var="img" items="${imgList }" begin="1" varStatus="i">
+                        	<div class="item">
+                            	<img src="${img }" alt="슬라이드 ${i.index }">
+                       		</div>
+                        </c:forEach>
                     </div>
                     <!-- Controls -->
                     <a class="left carousel-control" href="#myCarousel" data-slide="prev">
@@ -712,10 +709,9 @@
                     </a>
                 </div>
                 <div id="productDetailUnderImgBox">
-                    <img src="" alt="슬라이드 0" class="productDetailUnderImg img-rounded">
-                    <img src="" alt="슬라이드 1" class="productDetailUnderImg img-rounded">
-                    <img src="" alt="슬라이드 2" class="productDetailUnderImg img-rounded">
-                    <img src="" alt="슬라이드 3" class="productDetailUnderImg img-rounded">
+                	<c:forEach var="img" items="${imgList }" varStatus="i">
+                		<img src="${img }" alt="슬라이드 ${i.index }" class="productDetailUnderImg img-rounded">
+                    </c:forEach>
                 </div>
             </div>
             <!-- 모바일 구매버튼 -->
@@ -729,36 +725,30 @@
                     <span class="glyphicon glyphicon-chevron-down MobileBuyCloseButton"></span>
                 </div>
                 <div class="productDetailAsideBlock" id="productDetailAsideProductName">
-                    	<c:out value="${ListDTO.list_title }"></c:out>
+                    	<c:out value="${listDTO.list_title }"></c:out>
                 </div>
                 <div class="productDetailAsideBlock" id="productDetailAsideArtistName">
-                    <a href="#"><c:out value="${ListDTO.list_artist }"></c:out></a>
+                    <a href="#"><c:out value="${listDTO.list_artist }"></c:out></a>
                 </div>
                 <form method="get" action="buy">
                     <!-- 옵션박스 -->
                     <div class="productDetailOptionBox productDetailAsideBlock">
                         <div class="btn-group">
-                            <button type="button" class="asideOptionButton" data-toggle="dropdown"> 옵션1 <span class="glyphicon glyphicon-chevron-down"></span>
+                            <button type="button" class="asideOptionButton" data-toggle="dropdown"> 옵션 <span class="glyphicon glyphicon-chevron-down"></span>
                             </button>
                             <ul class="dropdown-menu" role="menu">
-                                <li>
+                            <c:forEach var="optionList" items="${optionList }">
+                            	<li>
                                     <a href="#" class="productDetailAsideOptionSelect">
-                                        <span class="productDetailAsideOptionSelectName">메뉴1</span>
-                                        <span class="productDetailAsideOptionSelectPrice">10000원</span>
+                                        <span class="productDetailAsideOptionSelectName">
+                                        	<c:out value="${optionList.option_name}"></c:out>
+                                        </span>
+                                        <span class="productDetailAsideOptionSelectPrice">
+                                        	<c:out value="${optionList.option_price }"></c:out>
+                                        </span>
                                     </a>
                                 </li>
-                                <li>
-                                    <a href="#" class="productDetailAsideOptionSelect">
-                                        <span class="productDetailAsideOptionSelectName">메뉴2</span>
-                                        <span class="productDetailAsideOptionSelectPrice">20000원</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="productDetailAsideOptionSelect">
-                                        <span class="productDetailAsideOptionSelectName">메뉴3</span>
-                                        <span class="productDetailAsideOptionSelectPrice">30000원</span>
-                                    </a>
-                                </li>
+                            </c:forEach>
                             </ul>
                         </div>
                         <div class="productDetailAsideOptionResultBox">
@@ -773,7 +763,7 @@
                                 <input type="button" value="+" class="numButton plusButton">
                             </div>
                             <div class="col-xs-6 productDetailAsideOptionPrice">
-                                <input type="number" value="${ListDTO.list_base_price }" name="productOptionPrice" class="productDetailAsideOptionPriceResult" readonly><span>원</span>
+                                <input type="number" value="${listDTO.list_base_price }" name="productOptionPrice" class="productDetailAsideOptionPriceResult" readonly><span>원</span>
                             </div>
                         </div>
                     </div>
@@ -804,7 +794,7 @@
             </div>
             <div class="col-md-8 productDetailMain">
                 <div id="productDetailContent">
-                    <p><c:out value="${ListDTO.list_content }"></c:out></p>
+                    ${listDTO.list_content }
                 </div>
                 <div class="productDetailLine">
                     <div class="row">

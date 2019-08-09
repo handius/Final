@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bitcamp.DTO.Product.ListDTO;
+import com.bitcamp.DTO.Product.OptionDTO;
 import com.bitcamp.mapper.ProductDetailMapper;
 
 @Service("productDetailService")
@@ -15,12 +16,14 @@ public class ProductDetailService {
 	private ProductDetailMapper mapper;
 	
 	public ListDTO productDetailService(int list_no) {
-		ListDTO dto = mapper.productDetailGet(list_no);
-		return dto;
+		return mapper.productDetailGet(list_no);
 	}
 	
 	public List<String> productDetailImgGetService(int list_no) {
-		List<String> list = mapper.productDetailImgGet(list_no);
-		return list;
+		return mapper.productDetailImgGet(list_no);
+	}
+	
+	public List<OptionDTO> productDetailOptionGet(int list_no) {
+		return mapper.productDetailOptionGet(list_no);
 	}
 }
