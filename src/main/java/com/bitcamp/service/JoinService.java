@@ -45,16 +45,13 @@ public class JoinService {
 		System.out.println(user_id + user_password + user_name + user_email + user_address);
 		MemberDTO dto = new MemberDTO();
 		dto.setUser_id(user_id);
-		System.out.println("비밀번호 인코딩");
-		System.out.println(pwdEncoder.encode(user_password));
-		dto.setUser_password(pwdEncoder.encode(user_password));
+		dto.setUser_password(pwdEncoder.encode(user_password));	//패스워드 인코딩
 		dto.setUser_name(user_name);
 		dto.setUser_email(user_email);
 		dto.setUser_address(user_address);
-		dto.setUser_certstatus(0);
 
 		String authKey = mailCertDAO.createKey(); // 메일 인증 키 생성
-		dto.setUser_certkey(authKey);
+		dto.setUser_certkey(authKey);	
 
 		joinMapper.userRegister(dto); // 유저 등록
 		int member_no = joinMapper.userSelect(dto.getUser_id());
