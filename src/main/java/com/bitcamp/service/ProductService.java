@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bitcamp.DTO.Product.ListDTO;
 import com.bitcamp.DTO.Product.OptionDTO;
 import com.bitcamp.DTO.Product.OrderOptionDTO;
+import com.bitcamp.DTO.Product.OrderValueDTO;
 import com.bitcamp.DTO.comm.PageDTO;
 import com.bitcamp.mapper.ProductListMapper;
 
@@ -224,8 +225,15 @@ public class ProductService {
 		return orderOptionList;
 	}
 	
-	/*
-	public int insertOrderOptionService(List<Integer> list_order_no, List<String> order_value) {
-		return 0;
-	}*/
+	
+	public List<Integer> insertOrderOptionService(List<OrderValueDTO> list) {
+		List<Integer> list_order_nos = new ArrayList<>();
+		for(int i=0; i<list.size(); i++) {
+			int result = mapper.insertOrderOptionData(list.get(i));
+			if(result > 0) {
+				list_order_nos.add(mapper.getListOrderMember());
+			}
+		}
+		return list_order_nos;
+	}
 }

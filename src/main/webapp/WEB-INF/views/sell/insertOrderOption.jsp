@@ -89,6 +89,7 @@
 			<hr>
 			<div class="row">
 				<input type="hidden" name="member_no" value="${member_no }">
+				<input type="hidden" name="list_no" value="${ListDTO.list_no }">
 				<input type="reset" value="취소">
 				<input type="submit" value="확인">
 			</div>
