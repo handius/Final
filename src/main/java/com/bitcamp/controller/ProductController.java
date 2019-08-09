@@ -107,6 +107,7 @@ public class ProductController {
 	@ResponseBody
 	public ResponseEntity<List<FileVO>> uploadAjaxPost(HttpSession session, MultipartFile[] uploadFile) {
 		List<FileVO> list = new ArrayList<>();
+		//ajax
 		System.out.println("ajax controller 입장");
 		String path = session.getServletContext().getRealPath("/resources/image/dimage");
 		System.out.println(path);
