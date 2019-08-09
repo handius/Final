@@ -210,6 +210,19 @@ public class ProductService {
 		return 0;
 		
 	}
+
+	public ListDTO getNoListService(int no) {
+		// TODO Auto-generated method stub
+		return mapper.getNoList(no);
+	}
+
+	public List<OrderOptionDTO> getOrderListService(ListDTO dto) {
+		// TODO Auto-generated method stub
+		List<OrderOptionDTO> orderOptionList = mapper.getOrderOptionList(dto.getList_no());
+		List<String> images = mapper.getImages(dto.getList_no());
+		dto.setList_image_loc(images);
+		return orderOptionList;
+	}
 	
 	/*
 	public int insertOrderOptionService(List<Integer> list_order_no, List<String> order_value) {
