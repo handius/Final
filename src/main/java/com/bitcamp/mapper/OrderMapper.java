@@ -9,8 +9,11 @@ public interface OrderMapper {
 
 	void insertOrder(Map<String, Object> parameters);
 
-	void updateOption_stock(String add_option, String amount);
+	void updateOption_stock(Map<Integer, Integer> option);
 
-	List<String> nameAddress(int member_no);
+	void updateName(Map<String, Object> parameters);
 
+	void updateCall(Map<String, Object> parameters);
+
+	void updateAddress(Map<String, Object> parameters);
 }
