@@ -157,7 +157,7 @@ public class ProductController {
 		System.out.println(no);
 		ListDTO dto = service.getNoListService(no);
 		if(dto.getIsordered() == 0) {
-			return "redirect:/productDetail?no="+no;
+			return "redirect:/productDetail/"+no;
 		}else{
 			List<OrderOptionDTO> odto = service.getOrderListService(dto);
 			System.out.println("odto" + odto);
@@ -228,6 +228,7 @@ public class ProductController {
 		
 		System.out.println(order_count);
 		System.out.println(list_order_member_no);
-		return "redirect:/productDetail?no="+list_no;
+		session.setAttribute("list_order_member_no", list_order_member_no);
+		return "redirect:/productDetail/"+list_no;
 	}
 }
