@@ -13,4 +13,8 @@
 	</insert>
 	<update id="updateOption_stock">
 	</update>
+	<select id="nameAddress" parameterType="int" resultType="String">
+		select
+		user_name, user_address from member where member_no=#{member_no};
+	</select>
 </mapper>
