@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<html>
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
@@ -42,6 +43,7 @@
 
         .productDetailMain {
             height: 100%;
+            border-right: 1px solid silver;
         }
 
         #productDetailUnderImgBox {
@@ -114,32 +116,32 @@
             font-size: 15px;
             border-bottom: 1px solid silver;
         }
-        
+
         #productDetailQandAInputBox {
             width: 100%;
             height: 100px;
             padding: 0;
         }
-        
+
         #productDetailQandAInputBox .col-xs-12:nth-of-type(2) {
             padding: 0;
         }
-        
+
         #productDetailQandAInputCheckBox {
             font-size: 15px;
             text-align: right;
         }
-        
+
         #productDetailQandAInputCheckBox input {
             width: 15px;
             height: 15px;
         }
-        
+
         #productDetailQandAInput {
             width: 85%;
             height: 70px;
         }
-        
+
         #productDetailQandAInputButton {
             width: 14%;
             height: 70px;
@@ -222,10 +224,10 @@
         #productDetailAside {
             max-width: 390px;
             height: 100%;
+            background-color: white;
             display: inline-block;
             position: fixed;
             border-top: 1px solid silver;
-            border-left: 1px solid silver;
             padding: 0;
             overflow: auto;
         }
@@ -360,7 +362,6 @@
 
         .customerOrderTitle {
             height: 19px;
-            border-bottom: 1px solid silver;
             text-align: center;
             font-size: 15px;
             font-weight: bold;
@@ -369,7 +370,6 @@
 
         .customerOrderValue {
             height: 80px;
-            background-color: #eeeeee;
             padding: 0;
         }
 
@@ -454,10 +454,11 @@
             width: 100%;
             max-width: 750px;
             height: 10%;
+            border-top: 3px solid silver;
             display: none;
             position: fixed;
             top: 90%;
-            background-color: #eeeeee;
+            background-color: white;
             z-index: 10;
         }
 
@@ -469,8 +470,16 @@
         }
 
         @media (max-width: 991px) {
+            .container {
+                width: 100%;
+            }
+            
+            .productDetailMain {
+                border-right: 0;
+            }
+
             #productDetailAside {
-                max-width: 750px;
+                max-width: 100%;
                 width: 100%;
                 height: 50%;
                 border-left: 0;
@@ -480,15 +489,23 @@
                 top: 50%;
                 z-index: 9;
             }
+            
+            .productDetailQandA{
+                max-width: 100%;
+            }
+            
+            .productDetailBuyReview {
+                max-width: 100%;
+            }
 
             .productDetailBuyReviewImg {
-                max-width: none;
+                max-width: 100%;
                 width: 100%;
                 height: 100%;
             }
 
             .productDetailBuyReviewImg img {
-                max-width: none;
+                max-width: 100%;
                 width: 100%;
                 height: 100%;
             }
@@ -522,24 +539,50 @@
             #MobileBuyLinkButtonBox {
                 display: inherit;
             }
+            
+            #MobileBuyLinkButtonBox {
+                max-width: 100%;
+            }
         }
+
     </style>
     <script>
         let windowTogleValue = 0;
+        let scrollTogleValue = 0;
         window.onresize = function(event) {
             let windowWidth = window.innerWidth;
-            if(windowWidth > 991 && windowTogleValue == 0) {
+            if (windowWidth > 991 && windowTogleValue == 0) {
                 $('#productDetailAside').show();
                 $('#productDetailAside').css('display', 'inline-block');
                 windowTogleValue = 1;
             }
-            
-            if(windowWidth <= 991 && windowTogleValue == 1) {
+
+            if (windowWidth <= 991 && windowTogleValue == 1) {
                 $('#productDetailAside').hide();
                 windowTogleValue = 0;
             }
         };
-        
+
+        $(window).scroll(function() {
+            let windowHeight = window.innerHeight;
+            let windowWidth = window.innerWidth;
+            let asideHeight = $('#productDetailAside').innerHeight();
+            let scrollPosition = $(window).scrollTop() + windowHeight;
+            let endBlockTop = $('#footer').offset().top;
+            
+            if(windowWidth > 991) {
+                if (endBlockTop > scrollPosition && scrollTogleValue == 0) {
+                    $('#productDetailAside').css('position', 'fixed').css('top', '0px');
+                    scrollTogleValue = 1;
+                }
+
+                if (endBlockTop < scrollPosition && scrollTogleValue == 1) {
+                    $('#productDetailAside').css('position', 'absolute').css('top', (endBlockTop-asideHeight) + 'px');
+                    scrollTogleValue = 0;
+                }
+            }
+        });
+
         $(document).ready(function() {
             $('.productDetailUnderImg').on('click', productDetailUnderImgClick);
             $('#productDetailClick0').on('click', productDetailClick0);
@@ -551,8 +594,6 @@
             $('.glyphicon-remove').on('click', productOptionCancel);
             $('.MobileBuyLinkButton').on('click', mobileAsideShow);
             $('.MobileBuyCloseButton').on('click', mobilAsideHide);
-            
-
         });
 
         function productDetailUnderImgClick() {
@@ -629,12 +670,14 @@
 
         function mobileAsideShow() {
             $('#productDetailAside').show();
+            $('#productDetailAside').css('top', '50%').css('position','fixed');
             $('#MobileBuyCloseButtonBox').show();
             $('#MobileBuyLinkButtonBox').hide();
         }
-        
+
         function mobilAsideHide() {
             $('#productDetailAside').hide();
+            $('#productDetailAside').css('top', '0px').css('position','fixed');
             $('#MobileBuyCloseButtonBox').hide();
             $('#MobileBuyLinkButtonBox').show();
         }
@@ -642,284 +685,286 @@
     </script>
 </head>
 
-<body class="container">
-    <div class="row">
-        <div class="col-md-8 productDetailMain">
-            <div id="myCarousel" class="carousel slide" data-interval="false">
-                <!-- Carousel items -->
-                <div class="carousel-inner">
-                    <div class="item active">
-                        <img src="./slide1.jpg" alt="슬라이드 0">
-                    </div>
-                    <div class="item">
-                        <img src="./slide2.jpg" alt="슬라이드 1">
-                    </div>
-                    <div class="item">
-                        <img src="./slide3.jpg" alt="슬라이드 2">
-                    </div>
-                    <div class="item">
-                        <img src="./slide2.jpg" alt="슬라이드 3">
-                    </div>
-                </div>
-                <!-- Controls -->
-                <a class="left carousel-control" href="#myCarousel" data-slide="prev">
-                    <span class="icon-prev"></span>
-                </a>
-                <a class="right carousel-control" href="#myCarousel" data-slide="next">
-                    <span class="icon-next"></span>
-                </a>
-            </div>
-            <div id="productDetailUnderImgBox">
-                <img src="./slide1.jpg" alt="슬라이드 0" class="productDetailUnderImg img-rounded">
-                <img src="./slide2.jpg" alt="슬라이드 1" class="productDetailUnderImg img-rounded">
-                <img src="./slide3.jpg" alt="슬라이드 2" class="productDetailUnderImg img-rounded">
-                <img src="./slide2.jpg" alt="슬라이드 3" class="productDetailUnderImg img-rounded">
-            </div>
-        </div>
-        <!-- 모바일 구매버튼 -->
-        <div id="MobileBuyLinkButtonBox">
-            <button class="MobileBuyLinkButton">구매</button>
-        </div>
-
-        <!-- 사이드창 -->
-        <div class="col-md-4" id="productDetailAside">
-            <div id="MobileBuyCloseButtonBox">
-               <span class="glyphicon glyphicon-chevron-down MobileBuyCloseButton"></span>
-            </div>
-            <div class="productDetailAsideBlock" id="productDetailAsideProductName">
-                손으로 만든 상품이름
-            </div>
-            <div class="productDetailAsideBlock" id="productDetailAsideArtistName">
-                <a href="#">판매자 정보</a>
-            </div>
-            <form method="get" action="buy">
-                <!-- 옵션박스 -->
-                <div class="productDetailOptionBox productDetailAsideBlock">
-                    <div class="btn-group">
-                        <button type="button" class="asideOptionButton" data-toggle="dropdown"> 옵션1 <span class="glyphicon glyphicon-chevron-down"></span>
-                        </button>
-                        <ul class="dropdown-menu" role="menu">
-                            <li>
-                                <a href="#" class="productDetailAsideOptionSelect">
-                                    <span class="productDetailAsideOptionSelectName">메뉴1</span>
-                                    <span class="productDetailAsideOptionSelectPrice">10000원</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="productDetailAsideOptionSelect">
-                                    <span class="productDetailAsideOptionSelectName">메뉴2</span>
-                                    <span class="productDetailAsideOptionSelectPrice">20000원</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="productDetailAsideOptionSelect">
-                                    <span class="productDetailAsideOptionSelectName">메뉴3</span>
-                                    <span class="productDetailAsideOptionSelectPrice">30000원</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="productDetailAsideOptionResultBox">
-                        <div class="col-xs-10 productDetailAsideOptionName">
-                            <input type="text" name="productOptionName" class="productDetailAsideOptionNameResult" readonly>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 productDetailMain">
+                <div id="myCarousel" class="carousel slide" data-interval="false">
+                    <!-- Carousel items -->
+                    <div class="carousel-inner">
+                        <div class="item active">
+                            <img src="./slide1.jpg" alt="슬라이드 0">
                         </div>
-                        <div class="col-xs-2 productDetailAsideOptionCancel"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></div>
-                        <hr class="productDetailAsideOptionResultBoxInnerHr">
-                        <div class="col-xs-6 productDetailAsideOptionNumBox">
-                            <input type="button" value="-" class="numButton minusButton">
-                            <input type="number" name="productOptionNum" class="productDetailAsideOptionNum" value="0" max="10" min="1" readonly>
-                            <input type="button" value="+" class="numButton plusButton">
+                        <div class="item">
+                            <img src="./slide2.jpg" alt="슬라이드 1">
                         </div>
-                        <div class="col-xs-6 productDetailAsideOptionPrice">
-                            <input type="number" value="" name="productOptionPrice" class="productDetailAsideOptionPriceResult" readonly><span>원</span>
+                        <div class="item">
+                            <img src="./slide3.jpg" alt="슬라이드 2">
+                        </div>
+                        <div class="item">
+                            <img src="./slide2.jpg" alt="슬라이드 3">
                         </div>
                     </div>
+                    <!-- Controls -->
+                    <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+                        <span class="icon-prev"></span>
+                    </a>
+                    <a class="right carousel-control" href="#myCarousel" data-slide="next">
+                        <span class="icon-next"></span>
+                    </a>
                 </div>
+                <div id="productDetailUnderImgBox">
+                    <img src="./slide1.jpg" alt="슬라이드 0" class="productDetailUnderImg img-rounded">
+                    <img src="./slide2.jpg" alt="슬라이드 1" class="productDetailUnderImg img-rounded">
+                    <img src="./slide3.jpg" alt="슬라이드 2" class="productDetailUnderImg img-rounded">
+                    <img src="./slide2.jpg" alt="슬라이드 3" class="productDetailUnderImg img-rounded">
+                </div>
+            </div>
+            <!-- 모바일 구매버튼 -->
+            <div id="MobileBuyLinkButtonBox">
+                <button class="MobileBuyLinkButton">구매</button>
+            </div>
 
-                <div class="customerOrderBox productDetailAsideBlock">
-                    <div class="col-xs-12 customerOrderTitle">소비자 요구사항1</div>
-                    <div class="col-xs-12 customerOrderValue">
-                        <img src="./slide1.jpg" alt="슬라이드 0">
+            <!-- 사이드창 -->
+            <div class="col-md-4" id="productDetailAside">
+                <div id="MobileBuyCloseButtonBox">
+                    <span class="glyphicon glyphicon-chevron-down MobileBuyCloseButton"></span>
+                </div>
+                <div class="productDetailAsideBlock" id="productDetailAsideProductName">
+                    	손으로 만든 상품이름
+                </div>
+                <div class="productDetailAsideBlock" id="productDetailAsideArtistName">
+                    <a href="#">판매자 정보</a>
+                </div>
+                <form method="get" action="buy">
+                    <!-- 옵션박스 -->
+                    <div class="productDetailOptionBox productDetailAsideBlock">
+                        <div class="btn-group">
+                            <button type="button" class="asideOptionButton" data-toggle="dropdown"> 옵션1 <span class="glyphicon glyphicon-chevron-down"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>
+                                    <a href="#" class="productDetailAsideOptionSelect">
+                                        <span class="productDetailAsideOptionSelectName">메뉴1</span>
+                                        <span class="productDetailAsideOptionSelectPrice">10000원</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="productDetailAsideOptionSelect">
+                                        <span class="productDetailAsideOptionSelectName">메뉴2</span>
+                                        <span class="productDetailAsideOptionSelectPrice">20000원</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="productDetailAsideOptionSelect">
+                                        <span class="productDetailAsideOptionSelectName">메뉴3</span>
+                                        <span class="productDetailAsideOptionSelectPrice">30000원</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="productDetailAsideOptionResultBox">
+                            <div class="col-xs-10 productDetailAsideOptionName">
+                                <input type="text" name="productOptionName" class="productDetailAsideOptionNameResult" readonly>
+                            </div>
+                            <div class="col-xs-2 productDetailAsideOptionCancel"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></div>
+                            <hr class="productDetailAsideOptionResultBoxInnerHr">
+                            <div class="col-xs-6 productDetailAsideOptionNumBox">
+                                <input type="button" value="-" class="numButton minusButton">
+                                <input type="number" name="productOptionNum" class="productDetailAsideOptionNum" value="0" max="10" min="1" readonly>
+                                <input type="button" value="+" class="numButton plusButton">
+                            </div>
+                            <div class="col-xs-6 productDetailAsideOptionPrice">
+                                <input type="number" value="" name="productOptionPrice" class="productDetailAsideOptionPriceResult" readonly><span>원</span>
+                            </div>
+                        </div>
                     </div>
-                </div>
 
+                    <div class="customerOrderBox productDetailAsideBlock">
+                        <div class="col-xs-12 customerOrderTitle">소비자 요구사항1</div>
+                        <div class="col-xs-12 customerOrderValue">
+                            <img src="./slide1.jpg" alt="슬라이드 0">
+                        </div>
+                    </div>
+
+                    <div class="productDetailLine">
+                        <hr>
+                    </div>
+
+                    <!-- 총 금액 -->
+                    <div id="totalOptionPriceBox" class="productDetailAsideBlock">
+                        <div class="col-xs-5">총 금액 : </div>
+                        <div class="col-xs-7 totalOptionPrice">
+                            <input type="number" value="0" name="productOptionTotalPrice" class="totalOptionPriceResult" readonly><span>원</span>
+                        </div>
+                    </div>
+                    <div class="productDetailAsideBlock">
+                        <button type="button" class="asideBasket">장바구니</button>
+                        <input type="submit" class="asideBuyButton" value="구매">
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-8 productDetailMain">
+                <div id="productDetailContent">
+                    <p>안녕하세요 상품 소개 설명란 입니다.
+                        안녕하세요 상품 소개 설명란 입니다.
+                        안녕하세요 상품 소개 설명란 입니다.
+                        안녕하세요 상품 소개 설명란 입니다.
+                        안녕하세요 상품 소개 설명란 입니다.
+                        안녕하세요 상품 소개 설명란 입니다.
+                        안녕하세요 상품 소개 설명란 입니다.
+                        안녕하세요 상품 소개 설명란 입니다.</p>
+                </div>
                 <div class="productDetailLine">
+                    <div class="row">
+                        <div class="col-xs-11">Q & A 및 구매후기</div>
+                        <div class="col-xs-1">
+                            <span class="glyphicon glyphicon-chevron-down" aria-hidden="true" id="productDetailClick0"></span>
+                        </div>
+                    </div>
                     <hr>
                 </div>
+                <div id="productDetailTabBox">
+                    <ul class="nav nav-tabs" id="productDetailTap">
+                        <li class="active"><a data-toggle="tab" href="#home">Q & A</a></li>
+                        <li><a data-toggle="tab" href="#menu1">구매후기</a></li>
+                    </ul>
+                    <div class="tab-content" id="productDetailQandAandBuyReviewBox">
+                        <div id="home" class="tab-pane fade in active productDetailQandA">
+                            <div class="productDetailQandA">
+                                <div class="col-xs-2 productDetailQandAStatus">
+                              		      답변완료
+                                </div>
+                                <div class="col-xs-5 productDetailQandAWriter">홍길동</div>
+                                <div class="col-xs-5 productDetailQandAWriterDate">2019.08.06</div>
+                                <div class="col-xs-10 productDetailQandAContent">Q&A내용입니다.Q&AB내용입니다.Q&A내용입니다.Q&A내용입니다.Q&A내용입니다.Q&A내용입니다.Q&A내용입니다.Q&A내용입니다.</div>
+                            </div>
+                            <div class="productDetailQandA">
+                                <div class="col-xs-2 productDetailQandAStatus">
+                                		    답변완료
+                                </div>
+                                <div class="col-xs-5 productDetailQandAWriter">홍길동</div>
+                                <div class="col-xs-5 productDetailQandAWriterDate">2019.08.06</div>
+                                <div class="col-xs-10 productDetailQandAContent">Q&A내용입니다.Q&A내용입니다.Q&A내용입니다.Q&A내용입니다.Q&A내용입니다.Q&A내용입니다.Q&A내용입니다.Q&A내용입니다.</div>
+                            </div>
+                            <button class="moreButton">더보기</button>
+                            <div id="productDetailQandAInputBox">
+                                <div class="col-xs-12" id="productDetailQandAInputCheckBox">
+                                    <label>비밀글</label>
+                                    <input type="checkbox">
+                                </div>
+                                <div class="col-xs-12 ">
+                                    <input type="text" id="productDetailQandAInput">
+                                    <button id="productDetailQandAInputButton">등록</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="menu1" class="tab-pane fade productDetailBuyReview">
+                            <div class="row productDetailBuyReview">
+                                <div class="col-xs-3 col-sm-3 col-md-3 productDetailBuyReviewImg"><img src="./slide1.jpg" alt="슬라이드 0"></div>
+                                <div class="col-xs-12 col-sm-12 col-md-9 productDetailBuyReviewOption">옵션내용입니다.옵션내용입니다.옵션내용입니다.옵션내용입니다.</div>
+                                <div class="col-xs-12 col-sm-12 col-md-9 productDetailBuyReviewContent">구매후기 내용입니다.구매후기 내용입니다.구매후기 내용입니다.구매후기 내용입니다.구매후기 내용입니다.구매후기 내용입니다.구매후기 내용입니다.구매후기 내용입니다.구매후기 내용입니다.구매후기 내용입니다.구매후기 내용입니다.</div>
+                                <div class="col-xs-4 col-sm-4 col-md-3 productDetailBuyReviewScore">★★★★★</div>
+                                <div class="col-xs-4 col-sm-4 col-md-3 productDetailBuyReviewWriter">홍길동</div>
+                                <div class="col-xs-4 col-sm-4 col-md-3 productDetailBuyReviewWriteDate">2019.08.07</div>
+                            </div>
+                            <div class="row productDetailBuyReview">
+                                <div class="col-xs-3 col-sm-3 col-md-3 productDetailBuyReviewImg"><img src="./slide1.jpg" alt="슬라이드 0"></div>
+                                <div class="col-xs-12 col-sm-12 col-md-9 productDetailBuyReviewOption">옵션내용입니다.옵션내용입니다.옵션내용입니다.옵션내용입니다.</div>
+                                <div class="col-xs-12 col-sm-12 col-md-9 productDetailBuyReviewContent">구매후기 내용입니다.구매후기 내용입니다.구매후기 내용입니다.구매후기 내용입니다.구매후기 내용입니다.구매후기 내용입니다.구매후기 내용입니다.구매후기 내용입니다.구매후기 내용입니다.구매후기 내용입니다.구매후기 내용입니다.</div>
+                                <div class="col-xs-4 col-sm-4 col-md-3 productDetailBuyReviewScore">★★★★★</div>
+                                <div class="col-xs-4 col-sm-4 col-md-3 productDetailBuyReviewWriter">홍길동</div>
+                                <div class="col-xs-4 col-sm-4 col-md-3 productDetailBuyReviewWriteDate">2019.08.07</div>
+                            </div>
+                            <button class="moreButton">더보기</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="productDetailLine">
+                    <div class="row">
+                        <div class="col-xs-11">작가 정보</div>
+                        <div class="col-xs-1">
+                            <span class="glyphicon glyphicon-chevron-down" aria-hidden="true" id="productDetailClick1"></span>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+                <div id="productDetailArtistInfo">
+                    <table class="table table-striped">
+                        <colgroup>
+                            <col width="20%">
+                            <col width="80%">
+                        </colgroup>
+                        <tr>
+                            <td>닉네임</td>
+                            <td>비트캠프</td>
+                        </tr>
+                        <tr>
+                            <td>이름</td>
+                            <td>홍길동</td>
+                        </tr>
+                        <tr>
+                            <td>주소</td>
+                            <td>서울시 종로구</td>
+                        </tr>
+                        <tr>
+                            <td>전화번호</td>
+                            <td>070-500-2929</td>
+                        </tr>
+                        <tr>
+                            <td>이메일</td>
+                            <td>bitcamp@naver.com</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="productDetailLine">
+                    <div class="row">
+                        <div class="col-xs-11">배송/교환/환불 규정</div>
+                        <div class="col-xs-1">
+                            <span class="glyphicon glyphicon-chevron-down" aria-hidden="true" id="productDetailClick2"></span>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+                <div id="productDetailRule">
+                    <table class="table table-striped">
+                        <colgroup>
+                            <col width="20%">
+                            <col width="80%">
+                        </colgroup>
+                        <tr>
+                            <td>배송비</td>
+                            <td>
+                                <p>기본료 : 3000원<br>
+                                    배송비 무료 조건 : 20000원<br>
+                                    제주/ 도서사간 추가비용 : 3000원</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>제작/ 배송</td>
+                            <td>
+                                <p>3일 이내<br>
+                                    주문 후 제작에 들어가는 작품입니다.</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>교환/ 환불</td>
+                            <td>
+                                <p>조건 확인
+                                    교환/환불 전 반드시 먼저 연락을 해주셔야 합니다.<br>
 
-                <!-- 총 금액 -->
-                <div id="totalOptionPriceBox" class="productDetailAsideBlock">
-                    <div class="col-xs-5">총 금액 : </div>
-                    <div class="col-xs-7 totalOptionPrice">
-                        <input type="number" value="0" name="productOptionTotalPrice" class="totalOptionPriceResult" readonly><span>원</span>
-                    </div>
-                </div>
-                <div class="productDetailAsideBlock">
-                    <button type="button" class="asideBasket">장바구니</button>
-                    <input type="submit" class="asideBuyButton" value="구매">
-                </div>
-            </form>
-        </div>
-        <div class="col-md-8 productDetailMain">
-            <div id="productDetailContent">
-                <p>안녕하세요 상품 소개 설명란 입니다.
-                    안녕하세요 상품 소개 설명란 입니다.
-                    안녕하세요 상품 소개 설명란 입니다.
-                    안녕하세요 상품 소개 설명란 입니다.
-                    안녕하세요 상품 소개 설명란 입니다.
-                    안녕하세요 상품 소개 설명란 입니다.
-                    안녕하세요 상품 소개 설명란 입니다.
-                    안녕하세요 상품 소개 설명란 입니다.</p>
-            </div>
-            <div class="productDetailLine">
-                <div class="row">
-                    <div class="col-xs-11">Q & A 및 구매후기</div>
-                    <div class="col-xs-1">
-                        <span class="glyphicon glyphicon-chevron-down" aria-hidden="true" id="productDetailClick0"></span>
-                    </div>
-                </div>
-                <hr>
-            </div>
-            <div id="productDetailTabBox">
-                <ul class="nav nav-tabs" id="productDetailTap">
-                    <li class="active"><a data-toggle="tab" href="#home">Q & A</a></li>
-                    <li><a data-toggle="tab" href="#menu1">구매후기</a></li>
-                </ul>
-                <div class="tab-content" id="productDetailQandAandBuyReviewBox">
-                    <div id="home" class="tab-pane fade in active productDetailQandA">
-                        <div class="productDetailQandA">
-                            <div class="col-xs-2 productDetailQandAStatus">
-                                답변완료
-                            </div>
-                            <div class="col-xs-5 productDetailQandAWriter">홍길동</div>
-                            <div class="col-xs-5 productDetailQandAWriterDate">2019.08.06</div>
-                            <div class="col-xs-10 productDetailQandAContent">Q&A내용입니다.Q&AB내용입니다.Q&A내용입니다.Q&A내용입니다.Q&A내용입니다.Q&A내용입니다.Q&A내용입니다.Q&A내용입니다.</div>
-                        </div>
-                        <div class="productDetailQandA">
-                            <div class="col-xs-2 productDetailQandAStatus">
-                                답변완료
-                            </div>
-                            <div class="col-xs-5 productDetailQandAWriter">홍길동</div>
-                            <div class="col-xs-5 productDetailQandAWriterDate">2019.08.06</div>
-                            <div class="col-xs-10 productDetailQandAContent">Q&A내용입니다.Q&A내용입니다.Q&A내용입니다.Q&A내용입니다.Q&A내용입니다.Q&A내용입니다.Q&A내용입니다.Q&A내용입니다.</div>
-                        </div>
-                        <button class="moreButton">더보기</button>
-                        <div id="productDetailQandAInputBox">
-                            <div class="col-xs-12" id="productDetailQandAInputCheckBox">
-                                <label>비밀글</label>
-                                <input type="checkbox">
-                            </div>
-                            <div class="col-xs-12 ">
-                                <input type="text" id="productDetailQandAInput">
-                                <button id="productDetailQandAInputButton">등록</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="menu1" class="tab-pane fade productDetailBuyReview">
-                        <div class="row productDetailBuyReview">
-                            <div class="col-xs-3 col-sm-3 col-md-3 productDetailBuyReviewImg"><img src="./slide1.jpg" alt="슬라이드 0"></div>
-                            <div class="col-xs-12 col-sm-12 col-md-9 productDetailBuyReviewOption">옵션내용입니다.옵션내용입니다.옵션내용입니다.옵션내용입니다.</div>
-                            <div class="col-xs-12 col-sm-12 col-md-9 productDetailBuyReviewContent">구매후기 내용입니다.구매후기 내용입니다.구매후기 내용입니다.구매후기 내용입니다.구매후기 내용입니다.구매후기 내용입니다.구매후기 내용입니다.구매후기 내용입니다.구매후기 내용입니다.구매후기 내용입니다.구매후기 내용입니다.</div>
-                            <div class="col-xs-4 col-sm-4 col-md-3 productDetailBuyReviewScore">★★★★★</div>
-                            <div class="col-xs-4 col-sm-4 col-md-3 productDetailBuyReviewWriter">홍길동</div>
-                            <div class="col-xs-4 col-sm-4 col-md-3 productDetailBuyReviewWriteDate">2019.08.07</div>
-                        </div>
-                        <div class="row productDetailBuyReview">
-                            <div class="col-xs-3 col-sm-3 col-md-3 productDetailBuyReviewImg"><img src="./slide1.jpg" alt="슬라이드 0"></div>
-                            <div class="col-xs-12 col-sm-12 col-md-9 productDetailBuyReviewOption">옵션내용입니다.옵션내용입니다.옵션내용입니다.옵션내용입니다.</div>
-                            <div class="col-xs-12 col-sm-12 col-md-9 productDetailBuyReviewContent">구매후기 내용입니다.구매후기 내용입니다.구매후기 내용입니다.구매후기 내용입니다.구매후기 내용입니다.구매후기 내용입니다.구매후기 내용입니다.구매후기 내용입니다.구매후기 내용입니다.구매후기 내용입니다.구매후기 내용입니다.</div>
-                            <div class="col-xs-4 col-sm-4 col-md-3 productDetailBuyReviewScore">★★★★★</div>
-                            <div class="col-xs-4 col-sm-4 col-md-3 productDetailBuyReviewWriter">홍길동</div>
-                            <div class="col-xs-4 col-sm-4 col-md-3 productDetailBuyReviewWriteDate">2019.08.07</div>
-                        </div>
-                        <button class="moreButton">더보기</button>
-                    </div>
-                </div>
-            </div>
-            <div class="productDetailLine">
-                <div class="row">
-                    <div class="col-xs-11">작가 정보</div>
-                    <div class="col-xs-1">
-                        <span class="glyphicon glyphicon-chevron-down" aria-hidden="true" id="productDetailClick1"></span>
-                    </div>
-                </div>
-                <hr>
-            </div>
-            <div id="productDetailArtistInfo">
-                <table class="table table-striped">
-                    <colgroup>
-                        <col width="20%">
-                        <col width="80%">
-                    </colgroup>
-                    <tr>
-                        <td>닉네임</td>
-                        <td>비트캠프</td>
-                    </tr>
-                    <tr>
-                        <td>이름</td>
-                        <td>홍길동</td>
-                    </tr>
-                    <tr>
-                        <td>주소</td>
-                        <td>서울시 종로구</td>
-                    </tr>
-                    <tr>
-                        <td>전화번호</td>
-                        <td>070-500-2929</td>
-                    </tr>
-                    <tr>
-                        <td>이메일</td>
-                        <td>bitcamp@naver.com</td>
-                    </tr>
-                </table>
-            </div>
-            <div class="productDetailLine">
-                <div class="row">
-                    <div class="col-xs-11">배송/교환/환불 규정</div>
-                    <div class="col-xs-1">
-                        <span class="glyphicon glyphicon-chevron-down" aria-hidden="true" id="productDetailClick2"></span>
-                    </div>
-                </div>
-                <hr>
-            </div>
-            <div id="productDetailRule">
-                <table class="table table-striped">
-                    <colgroup>
-                        <col width="20%">
-                        <col width="80%">
-                    </colgroup>
-                    <tr>
-                        <td>배송비</td>
-                        <td>
-                            <p>기본료 : 3000원<br>
-                                배송비 무료 조건 : 20000원<br>
-                                제주/ 도서사간 추가비용 : 3000원</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>제작/ 배송</td>
-                        <td>
-                            <p>3일 이내<br>
-                                주문 후 제작에 들어가는 작품입니다.</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>교환/ 환불</td>
-                        <td>
-                            <p>조건 확인
-                                교환/환불 전 반드시 먼저 연락을 해주셔야 합니다.<br>
+                                    단순변심에 의한 교환/환불은 택배 도착일 기준 7일이내만 가능하며, 왕복배송비(5,200원)는 고객님 부담입니다.
+                                    (보내는 택배비 2,500원/교환 or 반품 수거 택배비 2,700원)<br>
 
-                                단순변심에 의한 교환/환불은 택배 도착일 기준 7일이내만 가능하며, 왕복배송비(5,200원)는 고객님 부담입니다.
-                                (보내는 택배비 2,500원/교환 or 반품 수거 택배비 2,700원)<br>
-
-                                반품 요청기간이 지난 경우
-                                구매자의 책임 있는 사유로 상품 등이 멸실 또는 훼손된 경우
-                                포장을 개봉하였으니 포장이 훼손되어 상품가치가 현저히 상실된 경우
-                                구매자의 사용 또는 일부 소비에 의하여 상품의 가치가 현저히 감소한 경우
-                                고객주문 확인 후 상품제작에 들어가는 주문제작 상품은 반품/교환 불가능 합니다.</p>
-                        </td>
-                    </tr>
-                </table>
+                                    반품 요청기간이 지난 경우
+                                    구매자의 책임 있는 사유로 상품 등이 멸실 또는 훼손된 경우
+                                    포장을 개봉하였으니 포장이 훼손되어 상품가치가 현저히 상실된 경우
+                                    구매자의 사용 또는 일부 소비에 의하여 상품의 가치가 현저히 감소한 경우
+                                    고객주문 확인 후 상품제작에 들어가는 주문제작 상품은 반품/교환 불가능 합니다.</p>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
