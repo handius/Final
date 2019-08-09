@@ -473,6 +473,12 @@
             .container {
                 width: 100%;
                 max-width: 100%;
+                margin: 0;
+            }
+            
+            .row {
+            	width: 100%;
+            	max-width: 100%;
             }
             
             .productDetailMain {
@@ -488,6 +494,7 @@
                 background-color: white;
                 position: fixed;
                 top: 50%;
+                right: 0;
                 z-index: 9;
             }
             
@@ -538,25 +545,25 @@
             }
 
             #MobileBuyLinkButtonBox {
-            	max-width: 2000px;
+            	max-width: 100%;
             	width: 100%;
+            	right: 0;
                 display: inherit;
             }
         }
-
     </style>
     <script>
         let windowTogleValue = 0;
         let scrollTogleValue = 0;
         window.onresize = function(event) {
             let windowWidth = window.innerWidth;
-            if (windowWidth > 991 && windowTogleValue == 0) {
+            if (windowWidth > 991) {
                 $('#productDetailAside').show();
                 $('#productDetailAside').css('display', 'inline-block');
                 windowTogleValue = 1;
             }
 
-            if (windowWidth <= 991 && windowTogleValue == 1) {
+            if (windowWidth <= 991 ) {
                 $('#productDetailAside').hide();
                 windowTogleValue = 0;
             }
@@ -570,12 +577,12 @@
             let endBlockTop = $('#footer').offset().top;
             
             if(windowWidth > 991) {
-                if (endBlockTop > scrollPosition && scrollTogleValue == 0) {
+                if (endBlockTop > scrollPosition) {
                     $('#productDetailAside').css('position', 'fixed').css('top', '120px');
                     scrollTogleValue = 1;
                 }
 
-                if (endBlockTop < scrollPosition && scrollTogleValue == 1) {
+                if (endBlockTop < scrollPosition) {
                     $('#productDetailAside').css('position', 'absolute').css('top', (endBlockTop-asideHeight) + 'px');
                     scrollTogleValue = 0;
                 }
@@ -616,12 +623,18 @@
         function productDetailAsideOptionSelect() {
             let optionName = $(this).children('.productDetailAsideOptionSelectName').text().trim();
             let optionPrice = $(this).children('.productDetailAsideOptionSelectPrice').text().replace(/[^0-9]/g, '');
+            let optionStock = $(this).children('.productDetailAsideOptionSelectStock').val();
             let resultBox = $(this).parent().parent().parent().next();
-            resultBox.children('.productDetailAsideOptionName').children('.productDetailAsideOptionNameResult').val(optionName);
-            resultBox.children('.productDetailAsideOptionPrice').children('.productDetailAsideOptionPriceResult').val(optionPrice);
-            resultBox.children('.productDetailAsideOptionNumBox').children('.productDetailAsideOptionNum').val(1);
-            resultBox.show();
-            totalOptionPriceCel();
+            
+            if(optionStock > 0) {
+            	resultBox.children('.productDetailAsideOptionName').children('.productDetailAsideOptionNameResult').val(optionName);
+            	resultBox.children('.productDetailAsideOptionPrice').children('.productDetailAsideOptionPriceResult').val(optionPrice);
+          	 	let inputBox = resultBox.children('.productDetailAsideOptionNumBox').children('.productDetailAsideOptionNum');
+          		inputBox.val(1);
+          	    inputBox.attr('max', optionStock);
+          	    resultBox.show();
+           	    totalOptionPriceCel();
+            }
         }
 
         function minusButtonClick() {
@@ -746,6 +759,7 @@
                                         <span class="productDetailAsideOptionSelectPrice">
                                         	<c:out value="${optionList.option_price }"></c:out>
                                         </span>
+                                        <input type="hidden" value="${optionList.option_stock }" class="productDetailAsideOptionSelectStock" readonly>
                                     </a>
                                 </li>
                             </c:forEach>
@@ -759,7 +773,7 @@
                             <hr class="productDetailAsideOptionResultBoxInnerHr">
                             <div class="col-xs-6 productDetailAsideOptionNumBox">
                                 <input type="button" value="-" class="numButton minusButton">
-                                <input type="number" name="productOptionNum" class="productDetailAsideOptionNum" value="0" max="10" min="1" readonly>
+                                <input type="number" name="productOptionNum" class="productDetailAsideOptionNum" value="0" max="1" min="1" readonly>
                                 <input type="button" value="+" class="numButton plusButton">
                             </div>
                             <div class="col-xs-6 productDetailAsideOptionPrice">
