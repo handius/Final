@@ -13,7 +13,7 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 @Configuration
-@MapperScan(basePackages = {"com.bitcamp.mapper"})
+@MapperScan(basePackages = { "com.bitcamp.mapper" })
 public class DBConfigration {
 	@Bean(destroyMethod = "close")
 	public HikariDataSource dbconf() {
@@ -24,25 +24,25 @@ public class DBConfigration {
 		hikari.setPassword("hr");
 		return new HikariDataSource(hikari);
 	}
-	
+
 	@Bean
 	public SqlSessionFactory sqlSessionFactory() throws Exception {
 		SqlSessionFactoryBean factory = new SqlSessionFactoryBean();
 		PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
 		HikariDataSource ds2 = dbconf();
-		factory.setDataSource(ds2); 
+		factory.setDataSource(ds2);
 		factory.setMapperLocations(resolver.getResources("classpath:mapper/*.xml"));
 		return factory.getObject();
 	}
-	
+
 	@Bean
-	public SqlSessionTemplate sqlsessionTemplate() throws Exception {                           
+	public SqlSessionTemplate sqlsessionTemplate() throws Exception {
 		SqlSessionFactory sqlSessionFactory = sqlSessionFactory();
 		SqlSessionTemplate sqlsession = new SqlSessionTemplate(sqlSessionFactory);
 		return sqlsession;
 	}
-	
-	@Bean(name="transactionManager")
+
+	@Bean(name = "transactionManager")
 	public DataSourceTransactionManager transactionManager() {
 		DataSourceTransactionManager manager = new DataSourceTransactionManager();
 		manager.setDataSource(dbconf());
