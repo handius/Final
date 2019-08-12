@@ -136,10 +136,10 @@
                   <tr>
                       <td><c:out value="${status.count }"/></td>
                       <td><c:out value="수정필요"/></td>
-                      <td><c:out value="${i.user_name }"/></td>
+                      <td><c:out value="${i.user_name }"/> :: <c:out value="${i.user_status }"/></td>
                       <td><c:out value="${i.user_id }"/></td>
                       <td><c:out value="${i.user_regidate }"/></td>
-                      <td><button class="btn btn-default btn-xs">관리</button></td>
+                      <td><button class="btn btn-default btn-xs gomemberdetail" value="${i.member_no }">관리</button></td>
                   </tr>
                 </c:forEach>
               </tbody>
@@ -175,7 +175,9 @@
 		  </div>
         </div>
 <script>
-
+	$('.gomemberdetail').on('click', function() {
+		location.href="/admin/memberdetail/" + $(this).val();
+	});
 </script>
 </body>
 </html>
