@@ -169,4 +169,18 @@ public class AdminController {
 		model.addAttribute("admin_category", "operate");
 		return "redirect:/admin/qna";
 	}
+	
+	@RequestMapping("/admin/answercontentupdate/{questionno}")
+	public String answercontent(@RequestParam String answer_content,
+								 @PathVariable int questionno,
+								 Model model) {
+		HashMap<String, Object> update_map = new HashMap<>();
+		update_map.put("answer_content", answer_content);
+		update_map.put("question_no", questionno);
+		int result = adservice.updateAnswerContent(update_map);
+		
+		model.addAttribute("result", result);
+		model.addAttribute("admin_category", "operate");
+		return "redirect:/admin/answer/" + questionno;
+	}
 }
