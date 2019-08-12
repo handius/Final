@@ -3,6 +3,8 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bitcamp.mapper.AdminMapper">
+
+	<!-- member -->
 	<select id="getMemberCount" parameterType="Object" resultType="int">
 		SELECT COUNT(*)
 		FROM MEMBER
@@ -38,20 +40,76 @@
 		FROM MEMBER
 		WHERE MEMBER_NO = #{memberno}
 	</select>
+	
+	<!-- qna -->
 	<update id="updateMemberStatus" parameterType="int">
 		UPDATE MEMBER
 		SET USER_STATUS = 0
 		WHERE MEMBER_NO = #{memberno}
 	</update>
+	<select id="getQuestionCount" parameterType="Object" resultType="int">
+		SELECT COUNT(*)
+		FROM CUSTOMER_QA_BOARD
+		<where><include refid="qna_search"></include></where>
+	</select>
+	<select id="getQuestionList" parameterType="Object"
+							     resultType="com.bitcamp.DTO.customerqaboard.CustomerQABoardDTO">
+		SELECT A.RNUM, A.*
+		FROM (
+				SELECT QUESTION_NO, Q.MEMBER_NO, QUESTION_TITLE,
+					   QUESTION_CONTENT, QUESTION_DATE, ANSWER_CONTENT,
+					   ANSWER_STATUS, QUESTION_DELETE_STATUS, QUESTION_TYPE,
+					   M.USER_NAME, ROWNUM AS RNUM
+				FROM CUSTOMER_QA_BOARD Q JOIN MEMBER M
+					 ON Q.MEMBER_NO = M.MEMBER_NO
+		        <where>
+		        <![CDATA[
+				ROWNUM <= #{endrow}
+		        ]]>
+		        	<include refid="qna_search"></include>
+		        </where>
+		     ) A
+		<![CDATA[
+		WHERE A.RNUM >= #{startrow} 
+		]]>
+	</select>
+	<select id="getQnADetail" parameterType="int"
+							  resultType="com.bitcamp.DTO.customerqaboard.CustomerQABoardDTO">
+		SELECT QUESTION_NO, Q.MEMBER_NO, QUESTION_TITLE,
+			   QUESTION_CONTENT, QUESTION_DATE, ANSWER_CONTENT,
+			   ANSWER_STATUS, QUESTION_DELETE_STATUS, QUESTION_TYPE,
+			   M.USER_NAME
+		FROM CUSTOMER_QA_BOARD Q JOIN MEMBER M
+			 ON Q.MEMBER_NO = M.MEMBER_NO
+		WHERE QUESTION_NO = #{questionno}
+	</select>
+	<update id="deleteQuestion" parameterType="int">
+		UPDATE CUSTOMER_QA_BOARD
+		SET QUESTION_DELETE_STATUS = 0
+		WHERE QUESTION_NO = #{questionno}
+	</update>
 	
+	<!-- search -->
   	<sql id="search_where">
-		<choose>
-			<when test="user_name != null">
-				AND USER_NAME LIKE '%' || #{user_name} || '%'
-			</when>
-			<when test="search_date != '0-0'">
-				AND TO_CHAR(USER_REGIDATE, 'yyyy-MM') = #{search_date}
-			</when>
-		</choose>
+		<if test="user_name != null">
+			AND USER_NAME LIKE '%' || #{user_name} || '%'
+		</if>
+		<if test="search_date != '0-0'">
+			AND TO_CHAR(USER_REGIDATE, 'yyyy-MM') = #{search_date}
+		</if>
+  	</sql>
+  	<sql id="qna_search">
+		<if test="question_title != null and question_title != ''">
+			AND QUESTION_TITLE LIKE '%' || #{question_title} || '%'
+		</if>
+		<if test="question_type != null and question_type != ''">
+			AND QUESTION_TYPE = #{question_type}
+		</if>
+		<if test="search_date != null and search_date != '0-0'">
+			AND TO_CHAR(QUESTION_DATE, 'yyyy-MM') = #{search_date}
+		</if>
+		<if test="answer_status != null and answer_status != ''">
+			AND ANSWER_STATUS = #{answer_status}
+		</if>
   	</sql>
 </mapper>

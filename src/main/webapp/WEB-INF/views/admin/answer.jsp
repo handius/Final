@@ -23,15 +23,6 @@
     body {
         background-color: #F0E5DE;
     }
-    .admin_content_wrap {
-        background-color: white;
-        border: 1px solid #D9D4CF;
-        border-radius: 5px;
-        width: 1620px;
-        padding: 20px 30px;
-        margin-top: 8px;
-        margin-left: 270px;
-    }
     .memberdetailtable tr td.td_one {
         width: 10%;
         text-align: center;
@@ -70,41 +61,59 @@
               <tbody class="memberdetailtable">
                   <tr>
                       <td class="td_one">제목</td>
-                      <td class="td_two">이샛기가 돈먹고 튀었어요 잡아주세여!!!!</td>
+                      <td class="td_two"><c:out value="${dto.question_title }"/></td>
                       <td class="td_one">작성자</td>
-                      <td class="td_two">dyttl0</td>
+                      <td class="td_two"><c:out value="${dto.user_name }"/></td>
                   </tr>
                   <tr>
                       <td class="td_one">작성일</td>
-                      <td class="td_two">2019.08.07 17:16:32</td>
+                      <td class="td_two"><c:out value="${dto.question_date }"/></td>
                       <td class="td_one">답변상태</td>
-                      <td class="td_two">대기</td>
+                      <td class="td_two"><c:out value="${dto.answer_status }"/></td>
                   </tr>
                   <tr>
                     <td class="td_three" colspan="4">
-                        버튼에 의미를 추가하기 위해 색을 사용하는 것은 시각적인 표시만 제공할 뿐입니다.<br>
-                        그것은 스크린리더같은 보조 공학의 사용자들에게는 전달되지 않을 것입니다.<br>
-                        색에 의한 정보를 콘텐츠 자체에도 나타낼 수 있도록 하세요.
-                        그리고 .sr-only 로 텍스트를 숨길수도 있습니다.
+                        <c:out value="${dto.question_content }"/>
                     </td>
                   </tr>
               </tbody>
             </table>
             <form>
+              <c:if test="${dto.answer_status == '답변 대기' }">
                 <textarea id="summernote" class="form-control answerbtn">
                 
                 </textarea>
+              </c:if>
+              <c:if test="${dto.answer_status == '완료' }">
+              	<c:out value="${dto.answer_content }"/>
+              </c:if>
                 <div class="form-group row">
-                    <div class="col-sm-1 col-sm-offset-10">
-                        <input type="button" class="btn btn-default btn-block answerpadding" value="문의삭제">
+                	<div class="col-sm-2">
+                        <input type="button" class="btn btn-default btn-block answerpadding gobackqlist_btn" value="리스트로">
+                	</div>
+                    <div class="col-sm-2 col-sm-offset-6">
+                        <button class="btn btn-default btn-block answerpadding delete_question_btn" value="${dto.question_no }">문의삭제</button>
                     </div>
-                    <div class="col-sm-1">
+                    <div class="col-sm-2">
                         <input type="submit" class="btn btn-default btn-block answerpadding" value="답변등록">
                     </div>
                 </div>
             </form>
         </div>
 <script>
+$('.gobackqlist_btn').click(function() {
+	location.href = "/admin/qna";
+	return false;
+});
+$('.delete_question_btn').click(function() {
+ 	var result = confirm('정말 삭제하시겠습니까?');
+	if (result) { 
+		location.href = "/admin/deletequestion/" + $(this).val();
+	} else {
+		
+	}
+	return false;
+});
       $('#summernote').summernote({
         height: 300
       });

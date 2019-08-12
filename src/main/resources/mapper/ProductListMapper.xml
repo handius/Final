@@ -191,4 +191,8 @@
 		select nvl(max(list_order_member_no),0)
 		from list_order_member_board
 	</select>
+	<select id="getSearchText" resultType="com.bitcamp.DTO.Product.searchTextDTO">
+		select filter_data, today_data, oweek_ago_data, tweek_ago_data, thweek_ago_data, renewal_time, search_text
+		from data_analysis_board
+	</select>
 </mapper>

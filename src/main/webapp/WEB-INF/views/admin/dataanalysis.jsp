@@ -14,27 +14,56 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
-      google.charts.load('current', {'packages':['corechart']});
-      google.charts.setOnLoadCallback(drawChart);
+	$(function(){
+		var dataarray = [['Year', '통합', '10대', '20대', '30대', '여성', '남성']];
+		var today = ["오 늘"];
+		var oweek = ["지난 주"];
+		var tweek = ["2주 전"];
+		var thweek = ["3주 전"];
+		var searchText = "";
+		$.ajax({
+			url:"/getsearchTextData"
+			, type:"GET"
+			, dataType:"json"
+			, success:function(data){
+				$.each(data, function(index, value){
+					console.log(value);
+					console.log("index : " + index);
+					today.push(value.today_data);
+					$('td').eq(4*index).text(value.today_data);
+					oweek.push(value.oweek_ago_data);
+					$('td').eq(4*index+1).text(value.oweek_ago_data);
+					tweek.push(value.tweek_ago_data);
+					$('td').eq(4*index+2).text(value.tweek_ago_data);
+					thweek.push(value.thweek_ago_data);
+					$('td').eq(4*index+3).text(value.thweek_ago_data);
+					searchText = value.search_text;
+				});	
+				dataarray.push(today);
+				dataarray.push(oweek);
+				dataarray.push(tweek);
+				dataarray.push(thweek);
+			}
+		});
+		
+		 google.charts.load('current', {'packages':['corechart']});
+	      google.charts.setOnLoadCallback(drawChart);
 
-      function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-          ['Year', '통합', '10대', '20대', '30대', '여성', '남성'],
-          ['2004',  100,    100,      80,     40,    50,    20],
-          ['2005',  20,      70,      100,     20,    70,    30],
-          ['2006',  40,      60,       90,     100,   80,    90],
-          ['2007',  80,      30,      40,       30,   100,   100]
-        ]);
+	      function drawChart() {
+	        var data = google.visualization.arrayToDataTable(dataarray);
 
-        var options = {
-          title: '검색어 분석 차트',
-          legend: { position: 'right' }
-        };
+	        var options = {
+	          title: searchText,
+	          legend: { position: 'right' }
+	        };
 
-        var chart = new google.visualization.LineChart(document.getElementById('data_chart'));
+	        var chart = new google.visualization.LineChart(document.getElementById('data_chart'));
 
-        chart.draw(data, options);
-      }
+	        chart.draw(data, options);
+	      } 
+	})
+      
+      
 </script>
 <title>Insert title here</title>
 <style>
@@ -51,7 +80,7 @@
 		<div class="row">
 			<div class="col-md-6">
 				<h2>검색어 분석</h2>
-				<span>현재 검색어 : </span><span class="value">핸드 메이드</span>
+				<span>등록된 검색어 : </span><span class="value">핸드 메이드</span>
 			</div>
 			<div class="col-md-offset-3 col-md-3">
 				<form class="form-inline" role="form" method="post">
