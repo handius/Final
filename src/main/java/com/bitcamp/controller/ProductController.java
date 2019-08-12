@@ -187,7 +187,7 @@ public class ProductController {
 				}catch(Exception e) {
 					System.out.println(e.getMessage());
 				}
-				String image = "/controller/resources/image/fimage/" + uuid + multipartFile.getOriginalFilename();
+				String image = "/resources/image/fimage/" + uuid + multipartFile.getOriginalFilename();
 				queue.offer(image);
 			}
 		}
@@ -231,5 +231,11 @@ public class ProductController {
 		System.out.println(list_order_member_no);
 		session.setAttribute("list_order_member_no", list_order_member_no);
 		return "redirect:/productDetail/"+list_no;
+	}
+	
+	@RequestMapping(value="/admin/searchText", method= {RequestMethod.POST, RequestMethod.GET})
+	public String searchText(Model model) {
+		model.addAttribute("admin_category", "anal");
+		return "admin/dataanalysis.admin";
 	}
 }
