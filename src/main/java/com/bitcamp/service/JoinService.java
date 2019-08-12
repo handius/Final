@@ -17,10 +17,10 @@ import lombok.Setter;
 public class JoinService {
 
 	@Autowired
-	JoinMapper joinMapper;
+	private JoinMapper joinMapper;
 
 	@Autowired
-	MemberMapper member;
+	private	MemberMapper member;
 
 	@Autowired
 	private JavaMailSender mailSender;

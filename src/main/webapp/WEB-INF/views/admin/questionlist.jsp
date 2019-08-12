@@ -21,15 +21,6 @@
     body {
         background-color: #F0E5DE;
     }
-    .admin_content_wrap {
-        background-color: white;
-        border: 1px solid #D9D4CF;
-        border-radius: 5px;
-        width: 1620px;
-        padding: 20px 30px;
-        margin-top: 8px;
-        margin-left: 270px;
-    }
     .member_search_btn {
         padding: 20px 0 0;
         margin: 0;
@@ -65,35 +56,37 @@
 <body>
         <h2>Question & Answer</h2>
         <div class="admin_content">
-            <form class="form-horizontal" action="" method="post">
+            <form class="form-horizontal" action="/admin/qna" method="post">
               <div class="form-group">
-                <label class="col-sm-1 control-label" for="id1">제목</label>
+                <label class="col-sm-1 control-label" for="question_title">제목</label>
                 <div class="col-sm-2">
-                    <input class="form-control" type="text" name="" id="id1" placeholder="이름을 입력하세요.">
+                    <input class="form-control" type="text" name="question_title" id="question_title" placeholder="제목을 입력하세요.">
                 </div>
-                <label class="col-sm-1 control-label" for="id2">질문유형</label>
+                <label class="col-sm-1 control-label" for="question_type">질문유형</label>
                 <div class="col-sm-3">
                     <label class="radio-inline">
-                        <input type="radio" name="name" id="id2" value="1" checked>제품 문의
+                        <input type="radio" name="question_type" id="question_type" value="제품 문의">제품 문의
                     </label>
                     <label class="radio-inline">
-                        <input type="radio" name="name" id="id2" value="2">작가 문의
+                        <input type="radio" name="question_type" id="question_type" value="작가 문의">작가 문의
                     </label>
                     <label class="radio-inline">
-                        <input type="radio" name="name" id="id2" value="3">신고
+                        <input type="radio" name="question_type" id="question_type" value="신고">신고
                     </label>
                 </div>
               </div>
               <div class="form-group">
-                <label class="col-sm-1 control-label" for="id3">작성일</label>
+                <label class="col-sm-1 control-label" for="search_date">작성일</label>
                 <div class="col-sm-1">
-                    <select class="form-control" name="" id="id3">
+                    <select class="form-control search_date_year" name="search_date_year" id="search_date">
+                        <option value="0">Year</option>
                         <option value="2019">2019년</option>
                         <option value="2018">2018년</option>
                     </select>
                 </div>
                 <div class="col-sm-1">
-                    <select class="form-control" name="" id="id3">
+                    <select class="form-control search_date_month" name="search_date_month" id="search_date">
+                        <option value="0">Month</option>
                         <option value="01">01월</option>
                         <option value="02">02월</option>
                         <option value="03">03월</option>
@@ -108,17 +101,18 @@
                         <option value="12">12월</option>
                     </select>
                 </div>
-                <label class="col-sm-1 control-label" for="id4">답변 상태</label>
+                <label class="col-sm-1 control-label" for="answer_status">답변 상태</label>
                 <div class="col-sm-2">
-                    <select class="form-control" name="" id="id4">
-                        <option value="2019">답변 대기</option>
-                        <option value="2018">완료</option>
+                    <select class="form-control" name="answer_status" id="answer_status">
+                        <option value="">Status</option>
+                        <option value="답변 대기">답변 대기</option>
+                        <option value="완료">완료</option>
                     </select>
                 </div>
               </div>
               <div class="form-group member_search_btn">
                  <div class="col-sm-1 col-sm-offset-1">
-                   <input class="btn btn-default btn-block" type="submit" value="검색">
+                   <input class="btn btn-default btn-block q_search_btn" type="submit" value="검색">
                  </div>
               </div>
             </form>
@@ -137,35 +131,35 @@
                   </tr>
               </thead>
               <tbody>
+                <c:forEach var="i" items="${list }" varStatus="status">
                   <tr>
                       <td class="qna_td_one"><input type="checkbox"></td>
-                      <td>1</td>
-                      <td>이샛기가 돈먹고 튀었어요 잡아주세여!!!!</td>
-                      <td>dyttl0</td>
-                      <td>2019.08.07 17:16:32</td>
-                      <td>완료</td>
+                      <td><c:out value="${status.count }"/></td>
+                      <td><a href="/admin/answer/${i.question_no }"><c:out value="${i.question_title }"/></a> :: <c:out value="${i.question_delete_status }"/></td>
+                      <td><c:out value="${i.user_name }"/></td>
+                      <td><c:out value="${i.question_date }"/></td>
+                      <td><c:out value="${i.answer_status }"/></td>
                   </tr>
-                  <tr>
-                      <td class="qna_td_one"><input type="checkbox"></td>
-                      <td>2</td>
-                      <td>작가 시켜주세요 돈 벌고 싶어요</td>
-                      <td>rjwltoRl</td>
-                      <td>2019.08.11 13:22:51</td>
-                      <td>답변 대기</td>
-                  </tr>
-                  <tr>
-                      <td class="qna_td_one"><input type="checkbox"></td>
-                      <td>3</td>
-                      <td>아 졸려</td>
-                      <td>IamIronman</td>
-                      <td>2019.08.25 01:03:45</td>
-                      <td>답변 대기</td>
-                  </tr>
+                </c:forEach>
               </tbody>
             </table>
+        <div class="row">
+        	<div class="col-sm-1">
+        		<button class="btn btn-default btn-block">삭제</button>
+        	</div>
+        </div>
         </div>
 <script>
-
+	$('.q_search_btn').click(function() {
+		if ($('.search_date_year').val() != 0 && $('.search_date_month').val() == 0) {
+			alert('검색할 달을 선택해주세요.');
+			$('.search_date_year').val(0);
+		}
+		if ($('.search_date_month').val() != 0 && $('.search_date_year').val() == 0) {
+			alert('검색할 연도를 선택해주세요');
+			$('.search_date_month').val(0);
+		}
+	});
 </script>
 </body>
 </html>
