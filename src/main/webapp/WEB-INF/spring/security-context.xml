@@ -19,7 +19,7 @@
 		<form-login login-page="/login/loginform"
 			default-target-url="/login/loginResult"
 			authentication-failure-forward-url="/login?error" />
-		<logout logout-success-url="/login/loginResult" />
+		<logout logout-success-url="/logout" />
 		<access-denied-handler
 			error-page="/access_denied_page" />
 	</http>

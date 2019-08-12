@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.bitcamp.DTO.Product.ListDTO;
 import com.bitcamp.DTO.Product.OrderOptionDTO;
 import com.bitcamp.DTO.Product.OrderValueDTO;
+import com.bitcamp.DTO.Product.searchTextDTO;
 import com.bitcamp.DTO.comm.PageDTO;
 import com.bitcamp.VO.file.FileVO;
 import com.bitcamp.service.ProductService;
@@ -237,5 +238,12 @@ public class ProductController {
 	public String searchText(Model model) {
 		model.addAttribute("admin_category", "anal");
 		return "admin/dataanalysis.admin";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="getsearchTextData", method= {RequestMethod.POST, RequestMethod.GET})
+	public List<searchTextDTO> searchData() {
+		List<searchTextDTO> datas = service.getSearchTextService();
+		return datas;
 	}
 }

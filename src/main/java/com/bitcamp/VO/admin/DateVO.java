@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter @Setter
 public class DateVO {
-	private int search_date_year;
-	private int search_date_month;
-	private int search_date_day;
+	private String search_date_year;
+	private String search_date_month;
+	private String search_date_day;
 }

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bitcamp.mapper.FreeboardMapper">
+	<!-- <resultMap type="com.bitcamp.DTO.freeboard.FreeboardDTO"
+		id="freeboardMap">
+		<result property="freeboard_no" column="freeboard_no"></result>
+		<result property="freeboard_title" column="freeboard_title"></result>
+		<result property="freeboard_content" column="freeboard_content"></result>
+		<result property="freeboard_regiTime"
+			column="freeboard_regitime"></result>
+		<result property="freeboard_hits" column="freeboard_hits"></result>
+		<result property="freeboard_status" column="freeboard_status"></result>
+		<result property="freeboard_category"
+			column="freeboard_category"></result>
+		<result property="member_no" column="member_no"></result>
+	</resultMap> -->
+
+	<insert id="insertData" parameterType="com.bitcamp.DTO.freeboard.FreeboardDTO">
+		insert into freeboard
+		values(freeboard_seq.nextval, #{freeboard_title},
+		#{freeboard_content}, sysdate, 0, 1, 'temp', #{member_no})
+	</insert>
+
+
+</mapper>

@@ -16,6 +16,7 @@ import com.bitcamp.DTO.Product.ListDTO;
 import com.bitcamp.DTO.Product.OptionDTO;
 import com.bitcamp.DTO.Product.OrderOptionDTO;
 import com.bitcamp.DTO.Product.OrderValueDTO;
+import com.bitcamp.DTO.Product.searchTextDTO;
 import com.bitcamp.DTO.comm.PageDTO;
 import com.bitcamp.mapper.ProductListMapper;
 
@@ -235,5 +236,11 @@ public class ProductService {
 			}
 		}
 		return list_order_nos;
+	}
+
+	public List<searchTextDTO> getSearchTextService() {
+		// TODO Auto-generated method stub
+		List<searchTextDTO> datas = mapper.getSearchText();
+		return datas;
 	}
 }
