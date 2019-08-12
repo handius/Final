@@ -27,4 +27,5 @@ public interface ProductListMapper {
 	public List<OrderOptionDTO> getOrderOptionList(int no);
 	public Integer getListOrderMember();
 	public List<searchTextDTO> getSearchText();
+	public int insertSearcher(String searchData);
 }

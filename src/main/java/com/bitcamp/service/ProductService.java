@@ -243,4 +243,9 @@ public class ProductService {
 		List<searchTextDTO> datas = mapper.getSearchText();
 		return datas;
 	}
+
+	public int insertSearcherService(String searchData) {
+		// TODO Auto-generated method stub
+		return mapper.insertSearcher(searchData);
+	}
 }

@@ -14,6 +14,25 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
+	$(document).on('click', '#provSearcher', function(){
+		var searchData = $('#search').val();
+		$('#value').text(searchData);
+		console.log(searchData);
+		$.ajax({
+			url:"/insertSearcher?searchData="+searchData
+			, type:"GET"
+			, dataType:"int"
+			, success:function(data){
+				if(data != 0){
+					console.log("등록 성공!");
+				}else{
+					console.log("등록 실패!");
+				}
+				
+			}
+		});
+	})
+	
 	$(function(){
 		var dataarray = [['Year', '통합', '10대', '20대', '30대', '여성', '남성']];
 		var today = ["오 늘"];
@@ -21,11 +40,14 @@
 		var tweek = ["2주 전"];
 		var thweek = ["3주 전"];
 		var searchText = "";
+		var renewal_time = "";
+		var nowText = "";
 		$.ajax({
 			url:"/getsearchTextData"
 			, type:"GET"
 			, dataType:"json"
 			, success:function(data){
+				
 				$.each(data, function(index, value){
 					console.log(value);
 					console.log("index : " + index);
@@ -38,29 +60,33 @@
 					thweek.push(value.thweek_ago_data);
 					$('td').eq(4*index+3).text(value.thweek_ago_data);
 					searchText = value.search_text;
+					renewal_time = value.renewal_time;
+					nowText = value.now_text;
 				});	
 				dataarray.push(today);
 				dataarray.push(oweek);
 				dataarray.push(tweek);
 				dataarray.push(thweek);
+				
+				function drawChart() {
+			        var data = google.visualization.arrayToDataTable(dataarray);
+
+			        var options = {
+			          title: "갱신 시간 : " + renewal_time + " 검색된 데이터 : " + nowText,
+			          legend: { position: 'right' }
+			        };
+
+			        var chart = new google.visualization.LineChart(document.getElementById('data_chart'));
+
+			        chart.draw(data, options);
+				} 
+				google.charts.load('current', {'packages':['corechart']});
+			    google.charts.setOnLoadCallback(drawChart); 
+			    $('#value').text(searchText);
+			    
 			}
 		});
-		
-		 google.charts.load('current', {'packages':['corechart']});
-	      google.charts.setOnLoadCallback(drawChart);
-
-	      function drawChart() {
-	        var data = google.visualization.arrayToDataTable(dataarray);
-
-	        var options = {
-	          title: searchText,
-	          legend: { position: 'right' }
-	        };
-
-	        var chart = new google.visualization.LineChart(document.getElementById('data_chart'));
-
-	        chart.draw(data, options);
-	      } 
+		 
 	})
       
       
@@ -80,13 +106,13 @@
 		<div class="row">
 			<div class="col-md-6">
 				<h2>검색어 분석</h2>
-				<span>등록된 검색어 : </span><span class="value">핸드 메이드</span>
+				<span>등록된 검색어 : </span><span id="value"></span>
 			</div>
 			<div class="col-md-offset-3 col-md-3">
 				<form class="form-inline" role="form" method="post">
 					<div class="form-group">
 						<input type="text" name="search" class="form-control" id="search" placeholder="검색어 등록">
-						<input type="button" class="btn btn-default" value="등록">
+						<input type="button" id="provSearcher" class="btn btn-default" value="등록">
 					</div>
 				</form>
 			</div>
