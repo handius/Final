@@ -555,6 +555,7 @@
     <script>
         var productDetailAsideOptionSelectArr = new Array();
         
+        //창 크기가 줄어들었을때 모바일 창을 작동
         window.onresize = function(event) {
             let windowWidth = window.innerWidth;
             if (windowWidth > 991) {
@@ -566,7 +567,8 @@
                 $('#productDetailAside').hide();
             }
         };
-
+		
+        //스크롤이 푸터영역에 다다르면 사이드창을 고정시킴
         $(window).scroll(function() {
             let windowHeight = window.innerHeight;
             let windowWidth = window.innerWidth;
@@ -584,6 +586,33 @@
                 }
             }
         });
+        
+        //Q & A 입력하기
+        $(document).ready(function(){
+    		$('#productDetailQandAInputButton').on('click',function(event){
+    			event.preventDefault();
+    			var content = document.getElementById("productDetailQandAInput").value;
+    			var secret = document.getElementById("productDetailQandASecretCheckBox").checked;
+    			var list_no = document.getElementById("list_no").value;
+    			console.log(content);
+    			console.log(secret);
+    			$.ajax({
+    				url:"/ajaxqaboardinsert"
+    				,contentType: 'application/json; charset=utf-8'
+    				,data: JSON.stringify({qa_content:content, qa_secret:secret, list_no:list_no})
+    				,type: "post"
+    				,success:function(data){
+    					console.log('성공');
+    					$('#productDetailQandAInput').val('');
+    					alert('등록되었습니다.');
+    				}
+    				,error:function(data){
+    					console.log('실패');
+    					$('#productDetailQandAInput').val('');
+    				}
+    			});
+    		});
+    	});
         
         $(document).on('click', '.minusButton', minusButtonClick);
         $(document).on('click', '.plusButton', plusButtonClick);
@@ -726,6 +755,7 @@
 </head>
 
 <body>
+<input type="hidden" value="${listDTO.list_no }" id="list_no" readonly="readonly">
     <div class="container">
         <div class="row">
             <div class="col-md-8 productDetailMain">
@@ -840,32 +870,26 @@
                     </ul>
                     <div class="tab-content" id="productDetailQandAandBuyReviewBox">
                         <div id="home" class="tab-pane fade in active productDetailQandA">
-                            <div class="productDetailQandA">
-                                <div class="col-xs-2 productDetailQandAStatus">
-                              		      답변완료
-                                </div>
-                                <div class="col-xs-5 productDetailQandAWriter">홍길동</div>
-                                <div class="col-xs-5 productDetailQandAWriterDate">2019.08.06</div>
-                                <div class="col-xs-10 productDetailQandAContent">Q&A내용입니다.Q&AB내용입니다.Q&A내용입니다.Q&A내용입니다.Q&A내용입니다.Q&A내용입니다.Q&A내용입니다.Q&A내용입니다.</div>
-                            </div>
-                            <div class="productDetailQandA">
-                                <div class="col-xs-2 productDetailQandAStatus">
-                                		    답변완료
-                                </div>
-                                <div class="col-xs-5 productDetailQandAWriter">홍길동</div>
-                                <div class="col-xs-5 productDetailQandAWriterDate">2019.08.06</div>
-                                <div class="col-xs-10 productDetailQandAContent">Q&A내용입니다.Q&A내용입니다.Q&A내용입니다.Q&A내용입니다.Q&A내용입니다.Q&A내용입니다.Q&A내용입니다.Q&A내용입니다.</div>
-                            </div>
+                        	<c:forEach var="qaBoardList" items="${qaBoardList }">
+                        		<div class="productDetailQandA">
+                                	<div class="col-xs-2 productDetailQandAStatus">${qaBoardList.qa_board_status }</div>
+                                	<div class="col-xs-5 productDetailQandAWriter">${qaBoardList.user_name }</div>
+                                	<div class="col-xs-5 productDetailQandAWriterDate">${qaBoardList.qa_board_date }</div>
+                                	<div class="col-xs-10 productDetailQandAContent">${qaBoardList.qa_board_content }</div>
+                            	</div>
+                            </c:forEach>
                             <button class="moreButton">더보기</button>
                             <div id="productDetailQandAInputBox">
-                                <div class="col-xs-12" id="productDetailQandAInputCheckBox">
-                                    <label>비밀글</label>
-                                    <input type="checkbox">
-                                </div>
-                                <div class="col-xs-12 ">
-                                    <input type="text" id="productDetailQandAInput">
-                                    <button id="productDetailQandAInputButton">등록</button>
-                                </div>
+                            	<form>
+                               		<div class="col-xs-12" id="productDetailQandAInputCheckBox">
+                                    	<label>비밀글</label>
+                                    	<input type="checkbox" id="productDetailQandASecretCheckBox">
+                                	</div>
+                                	<div class="col-xs-12 ">
+                                    	<input type="text" id="productDetailQandAInput">
+                                    	<button type="button" id="productDetailQandAInputButton">등록</button>
+                               		</div>
+                               	</form>
                             </div>
                         </div>
                         <div id="menu1" class="tab-pane fade productDetailBuyReview">

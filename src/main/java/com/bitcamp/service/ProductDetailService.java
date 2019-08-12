@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bitcamp.DTO.Product.OptionDTO;
+import com.bitcamp.DTO.productdetail.QABoardDTO;
 import com.bitcamp.mapper.ProductDetailMapper;
 
 @Service("productDetailService")
@@ -29,10 +30,27 @@ public class ProductDetailService {
 			}
 		}
 		
+		QABoardDTO qadto = new QABoardDTO();
+		qadto.setStart_sql(1);
+		qadto.setEnd_sql(5);
+		qadto.setList_no(list_no);
+		List<QABoardDTO> qalist = mapper.productDetailQandAList(qadto);
+		
+		//비밀글 항목이1 일때 내용만 비밀글 처리
+		for(int i=0; i<qalist.size(); i++) {
+			if(qalist.get(i).getQa_board_secret() == 1) {
+				qalist.get(i).setQa_board_content("비밀글 입니다.");
+			}
+		}
+		
 		map.put("productDetail", mapper.productDetailGet(list_no));
 		map.put("productDetailImg", mapper.productDetailImgGet(list_no));
-		map.put("productDetailOption", optionList);
-		
+		map.put("productDetailOption", mapper.productDetailOptionGet(list_no));
+		map.put("productDetailQABoardList", qalist);
 		return map;
+	}
+	
+	public void productDetailQandAInsertService(QABoardDTO dto) {
+		mapper.productDetailQandAInsert(dto);
 	}
 }
