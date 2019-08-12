@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bitcamp.mapper.AdminMapper">
+	<select id="getMemberCount" parameterType="Object" resultType="int">
+		SELECT COUNT(*)
+		FROM MEMBER
+		<where><include refid="search_where"></include></where>
+	</select>
+	<select id="getMemberList" parameterType="Object"
+							   resultType="com.bitcamp.DTO.member.MemberDTO">
+		SELECT A.RNUM, A.*
+		FROM (
+				SELECT MEMBER_NO, USER_ID, USER_PASSWORD,
+					   USER_NAME, USER_NICK, USER_EMAIL,
+					   USER_ADDRESS, USER_REGIDATE, USER_STATUS,
+					   USER_CALL, USER_CERTKEY, USER_CERTSTATUS,
+					   USER_FLATFORM, ROWNUM AS RNUM
+				FROM MEMBER
+		        <where>
+		        <![CDATA[
+				ROWNUM <= #{endrow}
+		        ]]>
+		        	<include refid="search_where"></include>
+		        </where>
+		     ) A
+		<![CDATA[
+		WHERE A.RNUM >= #{startrow} 
+		]]>
+	</select>
+	
+  	<sql id="search_where">
+		<choose>
+			<when test="user_name != null">
+				AND USER_NAME LIKE '%' || #{user_name} || '%'
+			</when>
+			<when test="search_date != '0-0'">
+				AND TO_CHAR(USER_REGIDATE, 'yyyy-MM') = #{search_date}
+			</when>
+		</choose>
+  	</sql>
+</mapper>
