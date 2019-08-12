@@ -1,7 +1,5 @@
 package com.bitcamp.controller;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -9,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -77,10 +76,21 @@ public class AdminController {
 		return "admin/memberlist.admin";
 	}
 	
-	@RequestMapping("/admin/memberdetail")
-	public String memberdetail(Model model) {
+	@RequestMapping("/admin/memberdetail/{memberno}")
+	public String memberdetail(@PathVariable int memberno ,Model model) {
+		
+		MemberDTO memberdetail = adservice.getMemberDetail(memberno);
+		
+		model.addAttribute("detail", memberdetail);
 		model.addAttribute("admin_category", "member");
 		return "admin/memberdetail.admin";
+	}
+	
+	@RequestMapping("/admin/deletemember/{memberno}")
+	public String memberdelete(@PathVariable int memberno ,Model model) {
+
+		int result = adservice.updateMemberStatus(memberno);
+		return "redirect:/admin";
 	}
 	
 	@RequestMapping("/admin/analnewmember")

@@ -29,6 +29,20 @@
 		WHERE A.RNUM >= #{startrow} 
 		]]>
 	</select>
+	<select id="getMemberDetail" parameterType="int" resultType="com.bitcamp.DTO.member.MemberDTO">
+		SELECT MEMBER_NO, USER_ID, USER_PASSWORD,
+			   USER_NAME, USER_NICK, USER_EMAIL,
+			   USER_ADDRESS, USER_REGIDATE, USER_STATUS,
+			   USER_CALL, USER_CERTKEY, USER_CERTSTATUS,
+			   USER_FLATFORM, ROWNUM AS RNUM
+		FROM MEMBER
+		WHERE MEMBER_NO = #{memberno}
+	</select>
+	<update id="updateMemberStatus" parameterType="int">
+		UPDATE MEMBER
+		SET USER_STATUS = 0
+		WHERE MEMBER_NO = #{memberno}
+	</update>
 	
   	<sql id="search_where">
 		<choose>

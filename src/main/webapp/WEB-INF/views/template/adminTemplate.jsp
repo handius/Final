@@ -123,7 +123,7 @@
             <div class="admin_category_parent pcateg2">통계분석
             </div>
               <div class="admin_category_child categ2">
-                  <p><a href="#">검색어 분석</a></p>
+                  <p><a href="/admin/searchText">검색어 분석</a></p>
                   <p><a href="/admin/analnewmember">신규회원 분석</a></p>
                   <p><a href="/admin/analproduct">판매순위 분석</a></p>
               </div>

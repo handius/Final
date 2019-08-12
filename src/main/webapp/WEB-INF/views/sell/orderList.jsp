@@ -25,7 +25,7 @@
 	.jumbotron{
 		margin-top:0px;
 		margin-bottom:0px !important;
-		background-image: url("/controller/resources/image/back.jpg");
+		background-image: url("/resources/image/back.jpg");
 		background-size: cover;
 	}
 	.paging{
@@ -69,7 +69,7 @@
 		hashCounter = hashCounter+1;
 		console.log("loadHash");
 		$.ajax({
-			url:"/controller/ajaxHashPager?hashPage="+hashCounter
+			url:"/ajaxHashPager?hashPage="+hashCounter
 			, type:"GET"
 			, dataType:"json"
 			, success:function(data){
@@ -103,22 +103,22 @@
 		<div class="container-fluid category">
 			<div class="row">
 				<div class="col-md-2">
-					<h5><a href="/controller/orderList/book?order=${Order}">책</a></h5>
+					<h5><a href="/orderList/book?order=${Order}">책</a></h5>
 				</div>
 				<div class="col-md-2">
-					<h5><a href="/controller/orderList/cup?order=${Order}">머그컵</a></h5>
+					<h5><a href="/orderList/cup?order=${Order}">머그컵</a></h5>
 				</div>
 				<div class="col-md-2">
-					<h5><a href="/controller/orderList/table?order=${Order}">가구</a></h5>
+					<h5><a href="/orderList/table?order=${Order}">가구</a></h5>
 				</div>
 				<div class="col-md-2">
-					<h5><a href="/controller/orderList/accessary?order=${Order}">악세사리</a></h5>
+					<h5><a href="/orderList/accessary?order=${Order}">악세사리</a></h5>
 				</div>
 				<div class="col-md-2">
-					<h5><a href="/controller/orderList/handmade?order=${Order}">공예</a></h5>
+					<h5><a href="/orderList/handmade?order=${Order}">공예</a></h5>
 				</div>
 				<div class="col-md-2">
-					<h5><a href="/controller/orderList/anything?order=${Order}">기타</a></h5>
+					<h5><a href="/orderList/anything?order=${Order}">기타</a></h5>
 				</div>
 			</div>
 		</div>
@@ -166,7 +166,7 @@
 			      				<img src="${image }" alt="이미지가 없습니다.">
 			      			</c:forEach>
 			          		<div class="caption">
-			            		<h3><a href="/controller/checkIsOrdered?no=${item.list_no} ">${item.list_title }</a></h3>
+			            		<h3><a href="/checkIsOrdered?no=${item.list_no} ">${item.list_title }</a></h3>
 			            		<p>${item.list_date }</p>
 			            		<p>작가명 : ${item.list_artist }</p>
 			            		<p>상품명 : ${item.list_product }</p>
