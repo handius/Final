@@ -11,19 +11,19 @@ import com.bitcamp.mapper.MemberMapper;
 
 import lombok.Setter;
 
-public class CustomUserDetailService implements UserDetailsService{
+public class CustomUserDetailService implements UserDetailsService {
 
-	@Setter(onMethod_= {@Autowired})
+	@Setter(onMethod_ = { @Autowired })
 	private MemberMapper mapper;
-	
+
 	@Override
 	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-		
-		//userName means user_id
+
+		// userName means user_id
 		MemberDTO dto = mapper.readMember(userName);
 		System.out.println("service입니다");
-		
-		return dto ==null? null: new CustomUser(dto);
+
+		return dto == null ? null : new CustomUser(dto);
 	}
 
 }

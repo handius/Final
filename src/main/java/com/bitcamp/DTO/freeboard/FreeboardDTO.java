@@ -10,8 +10,9 @@ public class FreeboardDTO {
 	private int freeboard_no;
 	private String freeboard_title;
 	private String freeboard_content;
-	private Date freeboard_regiTime;
+	private String freeboard_regiTime;
 	private String freeboard_hits;
 	private String freeboard_status;
 	private String freeboard_category;
+	private int member_no;
 }

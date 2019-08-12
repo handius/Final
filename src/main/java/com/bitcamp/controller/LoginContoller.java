@@ -1,5 +1,7 @@
 package com.bitcamp.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -66,6 +68,15 @@ public class LoginContoller {
 	@RequestMapping(value="/access_denied_page")
 	public String accessDeniedPage() throws Exception{
 		return "login/access_denied_page";
+	}
+	
+	@RequestMapping("login/logout")
+	public String logout(HttpSession session) {
+		
+		session.invalidate();
+		System.out.println("로갓");
+		
+		return "login";
 	}
 	
 }
