@@ -55,7 +55,7 @@ public class OrderController {
 		MemberDTO memberDTO = new MemberDTO();
 		memberDTO.setMember_no(1);
 		service.buyProduct(orderDTO);
-		service.updateUserInfo(memberDTO.getMember_no(), user_name, user_call, user_address);
+//		service.updateUserInfo(memberDTO.getMember_no(), user_name, user_call, user_address);
 		return "order/orderResult";
 	}
 }

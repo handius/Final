@@ -23,11 +23,20 @@ public class OrderService {
 		List<Integer> order_amount = orderDTO.getOrder_amount();
 		String add_option = "";
 		String amount = "";
+		List<Integer> ordermade_no = orderDTO.getOrdermade_no();
+		String made_no = "";
 		for (int i = 0; i < order_add_option.size(); i++) {
 			add_option = add_option + order_add_option.get(i);
 			amount = amount + order_amount.get(i);
 			if (i < order_add_option.size() - 1) {
-				amount = amount + ",";
+				add_option = add_option + "/";
+				amount = amount + "/";
+			}
+		}
+		for (int i = 0; i < ordermade_no.size(); i++) {
+			made_no = made_no + ordermade_no.get(i);
+			if (i < ordermade_no.size() - 1) {
+				made_no = made_no + "/";
 			}
 		}
 		List<Map<Integer, Integer>> option = new ArrayList<>();
@@ -43,7 +52,7 @@ public class OrderService {
 		parameters.put("order_add_option", add_option);
 		parameters.put("order_amount", amount);
 		parameters.put("order_date", orderDTO.getOrder_date());
-		parameters.put("ordermade_no", orderDTO.getOrdermade_no());
+		parameters.put("ordermade_no", made_no);
 		mapper.insertOrder(parameters);
 		for (Map<Integer, Integer> noStock : option) {
 			mapper.updateOption_stock(noStock);
@@ -57,8 +66,8 @@ public class OrderService {
 		parameters.put("user_name", user_name);
 		parameters.put("user_call", user_call);
 		parameters.put("user_address", user_address);
-//		mapper.updateName(parameters);
-//		mapper.updateCall(parameters);
-//		mapper.updateAddress(parameters);
+		// mapper.updateName(parameters);
+		// mapper.updateCall(parameters);
+		// mapper.updateAddress(parameters);
 	}
 }

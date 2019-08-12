@@ -10,7 +10,8 @@
 	<form action="test" method="post">
 		<input type="text" name="user_name" id="user_name"> <input
 			type="text" name="user_call" id="user_call"> <input
-			type="text" name="user_address" id="user_address">
+			type="text" name="user_address" id="user_address"> <input
+			type="submit" value="전송">
 	</form>
 </body>
 </html>
