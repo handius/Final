@@ -2,6 +2,8 @@ package com.bitcamp.controller;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,7 +19,7 @@ public class ProductDetailController {
 	private ProductDetailService service;
 
 	@RequestMapping("/productDetail/{list_no}")
-	public String productDetail(@PathVariable int list_no , Model model) {
+	public String productDetail(@PathVariable int list_no ,HttpSession session ,Model model) {
 		System.out.println(list_no); //테스트
 		
 		Map<String, Object> map = service.productDetailService(list_no);
@@ -27,4 +29,5 @@ public class ProductDetailController {
 		model.addAttribute("optionList", map.get("productDetailOption"));
 		return "productdetail/productdetail.mall";
 	}
+
 }

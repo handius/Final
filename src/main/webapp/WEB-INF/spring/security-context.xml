@@ -8,11 +8,9 @@
                                  http://www.springframework.org/schema/security
                                  http://www.springframework.org/schema/security/spring-security.xsd">
 
-	<beans:bean id="customPasswordEncoder"
-		class="com.bitcamp.DAO.CustomPasswordEncoder" />
 	<beans:bean id="customUserDetailService"
 		class="com.bitcamp.service.CustomUserDetailService"></beans:bean>
-	<beans:bean id="userAuthProvider" class="com.bitcamp.service.AuthenticationProviderService"></beans:bean>
+	<beans:bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></beans:bean>
 
 
 	<http>
@@ -27,9 +25,8 @@
 	</http>
 
 	<authentication-manager>
-		<!-- <authentication-provider ref="userAuthProvider"></authentication-provider> -->
 		<authentication-provider user-service-ref="customUserDetailService">
-			<password-encoder ref="customPasswordEncoder"></password-encoder>
+			<password-encoder ref="bcryptPasswordEncoder"></password-encoder>
 		</authentication-provider>
 	</authentication-manager>
 

@@ -21,15 +21,6 @@
     body {
         background-color: #F0E5DE;
     }
-    .admin_content_wrap {
-        background-color: white;
-        border: 1px solid #D9D4CF;
-        border-radius: 5px;
-        width: 1620px;
-        padding: 20px 30px;
-        margin-top: 8px;
-        margin-left: 270px;
-    }
     .member_search_btn {
         padding: 20px 0 0;
         margin: 0;
@@ -41,16 +32,19 @@
         width: 10%;
     }
     .membertable tr th.th_three {
-        width: 50%;
+        width: 30%;
     }
     .membertable tr th.th_four {
-        width: 10%;
+        width: 20%;
     }
     .membertable tr th.th_five {
-        width: 20%;
+        width: 30%;
     }
     .membertable tr th.th_six {
         width: 10%;
+    }
+    .pagination_block {
+    	text-align: center;
     }
     /**/
     .admin_content {
@@ -64,14 +58,15 @@
 <body>
         <h2>Member Search</h2>
         <div class="admin_content">
-            <form class="form-horizontal" action="" method="post">
+            <form class="form-horizontal" action="/admin" method="post">
               <div class="form-group">
-                <label class="col-sm-1 control-label" for="id1">회원 이름</label>
-                <div class="col-sm-2">
-                    <input class="form-control" type="text" name="" id="id1" placeholder="이름을 입력하세요.">
+                <label class="col-sm-1 control-label" for="user_name">회원 이름</label>
+                <div class="col-sm-4">
+                    <input class="form-control" type="text" name="user_name" id="user_name" placeholder="이름을 입력하세요.">
                 </div>
+<!--                 
                 <label class="col-sm-1 control-label" for="id2">성별</label>
-                <div class="col-sm-2">
+                <div class="col-sm-4">
                     <label class="radio-inline">
                         <input type="radio" name="name" id="id2" value="man" checked>남
                     </label>
@@ -79,17 +74,20 @@
                         <input type="radio" name="name" id="id2" value="woman">여
                     </label>
                 </div>
+ -->                
               </div>
               <div class="form-group">
-                <label class="col-sm-1 control-label" for="id3">가입일</label>
-                <div class="col-sm-1">
-                    <select class="form-control" name="" id="id3">
+                <label class="col-sm-1 control-label" for="search_date">가입일</label>
+                <div class="col-sm-2">
+                    <select class="form-control" name="search_date_year" id="search_date">
+                        <option value="0">Year</option>
                         <option value="2019">2019년</option>
                         <option value="2018">2018년</option>
                     </select>
                 </div>
-                <div class="col-sm-1">
-                    <select class="form-control" name="" id="id3">
+                <div class="col-sm-2">
+                    <select class="form-control" name="search_date_month" id="search_date">
+                        <option value="0">Month</option>
                         <option value="01">01월</option>
                         <option value="02">02월</option>
                         <option value="03">03월</option>
@@ -104,11 +102,12 @@
                         <option value="12">12월</option>
                     </select>
                 </div>
-                <label class="col-sm-1 control-label" for="id4">회원 구분</label>
-                <div class="col-sm-1">
-                    <select class="form-control" name="" id="id4">
-                        <option value="2019">일반</option>
-                        <option value="2018">작가</option>
+                <label class="col-sm-1 control-label" for="tempROLE">회원 구분</label>
+                <div class="col-sm-4">
+                    <select class="form-control" name="tempROLE" id="tempROLE">
+                        <option>ROLE</option>
+                        <option value="custmor">일반</option>
+                        <option value="artist">작가</option>
                     </select>
                 </div>
               </div>
@@ -133,51 +132,52 @@
                   </tr>
               </thead>
               <tbody>
+	  			<c:forEach var="i" varStatus="status" items="${memberList }">
                   <tr>
-                      <td>1</td>
-                      <td>일반</td>
-                      <td>정경진</td>
-                      <td>dyttl0</td>
-                      <td>2019.08.07</td>
-                      <td><button class="btn btn-default btn-xs">관리</button></td>
+                      <td><c:out value="${status.count }"/></td>
+                      <td><c:out value="수정필요"/></td>
+                      <td><c:out value="${i.user_name }"/> :: <c:out value="${i.user_status }"/></td>
+                      <td><c:out value="${i.user_id }"/></td>
+                      <td><c:out value="${i.user_regidate }"/></td>
+                      <td><button class="btn btn-default btn-xs gomemberdetail" value="${i.member_no }">관리</button></td>
                   </tr>
-                  <tr>
-                      <td>2</td>
-                      <td>작가</td>
-                      <td>용지연</td>
-                      <td>yongzee</td>
-                      <td>2019.08.14</td>
-                      <td><button class="btn btn-default btn-xs">관리</button></td>
-                  </tr>
-                  <tr>
-                      <td>3</td>
-                      <td>일반</td>
-                      <td>문지선</td>
-                      <td>Moonjiseon03</td>
-                      <td>2019.08.15</td>
-                      <td><button class="btn btn-default btn-xs">관리</button></td>
-                  </tr>
-                  <tr>
-                      <td>4</td>
-                      <td>일반</td>
-                      <td>김민혁</td>
-                      <td>Kimbob222</td>
-                      <td>2019.08.15</td>
-                      <td><button class="btn btn-default btn-xs">관리</button></td>
-                  </tr>
-                  <tr>
-                      <td>5</td>
-                      <td>일반</td>
-                      <td>윤건일</td>
-                      <td>dbsrjsdlf</td>
-                      <td>2019.08.15</td>
-                      <td><button class="btn btn-default btn-xs">관리</button></td>
-                  </tr>
+                </c:forEach>
               </tbody>
             </table>
+            <!-- Paging Block -->
+          <div class="pagination_block">
+		  <form action="/admin" method="post">
+		  	  <c:if test="${memberList != null }">
+		  	  
+				<!-- 검색 값 -->
+		 		<c:forEach var="test" items="${test }" varStatus="status">
+		 		<c:if test="${test.value != null }">
+		 			<input type="hidden" name="${test.key }" value="${test.value }">
+		 		</c:if>
+				</c:forEach>
+						
+				<c:if test="${paging.startblock > 1 }">
+					<a href="list?curr=${paging.startblock - 1 }">◀</a>
+				</c:if>
+				<c:forEach var="i" begin="${paging.startblock }" end="${paging.endblock }">
+					<c:if test="${i == currpage }">
+						<c:out value="${i }"></c:out>
+					</c:if>
+					<c:if test="${i != currpage }">
+						<input type="submit" class="btn btn-default" name="curr" value="${i }">
+					</c:if>
+				</c:forEach>
+				<c:if test="${paging.endblock < paging.totalpage }">
+					<a href="list?curr=${paging.endblock + 1 }">▶</a>
+				</c:if>
+			  </c:if>
+		  </form>
+		  </div>
         </div>
 <script>
-
+	$('.gomemberdetail').on('click', function() {
+		location.href="/admin/memberdetail/" + $(this).val();
+	});
 </script>
 </body>
 </html>

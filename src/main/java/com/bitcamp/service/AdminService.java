@@ -1,0 +1,37 @@
+package com.bitcamp.service;
+
+import java.util.HashMap;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.bitcamp.DTO.comm.PageDTO;
+import com.bitcamp.DTO.member.MemberDTO;
+import com.bitcamp.mapper.AdminMapper;
+
+@Transactional(rollbackFor= {Exception.class}, propagation=Propagation.REQUIRED, isolation=Isolation.DEFAULT)
+@Service
+public class AdminService {
+	@Autowired
+	private AdminMapper admapper;
+	
+	public int getMemberCount(HashMap<String, Object> search_map) {
+		return admapper.getMemberCount(search_map);
+	}
+
+	public List<MemberDTO> getMemberList(HashMap<String, Object> map) {
+		return admapper.getMemberList(map);
+	}
+
+	public MemberDTO getMemberDetail(int memberno) {
+		return admapper.getMemberDetail(memberno);
+	}
+
+	public int updateMemberStatus(int memberno) {
+		return admapper.updateMemberStatus(memberno);
+	}
+}

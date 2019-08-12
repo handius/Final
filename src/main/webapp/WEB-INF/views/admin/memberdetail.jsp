@@ -21,15 +21,6 @@
     body {
         background-color: #F0E5DE;
     }
-    .admin_content_wrap {
-        background-color: white;
-        border: 1px solid #D9D4CF;
-        border-radius: 5px;
-        width: 1620px;
-        padding: 20px 30px;
-        margin-top: 8px;
-        margin-left: 270px;
-    }
     .memberdetailtable tr td.td_one {
         width: 10%;
         text-align: center;
@@ -89,25 +80,25 @@
               <tbody class="memberdetailtable">
                   <tr>
                       <td class="td_one">회원구분</td>
-                      <td class="td_two">일반</td>
+                      <td class="td_two">수정필요</td>
                       <td class="td_one">가입일</td>
-                      <td class="td_two">2019.08.07</td>
+                      <td class="td_two"><c:out value="${detail.user_regidate }"/></td>
                   </tr>
                   <tr>
                       <td class="td_one">이름</td>
-                      <td class="td_two">정경진</td>
+                      <td class="td_two"><c:out value="${detail.user_name }"/></td>
                       <td class="td_one">아이디</td>
-                      <td class="td_two">dyttl0</td>
+                      <td class="td_two"><c:out value="${detail.user_id }"/></td>
                   </tr>
                   <tr>
                       <td class="td_one">이메일</td>
-                      <td class="td_two">dyttl0@gmail.com</td>
+                      <td class="td_two"><c:out value="${detail.user_email }"/></td>
                       <td class="td_one">핸드폰</td>
-                      <td class="td_two">010-4220-1789</td>
+                      <td class="td_two"><c:out value="${detail.user_call }"/></td>
                   </tr>
                   <tr>
                       <td class="td_three">주소</td>
-                      <td colspan="3" class="td_four">서울특별시 종로구 종로 69 YMCA빌딩 7층</td>
+                      <td colspan="3" class="td_four"><c:out value="${detail.user_address }"/></td>
                   </tr>
               </tbody>
             </table>
@@ -121,22 +112,22 @@
                       <td class="td_five">회원구분</td>
                       <td class="td_two">
                        <div class="col-sm-3">
-                        <select class="form-control input-sm" name="" id="id3">
+                        <select class="form-control input-sm" name="user_role" id="user_role">
                             <option value="2019">일반</option>
                             <option value="2018">작가</option>
                         </select>
                        </div></td>
                       <td class="td_five">문의내역</td>
-                      <td class="td_six">0개<a>내역></a></td>
+                      <td class="td_six">0개<a href="/admin/qna">내역></a></td>
                   </tr>
               </tbody>
             </table>
             <div class="form-group row">
                 <div class="col-sm-1">
-                    <input type="button" class="btn-default memberupdatebtn_default btn-block" value="리스트로">
+                    <input type="button" id="gomemberlist" class="btn-default memberupdatebtn_default btn-block" value="리스트로">
                 </div>
                 <div class="col-sm-1 col-sm-offset-9">
-                    <input type="button" class="btn-default memberupdatebtn_default btn-block" value="탈퇴시키기">
+                    <button class="btn-default memberupdatebtn_default btn-block member_delete" value="${detail.member_no }">탈퇴시키기</button>
                 </div>
                 <div class="col-sm-1">
                     <input type="submit" class="btn-default memberupdatebtn_default btn-block" value="저장">
@@ -145,7 +136,18 @@
           </form>
         </div>
 <script>
-
+$('#gomemberlist').on('click', function() {
+	location.href="/admin"
+});
+$('.member_delete').on('click', function() {
+ 	var result = confirm('정말 탈퇴시키시겠습니까?');
+	if (result) { 
+ 		location.href="/admin/deletemember/" + $(this).val(); 
+ 	} else {
+		
+	} 
+	return false;
+});
 </script>
 </body>
 </html>

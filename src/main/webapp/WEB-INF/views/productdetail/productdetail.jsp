@@ -419,9 +419,9 @@
 
         .asideBasket {
             width: 100%;
-            height: 60px;
-            background-color: #ffd200;
-            border: 0px;
+            height: 56px;
+            background-color: white;
+            border: 2px solid black;
             margin-top: 10px;
             color: black;
             font-size: 25px;
@@ -431,10 +431,10 @@
         .asideBuyButton,
         .MobileBuyLinkButton {
             width: 100%;
-            height: 60px;
-            border: 0;
-            background-color: #0000CD;
-            color: white;
+            height: 56px;
+            border: 2px solid #0000CD;
+            background-color: white;
+            color: #0000CD;
             font-size: 25px;
             font-weight: bold;
             margin-top: 10px;
@@ -553,19 +553,17 @@
         }
     </style>
     <script>
-        let windowTogleValue = 0;
-        let scrollTogleValue = 0;
+        var productDetailAsideOptionSelectArr = new Array();
+        
         window.onresize = function(event) {
             let windowWidth = window.innerWidth;
             if (windowWidth > 991) {
                 $('#productDetailAside').show();
                 $('#productDetailAside').css('display', 'inline-block');
-                windowTogleValue = 1;
             }
 
             if (windowWidth <= 991 ) {
                 $('#productDetailAside').hide();
-                windowTogleValue = 0;
             }
         };
 
@@ -579,15 +577,17 @@
             if(windowWidth > 991) {
                 if (endBlockTop > scrollPosition) {
                     $('#productDetailAside').css('position', 'fixed').css('top', '120px');
-                    scrollTogleValue = 1;
                 }
 
                 if (endBlockTop < scrollPosition) {
                     $('#productDetailAside').css('position', 'absolute').css('top', (endBlockTop-asideHeight) + 'px');
-                    scrollTogleValue = 0;
                 }
             }
         });
+        
+        $(document).on('click', '.minusButton', minusButtonClick);
+        $(document).on('click', '.plusButton', plusButtonClick);
+        $(document).on('click', '.glyphicon-remove', productOptionCancel);
 
         $(document).ready(function() {
             $('.productDetailUnderImg').on('click', productDetailUnderImgClick);
@@ -595,9 +595,6 @@
             $('#productDetailClick1').on('click', productDetailClick1);
             $('#productDetailClick2').on('click', productDetailClick2);
             $('.productDetailAsideOptionSelect').on('click', productDetailAsideOptionSelect);
-            $('.minusButton').on('click', minusButtonClick);
-            $('.plusButton').on('click', plusButtonClick);
-            $('.glyphicon-remove').on('click', productOptionCancel);
             $('.MobileBuyLinkButton').on('click', mobileAsideShow);
             $('.MobileBuyCloseButton').on('click', mobilAsideHide);
         });
@@ -619,20 +616,42 @@
         function productDetailClick2() {
             $('#productDetailRule').slideToggle();
         }
-
+        
         function productDetailAsideOptionSelect() {
             let optionName = $(this).children('.productDetailAsideOptionSelectName').text().trim();
             let optionPrice = $(this).children('.productDetailAsideOptionSelectPrice').text().replace(/[^0-9]/g, '');
             let optionStock = $(this).children('.productDetailAsideOptionSelectStock').val();
             let resultBox = $(this).parent().parent().parent().next();
+            var result = "";
+            let overlapTest = true;
             
-            if(optionStock > 0) {
-            	resultBox.children('.productDetailAsideOptionName').children('.productDetailAsideOptionNameResult').val(optionName);
-            	resultBox.children('.productDetailAsideOptionPrice').children('.productDetailAsideOptionPriceResult').val(optionPrice);
-          	 	let inputBox = resultBox.children('.productDetailAsideOptionNumBox').children('.productDetailAsideOptionNum');
-          		inputBox.val(1);
-          	    inputBox.attr('max', optionStock);
-          	    resultBox.show();
+            for(let i=0; i<productDetailAsideOptionSelectArr.length; i++) {
+                if(productDetailAsideOptionSelectArr[i] == optionName) {
+                    overlapTest = false;
+                    break;
+                }
+            }
+            
+            if(overlapTest && optionStock > 0) {
+            	result += '<div class="productDetailAsideOptionResultBox">';
+            	result += '    <div class="col-xs-10 productDetailAsideOptionName">';
+            	result += '        <input type="text" value="'+optionName+'" name="productOptionName" class="productDetailAsideOptionNameResult" readonly>';
+            	result += '    </div>';
+            	result += '    <div class="col-xs-2 productDetailAsideOptionCancel"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></div>';
+            	result += '    <hr class="productDetailAsideOptionResultBoxInnerHr">';
+            	result += '    <div class="col-xs-6 productDetailAsideOptionNumBox">';
+            	result += '        <input type="button" value="-" class="numButton minusButton">';
+            	result += '        <input type="number" name="productOptionNum" class="productDetailAsideOptionNum" value="1" max="'+optionStock+'" min="1" readonly>';
+            	result += '        <input type="button" value="+" class="numButton plusButton">';
+            	result += '    </div>';
+            	result += '    <div class="col-xs-6 productDetailAsideOptionPrice">';
+            	result += '        <input type="number" value="'+optionPrice+'" name="productOptionPrice" class="productDetailAsideOptionPriceResult" readonly><span>원</span>';
+            	result += '    </div>';
+            	result += '</div>';
+            	$('#ResultBox').append(result);
+                $('.productDetailAsideOptionResultBox').css('display','block');
+                productDetailAsideOptionSelectArr.push(optionName);
+            	resultBox.show();
            	    totalOptionPriceCel();
             }
         }
@@ -667,7 +686,16 @@
             let optionBoxParent = $(this).parent().parent();
             optionBoxParent.children('.productDetailAsideOptionNumBox').children('.productDetailAsideOptionNum').val(0);
             optionBoxParent.children('.productDetailAsideOptionPrice').children('.productDetailAsideOptionPriceResult').val(0);
-            optionBoxParent.hide();
+            let optionName = optionBoxParent.children('.productDetailAsideOptionName').children('.productDetailAsideOptionNameResult').val();
+            
+            for(let i=0; i<productDetailAsideOptionSelectArr.length; i++) {
+            	if(productDetailAsideOptionSelectArr[i] == optionName) {
+            		productDetailAsideOptionSelectArr.splice(i, 1);
+            		break;
+            	}
+            }
+            
+            optionBoxParent.remove();
             totalOptionPriceCel();
         }
 
@@ -765,21 +793,7 @@
                             </c:forEach>
                             </ul>
                         </div>
-                        <div class="productDetailAsideOptionResultBox">
-                            <div class="col-xs-10 productDetailAsideOptionName">
-                                <input type="text" name="productOptionName" class="productDetailAsideOptionNameResult" readonly>
-                            </div>
-                            <div class="col-xs-2 productDetailAsideOptionCancel"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></div>
-                            <hr class="productDetailAsideOptionResultBoxInnerHr">
-                            <div class="col-xs-6 productDetailAsideOptionNumBox">
-                                <input type="button" value="-" class="numButton minusButton">
-                                <input type="number" name="productOptionNum" class="productDetailAsideOptionNum" value="0" max="1" min="1" readonly>
-                                <input type="button" value="+" class="numButton plusButton">
-                            </div>
-                            <div class="col-xs-6 productDetailAsideOptionPrice">
-                                <input type="number" value="${listDTO.list_base_price }" name="productOptionPrice" class="productDetailAsideOptionPriceResult" readonly><span>원</span>
-                            </div>
-                        </div>
+                        <div id="ResultBox"></div>
                     </div>
 
                     <div class="customerOrderBox productDetailAsideBlock">

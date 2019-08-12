@@ -21,6 +21,7 @@
     }
     body {
         background-color: #F0E5DE;
+        overflow-x: hidden;
     }
     .admin_top {
         background-color: #333333;
@@ -61,7 +62,8 @@
         background-color: white;
         border: 1px solid #D9D4CF;
         border-radius: 5px;
-        width: 1620px;
+        min-width: 1000px;
+        width: 80%;
         padding: 10px 30px;
         margin-top: 8px;
         margin-left: 270px;
@@ -121,7 +123,7 @@
             <div class="admin_category_parent pcateg2">통계분석
             </div>
               <div class="admin_category_child categ2">
-                  <p><a href="#">검색어 분석</a></p>
+                  <p><a href="/admin/searchText">검색어 분석</a></p>
                   <p><a href="/admin/analnewmember">신규회원 분석</a></p>
                   <p><a href="/admin/analproduct">판매순위 분석</a></p>
               </div>
