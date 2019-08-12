@@ -7,7 +7,7 @@
 	select list_no, list_artist, list_title, list_product, list_content
 	, list_base_price, list_date, isordered, ordered_content
 	from list_board 
-	where list_no = #{list_no}
+	where list_no = #{list_no} and list_status = 1
 </select>
 <select id="productDetailImgGet" parameterType="int" resultType="String">
 	select list_image_loc 
@@ -18,6 +18,21 @@
 	select option_name, option_stock, option_price
 	from list_option_board
 	where list_no = #{list_no}
+</select>
+<insert id="productDetailQandAInsert" parameterType="com.bitcamp.DTO.productdetail.QABoardDTO">
+	insert into qa_board(qa_board_no, list_no, member_no, qa_board_date, qa_board_content, qa_board_secret
+	, qa_board_status, qa_board_delete_status)
+	values(qa_board_seq.nextval, #{list_no}, #{member_no}, sysdate, #{qa_board_content}, #{qa_board_secret}
+	, '미답변', 1 )
+</insert>
+<select id="productDetailQandAList" parameterType="com.bitcamp.DTO.productdetail.QABoardDTO" resultType="com.bitcamp.DTO.productdetail.QABoardDTO">
+ 	 select num, e.*
+ 	 from (select rownum as num,qa_board_no, list_no, qa_board.member_no, qa_board_date, qa_board_content, qa_board_secret, qa_board_status
+	, qa_board_parent_no, qa_board_delete_status, user_name
+	from qa_board inner join member
+	on qa_board.member_no = member.member_no
+	where rownum <![CDATA[<]]>= #{end_sql} ) e
+	where list_no = #{list_no} and num <![CDATA[>]]>= #{start_sql} and qa_board_delete_status = 1
 </select>
 </mapper>
   
