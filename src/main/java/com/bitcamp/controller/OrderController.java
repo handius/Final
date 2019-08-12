@@ -35,8 +35,8 @@ public class OrderController {
 	}
 
 	@RequestMapping("p1")
-	public String success(@RequestParam(name = "user_name") String user_name,
-			@RequestParam(name = "user_call") String user_call, @RequestParam(name = "user_call") String user_address) {
+	public String success(@RequestParam String user_name, @RequestParam String user_call,
+			@RequestParam String user_address) {
 		OrderDTO orderDTO = new OrderDTO();
 		ArrayList<Integer> al1 = new ArrayList<>();
 		al1.add(84);
