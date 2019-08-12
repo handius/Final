@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.bitcamp.DTO.Product.OptionDTO;
 import com.bitcamp.DTO.productdetail.QABoardDTO;
@@ -17,6 +18,7 @@ public class ProductDetailService {
 	@Autowired
 	private ProductDetailMapper mapper;
 	
+	@Transactional
 	public Map<String, Object> productDetailService(int list_no) {
 		Map<String, Object> map = new HashMap<>();
 		List<OptionDTO> optionList = mapper.productDetailOptionGet(list_no);
@@ -50,7 +52,9 @@ public class ProductDetailService {
 		return map;
 	}
 	
-	public void productDetailQandAInsertService(QABoardDTO dto) {
-		mapper.productDetailQandAInsert(dto);
+	@Transactional
+	public int productDetailQandAInsertService(QABoardDTO dto) {
+		int qa_board_no = mapper.productDetailQandAInsert(dto);
+		return mapper.productDetailQandAInsertCheck(qa_board_no);
 	}
 }
