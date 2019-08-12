@@ -25,17 +25,16 @@
 					<div class="form-group">
 						<label for="name">이름</label><input type="text" name="name"
 							id="name" required class="form-control" size="10"
-							placeholder="${memberDTO.user_name }">
+							value="${memberDTO.user_name }">
 					</div>
 					<div class="form-group">
 						<label for="tel">연락처</label><input type="text" name="tel" id="tel"
-							required class="form-control"
-							placeholder="${memberDTO.user_call }">
+							required class="form-control" value="${memberDTO.user_call }">
 					</div>
 					<div class="form-group">
 						<label for="addr">주소</label><input type="text" name="addr"
 							id="addr" required class="form-control"
-							placeholder="${memberDTO.user_address }">
+							value="${memberDTO.user_address }">
 					</div>
 				</div>
 			</div>
