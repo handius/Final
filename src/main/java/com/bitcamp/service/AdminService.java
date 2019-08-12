@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bitcamp.DTO.comm.PageDTO;
+import com.bitcamp.DTO.customerqaboard.CustomerQABoardDTO;
 import com.bitcamp.DTO.member.MemberDTO;
 import com.bitcamp.mapper.AdminMapper;
 
@@ -33,5 +34,21 @@ public class AdminService {
 
 	public int updateMemberStatus(int memberno) {
 		return admapper.updateMemberStatus(memberno);
+	}
+
+	public int getQuestionCount(HashMap<String, Object> search_map) {
+		return admapper.getQuestionCount(search_map);
+	}
+
+	public List<CustomerQABoardDTO> getCustomerQuestion(HashMap<String, Object> search_map) {
+		return admapper.getQuestionList(search_map);
+	}
+
+	public CustomerQABoardDTO getQnADetail(int questionno) {
+		return admapper.getQnADetail(questionno);
+	}
+
+	public int deleteQuestion(int questionno) {
+		return admapper.deleteQuestion(questionno);
 	}
 }
