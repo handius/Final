@@ -79,7 +79,7 @@
 		console.log(searchData);
 		
 		$.ajax({
-			url:"/controller/ajaxHashSearcher?searchData="+searchData
+			url:"/ajaxHashSearcher?searchData="+searchData
 			, type:"GET"
 			, dataType:"json"
 			, success:function(data){
@@ -108,7 +108,7 @@
 			}
 			
 			$.ajax({
-				url:'/controller/sell/uploadAjaxAction',
+				url:'/sell/uploadAjaxAction',
 				processData:false,
 				contentType:false,
 				data:formData,
@@ -119,22 +119,22 @@
 					console.log(result);
 					var loc = "";
 					if(result.length > 0){
-						var firstImagePath = "/controller/resources/image/dimage/" + result[0].uuid + "-" + result[0].fileName;
+						var firstImagePath = "/resources/image/dimage/" + result[0].uuid + "-" + result[0].fileName;
 						$(".mainImage").prop('src', firstImagePath);
 						loc+='<input type="hidden" name="list_image_loc" value="'+firstImagePath+'">';
 					}
 					if(result.length > 1){
-						var secondImagePath = "/controller/resources/image/dimage/" + result[1].uuid + "-" + result[1].fileName;
+						var secondImagePath = "/resources/image/dimage/" + result[1].uuid + "-" + result[1].fileName;
 						$(".subImage:eq(0)").prop('src', secondImagePath);
 						loc+='<input type="hidden" name="list_image_loc" value="'+secondImagePath+'">';
 					}
 					if(result.length > 2){
-						var thirdImagePath = "/controller/resources/image/dimage/" + result[2].uuid + "-" + result[2].fileName;
+						var thirdImagePath = "/resources/image/dimage/" + result[2].uuid + "-" + result[2].fileName;
 						$(".subImage:eq(1)").prop('src', thirdImagePath);
 						loc+='<input type="hidden" name="list_image_loc" value="'+thirdImagePath+'">';
 					}
 					if(result.length > 3){
-						var fourthImagePath = "/controller/resources/image/dimage/" + result[3].uuid + "-" + result[3].fileName;
+						var fourthImagePath = "/resources/image/dimage/" + result[3].uuid + "-" + result[3].fileName;
 						$(".subImage:eq(2)").prop('src', fourthImagePath);
 						loc+='<input type="hidden" name="list_image_loc" value="'+fourthImagePath+'">';
 					}
@@ -190,7 +190,7 @@
 	<hr>
 	<div class="container">
 		<h2>기본 정보</h2>
-		<form class="form-horizontal" role="form" method="post" action="/controller/sell/insertPerfectOrderForm">
+		<form class="form-horizontal" role="form" method="post" action="/sell/insertPerfectOrderForm">
 			<div class="row">
 				<div class="col-md-8">
 					<div class="form-group">
