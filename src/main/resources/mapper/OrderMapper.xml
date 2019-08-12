@@ -3,35 +3,38 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bitcamp.mapper.OrderMapper">
-	<insert id="insertOrder" parameterType="map">
+	<insert id="insertOrder" parameterType="java.util.HashMap">
 		insert into
-		order_board(order_no, list_no, member_no, order_price,
-		order_add_option, order_ amount, order_date, order_status,
-		ordermade_no) values(seq_order_no.nextval, #{list_no}, #{member_no},
-		#{order_price}, #{order_add_option}, #{order_amount}, #{order_date},
-		'결제완료', #{ordermade_no})
+		order_board(order_no,list_no,member_no,order_price,order_add_option,order_amount,order_date,order_status,ordermade_no)
+		values(seq_order_no.nextval,#{list_no},#{member_no},#{order_price},#{order_add_option},#{order_amount},sysdate,'a',#{ordermade_no,jdbcType=VARCHAR})
 	</insert>
-	<update id="updateOption_stock" parameterType="map">
-		update
-		list_option_board set option_stock=option_stock-#{value} where
-		option_no=#{key}
+	<update id="updateOption_stock"
+		parameterType="java.util.HashMap">
+		update list_option_board
+		set
+		option_stock=option_stock-#{order_amount}
+		where
+		option_no=#{order_add_option}
 	</update>
-	<update id="updateName" parameterType="map">
-	update member set
-	user_name=#{user_name} where member_no=#{member_no}
-	and where
-	user_name is null;
+	<update id="updateName" parameterType="java.util.HashMap">
+		update member
+		set
+		user_name=#{user_name}
+		where member_no=#{member_no} and user_name is
+		null
 	</update>
-	<update id="updateCall" parameterType="map">
-	update member set
-	user_name=#{user_call} where member_no=#{member_no}
-	and where
-	user_call is null;
+	<update id="updateCall" parameterType="java.util.HashMap">
+		update member
+		set
+		user_name=#{user_call}
+		where member_no=#{member_no} and user_call is
+		null
 	</update>
-	<update id="updateAddress" parameterType="map">
-	update member set
-	user_name=#{user_address} where member_no=#{member_no}
-	and where
-	user_address is null;
+	<update id="updateAddress" parameterType="java.util.HashMap">
+		update member
+		set
+		user_name=#{user_address}
+		where member_no=#{member_no} and user_address
+		is null
 	</update>
 </mapper>
