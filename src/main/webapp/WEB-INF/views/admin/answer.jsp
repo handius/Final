@@ -44,7 +44,15 @@
     .answerpadding {
         padding: 10px;
     }
-    
+    .answer_content_div {
+    	border: 1px solid #ddd;
+    	padding: 10px;
+    	margin: 0;
+    	min-height: 100px; 
+    }
+    .a_margindiv {
+    	height: 20px;
+    }
     /**/
     .admin_content {
         margin: 10px 0 50px;
@@ -78,15 +86,20 @@
                   </tr>
               </tbody>
             </table>
-            <form>
+            <form action="/admin/answercontentupdate/${dto.question_no }" method="post">
               <c:if test="${dto.answer_status == '답변 대기' }">
-                <textarea id="summernote" class="form-control answerbtn">
+                <textarea id="summernote" name="answer_content" class="form-control answerbtn">
                 
                 </textarea>
               </c:if>
+              
               <c:if test="${dto.answer_status == '완료' }">
-              	<c:out value="${dto.answer_content }"/>
+              	<div class="answer_content_div row">
+              		<c:out value="${dto.answer_content }"/>
+              	</div>
               </c:if>
+              <div class="a_margindiv"></div>
+              
                 <div class="form-group row">
                 	<div class="col-sm-2">
                         <input type="button" class="btn btn-default btn-block answerpadding gobackqlist_btn" value="리스트로">
@@ -95,7 +108,12 @@
                         <button class="btn btn-default btn-block answerpadding delete_question_btn" value="${dto.question_no }">문의삭제</button>
                     </div>
                     <div class="col-sm-2">
-                        <input type="submit" class="btn btn-default btn-block answerpadding" value="답변등록">
+                      <c:if test="${dto.answer_status == '답변 대기' }">
+                        <button class="btn btn-default btn-block answerpadding ifnoanswer" value="답변등록"></button>
+                      </c:if>
+                      <c:if test="${dto.answer_status == '완료' }">
+                        <input type="submit" class="btn btn-default btn-block answerpadding ifnoanswer" value="답변수정">
+                      </c:if>
                     </div>
                 </div>
             </form>
@@ -104,6 +122,12 @@
 $('.gobackqlist_btn').click(function() {
 	location.href = "/admin/qna";
 	return false;
+});
+$('.ifnoanswer').click(function() {
+	if ($('#summernote').val() == null || $('#summernote').val() == '') {
+		alert("내용을 입력해주세요.");
+		location.href = "/admin/deletequestion/" + $('.delete_question_btn').val();
+	}
 });
 $('.delete_question_btn').click(function() {
  	var result = confirm('정말 삭제하시겠습니까?');

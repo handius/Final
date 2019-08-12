@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bitcamp.DTO.productdetail.QABoardDTO;
 import com.bitcamp.service.ProductDetailService;
@@ -33,8 +34,9 @@ public class ProductDetailController {
 		return "productdetail/productdetail.mall";
 	}
 	
+	
 	@RequestMapping(value="/ajaxqaboardinsert")
-	public void ajaxqaboardinsert(@RequestBody Map<String, Object> map, HttpSession session) {
+	public @ResponseBody String ajaxqaboardinsert(@RequestBody Map<String, Object> map, HttpSession session) {
 		
 		int list_no = Integer.parseInt((String)map.get("list_no"));
 		int member_no = 64; //임시 회원번호
@@ -50,6 +52,6 @@ public class ProductDetailController {
 		dto.setQa_board_content(qa_board_content);
 		dto.setQa_board_secret(qa_board_secret);
 		
-		service.productDetailQandAInsertService(dto);
+		return ""+service.productDetailQandAInsertService(dto);
 	}
 }
