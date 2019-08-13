@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bitcamp.DTO.Product.ListDTO;
 import com.bitcamp.DTO.Product.OptionDTO;
 import com.bitcamp.DTO.member.MemberDTO;
+import com.bitcamp.DTO.productdetail.OrderResultDTO;
 import com.bitcamp.DTO.productdetail.QABoardDTO;
 import com.bitcamp.mapper.ProductDetailMapper;
 
@@ -73,5 +74,9 @@ public class ProductDetailService {
 		}
 
 		return qalist;
+	}
+	
+	public List<OrderResultDTO> productDetailOrderService(List<Integer> list_order_member_no) {
+		return mapper.productDetailOrderResultList(list_order_member_no);
 	}
 }
