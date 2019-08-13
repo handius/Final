@@ -51,4 +51,8 @@ public class AdminService {
 	public int deleteQuestion(int questionno) {
 		return admapper.deleteQuestion(questionno);
 	}
+
+	public int updateAnswerContent(HashMap<String, Object> update_map) {
+		return admapper.updateAnswerContent(update_map);
+	}
 }

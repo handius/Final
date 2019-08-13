@@ -17,4 +17,5 @@ public interface AdminMapper {
 	public List<CustomerQABoardDTO> getQuestionList(HashMap<String, Object> search_map);
 	public CustomerQABoardDTO getQnADetail(int questionno);
 	public int deleteQuestion(int questionno);
+	public int updateAnswerContent(HashMap<String, Object> update_map);
 }
