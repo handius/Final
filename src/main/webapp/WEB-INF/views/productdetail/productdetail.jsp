@@ -95,6 +95,10 @@
         	max-width: 90%;
         	margin-left: 10%;
         }
+        
+        .productDetailQandAResponse .productDetailQandAStatus{
+        	background-color: red;
+        }
 
         .productDetailQandAStatus {
             height: 100px;
@@ -560,6 +564,9 @@
     <script>
         var productDetailAsideOptionSelectArr = new Array();
         
+        //시작시 초기화
+        window.onload = qaBoardList;
+        
         //창 크기가 줄어들었을때 모바일 창을 작동
         window.onresize = function(event) {
             let windowWidth = window.innerWidth;
@@ -596,7 +603,7 @@
         $(document).on('click', '.plusButton', plusButtonClick);
         $(document).on('click', '.glyphicon-remove', productOptionCancel);
         
-        $(document).ready(function() {
+        $(document).ready(function() {        	
             $('.productDetailUnderImg').on('click', productDetailUnderImgClick);
             $('#productDetailClick0').on('click', productDetailClick0);
             $('#productDetailClick1').on('click', productDetailClick1);
@@ -734,12 +741,12 @@
         function qaBoardInsert() {
     		let content = document.getElementById("productDetailQandAInput").value;
     		let secret = document.getElementById("productDetailQandASecretCheckBox").checked;
-    		let no = document.getElementById("list_no").value;
+    		let listno = document.getElementById("list_no").value;
 
     		$.ajax({
     			url:"/ajaxqaboardinsert"
     			,contentType: 'application/json; charset=utf-8'
-    			,data: JSON.stringify({qa_content:content, qa_secret:secret, list_no:no})
+    			,data: JSON.stringify({qa_content:content, qa_secret:secret, list_no:listno})
     			,type: "POST"
     			,success:function(data){
     				console.log('성공');
@@ -758,25 +765,58 @@
 		}
         
         function qaBoardList() {
-			console.log('테스트');
 			let qaCurrent = $('#qa_current_page').val();
-			let no = document.getElementById("list_no").value;
+			let listno = document.getElementById("list_no").value;
 			$.ajax({
     			url:"/ajaxqaboardList"
     			,contentType: 'application/json; charset=utf-8'
-    			,data: JSON.stringify({currentpage:qaCurrent, list_no:no})
+    			,data: JSON.stringify({currentpage:qaCurrent, list_no:listno})
     			,type: "POST"
+    			,dataType: "json"
     			,success:function(data){
     				console.log('성공');
-    				console.log(data);
-    				
+    				var result = '';
+    				for(let i=0; i<data.length; i++) {
+    					//해당 작가가 아니라면
+    					if(data[i].level == 1) {
+    						result += '<div class="productDetailQandA">';
+    						result += '<div class="col-xs-2 productDetailQandAStatus">'+data[i].qa_board_status+'</div>';
+        					result += '<div class="col-xs-5 productDetailQandAWriter">'+data[i].user_name+'</div>';
+        					result += '<div class="col-xs-5 productDetailQandAWriterDate">'+jsonDateConverter(data[i].qa_board_date)+'</div>';
+        					result += '<div class="col-xs-10 productDetailQandAContent">'+data[i].qa_board_content+'</div>';
+        					result += '</div>'
+    					}
+    					else {
+    						result += '<div class="productDetailQandAResponse">';
+    						result += '<div class="col-xs-2 productDetailQandAStatus">답변</div>';
+        					result += '<div class="col-xs-5 productDetailQandAWriter">'+data[i].user_name+'</div>';
+        					result += '<div class="col-xs-5 productDetailQandAWriterDate">'+jsonDateConverter(data[i].qa_board_date)+'</div>';
+        					result += '<div class="col-xs-10 productDetailQandAContent">'+data[i].qa_board_content+'</div>';
+        					result += '</div>'
+    					}
+    				}
+    				$('#productDetailQandAAjaxResult').append(result);
+    				$('#qa_current_page').val(Number(qaCurrent)+1);
     			}
     			,error:function(data){
     				console.log('실패');
-    				console.log(data);
     			}
     		});
 		}
+        
+        function jsonDateConverter(milliseconds){
+        	let date = new Date(milliseconds);
+        	let year = date.getFullYear();
+        	let month = date.getMonth()+1;
+        	if(month < 10) {
+        		month = '0'+month;
+        	}
+        	let day = date.getDate();
+        	if(day < 10) {
+        		day = '0'+day;
+        	}
+        	return year+'-'+month+'-'+day;
+        }
 
     </script>
 </head>
@@ -899,20 +939,7 @@
                     </ul>
                     <div class="tab-content" id="productDetailQandAandBuyReviewBox">
                         <div id="home" class="tab-pane fade in active productDetailQandA">
-                        	<c:forEach var="qaBoardList" items="${qaBoardList }">
-                        		<div class="productDetailQandA">
-                                	<div class="col-xs-2 productDetailQandAStatus">${qaBoardList.qa_board_status }</div>
-                                	<div class="col-xs-5 productDetailQandAWriter">${qaBoardList.user_name }</div>
-                                	<div class="col-xs-5 productDetailQandAWriterDate">${qaBoardList.qa_board_date }</div>
-                                	<div class="col-xs-10 productDetailQandAContent">${qaBoardList.qa_board_content }</div>
-                            	</div>
-                            </c:forEach>
-                           	 	<div class="productDetailQandAResponse">
-                                	<div class="col-xs-2 productDetailQandAStatus">답변</div>
-                                	<div class="col-xs-5 productDetailQandAWriter">작가이름</div>
-                                	<div class="col-xs-5 productDetailQandAWriterDate">날짜</div>
-                                	<div class="col-xs-10 productDetailQandAContent">문의답장</div>
-                            	</div>
+                            <div id="productDetailQandAAjaxResult"></div>  
                             <button class="moreButton" id="productDetailQandAMoreButton">더보기</button>
                             <div id="productDetailQandAInputBox">
                             	<form>
@@ -958,6 +985,7 @@
                     <hr>
                 </div>
                 <div id="productDetailArtistInfo">
+                	<c:if test="${artistInfo != null }">
                     <table class="table table-striped">
                         <colgroup>
                             <col width="20%">
@@ -965,25 +993,29 @@
                         </colgroup>
                         <tr>
                             <td>닉네임</td>
-                            <td>비트캠프</td>
+                            <td><c:out value="${artistInfo.user_nick }"></c:out></td>
                         </tr>
                         <tr>
                             <td>이름</td>
-                            <td>홍길동</td>
+                            <td><c:out value="${artistInfo.user_name }"></c:out></td>
                         </tr>
                         <tr>
                             <td>주소</td>
-                            <td>서울시 종로구</td>
+                            <td><c:out value="${artistInfo.user_address }"></c:out></td>
                         </tr>
                         <tr>
                             <td>전화번호</td>
-                            <td>070-500-2929</td>
+                            <td><c:out value="${artistInfo.user_call }"></c:out></td>
                         </tr>
                         <tr>
                             <td>이메일</td>
-                            <td>bitcamp@naver.com</td>
+                            <td><c:out value="${artistInfo.user_email }"></c:out></td>
                         </tr>
                     </table>
+                    </c:if>
+                    <c:if test="${artistInfo == null }">
+                    <div>작가 정보가 없습니다.</div>
+                    </c:if>
                 </div>
                 <div class="productDetailLine">
                     <div class="row">
