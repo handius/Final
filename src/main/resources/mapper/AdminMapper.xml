@@ -26,6 +26,7 @@
 		        ]]>
 		        	<include refid="search_where"></include>
 		        </where>
+		        ORDER BY USER_REGIDATE DESC
 		     ) A
 		<![CDATA[
 		WHERE A.RNUM >= #{startrow} 
@@ -68,6 +69,7 @@
 		        ]]>
 		        	<include refid="qna_search"></include>
 		        </where>
+		        ORDER BY QUESTION_DATE DESC
 		     ) A
 		<![CDATA[
 		WHERE A.RNUM >= #{startrow} 
@@ -94,13 +96,23 @@
 			ANSWER_STATUS = '완료'
 		WHERE QUESTION_NO = #{question_no}
 	</update>
+	<update id="modifyAnswerContent" parameterType="Object">
+		UPDATE CUSTOMER_QA_BOARD
+		SET ANSWER_CONTENT = #{content}
+		WHERE QUESTION_NO = #{questionno}
+	</update>
+	<update id="deleteAllQuestion">
+		UPDATE CUSTOMER_QA_BOARD
+		SET QUESTION_DELETE_STATUS = 0
+		WHERE QUESTION_NO = #{string}
+	</update>
 	
 	<!-- search -->
   	<sql id="search_where">
-		<if test="user_name != null">
+		<if test="user_name != null and user_name != ''">
 			AND USER_NAME LIKE '%' || #{user_name} || '%'
 		</if>
-		<if test="search_date != '0-0'">
+		<if test="search_date != null and search_date != '0-0'">
 			AND TO_CHAR(USER_REGIDATE, 'yyyy-MM') = #{search_date}
 		</if>
   	</sql>

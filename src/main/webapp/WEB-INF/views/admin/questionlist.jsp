@@ -44,6 +44,9 @@
     .membertable tr th.th_five {
         width: 10%;
     }
+    .pagination_block {
+    	text-align: center;
+    }
     /**/
     .admin_content {
         margin: 10px 0 50px;
@@ -59,11 +62,11 @@
             <form class="form-horizontal" action="/admin/qna" method="post">
               <div class="form-group">
                 <label class="col-sm-1 control-label" for="question_title">제목</label>
-                <div class="col-sm-2">
+                <div class="col-sm-4">
                     <input class="form-control" type="text" name="question_title" id="question_title" placeholder="제목을 입력하세요.">
                 </div>
                 <label class="col-sm-1 control-label" for="question_type">질문유형</label>
-                <div class="col-sm-3">
+                <div class="col-sm-4">
                     <label class="radio-inline">
                         <input type="radio" name="question_type" id="question_type" value="제품 문의">제품 문의
                     </label>
@@ -77,14 +80,14 @@
               </div>
               <div class="form-group">
                 <label class="col-sm-1 control-label" for="search_date">작성일</label>
-                <div class="col-sm-1">
+                <div class="col-sm-2">
                     <select class="form-control search_date_year" name="search_date_year" id="search_date">
                         <option value="0">Year</option>
                         <option value="2019">2019년</option>
                         <option value="2018">2018년</option>
                     </select>
                 </div>
-                <div class="col-sm-1">
+                <div class="col-sm-2">
                     <select class="form-control search_date_month" name="search_date_month" id="search_date">
                         <option value="0">Month</option>
                         <option value="01">01월</option>
@@ -102,7 +105,7 @@
                     </select>
                 </div>
                 <label class="col-sm-1 control-label" for="answer_status">답변 상태</label>
-                <div class="col-sm-2">
+                <div class="col-sm-4">
                     <select class="form-control" name="answer_status" id="answer_status">
                         <option value="">Status</option>
                         <option value="답변 대기">답변 대기</option>
@@ -117,12 +120,13 @@
               </div>
             </form>
           </div>
+        <!-- Question List -->
         <h2>Question List</h2>
         <div class="admin_content">
             <table class="table table-striped table-hover">
               <thead class="membertable">
                   <tr>
-                      <th class="th_one"><input type="checkbox"></th>
+                      <th class="th_one"><input type="checkbox" id="allselectedcheckbox"></th>
                       <th class="th_one_left">No</th>
                       <th class="th_two">제목</th>
                       <th class="th_three">작성자</th>
@@ -133,7 +137,7 @@
               <tbody>
                 <c:forEach var="i" items="${list }" varStatus="status">
                   <tr>
-                      <td class="qna_td_one"><input type="checkbox"></td>
+                      <td class="qna_td_one"><input type="checkbox" name="deletechkbox" value="${i.question_no }"></td>
                       <td><c:out value="${status.count }"/></td>
                       <td><a href="/admin/answer/${i.question_no }"><c:out value="${i.question_title }"/></a> :: <c:out value="${i.question_delete_status }"/></td>
                       <td><c:out value="${i.user_name }"/></td>
@@ -143,13 +147,51 @@
                 </c:forEach>
               </tbody>
             </table>
+                    
+          <!-- Paging Block -->
+          <div class="pagination_block">
+			  <form action="/admin/qna" method="post">
+			  	  <c:if test="${list != null }">
+			  	  
+					<!-- 검색 값 -->
+			 		<c:forEach var="test" items="${test }" varStatus="status">
+			 		<c:if test="${test.value != null }">
+			 			<input type="hidden" name="${test.key }" value="${test.value }">
+			 		</c:if>
+					</c:forEach>
+							
+					<c:if test="${paging.startblock > 1 }">
+						<a href="#">◀</a>
+					</c:if>
+					<c:forEach var="i" begin="${paging.startblock }" end="${paging.endblock }">
+						<c:if test="${i == currpage }">
+							<c:out value="${i }"></c:out>
+						</c:if>
+						<c:if test="${i != currpage }">
+							<input type="submit" class="btn btn-default" name="curr" value="${i }">
+						</c:if>
+					</c:forEach>
+					<c:if test="${paging.endblock < paging.totalpage }">
+						<a href="#">▶</a>
+					</c:if>
+				  </c:if>
+			  </form>
+		  </div>
         <div class="row">
         	<div class="col-sm-1">
-        		<button class="btn btn-default btn-block">삭제</button>
+        		<button class="btn btn-default btn-block" id="delete_all_btn">삭제</button>
         	</div>
         </div>
         </div>
 <script>
+	$('#allselectedcheckbox').click(function() {
+		var checkall = $(this).is(":checked");
+		if(checkall == true) {
+			$('input:checkbox').attr("checked", true);
+		} else {
+			$('input:checkbox').attr("checked", false);
+		}
+	});
 	$('.q_search_btn').click(function() {
 		if ($('.search_date_year').val() != 0 && $('.search_date_month').val() == 0) {
 			alert('검색할 달을 선택해주세요.');
@@ -159,6 +201,14 @@
 			alert('검색할 연도를 선택해주세요');
 			$('.search_date_month').val(0);
 		}
+	});
+	var sendvalue = "";
+	$('#delete_all_btn').click(function() {
+		$('input:checkbox[name="deletechkbox"]').each(function() {
+			var tf = $(this).is(":checked");
+			if (tf == true) sendvalue += $(this).val() + ",";
+		});
+		location.href = "/admin/deleteallquestion?deleteall=" + sendvalue;
 	});
 </script>
 </body>
