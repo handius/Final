@@ -57,6 +57,10 @@
 	.paging{
 		text-align: center;
 	}
+	#hashform{
+		padding-top: 10px;
+		padding-bottom: 10px;
+	}
 	#hashform label{
 		padding:5px 10px;
 		border: 1px solid silver;
@@ -73,18 +77,25 @@
 		position: relative;
 		margin-bottom: 10px;
 	}
+	#sform{
+		padding-top:10px;
+		padding-bottom:10px;
+	}
 	form > hr{
 	}
 	.searchClass{
 		text-align: right;
 	}
 	.listbox .thumbnail{
-		height: 352px;
+		height: 342px;
 		box-shadow: 8px 5px 3px silver;
+		border: 1px double silver;
 		transition: 0.3s;
+		margin-top:20px;
+		margin-bottom:30px;
 	}
 	.listbox .thumbnail:hover{
-		box-shadow: 6px 4px 2px highlighttext;
+		box-shadow: 6px 4px 2px rgba(109,109,109,0.8);
 	}
 	.listbox .thumbnail img{
 		height: 220px;
@@ -92,7 +103,7 @@
 		border-radius: 5px;
 	}
 	.listbox .caption{
-		border: 1px double silver;
+		border: 3px double silver;
 		border-radius: 5px;
 		margin-top: 5px;
 		padding : 9px 15px !important;
@@ -112,6 +123,8 @@
 	}
 	.listbox .caption .price{
 		text-align: right;
+		font-weight: bolder;
+		margin-bottom:0px;
 	}
 	.listbox a{
 		font-size: 0.8em;
@@ -251,7 +264,7 @@
 				</div>
 				<div class="line">
 				</div>
-				<div class="row">
+				<div id="sform" class="row">
 					<div class="col-md-2">
 						<label class="checkbox-inline">
 							<input type="checkbox" id="hasStock" name="hasStock" value="1">

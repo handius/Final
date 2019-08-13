@@ -188,7 +188,7 @@ public class ProductController {
 				}catch(Exception e) {
 					System.out.println(e.getMessage());
 				}
-				String image = "/resources/image/fimage/" + uuid + multipartFile.getOriginalFilename();
+				String image = "/resources/image/fimage/" + uuid.toString() + "-" + multipartFile.getOriginalFilename();
 				queue.offer(image);
 			}
 		}
