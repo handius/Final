@@ -20,7 +20,7 @@
 				<img alt="seller" src="/resources/image/cool.png">
 				<h3>판매자</h3>
 			</sec:authorize>
-			<sec:authentication property="principal.user_id" var="user_id" />
+			<sec:authentication property="principal.member.user_id" var="user_id" />
 			<h3>${user_id }님</h3>
 		</div>
 		<div class="right">
