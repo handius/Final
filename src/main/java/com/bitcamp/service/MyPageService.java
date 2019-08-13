@@ -9,4 +9,8 @@ import com.bitcamp.mapper.MyPageMapper;
 public class MyPageService {
 	@Autowired
 	MyPageMapper mapper;
+	
+	public void updateUserInfo() {
+		
+	}
 }

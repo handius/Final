@@ -30,15 +30,15 @@ public class OrderService {
 		List<Integer> ordermade_no = orderDTO.getOrdermade_no();
 		StringBuilder made_no = new StringBuilder();
 		for (int i = 0; i < order_add_option.size(); i++) {
-			add_option.append(order_add_option.get(i) + "/");
-			amount.append(order_amount.get(i) + "/");
+			add_option.append(order_add_option.get(i));
+			amount.append(order_amount.get(i));
 			if (i < order_add_option.size() - 1) {
 				add_option.append("/");
 				amount.append("/");
 			}
 		}
 		for (int i = 0; i < ordermade_no.size(); i++) {
-			made_no.append(ordermade_no.get(i) + "/");
+			made_no.append(ordermade_no.get(i));
 			if (i < ordermade_no.size() - 1) {
 				made_no.append("/");
 			}
