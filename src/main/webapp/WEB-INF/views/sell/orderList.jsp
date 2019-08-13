@@ -103,8 +103,8 @@
 		border-radius: 5px;
 	}
 	.listbox .caption{
-		border: 3px double silver;
-		border-radius: 5px;
+		border-top:3px double silver;
+		border-bottom:3px double silver;
 		margin-top: 5px;
 		padding : 9px 15px !important;
 		background-color: white;
@@ -117,6 +117,9 @@
 	}
 	.listbox .caption h4 a{
 		color : black !important; 
+		transition: .3s;
+		font-size: 0.7em;
+		font-weight: 600;
 	}
 	.listbox .caption p{
 		font-size: 1.8em;
@@ -126,8 +129,8 @@
 		font-weight: bolder;
 		margin-bottom:0px;
 	}
-	.listbox a{
-		font-size: 0.8em;
+	.listbox .caption h4 a:hover{
+		color:lightpink !important;
 	}
 	#subbtn{
 		background-color: transparent;
@@ -299,7 +302,7 @@
 			    	<div class="col-sm-6 col-md-3 listbox">
 			      		<div class="thumbnail">
 			      			<c:forEach var="image" items="${item.list_image_loc }" end="1">
-			      				<img src="${image }" alt="이미지가 없습니다.">
+			      				<a href="/checkIsOrdered?no=${item.list_no} "><img src="${image }" alt="이미지가 없습니다."></a>
 			      			</c:forEach>
 			      		
 			          		<div class="caption">
