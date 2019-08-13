@@ -1,9 +1,5 @@
 Manifest-Version: 1.0
-<<<<<<< HEAD
 Built-By: bit
-=======
-Built-By: hb2005
->>>>>>> branch 'master' of https://github.com/handius/Final.git
 Build-Jdk: 1.8.0_201
 Created-By: Maven Integration for Eclipse
 
