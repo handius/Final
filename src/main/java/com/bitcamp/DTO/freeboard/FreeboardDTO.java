@@ -1,10 +1,14 @@
 package com.bitcamp.DTO.freeboard;
 
-import java.util.Date;
+import java.util.List;
+
+import com.bitcamp.DTO.member.MemberDTO;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
+@ToString
 @Getter @Setter
 public class FreeboardDTO {
 	private int freeboard_no;
@@ -15,4 +19,5 @@ public class FreeboardDTO {
 	private int freeboard_status;
 	private String freeboard_category;
 	private int member_no;
+	private String user_nick;
 }

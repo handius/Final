@@ -15,13 +15,33 @@
 		<result property="freeboard_category"
 			column="freeboard_category"></result>
 		<result property="member_no" column="member_no"></result>
+		<result property="user_nick" column="user_nick" />
+		<!-- <collection property="member" resultMap="memberMap"></collection> -->
 	</resultMap>
+	<!-- <resultMap type="com.bitcamp.DTO.member.MemberDTO" id="memberMap"> 
+		<result property="member_no" column="member_no" /> <result property="user_nick" 
+		column="user_nick" /> </resultMap> -->
 
-	<insert id="insertData" parameterType="com.bitcamp.DTO.freeboard.FreeboardDTO">
+	<insert id="insertData"
+		parameterType="com.bitcamp.DTO.freeboard.FreeboardDTO">
 		insert into freeboard
-		values(freeboard_seq.nextval, #{freeboard_title},
-		#{freeboard_content}, sysdate, 0, 1, 'temp', #{member_no})
+		values(freeboard_seq.nextval,
+		#{freeboard_title},
+		#{freeboard_content}, sysdate, 0, 1, 'temp',
+		#{member_no})
 	</insert>
+
+	<select id="getList" resultMap="freeboardMap">
+		select freeboard_no, freeboard_title,
+		freeboard_content,
+		freeboard_regitime, freeboard_hits,
+		freeboard_member_no, user_nick from
+		freeboard
+		LEFT OUTER JOIN member on freeboard.freeboard_member_no =
+		member.member_no
+		<!-- <if test="value!=null"> where freeboard_category=#{category} </if> -->
+
+	</select>
 
 
 </mapper>

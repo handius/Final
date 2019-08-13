@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
 import com.bitcamp.DAO.CustomUser;
 import com.bitcamp.DTO.member.MemberDTO;
@@ -11,6 +12,7 @@ import com.bitcamp.mapper.MemberMapper;
 
 import lombok.Setter;
 
+@Service("userService")
 public class CustomUserDetailService implements UserDetailsService {
 
 	@Setter(onMethod_ = { @Autowired })
