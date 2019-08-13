@@ -12,7 +12,7 @@
 	body{
 		margin: 0px;
 		padding: 0px;
-		background-color: #F0E5DE !important;
+		background-color: rgba(232, 232, 232, 0.8) !important;
 	}
 	a{
 		color: black !important;
@@ -20,26 +20,32 @@
 	a:hover{
 		text-decoration: none !important;
 	}
+	.line{
+		border: 0.5px solid silver;
+		width: 100%;
+		margin-bottom:10px;
+	}
 	.category{
 		background-color: white;
 		border: 1px solid silver;
+		height: 50px;
+		vertical-align: middle;
+		padding-top: 8px;
 	}
 	.category .row{
 		text-align: center;
 	}
 	.category .row h5{
 		font-weight: bolder;
+		font-family: 'Comfortaa', cursive;
+		font-style: italic;
 	}
 	.jumbotron{
 		margin-top:0px;
 		margin-bottom:0px !important;
 		background-image: url("/resources/image/banner image.jpeg");
 		background-size: cover;
-	}
-	.jumbotron h1{
-		color: white;
-		font-weight: bolder;
-		font-style: italic;
+		height: 250px;
 	}
 	.paging{
 		text-align: center;
@@ -50,6 +56,7 @@
 		border-radius: 20px;
 		margin: 10px;
 		background-color: white;
+		color:silver;
 	}
 	#hashform input[type="checkbox"]{
 		display: none;
@@ -64,7 +71,7 @@
 		text-align: right;
 	}
 	.listbox .thumbnail{
-		height: 440px;
+		height: 405px;
 		box-shadow: 8px 5px 3px silver;
 	}
 	.listbox .thumbnail img{
@@ -75,7 +82,11 @@
 	.listbox .caption{
 		border: 1px solid silver;
 		border-radius: 5px;
-		margin-top: 10px;
+		margin-top: 5px;
+	}
+	.listbox .caption h4{
+		margin-top: 1px !important;
+		font-weight: bold;
 	}
 	.listbox a{
 		font-size: 0.9em;
@@ -126,34 +137,50 @@
 	
 		<div class="jumbotron">
 	  		<div class="container">
-	  			
-	  				
-	  		<h1>상품 구매 페이지</h1>
-	  				
 	  				
 	  			
 		  	</div>
 		</div>
 	
 		<div class="container-fluid category">
-			<div class="row">
-				<div class="col-md-2">
-					<h5><a href="/orderList/book?order=${Order}">책</a></h5>
-				</div>
-				<div class="col-md-2">
-					<h5><a href="/orderList/cup?order=${Order}">머그컵</a></h5>
-				</div>
-				<div class="col-md-2">
-					<h5><a href="/orderList/table?order=${Order}">가구</a></h5>
-				</div>
-				<div class="col-md-2">
-					<h5><a href="/orderList/accessary?order=${Order}">악세사리</a></h5>
-				</div>
-				<div class="col-md-2">
-					<h5><a href="/orderList/handmade?order=${Order}">공예</a></h5>
-				</div>
-				<div class="col-md-2">
-					<h5><a href="/orderList/anything?order=${Order}">기타</a></h5>
+			<div class="container">
+				<div class="row">
+					<div class="col-md-1">
+						<h5><a href="/orderList/book?order=${Order}">Book</a></h5>
+					</div>
+					<div class="col-md-1">
+						<h5>/</h5>
+					</div>
+					<div class="col-md-1">
+						<h5><a href="/orderList/cup?order=${Order}">Mugcup</a></h5>
+					</div>
+					<div class="col-md-1">
+						<h5>/</h5>
+					</div>
+					<div class="col-md-1">
+						<h5><a href="/orderList/table?order=${Order}">Funiture</a></h5>
+					</div>
+					<div class="col-md-1">
+						<h5>/</h5>
+					</div>
+					<div class="col-md-1">
+						<h5><a href="/orderList/accessary?order=${Order}">Accessary</a></h5>
+					</div>
+					<div class="col-md-1">
+						<h5>/</h5>
+					</div>
+					<div class="col-md-1">
+						<h5><a href="/orderList/handmade?order=${Order}">HandCraft</a></h5>
+					</div>
+					<div class="col-md-1">
+						<h5>/</h5>
+					</div>
+					<div class="col-md-1">
+						<h5><a href="/orderList/anything?order=${Order}">ETC</a></h5>
+					</div>
+					<div class="col-md-1">
+						<h5>/</h5>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -163,7 +190,8 @@
 				<div class="container" id="hashform">
 					
 				</div>
-				<hr>
+				<div class="line">
+				</div>
 				<div class="row">
 					<div class="col-md-2">
 						<label class="checkbox-inline">
@@ -202,7 +230,7 @@
 			      			</c:forEach>
 			      		
 			          		<div class="caption">
-			            		<h3><a href="/checkIsOrdered?no=${item.list_no} ">${item.list_title }</a></h3>
+			            		<h4><a href="/checkIsOrdered?no=${item.list_no} ">${item.list_title }</a></h4>
 			            		<p>${item.list_date }</p>
 			            		<p>작가명 : ${item.list_artist }</p>
 			            		<p>상품명 : ${item.list_product }</p>
