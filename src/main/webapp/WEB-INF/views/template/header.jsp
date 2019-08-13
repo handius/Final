@@ -143,10 +143,11 @@
             </div>
     </div>
     <div class="menuhoversearch">
-       <form action="" method="post">
+       <form action="/orderList" method="post">
         <div class="form-group">
           <div class="col-xs-6 col-xs-offset-1">
-            <input type="text" class="searchtextinput" name="search" placeholder="검색어를 입력하세요." autocomplete=off>
+          	<input type="hidden" name="searchType" value="title">
+            <input type="text" class="searchtextinput" name="searchData" placeholder="검색어를 입력하세요." autocomplete=off>
           </div>    
           <div class="col-xs-2">
               <button type="submit" id="searchsubmitbutton"><span class="glyphicon glyphicon-search"></span></button>
