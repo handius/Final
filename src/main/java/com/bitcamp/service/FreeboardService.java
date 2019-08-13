@@ -9,16 +9,12 @@ import org.springframework.stereotype.Service;
 
 import com.bitcamp.DTO.freeboard.FreeboardDTO;
 import com.bitcamp.mapper.FreeboardMapper;
-import com.bitcamp.mapper.MemberMapper;
 
 @Service("freeboardService")
 public class FreeboardService {
 
 	@Autowired
 	private FreeboardMapper fbMapper;
-
-	@Autowired
-	private MemberMapper member;
 
 	public void writeService(FreeboardDTO dto) {
 		fbMapper.insertData(dto);
@@ -38,6 +34,11 @@ public class FreeboardService {
 		search.put(search_type, search_txt);
 
 		List<FreeboardDTO> dto = fbMapper.getSearchList(search);
+		return dto;
+	}
+
+	public FreeboardDTO detailService(int freeboard_no) {
+		FreeboardDTO dto = fbMapper.getDetail(freeboard_no);
 		return dto;
 	}
 
