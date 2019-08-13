@@ -26,8 +26,6 @@ public class JunitTest {
 	@Autowired
 	private SqlSessionTemplate sqlsession;
 	@Autowired
-	private TestMapper mapper;
-	@Autowired
 	private AdminMapper tempmapper;
 	
 //	@Test

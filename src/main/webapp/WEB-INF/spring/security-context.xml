@@ -12,7 +12,6 @@
 		class="com.bitcamp.service.CustomUserDetailService"></beans:bean>
 	<beans:bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></beans:bean>
 
-
 	<http>
 		<intercept-url pattern="/**" access="permitAll" />
 		<csrf disabled="true" />
