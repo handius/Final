@@ -37,9 +37,10 @@ public class AdminController {
 		// 쿼리 돌릴 값 (검색)
 		HashMap<String, Object> search_map = new HashMap<>();
 		search_map.put("user_name", user_name);
+		String make_to_char = null;
 		String date1 = search_date.getSearch_date_year();
 		String date2 = search_date.getSearch_date_month();
-		String make_to_char = date1 + "-" + date2;
+		if(date1 != null || date2 != null) make_to_char = date1 + "-" + date2;
 		search_map.put("search_date", make_to_char);
 		
 		// 페이징
@@ -53,11 +54,6 @@ public class AdminController {
 		// 쿼리 돌릴 값 (페이징)
 		search_map.put("startrow", page.getStartrow());
 		search_map.put("endrow", page.getEndrow());
-		
-//		System.out.println(search_map.get("user_name"));
-//		System.out.println(search_map.get("search_date"));
-//		System.out.println(search_map.get("startrow"));
-//		System.out.println(search_map.get("endrow"));
 		
 		List<MemberDTO> memberlist = adservice.getMemberList(search_map);
 		
@@ -149,6 +145,15 @@ public class AdminController {
 		
 		model.addAttribute("list", question);
 		model.addAttribute("admin_category", "operate");
+		
+		HashMap<String, Object> test = new HashMap<>();
+		test.put("question_title", search_map2.get("question_title"));
+		test.put("search_date", search_date);
+		test.put("search_date", search_map2.get("search_date"));
+		test.put("answer_status", search_map2.get("answer_status"));
+		// 페이징 검색 값
+		model.addAttribute("test", test);
+		model.addAttribute("paging", page);
 		return "admin/questionlist.admin";
 	}
 	
@@ -171,7 +176,7 @@ public class AdminController {
 	}
 	
 	@RequestMapping("/admin/answercontentupdate/{questionno}")
-	public String answercontent(@RequestParam String answer_content,
+	public String answercontent(@RequestParam(required = false) String answer_content,
 								 @PathVariable int questionno,
 								 Model model) {
 		HashMap<String, Object> update_map = new HashMap<>();
@@ -183,4 +188,33 @@ public class AdminController {
 		model.addAttribute("admin_category", "operate");
 		return "redirect:/admin/answer/" + questionno;
 	}
+	
+	@RequestMapping("/admin/updateanswercontent/{questionno}")
+	public String answerupdateform(@PathVariable int questionno, Model model) {
+		CustomerQABoardDTO qna = adservice.getQnADetail(questionno);
+		
+		model.addAttribute("dto", qna);
+		return "admin/answerupdate";
+	}
+	
+	@RequestMapping("/admin/answermodify/{questionno}")
+	public String qnamodify(@RequestParam String answer_content, @PathVariable int questionno, Model model) {
+		HashMap<String, Object> update_map = new HashMap<>();
+		update_map.put("content", answer_content);
+		update_map.put("questionno", questionno);
+		int result = adservice.modifyAnswerContent(update_map);
+		
+		model.addAttribute("result", result);
+		return "redirect:/admin/answer/" + questionno;
+	}
+	
+	@RequestMapping("/admin/deleteallquestion")
+	public String deleteallquestion(@RequestParam String deleteall, Model model) {
+		String[] delete = deleteall.split(",");
+		for(int i = 0; i < delete.length; i++) {
+			adservice.deleteAllQuestion(delete[i]);
+		}
+		return "redirect:/admin/qna";
+	}
+	
 }
