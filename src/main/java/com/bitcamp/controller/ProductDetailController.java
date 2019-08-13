@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.bitcamp.DTO.Product.ListDTO;
+import com.bitcamp.DTO.productdetail.OrderResultDTO;
 import com.bitcamp.DTO.productdetail.QABoardDTO;
 import com.bitcamp.service.ProductDetailService;
 
@@ -28,6 +30,19 @@ public class ProductDetailController {
 		System.out.println(list_no); //테스트
 		
 		Map<String, Object> map = service.productDetailService(list_no);
+		
+		Object tmp_list_order_member_no = session.getAttribute("list_order_member_no");
+		if(tmp_list_order_member_no != null) {
+			List<Integer> list_order_member_no = (List<Integer>)tmp_list_order_member_no;
+			session.removeAttribute("list_order_member_no");
+			List<OrderResultDTO> orderlist = service.productDetailOrderService(list_order_member_no);
+			model.addAttribute("orderList", service.productDetailOrderService(list_order_member_no));
+			
+			for(int i=0; i<orderlist.size(); i++) {
+				System.out.println("이름 : "+orderlist.get(i).getOrder_name());
+				System.out.println("값 : "+orderlist.get(i).getOrder_value());
+			}
+		}
 		
 		model.addAttribute("listDTO", map.get("productDetail"));
 		model.addAttribute("imgList", map.get("productDetailImg"));
@@ -61,12 +76,13 @@ public class ProductDetailController {
 	
 	@RequestMapping(value="/ajaxqaboardList", method= {RequestMethod.POST})
 	public @ResponseBody List<QABoardDTO> ajaxqaboardList(@RequestBody Map<String, String> map) {
+		
 		int list_no = Integer.parseInt(map.get("list_no"));
 		int qaCurrentPage = Integer.parseInt(map.get("currentpage"));
-		System.out.println("현재 페이지 : "+qaCurrentPage);
 		int sqlSize = 5;
 		int start_sql = (qaCurrentPage-1) * sqlSize + 1;
 		int end_sql = start_sql + sqlSize -1;
+		
 		QABoardDTO dto = new QABoardDTO();
 		dto.setList_no(list_no);
 		dto.setStart_sql(start_sql);

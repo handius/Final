@@ -48,5 +48,15 @@
     connect by prior qa_board_no = qa_board_parent_no ) e
 	where list_no = #{list_no} and num <![CDATA[>]]>= #{start_sql} and qa_board_delete_status = 1
 </select>
+<select id="productDetailOrderResultList" resultType="com.bitcamp.DTO.productdetail.OrderResultDTO">
+	select order_name, order_option, order_value
+	from list_order_member_board inner join list_order_board
+	on list_order_member_board.list_order_no = list_order_board.list_order_no
+	<where>
+		<foreach collection="list" item="item" index="i" separator="or">
+			list_order_member_no = #{item}
+		</foreach>
+	</where>
+</select>
 </mapper>
   

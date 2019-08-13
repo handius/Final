@@ -776,6 +776,14 @@
     			,success:function(data){
     				console.log('성공');
     				var result = '';
+    				if(data.length == 0) {
+    					result += '<div class="productDetailQandA">';
+						result += '<div class="col-xs-2 "></div>';
+    					result += '<div class="col-xs-5 productDetailQandAWriter"></div>';
+    					result += '<div class="col-xs-5 productDetailQandAWriterDate"></div>';
+    					result += '<div class="col-xs-10 productDetailQandAContent">Q & A가 없습니다.</div>';
+    					result += '</div>'
+    				}
     				for(let i=0; i<data.length; i++) {
     					//해당 작가가 아니라면
     					if(data[i].level == 1) {
@@ -894,14 +902,24 @@
                         </div>
                         <div id="ResultBox"></div>
                     </div>
-
-                    <div class="customerOrderBox productDetailAsideBlock">
-                        <div class="col-xs-12 customerOrderTitle">소비자 요구사항1</div>
-                        <div class="col-xs-12 customerOrderValue">
-                            <img src="" alt="슬라이드 0">
-                        </div>
-                    </div>
-
+                    <c:if test="${orderList != null }">
+                    	<c:forEach var="orderList" items="${orderList }"  varStatus="i">
+                    		<div class="customerOrderBox productDetailAsideBlock">
+                        		<div class="col-xs-12 customerOrderTitle"><c:out value="${orderList.order_name }"></c:out></div>
+                        		<div class="col-xs-12 customerOrderValue">
+                        			<c:if test="${orderList.order_option eq 'picture' }">
+                        				<img src="${orderList.order_value }" alt="주문사진">
+                        			</c:if>
+                        			<c:if test="${orderList.order_option eq 'color' }">
+                        				<c:out value="색상 : ${orderList.order_value }"></c:out>
+                        			</c:if>
+                        			<c:if test="${orderList.order_option eq 'text' }">
+                        				<c:out value="${orderList.order_value }"></c:out>
+                        			</c:if>
+                        		</div>
+                    		</div>
+                   	 	</c:forEach>
+                    </c:if>
                     <div class="productDetailLine">
                         <hr>
                     </div>
