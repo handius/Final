@@ -19,6 +19,11 @@
 	from list_option_board
 	where list_no = #{list_no}
 </select>
+<select id="productDetailArtistGet" parameterType="String" resultType="com.bitcamp.DTO.member.MemberDTO">
+	select user_nick, user_name, user_address, user_call, user_email
+	from member
+	where user_name = #{list_artist}
+</select>
 <insert id="productDetailQandAInsert" parameterType="com.bitcamp.DTO.productdetail.QABoardDTO">
 	<selectKey order="BEFORE" keyProperty="qa_board_no" resultType="int">
 		select qa_board_seq.nextval from dual
@@ -35,12 +40,23 @@
 <select id="productDetailQandAList" parameterType="com.bitcamp.DTO.productdetail.QABoardDTO" resultType="com.bitcamp.DTO.productdetail.QABoardDTO">
  	 select num, e.*
  	 from (select rownum as num,qa_board_no, list_no, qa_board.member_no, qa_board_date, qa_board_content, qa_board_secret, qa_board_status
-	, qa_board_parent_no, qa_board_delete_status, user_name
+	, qa_board_parent_no, qa_board_delete_status, user_name, level
 	from qa_board inner join member
 	on qa_board.member_no = member.member_no
 	where rownum <![CDATA[<]]>= #{end_sql} 
-	order by qa_board_date desc ) e
+	start with qa_board_parent_no is null
+    connect by prior qa_board_no = qa_board_parent_no ) e
 	where list_no = #{list_no} and num <![CDATA[>]]>= #{start_sql} and qa_board_delete_status = 1
+</select>
+<select id="productDetailOrderResultList" resultType="com.bitcamp.DTO.productdetail.OrderResultDTO">
+	select order_name, order_option, order_value
+	from list_order_member_board inner join list_order_board
+	on list_order_member_board.list_order_no = list_order_board.list_order_no
+	<where>
+		<foreach collection="list" item="item" index="i" separator="or">
+			list_order_member_no = #{item}
+		</foreach>
+	</where>
 </select>
 </mapper>
   

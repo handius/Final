@@ -18,4 +18,6 @@ public interface AdminMapper {
 	public CustomerQABoardDTO getQnADetail(int questionno);
 	public int deleteQuestion(int questionno);
 	public int updateAnswerContent(HashMap<String, Object> update_map);
+	public int modifyAnswerContent(HashMap<String, Object> update_map);
+	public void deleteAllQuestion(String string);
 }

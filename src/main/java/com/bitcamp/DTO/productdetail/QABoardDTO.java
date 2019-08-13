@@ -22,4 +22,5 @@ public class QABoardDTO {
 	private int start_sql;
 	private int end_sql;
 	private String user_name;
+	private int level;
 }

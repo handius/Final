@@ -53,6 +53,9 @@
     .a_margindiv {
     	height: 20px;
     }
+	.btn-block+.btn-block {
+	    margin-top: 0px;
+	}
     /**/
     .admin_content {
         margin: 10px 0 50px;
@@ -86,21 +89,13 @@
                   </tr>
               </tbody>
             </table>
-            <form action="/admin/answercontentupdate/${dto.question_no }" method="post">
+              
+              <!-- 답변 하기 전 -->
               <c:if test="${dto.answer_status == '답변 대기' }">
-                <textarea id="summernote" name="answer_content" class="form-control answerbtn">
-                
-                </textarea>
-              </c:if>
-              
-              <c:if test="${dto.answer_status == '완료' }">
-              	<div class="answer_content_div row">
-              		<c:out value="${dto.answer_content }"/>
-              	</div>
-              </c:if>
-              <div class="a_margindiv"></div>
-              
-                <div class="form-group row">
+                <form action="/admin/answercontentupdate/${dto.question_no }" method="post">
+                  <textarea id="summernote" name="answer_content" class="form-control answerbtn get_content_class"></textarea>
+                  <div class="a_margindiv"></div>
+                  <div class="hide_button row">
                 	<div class="col-sm-2">
                         <input type="button" class="btn btn-default btn-block answerpadding gobackqlist_btn" value="리스트로">
                 	</div>
@@ -108,39 +103,81 @@
                         <button class="btn btn-default btn-block answerpadding delete_question_btn" value="${dto.question_no }">문의삭제</button>
                     </div>
                     <div class="col-sm-2">
-                      <c:if test="${dto.answer_status == '답변 대기' }">
-                        <button class="btn btn-default btn-block answerpadding ifnoanswer" value="답변등록"></button>
-                      </c:if>
-                      <c:if test="${dto.answer_status == '완료' }">
-                        <input type="submit" class="btn btn-default btn-block answerpadding ifnoanswer" value="답변수정">
-                      </c:if>
+                      	<input type="submit" class="btn btn-default btn-block answerpadding" value="답변등록">
                     </div>
                 </div>
-            </form>
+                </form>
+              </c:if>
+                    
+              <!-- 답변 한 뒤 -->
+              <c:if test="${dto.answer_status == '완료' }">
+              	<div class="answer_content_div row">
+              		${dto.answer_content }
+              	</div>
+                <div class="a_margindiv"></div>
+              	<div id="ajaxtest"></div>
+                <div class="hide_button row">
+                	<div class="col-sm-2">
+                        <input type="button" class="btn btn-default btn-block answerpadding gobackqlist_btn" value="리스트로">
+                	</div>
+                    <div class="col-sm-2 col-sm-offset-6">
+                        <button class="btn btn-default btn-block answerpadding delete_question_btn" value="${dto.question_no }">문의삭제</button>
+                    </div>  
+                    <div class="col-sm-2">
+                        <button class="btn btn-default btn-block answerpadding ifanswered" value="${dto.question_no }">답변수정</button>
+                    </div>
+                </div>
+              </c:if>
         </div>
+        
 <script>
-$('.gobackqlist_btn').click(function() {
-	location.href = "/admin/qna";
-	return false;
-});
-$('.ifnoanswer').click(function() {
-	if ($('#summernote').val() == null || $('#summernote').val() == '') {
-		alert("내용을 입력해주세요.");
-		location.href = "/admin/deletequestion/" + $('.delete_question_btn').val();
-	}
-});
-$('.delete_question_btn').click(function() {
- 	var result = confirm('정말 삭제하시겠습니까?');
-	if (result) { 
-		location.href = "/admin/deletequestion/" + $(this).val();
-	} else {
-		
-	}
-	return false;
-});
+	// '리스트로' 버튼
+	$('.gobackqlist_btn').click(function() {
+		location.href = "/admin/qna";
+		return false;
+	});
+	
+	// '답변등록' 버튼
+	$('.ifnoanswer').click(function() {
+		if ($('#summernote').val() == '') {
+			alert('내용을 입력해주세요');
+		}
+		return false;
+	});
+
+	// '답변수정' 버튼
+	$('.ifanswered').click(function() {
+		$('.hide_button').hide();
+		$('.answer_content_div').hide();
+	 	$.ajax({
+		    url      : "/admin/updateanswercontent/" + $(this).val(),
+		    type     : "GET",
+		    dataType : "html",
+		    success  : function(data) {
+		        	       $('#ajaxtest').append(data); 
+		    		   },
+		    error    : function(data) {
+			  		       alert("error");
+			           }
+		});
+	});
+	
+	// '문의삭제' 버튼
+	$('.delete_question_btn').click(function() {
+	 	var result = confirm('정말 삭제하시겠습니까?');
+		if (result) { 
+			location.href = "/admin/deletequestion/" + $(this).val();
+		} else {
+			
+		}
+		return false;
+	});
+	
+	// 섬머노트
       $('#summernote').summernote({
         height: 300
       });
 </script>
+
 </body>
 </html>

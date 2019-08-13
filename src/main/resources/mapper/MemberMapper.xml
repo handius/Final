@@ -37,5 +37,17 @@
 		member.member_no = authority.member_no
 		where member.user_id = #{user_id}
 	</select>
+	
+	<select id="readMemberbyMemberNo" resultMap="memberMap">
+		select member.member_no, member.user_id,
+		user_password, user_name,
+		user_nick, user_email, user_address,
+		user_regidate, user_status,
+		user_call, user_certstatus, user_flatform,
+		user_auth
+		from member LEFT OUTER JOIN authority on
+		member.member_no = authority.member_no
+		where member.member_no = #{member_no}
+	</select>
 
 </mapper>
