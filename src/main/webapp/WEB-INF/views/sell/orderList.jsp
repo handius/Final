@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -78,7 +79,7 @@
 		text-align: right;
 	}
 	.listbox .thumbnail{
-		height: 405px;
+		height: 352px;
 		box-shadow: 8px 5px 3px silver;
 		transition: 0.3s;
 	}
@@ -91,16 +92,29 @@
 		border-radius: 5px;
 	}
 	.listbox .caption{
-		border: 1px solid silver;
+		border: 1px double silver;
 		border-radius: 5px;
 		margin-top: 5px;
+		padding : 9px 15px !important;
+		background-color: white;
 	}
 	.listbox .caption h4{
 		margin-top: 1px !important;
-		font-weight: bold;
+		font-weight: lighter;
+		font-size : 1.7em;
+		margin-bottom: 1px;
+	}
+	.listbox .caption h4 a{
+		color : black !important; 
+	}
+	.listbox .caption p{
+		font-size: 1.8em;
+	}
+	.listbox .caption .price{
+		text-align: right;
 	}
 	.listbox a{
-		font-size: 0.9em;
+		font-size: 0.8em;
 	}
 	#subbtn{
 		background-color: transparent;
@@ -111,6 +125,16 @@
 		border: 1px dotted silver;
 		border-radius:50%;
 		font-weight: bolder;
+	}
+	.arttxt{
+		font-family: 'Comfortaa', cursive;
+		font-style: italic;
+		font-weight: bolder;
+		color: silver;
+		font-size: 0.9em;
+	}
+	.smtxt{
+		font-size: 0.6em;
 	}
 	
 </style>
@@ -267,10 +291,8 @@
 			      		
 			          		<div class="caption">
 			            		<h4><a href="/checkIsOrdered?no=${item.list_no} ">${item.list_title }</a></h4>
-			            		<p>${item.list_date }</p>
-			            		<p>작가명 : ${item.list_artist }</p>
-			            		<p>상품명 : ${item.list_product }</p>
-			            		<p>가격 : ${item.list_base_price }원</p>
+			            		<span class="arttxt">${item.list_artist }</span>
+			            		<p class="price"><fmt:formatNumber value="${item.list_base_price }" type="number"/><span class="smtxt">원</span></p>
 			      			</div>
 			      		</div>
 			   		</div>
