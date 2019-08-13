@@ -7,14 +7,22 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Insert title here</title>
+<link href="https://fonts.googleapis.com/css?family=Comfortaa&display=swap" rel="stylesheet">
 <style>
 	body{
 		margin: 0px;
 		padding: 0px;
+		background-color: #F0E5DE !important;
 	}
-	
+	a{
+		color: black !important;
+	}
+	a:hover{
+		text-decoration: none !important;
+	}
 	.category{
-		background-color: silver;
+		background-color: white;
+		border: 1px solid silver;
 	}
 	.category .row{
 		text-align: center;
@@ -25,17 +33,23 @@
 	.jumbotron{
 		margin-top:0px;
 		margin-bottom:0px !important;
-		background-image: url("/resources/image/back.jpg");
+		background-image: url("/resources/image/banner image.jpeg");
 		background-size: cover;
+	}
+	.jumbotron h1{
+		color: white;
+		font-weight: bolder;
+		font-style: italic;
 	}
 	.paging{
 		text-align: center;
 	}
 	#hashform label{
-		padding:10px;
+		padding:5px 10px;
 		border: 1px solid silver;
-		border-radius: 5px;
+		border-radius: 20px;
 		margin: 10px;
+		background-color: white;
 	}
 	#hashform input[type="checkbox"]{
 		display: none;
@@ -48,6 +62,23 @@
 	}
 	.searchClass{
 		text-align: right;
+	}
+	.listbox .thumbnail{
+		height: 440px;
+		box-shadow: 8px 5px 3px silver;
+	}
+	.listbox .thumbnail img{
+		height: 220px;
+		border: 1px double silver;
+		border-radius: 5px;
+	}
+	.listbox .caption{
+		border: 1px solid silver;
+		border-radius: 5px;
+		margin-top: 10px;
+	}
+	.listbox a{
+		font-size: 0.9em;
 	}
 </style>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -75,7 +106,7 @@
 			, success:function(data){
 				var result = "";
 				$.each(data, function(index, value){
-					result += '<label>'+value+'<input type="checkbox" name="hashTag" value="'+value+'"></label>';
+					result += '<label>#'+value+'<input type="checkbox" name="hashTag" value="'+value+'"></label>';
 				});
 				result += '<input type="button" id="hashplus" onclick="loadHash()" value="+">';
 				$('#hashform').html(result);
@@ -95,8 +126,12 @@
 	
 		<div class="jumbotron">
 	  		<div class="container">
-	  			<h1>상품 구매 페이지</h1>
-	    		<p>상품 구매 페이지</p>
+	  			
+	  				
+	  		<h1>상품 구매 페이지</h1>
+	  				
+	  				
+	  			
 		  	</div>
 		</div>
 	
@@ -149,8 +184,8 @@
 							<input type="hidden" name="order" value="${Order }">
 						</div>
 						<div class="form-group">
-							<input type="submit" value="검색">
-							<input type="reset" value="취소">
+							<input type="submit" class="btn btn-default" value="검색">
+							<input type="reset" class="btn btn-default" value="취소">
 						</div>
 						
 					</div>
@@ -160,11 +195,12 @@
 		<div class="container"> 
 		 	<div class="row">
 		 		<c:forEach var="item" items="${list }">
-			    	<div class="col-sm-6 col-md-3">
+			    	<div class="col-sm-6 col-md-3 listbox">
 			      		<div class="thumbnail">
 			      			<c:forEach var="image" items="${item.list_image_loc }" end="1">
 			      				<img src="${image }" alt="이미지가 없습니다.">
 			      			</c:forEach>
+			      		
 			          		<div class="caption">
 			            		<h3><a href="/checkIsOrdered?no=${item.list_no} ">${item.list_title }</a></h3>
 			            		<p>${item.list_date }</p>

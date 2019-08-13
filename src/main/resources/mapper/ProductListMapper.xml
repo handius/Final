@@ -79,6 +79,12 @@
 				<if test="status != 0">
 					AND lb.list_status = 1
 				</if>
+				<if test="orders == 0">
+					AND lb.isordered = 0
+				</if>
+				<if test="orders == 1">
+					AND lb.isordered = 1
+				</if>
 				order by lb.list_no
 			) lbb
 		)

@@ -45,9 +45,9 @@ public class ProductController {
 			orders = Integer.parseInt(order);
 		}
 		String list_category = "";
-		int pagePerCount = 8;
+		int pagePerCount = 16;
 		int blockSize = 5;
-		int totalCount = service.getCountService(searchType, searchData, list_category, hashTag, hasStock, status);
+		int totalCount = service.getCountService(searchType, searchData, list_category, hashTag, hasStock, status, orders);
 		System.out.println("hashList : " + hashTag);
 		PageDTO dto = new PageDTO(currpage, totalCount, pagePerCount, blockSize);
 		List<ListDTO> list = service.getListService(searchType, searchData, dto, list_category, hashTag, hasStock, status, orders);
@@ -64,9 +64,9 @@ public class ProductController {
 		if(order != null && order != "" && order.length() > 0) {
 			orders = Integer.parseInt(order);
 		}
-		int pagePerCount = 8;
+		int pagePerCount = 16;
 		int blockSize = 5;
-		int totalCount = service.getCountService(searchType, searchData, list_category, hashTag, hasStock, status);
+		int totalCount = service.getCountService(searchType, searchData, list_category, hashTag, hasStock, status ,orders);
 		PageDTO dto = new PageDTO(currpage, totalCount, pagePerCount, blockSize);
 		List<ListDTO> list = service.getListService(searchType, searchData, dto, list_category, hashTag, hasStock, status, orders);
 		List<String> hashList = service.getHashService(20);
