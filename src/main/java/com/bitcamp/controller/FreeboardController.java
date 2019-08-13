@@ -17,6 +17,9 @@ public class FreeboardController {
 
 	@RequestMapping("freeboard/freeboardList")
 	public String freeboardList() {
+		
+//		fbservice.listService();
+		
 		return "freeboard/freeboardList";
 	}
 
@@ -42,7 +45,7 @@ public class FreeboardController {
 		
 		fbservice.writeService(dto);
 
-		return "freeboard/freeboardList";
+		return "redirect:/freeboard/freeboardList";
 	}
 
 }
