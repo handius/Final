@@ -41,11 +41,12 @@
 				<if test="isordered == 1">
 					AND lb.isordered = 1
 				</if>
-				order by lb.list_no
+				
 			) lbb
 			where rownum<![CDATA[ <= ]]>#{PageDTO.endrow}
 		)
 		where rnum<![CDATA[ >= ]]>#{PageDTO.startrow}
+		order by list_no desc
 	</select>
 	<select id="getCount" parameterType="HashMap" resultType="int">
 	select count(*)
