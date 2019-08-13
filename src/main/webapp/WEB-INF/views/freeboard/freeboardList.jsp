@@ -36,7 +36,7 @@
 				<c:forEach items="${list}" var="list">
 					<tr>
 						<td><c:out value="${list.freeboard_no}"></c:out></td>
-						<td><c:out value="${list.freeboard_title}"></c:out></td>
+						<td><a href="freeboardDetail?no=${list.freeboard_no}"><c:out value="${list.freeboard_title}"></c:out></a></td>
 						<td><c:out value="${list.user_nick}"></c:out></td>
 						<td><c:out value="${list.freeboard_regiTime}"></c:out></td>
 						<td><c:out value="${list.freeboard_hits}"></c:out></td>

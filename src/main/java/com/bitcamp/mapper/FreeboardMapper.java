@@ -13,4 +13,6 @@ public interface FreeboardMapper {
 
 	public List<FreeboardDTO> getSearchList(Map<String, String> search);
 
+	public FreeboardDTO getDetail(int freeboard_no);
+
 }
