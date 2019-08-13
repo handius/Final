@@ -12,10 +12,16 @@
 	body{
 		margin: 0px;
 		padding: 0px;
-		background-color: rgba(232, 232, 232, 0.8) !important;
+		background-color: rgba(232, 232, 232, 0.6) !important;
 	}
-	a{
-		color: black !important;
+	.category a{
+		color: rgba(93,93,93) !important;
+		text-decoration: none;
+		font-weight: bolder;
+		transition : 0.3s;
+	}
+	.category a:hover{
+		color: lightblue !important;
 	}
 	a:hover{
 		text-decoration: none !important;
@@ -57,6 +63,7 @@
 		margin: 10px;
 		background-color: white;
 		color:silver;
+		transition : .3s;
 	}
 	#hashform input[type="checkbox"]{
 		display: none;
@@ -73,6 +80,10 @@
 	.listbox .thumbnail{
 		height: 405px;
 		box-shadow: 8px 5px 3px silver;
+		transition: 0.3s;
+	}
+	.listbox .thumbnail:hover{
+		box-shadow: 6px 4px 2px highlighttext;
 	}
 	.listbox .thumbnail img{
 		height: 220px;
@@ -95,6 +106,13 @@
 		background-color: transparent;
 		border: none;
 	}
+	#hashplus{
+		background-color: transparent;
+		border: 1px dotted silver;
+		border-radius:50%;
+		font-weight: bolder;
+	}
+	
 </style>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <!-- Latest compiled and minified CSS -->
@@ -110,6 +128,7 @@
 	var hashCounter = 0;
 	$(function(){
 		loadHash();
+		
 	})
 	function loadHash(){
 		hashCounter = hashCounter+1;
@@ -133,10 +152,14 @@
 	
 		if($(this).children('input').is(':checked')){
 			$(this).css('color', 'black');
+			$(this).css('border-color','black');
 		}else{
 			$(this).css('color', 'silver');
+			$(this).css('border-color','silver');
 		}
 	})
+	
+	
 	
 </script>	
 </head>
@@ -231,7 +254,9 @@
 				</div>	
 			</form>
 		</div>
+		
 		<div class="container"> 
+			
 		 	<div class="row">
 		 		<c:forEach var="item" items="${list }">
 			    	<div class="col-sm-6 col-md-3 listbox">
