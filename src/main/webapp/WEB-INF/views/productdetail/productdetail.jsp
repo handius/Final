@@ -90,6 +90,11 @@
         .productDetailQandA {
             max-width: 780px;
         }
+        
+        .productDetailQandAResponse {
+        	max-width: 90%;
+        	margin-left: 10%;
+        }
 
         .productDetailQandAStatus {
             height: 100px;
@@ -587,37 +592,10 @@
             }
         });
         
-        //Q & A 입력하기
-        $(document).ready(function(){
-    		$('#productDetailQandAInputButton').on('click',function(event){
-    			event.preventDefault();
-    			var content = document.getElementById("productDetailQandAInput").value;
-    			var secret = document.getElementById("productDetailQandASecretCheckBox").checked;
-    			var list_no = document.getElementById("list_no").value;
-    			console.log(content);
-    			console.log(secret);
-    			$.ajax({
-    				url:"/ajaxqaboardinsert"
-    				,contentType: 'application/json; charset=utf-8'
-    				,data: JSON.stringify({qa_content:content, qa_secret:secret, list_no:list_no})
-    				,type: "post"
-    				,success:function(data){
-    					console.log('성공');
-    					$('#productDetailQandAInput').val('');
-    					alert('등록되었습니다.');
-    				}
-    				,error:function(data){
-    					console.log('실패');
-    					$('#productDetailQandAInput').val('');
-    				}
-    			});
-    		});
-    	});
-        
         $(document).on('click', '.minusButton', minusButtonClick);
         $(document).on('click', '.plusButton', plusButtonClick);
         $(document).on('click', '.glyphicon-remove', productOptionCancel);
-
+        
         $(document).ready(function() {
             $('.productDetailUnderImg').on('click', productDetailUnderImgClick);
             $('#productDetailClick0').on('click', productDetailClick0);
@@ -626,6 +604,8 @@
             $('.productDetailAsideOptionSelect').on('click', productDetailAsideOptionSelect);
             $('.MobileBuyLinkButton').on('click', mobileAsideShow);
             $('.MobileBuyCloseButton').on('click', mobilAsideHide);
+            $('#productDetailQandAInputButton').on('click', qaBoardInsert);
+            $('#productDetailQandAMoreButton').on('click', qaBoardList);
         });
 
         function productDetailUnderImgClick() {
@@ -750,12 +730,61 @@
             $('#MobileBuyCloseButtonBox').hide();
             $('#MobileBuyLinkButtonBox').show();
         }
+        
+        function qaBoardInsert() {
+    		let content = document.getElementById("productDetailQandAInput").value;
+    		let secret = document.getElementById("productDetailQandASecretCheckBox").checked;
+    		let no = document.getElementById("list_no").value;
+
+    		$.ajax({
+    			url:"/ajaxqaboardinsert"
+    			,contentType: 'application/json; charset=utf-8'
+    			,data: JSON.stringify({qa_content:content, qa_secret:secret, list_no:no})
+    			,type: "POST"
+    			,success:function(data){
+    				console.log('성공');
+    				if(data == 1) {
+    					$('#productDetailQandAInput').val('');
+    					alert('등록 되었습니다.'); 					
+    				}
+    				else {
+    					alert('등록에 실패했습니다.');
+    				}
+    			}
+    			,error:function(data){
+    				console.log('실패');
+    			}
+    		});
+		}
+        
+        function qaBoardList() {
+			console.log('테스트');
+			let qaCurrent = $('#qa_current_page').val();
+			let no = document.getElementById("list_no").value;
+			$.ajax({
+    			url:"/ajaxqaboardList"
+    			,contentType: 'application/json; charset=utf-8'
+    			,data: JSON.stringify({currentpage:qaCurrent, list_no:no})
+    			,type: "POST"
+    			,success:function(data){
+    				console.log('성공');
+    				console.log(data);
+    				
+    			}
+    			,error:function(data){
+    				console.log('실패');
+    				console.log(data);
+    			}
+    		});
+		}
 
     </script>
 </head>
 
 <body>
+<!-- 각종 정보 모음 -->
 <input type="hidden" value="${listDTO.list_no }" id="list_no" readonly="readonly">
+<input type="hidden" value="${QACurrentPage }" id="qa_current_page" readonly="readonly">
     <div class="container">
         <div class="row">
             <div class="col-md-8 productDetailMain">
@@ -878,7 +907,13 @@
                                 	<div class="col-xs-10 productDetailQandAContent">${qaBoardList.qa_board_content }</div>
                             	</div>
                             </c:forEach>
-                            <button class="moreButton">더보기</button>
+                           	 	<div class="productDetailQandAResponse">
+                                	<div class="col-xs-2 productDetailQandAStatus">답변</div>
+                                	<div class="col-xs-5 productDetailQandAWriter">작가이름</div>
+                                	<div class="col-xs-5 productDetailQandAWriterDate">날짜</div>
+                                	<div class="col-xs-10 productDetailQandAContent">문의답장</div>
+                            	</div>
+                            <button class="moreButton" id="productDetailQandAMoreButton">더보기</button>
                             <div id="productDetailQandAInputBox">
                             	<form>
                                		<div class="col-xs-12" id="productDetailQandAInputCheckBox">

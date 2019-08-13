@@ -10,6 +10,7 @@ public interface ProductDetailMapper {
 	public ListDTO productDetailGet(int list_no);
 	public List<String> productDetailImgGet(int list_no);
 	public List<OptionDTO> productDetailOptionGet(int list_no);
-	public void productDetailQandAInsert(QABoardDTO dto);
+	public int productDetailQandAInsert(QABoardDTO dto);
+	public int productDetailQandAInsertCheck(int qa_board_no);
 	public List<QABoardDTO> productDetailQandAList(QABoardDTO dto);
 }

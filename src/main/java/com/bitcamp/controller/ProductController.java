@@ -246,4 +246,11 @@ public class ProductController {
 		List<searchTextDTO> datas = service.getSearchTextService();
 		return datas;
 	}
+	
+	@ResponseBody
+	@RequestMapping(value="/insertSearcher" ,method={RequestMethod.POST, RequestMethod.GET})
+	public int insertSearcher(@RequestParam(required=false)String searchData) {
+		System.out.println("data ::" + searchData);
+		return service.insertSearcherService(searchData);
+	}
 }
