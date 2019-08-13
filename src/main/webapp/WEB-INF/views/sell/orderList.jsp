@@ -87,7 +87,7 @@
 		text-align: right;
 	}
 	.listbox .thumbnail{
-		height: 342px;
+		height: 370px;
 		box-shadow: 8px 5px 3px silver;
 		border: 1px double silver;
 		transition: 0.3s;
@@ -108,6 +108,8 @@
 		margin-top: 5px;
 		padding : 9px 15px !important;
 		background-color: white;
+		height: 133px;
+		position: relative;
 	}
 	.listbox .caption h4{
 		margin-top: 1px !important;
@@ -118,7 +120,7 @@
 	.listbox .caption h4 a{
 		color : black !important; 
 		transition: .3s;
-		font-size: 0.7em;
+		font-size: 0.6em;
 		font-weight: 600;
 	}
 	.listbox .caption p{
@@ -128,6 +130,9 @@
 		text-align: right;
 		font-weight: bolder;
 		margin-bottom:0px;
+		position: absolute;
+		bottom : 10px;
+		right: 15px;
 	}
 	.listbox .caption h4 a:hover{
 		color:lightpink !important;
@@ -306,9 +311,17 @@
 			      			</c:forEach>
 			      		
 			          		<div class="caption">
-			            		<h4><a href="/checkIsOrdered?no=${item.list_no} ">${item.list_title }</a></h4>
-			            		<span class="arttxt">${item.list_artist }</span>
-			            		<p class="price"><fmt:formatNumber value="${item.list_base_price }" type="number"/><span class="smtxt">원</span></p>
+			          			<c:if test="${item.isordered eq 1 }">
+			          				<h4><a href="/checkIsOrdered?no=${item.list_no} ">[주문제작]${item.list_title }</a></h4>
+			            			<span class="arttxt">${item.list_artist }</span>
+			            			<p class="price"><fmt:formatNumber value="${item.list_base_price }" type="number"/><span class="smtxt">원</span></p>
+			          			</c:if>
+			          			<c:if test="${item.isordered eq 0 }">
+			          				<h4><a href="/checkIsOrdered?no=${item.list_no} ">[완제품]${item.list_title }</a></h4>
+			            			<span class="arttxt">${item.list_artist }</span>
+			            			<p class="price"><fmt:formatNumber value="${item.list_base_price }" type="number"/><span class="smtxt">원</span></p>
+			          			</c:if>
+			            		
 			      			</div>
 			      		</div>
 			   		</div>
