@@ -45,7 +45,7 @@
 		margin-bottom:0px !important;
 		background-image: url("/resources/image/banner image.jpeg");
 		background-size: cover;
-		height: 250px;
+		height: 400px;
 	}
 	.paging{
 		text-align: center;
@@ -63,7 +63,7 @@
 	}
 	#hashplus{
 		position: relative;
-		margin-bottom: 30px;
+		margin-bottom: 10px;
 	}
 	form > hr{
 	}
@@ -91,6 +91,10 @@
 	.listbox a{
 		font-size: 0.9em;
 	}
+	#subbtn{
+		background-color: transparent;
+		border: none;
+	}
 </style>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <!-- Latest compiled and minified CSS -->
@@ -117,7 +121,7 @@
 			, success:function(data){
 				var result = "";
 				$.each(data, function(index, value){
-					result += '<label>#'+value+'<input type="checkbox" name="hashTag" value="'+value+'"></label>';
+					result += '<label class="hashLabel">#'+value+'<input type="checkbox" name="hashTag" value="'+value+'"></label>';
 				});
 				result += '<input type="button" id="hashplus" onclick="loadHash()" value="+">';
 				$('#hashform').html(result);
@@ -125,6 +129,14 @@
 			}
 		});
 	}
+	$(document).on('click', '.hashLabel', function(){
+	
+		if($(this).children('input').is(':checked')){
+			$(this).css('color', 'black');
+		}else{
+			$(this).css('color', 'silver');
+		}
+	})
 	
 </script>	
 </head>
@@ -145,40 +157,40 @@
 		<div class="container-fluid category">
 			<div class="container">
 				<div class="row">
-					<div class="col-md-1">
+					<div class="col-md-1 col-sm-1">
 						<h5><a href="/orderList/book?order=${Order}">Book</a></h5>
 					</div>
-					<div class="col-md-1">
+					<div class="col-md-1 col-sm-1">
 						<h5>/</h5>
 					</div>
-					<div class="col-md-1">
+					<div class="col-md-1 col-sm-1">
 						<h5><a href="/orderList/cup?order=${Order}">Mugcup</a></h5>
 					</div>
-					<div class="col-md-1">
+					<div class="col-md-1 col-sm-1">
 						<h5>/</h5>
 					</div>
-					<div class="col-md-1">
+					<div class="col-md-1 col-sm-1">
 						<h5><a href="/orderList/table?order=${Order}">Funiture</a></h5>
 					</div>
-					<div class="col-md-1">
+					<div class="col-md-1 col-sm-1">
 						<h5>/</h5>
 					</div>
-					<div class="col-md-1">
+					<div class="col-md-1 col-sm-1">
 						<h5><a href="/orderList/accessary?order=${Order}">Accessary</a></h5>
 					</div>
-					<div class="col-md-1">
+					<div class="col-md-1 col-sm-1">
 						<h5>/</h5>
 					</div>
-					<div class="col-md-1">
+					<div class="col-md-1 col-sm-1">
 						<h5><a href="/orderList/handmade?order=${Order}">HandCraft</a></h5>
 					</div>
-					<div class="col-md-1">
+					<div class="col-md-1 col-sm-1">
 						<h5>/</h5>
 					</div>
-					<div class="col-md-1">
+					<div class="col-md-1 col-sm-1">
 						<h5><a href="/orderList/anything?order=${Order}">ETC</a></h5>
 					</div>
-					<div class="col-md-1">
+					<div class="col-md-1 col-sm-1">
 						<h5>/</h5>
 					</div>
 				</div>
@@ -212,12 +224,11 @@
 							<input type="hidden" name="order" value="${Order }">
 						</div>
 						<div class="form-group">
-							<input type="submit" class="btn btn-default" value="검색">
-							<input type="reset" class="btn btn-default" value="취소">
+							<button type="submit" id="subbtn"><span class="glyphicon glyphicon-search"></span></button>
 						</div>
 						
 					</div>
-				</div>
+				</div>	
 			</form>
 		</div>
 		<div class="container"> 
