@@ -7,47 +7,93 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Insert title here</title>
+<link href="https://fonts.googleapis.com/css?family=Comfortaa&display=swap" rel="stylesheet">
 <style>
 	body{
 		margin: 0px;
 		padding: 0px;
+		background-color: rgba(232, 232, 232, 0.8) !important;
 	}
-	
+	a{
+		color: black !important;
+	}
+	a:hover{
+		text-decoration: none !important;
+	}
+	.line{
+		border: 0.5px solid silver;
+		width: 100%;
+		margin-bottom:10px;
+	}
 	.category{
-		background-color: silver;
+		background-color: white;
+		border: 1px solid silver;
+		height: 50px;
+		vertical-align: middle;
+		padding-top: 8px;
 	}
 	.category .row{
 		text-align: center;
 	}
 	.category .row h5{
 		font-weight: bolder;
+		font-family: 'Comfortaa', cursive;
+		font-style: italic;
 	}
 	.jumbotron{
 		margin-top:0px;
 		margin-bottom:0px !important;
-		background-image: url("/resources/image/back.jpg");
+		background-image: url("/resources/image/banner image.jpeg");
 		background-size: cover;
+		height: 400px;
 	}
 	.paging{
 		text-align: center;
 	}
 	#hashform label{
-		padding:10px;
+		padding:5px 10px;
 		border: 1px solid silver;
-		border-radius: 5px;
+		border-radius: 20px;
 		margin: 10px;
+		background-color: white;
+		color:silver;
 	}
 	#hashform input[type="checkbox"]{
 		display: none;
 	}
 	#hashplus{
 		position: relative;
-		margin-bottom: 30px;
+		margin-bottom: 10px;
 	}
 	form > hr{
 	}
 	.searchClass{
 		text-align: right;
+	}
+	.listbox .thumbnail{
+		height: 405px;
+		box-shadow: 8px 5px 3px silver;
+	}
+	.listbox .thumbnail img{
+		height: 220px;
+		border: 1px double silver;
+		border-radius: 5px;
+	}
+	.listbox .caption{
+		border: 1px solid silver;
+		border-radius: 5px;
+		margin-top: 5px;
+	}
+	.listbox .caption h4{
+		margin-top: 1px !important;
+		font-weight: bold;
+	}
+	.listbox a{
+		font-size: 0.9em;
+	}
+	#subbtn{
+		background-color: transparent;
+		border: none;
 	}
 </style>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -75,7 +121,7 @@
 			, success:function(data){
 				var result = "";
 				$.each(data, function(index, value){
-					result += '<label>'+value+'<input type="checkbox" name="hashTag" value="'+value+'"></label>';
+					result += '<label class="hashLabel">#'+value+'<input type="checkbox" name="hashTag" value="'+value+'"></label>';
 				});
 				result += '<input type="button" id="hashplus" onclick="loadHash()" value="+">';
 				$('#hashform').html(result);
@@ -83,6 +129,14 @@
 			}
 		});
 	}
+	$(document).on('click', '.hashLabel', function(){
+	
+		if($(this).children('input').is(':checked')){
+			$(this).css('color', 'black');
+		}else{
+			$(this).css('color', 'silver');
+		}
+	})
 	
 </script>	
 </head>
@@ -95,30 +149,50 @@
 	
 		<div class="jumbotron">
 	  		<div class="container">
-	  			<h1>상품 구매 페이지</h1>
-	    		<p>상품 구매 페이지</p>
+	  				
+	  			
 		  	</div>
 		</div>
 	
 		<div class="container-fluid category">
-			<div class="row">
-				<div class="col-md-2">
-					<h5><a href="/orderList/book?order=${Order}">책</a></h5>
-				</div>
-				<div class="col-md-2">
-					<h5><a href="/orderList/cup?order=${Order}">머그컵</a></h5>
-				</div>
-				<div class="col-md-2">
-					<h5><a href="/orderList/table?order=${Order}">가구</a></h5>
-				</div>
-				<div class="col-md-2">
-					<h5><a href="/orderList/accessary?order=${Order}">악세사리</a></h5>
-				</div>
-				<div class="col-md-2">
-					<h5><a href="/orderList/handmade?order=${Order}">공예</a></h5>
-				</div>
-				<div class="col-md-2">
-					<h5><a href="/orderList/anything?order=${Order}">기타</a></h5>
+			<div class="container">
+				<div class="row">
+					<div class="col-md-1 col-sm-1">
+						<h5><a href="/orderList/book?order=${Order}">Book</a></h5>
+					</div>
+					<div class="col-md-1 col-sm-1">
+						<h5>/</h5>
+					</div>
+					<div class="col-md-1 col-sm-1">
+						<h5><a href="/orderList/cup?order=${Order}">Mugcup</a></h5>
+					</div>
+					<div class="col-md-1 col-sm-1">
+						<h5>/</h5>
+					</div>
+					<div class="col-md-1 col-sm-1">
+						<h5><a href="/orderList/table?order=${Order}">Funiture</a></h5>
+					</div>
+					<div class="col-md-1 col-sm-1">
+						<h5>/</h5>
+					</div>
+					<div class="col-md-1 col-sm-1">
+						<h5><a href="/orderList/accessary?order=${Order}">Accessary</a></h5>
+					</div>
+					<div class="col-md-1 col-sm-1">
+						<h5>/</h5>
+					</div>
+					<div class="col-md-1 col-sm-1">
+						<h5><a href="/orderList/handmade?order=${Order}">HandCraft</a></h5>
+					</div>
+					<div class="col-md-1 col-sm-1">
+						<h5>/</h5>
+					</div>
+					<div class="col-md-1 col-sm-1">
+						<h5><a href="/orderList/anything?order=${Order}">ETC</a></h5>
+					</div>
+					<div class="col-md-1 col-sm-1">
+						<h5>/</h5>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -128,7 +202,8 @@
 				<div class="container" id="hashform">
 					
 				</div>
-				<hr>
+				<div class="line">
+				</div>
 				<div class="row">
 					<div class="col-md-2">
 						<label class="checkbox-inline">
@@ -149,24 +224,24 @@
 							<input type="hidden" name="order" value="${Order }">
 						</div>
 						<div class="form-group">
-							<input type="submit" value="검색">
-							<input type="reset" value="취소">
+							<button type="submit" id="subbtn"><span class="glyphicon glyphicon-search"></span></button>
 						</div>
 						
 					</div>
-				</div>
+				</div>	
 			</form>
 		</div>
 		<div class="container"> 
 		 	<div class="row">
 		 		<c:forEach var="item" items="${list }">
-			    	<div class="col-sm-6 col-md-3">
+			    	<div class="col-sm-6 col-md-3 listbox">
 			      		<div class="thumbnail">
 			      			<c:forEach var="image" items="${item.list_image_loc }" end="1">
 			      				<img src="${image }" alt="이미지가 없습니다.">
 			      			</c:forEach>
+			      		
 			          		<div class="caption">
-			            		<h3><a href="/checkIsOrdered?no=${item.list_no} ">${item.list_title }</a></h3>
+			            		<h4><a href="/checkIsOrdered?no=${item.list_no} ">${item.list_title }</a></h4>
 			            		<p>${item.list_date }</p>
 			            		<p>작가명 : ${item.list_artist }</p>
 			            		<p>상품명 : ${item.list_product }</p>

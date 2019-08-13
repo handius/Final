@@ -51,7 +51,7 @@ public class ProductService {
 		return pList;
 	}
 	
-	public int getCountService(String searchType, String searchData, String list_category, List<String> hashTag, int hasStock, int status) {
+	public int getCountService(String searchType, String searchData, String list_category, List<String> hashTag, int hasStock, int status, int orders) {
 		HashMap<String, Object> hashMap = new HashMap<>();
 		hashMap.put("searchType", searchType);
 		hashMap.put("searchData", searchData);
@@ -64,6 +64,7 @@ public class ProductService {
 		hashMap.put("hashTag", hashTag);
 		hashMap.put("hasStock", hasStock);
 		hashMap.put("status", status);
+		hashMap.put("orders", orders);
 		int productCount = mapper.getCount(hashMap);
 		return productCount;
 	}
