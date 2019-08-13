@@ -144,7 +144,8 @@
                 </c:forEach>
               </tbody>
             </table>
-            <!-- Paging Block -->
+            
+          <!-- Paging Block -->
           <div class="pagination_block">
 		  <form action="/admin" method="post">
 		  	  <c:if test="${memberList != null }">
@@ -157,7 +158,7 @@
 				</c:forEach>
 						
 				<c:if test="${paging.startblock > 1 }">
-					<a href="list?curr=${paging.startblock - 1 }">◀</a>
+					<a href="#">◀</a>
 				</c:if>
 				<c:forEach var="i" begin="${paging.startblock }" end="${paging.endblock }">
 					<c:if test="${i == currpage }">
@@ -168,7 +169,7 @@
 					</c:if>
 				</c:forEach>
 				<c:if test="${paging.endblock < paging.totalpage }">
-					<a href="list?curr=${paging.endblock + 1 }">▶</a>
+					<a href="#">▶</a>
 				</c:if>
 			  </c:if>
 		  </form>
