@@ -1,5 +1,6 @@
 package com.bitcamp.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -31,11 +32,12 @@ public class ProductDetailController {
 		model.addAttribute("imgList", map.get("productDetailImg"));
 		model.addAttribute("optionList", map.get("productDetailOption"));
 		model.addAttribute("qaBoardList", map.get("productDetailQABoardList"));
+		model.addAttribute("QACurrentPage", 1);
 		return "productdetail/productdetail.mall";
 	}
 	
 	
-	@RequestMapping(value="/ajaxqaboardinsert")
+	@RequestMapping("/ajaxqaboardinsert")
 	public @ResponseBody String ajaxqaboardinsert(@RequestBody Map<String, Object> map, HttpSession session) {
 		
 		int list_no = Integer.parseInt((String)map.get("list_no"));
@@ -54,4 +56,20 @@ public class ProductDetailController {
 		
 		return ""+service.productDetailQandAInsertService(dto);
 	}
+	
+	@RequestMapping("/ajaxqaboardList")
+	public @ResponseBody List<QABoardDTO> ajaxqaboardList(@RequestBody Map<String, String> map) {
+		int list_no = Integer.parseInt(map.get("list_no"));
+		int qaCurrentPage = Integer.parseInt(map.get("currentpage"));
+		int sqlSize = 5;
+		int start_sql = (qaCurrentPage-1) * sqlSize + 1;
+		int end_sql = start_sql + sqlSize -1;
+		QABoardDTO dto = new QABoardDTO();
+		dto.setList_no(list_no);
+		dto.setStart_sql(start_sql);
+		dto.setEnd_sql(end_sql);
+		
+		return service.productDetailQandAList(dto);
+	}
+	
 }

@@ -18,4 +18,5 @@ public class searchTextDTO {
 	private int thweek_ago_data;
 	private String renewal_time;
 	private String search_text;
+	private String now_text;
 }

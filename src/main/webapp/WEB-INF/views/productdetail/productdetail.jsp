@@ -743,7 +743,6 @@
     			,type: "POST"
     			,success:function(data){
     				console.log('성공');
-    				console.log(data);
     				if(data == 1) {
     					$('#productDetailQandAInput').val('');
     					alert('등록 되었습니다.'); 					
@@ -754,13 +753,29 @@
     			}
     			,error:function(data){
     				console.log('실패');
-    				console.log(data);
     			}
     		});
 		}
         
         function qaBoardList() {
 			console.log('테스트');
+			let qaCurrent = $('#qa_current_page').val();
+			let no = document.getElementById("list_no").value;
+			$.ajax({
+    			url:"/ajaxqaboardList"
+    			,contentType: 'application/json; charset=utf-8'
+    			,data: JSON.stringify({currentpage:qaCurrent, list_no:no})
+    			,type: "POST"
+    			,success:function(data){
+    				console.log('성공');
+    				console.log(data);
+    				
+    			}
+    			,error:function(data){
+    				console.log('실패');
+    				console.log(data);
+    			}
+    		});
 		}
 
     </script>
@@ -769,6 +784,7 @@
 <body>
 <!-- 각종 정보 모음 -->
 <input type="hidden" value="${listDTO.list_no }" id="list_no" readonly="readonly">
+<input type="hidden" value="${QACurrentPage }" id="qa_current_page" readonly="readonly">
     <div class="container">
         <div class="row">
             <div class="col-md-8 productDetailMain">

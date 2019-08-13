@@ -57,4 +57,8 @@ public class ProductDetailService {
 		int qa_board_no = mapper.productDetailQandAInsert(dto);
 		return mapper.productDetailQandAInsertCheck(qa_board_no);
 	}
+	
+	public List<QABoardDTO> productDetailQandAList(QABoardDTO dto) {
+		return mapper.productDetailQandAList(dto);
+	}
 }

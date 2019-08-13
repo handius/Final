@@ -88,6 +88,12 @@
 		SET QUESTION_DELETE_STATUS = 0
 		WHERE QUESTION_NO = #{questionno}
 	</update>
+	<update id="updateAnswerContent" parameterType="Object">
+		UPDATE CUSTOMER_QA_BOARD
+		SET ANSWER_CONTENT = #{answer_content},
+			ANSWER_STATUS = '완료'
+		WHERE QUESTION_NO = #{question_no}
+	</update>
 	
 	<!-- search -->
   	<sql id="search_where">
