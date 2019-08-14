@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bitcamp.DTO.comm.PageDTO;
 import com.bitcamp.DTO.customerqaboard.CustomerQABoardDTO;
 import com.bitcamp.DTO.member.MemberDTO;
+import com.bitcamp.VO.admin.NewMemberVO;
 import com.bitcamp.mapper.AdminMapper;
 
 @Transactional(rollbackFor= {Exception.class}, propagation=Propagation.REQUIRED, isolation=Isolation.DEFAULT)
@@ -62,5 +63,9 @@ public class AdminService {
 
 	public void deleteAllQuestion(String string) {
 		admapper.deleteAllQuestion(string);
+	}
+
+	public List<NewMemberVO> getNewMemberList(String tochar) {
+		return admapper.getNewMemberList(tochar);
 	}
 }
