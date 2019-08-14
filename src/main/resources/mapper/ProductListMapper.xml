@@ -41,7 +41,7 @@
 				<if test="isordered == 1">
 					AND lb.isordered = 1
 				</if>
-				
+			order by lb.list_no desc
 			) lbb
 			where rownum<![CDATA[ <= ]]>#{PageDTO.endrow}
 		)

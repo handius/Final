@@ -25,12 +25,12 @@ public class JoinController {
 
 	@RequestMapping("join/terms")
 	private String terms() {
-		return "join/terms";
+		return "join/terms.mall";
 	}
 
 	@RequestMapping("join/joinform")
 	public String joinform() {
-		return "join/joinform";
+		return "join/joinform.mall";
 	}
 
 	@RequestMapping(value = "/user/idCheck", method = RequestMethod.POST)
@@ -79,7 +79,7 @@ public class JoinController {
 
 		joinService.updateCertStatusService(user_id, user_email, user_certkey);
 
-		return "join/joinConfirm";
+		return "join/joinConfirm.mall";
 	}
 
 }

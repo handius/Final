@@ -26,6 +26,7 @@ import com.bitcamp.DTO.Product.OrderOptionDTO;
 import com.bitcamp.DTO.Product.OrderValueDTO;
 import com.bitcamp.DTO.Product.searchTextDTO;
 import com.bitcamp.DTO.comm.PageDTO;
+import com.bitcamp.DTO.member.MemberDTO;
 import com.bitcamp.VO.file.FileVO;
 import com.bitcamp.service.ProductService;
 
@@ -95,13 +96,23 @@ public class ProductController {
 	}
 	
 	@RequestMapping(value="/sell/insertPerfectOrder", method= {RequestMethod.POST, RequestMethod.GET})
-	public String sellPerfectOrder() {
-		return "sell/insertPerfectOrder.mall";
+	public String sellPerfectOrder(HttpSession session) {
+		MemberDTO dto = (MemberDTO)session.getAttribute("member");
+		if(dto!=null) {
+			return "sell/insertPerfectOrder.mall";
+		}else {
+			return "redirect:/login";
+		}
 	}
 	
 	@RequestMapping(value="/sell/insertOrderMade", method= {RequestMethod.POST, RequestMethod.GET})
-	public String sellOrderMade() {
-		return "sell/insertOrderMade.mall";
+	public String sellOrderMade(HttpSession session) {
+		MemberDTO dto = (MemberDTO)session.getAttribute("member");
+		if(dto!=null) {
+			return "sell/insertOrderMade.mall";
+		}else {
+			return "redirect:/login";
+		}
 	}
 	
 	@RequestMapping(value="*/uploadAjaxAction", method= {RequestMethod.POST, RequestMethod.GET})
@@ -136,37 +147,49 @@ public class ProductController {
 	}
 	
 	@RequestMapping(value="*/insertPerfectOrderForm", method= {RequestMethod.POST, RequestMethod.GET})
-	public String insertPerfectOrder(ListDTO dto){
-		System.out.println(dto);
-		int result = service.insertPerfectOrderDataService(dto);
-		System.out.println("결과 : " + result);
-		return "redirect:/orderList";
+	public String insertPerfectOrder(ListDTO dto,HttpSession session){
+		MemberDTO mdto = (MemberDTO)session.getAttribute("member");
+		if(mdto!=null) {
+			System.out.println(dto);
+			int result = service.insertPerfectOrderDataService(dto, mdto.getUser_id());
+			System.out.println("결과 : " + result);
+			return "redirect:/orderList";
+		}else {
+			return "redirect:/login";
+		}
+		
 	}
 	
 	@RequestMapping(value="*/insertOrderMadeForm", method= {RequestMethod.POST, RequestMethod.GET})
-	public String insertOrderMade(ListDTO dto){
-		System.out.println(dto);
-		int result = service.insertOrderMadeDataService(dto);
-		System.out.println("결과 : " + result);
-		return "redirect:/orderList";
+	public String insertOrderMade(ListDTO dto, HttpSession session){
+		MemberDTO mdto = (MemberDTO)session.getAttribute("member");
+		if(mdto!=null) {
+			System.out.println(dto);
+			int result = service.insertOrderMadeDataService(dto, mdto.getUser_id());
+			System.out.println("결과 : " + result);
+			return "redirect:/orderList";
+		}else {
+			return "redirect:/login";
+		}
 	}
 	
 	@RequestMapping(value="/checkIsOrdered", method= {RequestMethod.POST, RequestMethod.GET})
 	public String checkOrder(HttpSession session, @RequestParam() int no, Model model) {
-		//임시 멤버 넘버
-		int tempmemberno = 1;
 		
-		System.out.println(no);
-		ListDTO dto = service.getNoListService(no);
+		MemberDTO mdto = (MemberDTO)session.getAttribute("member");
+		ListDTO dto = service.getNoListService(no);			
 		if(dto.getIsordered() == 0) {
 			return "redirect:/productDetail/"+no;
-		}else{
+		}else if(mdto!=null){
+			int member_no = mdto.getMember_no();
 			List<OrderOptionDTO> odto = service.getOrderListService(dto);
 			System.out.println("odto" + odto);
 			model.addAttribute("ListDTO",dto);
 			model.addAttribute("orders", odto);
-			model.addAttribute("member_no", tempmemberno);
+			model.addAttribute("member_no", member_no);
 			return "sell/insertOrderOption.mall";
+		}else {
+			return "redirect:/login";
 		}
 	}
 	@RequestMapping(value="/checking", method= {RequestMethod.POST, RequestMethod.GET})

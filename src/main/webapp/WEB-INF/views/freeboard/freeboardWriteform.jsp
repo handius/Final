@@ -12,15 +12,25 @@
 <body>
 	<br>
 	<form action="freeboardWriteResult" method="post">
-	<input type="text" name="member_no" value="<sec:authentication property="principal.member.member_no"/>">
+		<input type="text" name="member_no"
+			value="<sec:authentication property="principal.member.member_no"/>">
 		<table>
+			<tr>
+				<select name="category">
+					<!-- <option disabled="disabled" selected="selected">카테고리를 선택하세요</option> -->
+					<option value="정보">정보</option>
+					<option value="교환">교환</option>
+					<option value="잡담">잡담</option>
+				</select>
+			</tr>
 			<tr>
 				<td>제목</td>
 				<td><input type="text" name="title" required="required"></td>
 			</tr>
 			<tr>
 				<td>글쓴이</td>
-				<td><input type="text" name="writer" value='<sec:authentication property="principal.member.user_id"/>'
+				<td><input type="text" name="writer"
+					value='<sec:authentication property="principal.member.user_id"/>'
 					readonly="readonly"></td>
 			</tr>
 			<tr>
