@@ -1,5 +1,8 @@
 package com.bitcamp.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -15,6 +18,7 @@ import com.bitcamp.DTO.comm.PageDTO;
 import com.bitcamp.DTO.customerqaboard.CustomerQABoardDTO;
 import com.bitcamp.DTO.member.MemberDTO;
 import com.bitcamp.VO.admin.DateVO;
+import com.bitcamp.VO.admin.NewMemberVO;
 import com.bitcamp.service.AdminService;
 
 @Controller
@@ -91,20 +95,52 @@ public class AdminController {
 	}
 	
 	@RequestMapping("/admin/analnewmember")
-	public String analnewmember(Model model) {
+	public String analnewmember(@ModelAttribute DateVO search_date, Model model) {
+		
+		// 검색
+		SimpleDateFormat sysdateyyyyMM = new SimpleDateFormat("yyyy-MM");
+		Calendar time = Calendar.getInstance();
+		String sysdate = sysdateyyyyMM.format(time.getTime());
+		
+		String tochar = sysdate;
+		String date1 = search_date.getSearch_date_year();
+		String date2 = search_date.getSearch_date_month();
+		if(date1 != null || date2 != null) tochar = date1 + "-" + date2;
+		if(tochar.equals("0-0")) tochar = sysdate;
+		
+		List<NewMemberVO> newmember = adservice.getNewMemberList(tochar);
+		
+		List<String> test = new ArrayList<String>();
+		Integer test1 = null;
+		Integer test2 = null;
+		String test3 = null;
+		for(int i = 0; i < newmember.size(); i++) {
+			test1 = (newmember.get(i).getJoin_date());
+			test2 = newmember.get(i).getJoin_count();
+			test3 = "[" + test1 + "," + test2 +"]";
+			test.add(test3);
+		}
+		System.out.println(test.toString());
+		
+		model.addAttribute("list", newmember);
 		model.addAttribute("admin_category", "anal");
+		model.addAttribute("chart", test.toString());
+		model.addAttribute("tochar", tochar);
 		return "admin/newmember.admin";
 	}
+	
 	@RequestMapping("/admin/analproduct")
 	public String analproduct(Model model) {
 		model.addAttribute("admin_category", "anal");
 		return "admin/popularproducts.admin";
 	}
+	
 	@RequestMapping("/admin/mainset")
 	public String mainset(Model model) {
 		model.addAttribute("admin_category", "mainset");
 		return "admin/mainset.admin";
 	}
+	
 	@RequestMapping("/admin/qna")
 	public String adminqna(@RequestParam(required=false) String curr,
 			 				@ModelAttribute DateVO search_date,

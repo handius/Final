@@ -6,6 +6,7 @@ import java.util.List;
 import com.bitcamp.DTO.comm.PageDTO;
 import com.bitcamp.DTO.customerqaboard.CustomerQABoardDTO;
 import com.bitcamp.DTO.member.MemberDTO;
+import com.bitcamp.VO.admin.NewMemberVO;
 
 public interface AdminMapper {
 	
@@ -20,4 +21,5 @@ public interface AdminMapper {
 	public int updateAnswerContent(HashMap<String, Object> update_map);
 	public int modifyAnswerContent(HashMap<String, Object> update_map);
 	public void deleteAllQuestion(String string);
+	public List<NewMemberVO> getNewMemberList(String tochar);
 }
