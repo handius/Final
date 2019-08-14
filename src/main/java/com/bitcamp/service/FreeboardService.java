@@ -44,4 +44,8 @@ public class FreeboardService {
 		fbMapper.modifyData(dto);
 	}
 
+	public void deleteService(int freeboard_no) {
+		fbMapper.deleteData(freeboard_no);
+	}
+
 }

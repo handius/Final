@@ -1,6 +1,8 @@
 package com.bitcamp.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
@@ -9,10 +11,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bitcamp.DTO.freeboard.FreeboardDTO;
+import com.bitcamp.DTO.freeboard.FreeboardRepDTO;
+import com.bitcamp.service.FreeboardRepService;
 import com.bitcamp.service.FreeboardService;
 
 @Controller
@@ -21,6 +28,9 @@ public class FreeboardController {
 	@Resource(name = "freeboardService")
 	private FreeboardService fbservice;
 
+	@Resource(name="freeboardRepService")
+	private FreeboardRepService replySerivce;
+	
 	// @PreAuthorize("hasRole('ROLE_MEMBER')")
 	@RequestMapping("freeboard/freeboardList")
 	public String freeboardList(
@@ -68,8 +78,8 @@ public class FreeboardController {
 
 	@RequestMapping("freeboard/boardDelete")
 	public String freeboardDelete(@RequestParam("no") int freeboard_no) {
-
-		return "";
+		fbservice.deleteService(freeboard_no);
+		return "redirect:/freeboard/freeboardList";
 	}
 
 	@RequestMapping("freeboard/boardModify")
@@ -83,19 +93,18 @@ public class FreeboardController {
 	}
 
 	@RequestMapping("freeboard/boardModifyResult")
-	public String freeboardModifyResult(@RequestParam("no") int freeboard_no, @RequestParam("category") String freeboard_category,
-			@RequestParam("title") String freeboard_title, @RequestParam("content") String freeboard_content) {
+	public String freeboardModifyResult(@RequestParam("no") int freeboard_no,
+			@RequestParam("category") String freeboard_category, @RequestParam("title") String freeboard_title,
+			@RequestParam("content") String freeboard_content) {
 
 		FreeboardDTO dto = new FreeboardDTO();
+		dto.setFreeboard_no(freeboard_no);
 		dto.setFreeboard_category(freeboard_category);
 		dto.setFreeboard_title(freeboard_title);
 		dto.setFreeboard_content(freeboard_content);
-		System.out.println("수정내용");
-		System.out.println(freeboard_title);
-		System.out.println(freeboard_content);
-		
+
 		fbservice.modifyService(dto);
-		
+
 		return "redirect:/freeboard/freeboardDetail?no=" + freeboard_no;
 	}
 
@@ -109,5 +118,26 @@ public class FreeboardController {
 		model.addAttribute("list", list);
 
 		return "freeboard/freeboardList";
+	}
+
+	@RequestMapping(value = "/freeboard/freeboardReply", method = RequestMethod.POST)
+	public @ResponseBody Map<String, Object> freeboardReply(@RequestBody FreeboardRepDTO repDTO){
+
+		Map<String, Object> result = new HashMap<>();
+
+		try {
+			
+			System.out.println("asdadasda");
+			System.out.println(repDTO.toString());
+//			replySerivce.saveReply(repDTO);
+			
+			result.put("status", "OK");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.put("status", "False");
+		}
+
+		return result;
 	}
 }

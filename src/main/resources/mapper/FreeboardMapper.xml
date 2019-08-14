@@ -51,11 +51,22 @@
 		#{freeboard_no}
 	</select>
 
-	<update id="modifyData" parameterType="com.bitcamp.DTO.freeboard.FreeboardDTO">
+	<update id="modifyData"
+		parameterType="com.bitcamp.DTO.freeboard.FreeboardDTO">
 		update freeboard set
-		freeboard_category = #{freeboard_category},
-		freeboard_title=#{freeboard_title}, freeboard_content =
+		freeboard_category =
+		#{freeboard_category},
+		freeboard_title=#{freeboard_title},
+		freeboard_content =
 		#{freeboard_content}
+		where freeboard_no =
+		#{freeboard_no}
+	</update>
+
+	<update id="deleteData" parameterType="Int">
+		update freeboard
+		set
+		freeboard_status = 0
 		where freeboard_no = #{freeboard_no}
 	</update>
 

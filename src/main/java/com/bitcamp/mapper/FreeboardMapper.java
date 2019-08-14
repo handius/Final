@@ -17,4 +17,6 @@ public interface FreeboardMapper {
 
 	public void modifyData(FreeboardDTO dto);
 
+	public void deleteData(int freeboard_no);
+
 }
