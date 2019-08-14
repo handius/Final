@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bitcamp.DTO.Product.ListDTO;
 import com.bitcamp.DTO.Product.OptionDTO;
 import com.bitcamp.DTO.member.MemberDTO;
+import com.bitcamp.DTO.productdetail.BuyReviewDTO;
 import com.bitcamp.DTO.productdetail.OrderResultDTO;
 import com.bitcamp.DTO.productdetail.QABoardDTO;
 import com.bitcamp.mapper.ProductDetailMapper;
@@ -58,8 +59,10 @@ public class ProductDetailService {
 	}
 
 	@Transactional
-	public int productDetailQandAInsertService(QABoardDTO dto) {
-		int qa_board_no = mapper.productDetailQandAInsert(dto);
+	public int productDetailQandAInsertService(QABoardDTO qaboarddto) {
+		int qa_board_no = mapper.productDetailQandAInsertSeq();
+		qaboarddto.setQa_board_no(qa_board_no);
+		mapper.productDetailQandAInsert(qaboarddto);
 		return mapper.productDetailQandAInsertCheck(qa_board_no);
 	}
 
@@ -78,5 +81,13 @@ public class ProductDetailService {
 	
 	public List<OrderResultDTO> productDetailOrderService(List<Integer> list_order_member_no) {
 		return mapper.productDetailOrderResultList(list_order_member_no);
+	}
+	
+	@Transactional
+	public int buyReviewInsertService(BuyReviewDTO buyreviewdto) {
+		int buy_review_no = mapper.buyReviewInsertSeq();
+		buyreviewdto.setBuy_review_no(buy_review_no);
+		mapper.buyReviewInsert(buyreviewdto);
+		return mapper.buyReviewInsertCheck(buy_review_no);
 	}
 }

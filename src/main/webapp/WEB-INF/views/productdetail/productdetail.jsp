@@ -751,12 +751,16 @@
     			,type: "POST"
     			,success:function(data){
     				console.log('성공');
-    				if(data == 1) {
+    				if(data == '1') {
     					$('#productDetailQandAInput').val('');
-    					alert('등록 되었습니다.'); 					
+    					alert('등록 되었습니다.');
+    				}
+    				else if(data == '0') {
+    					alert('등록에 실패했습니다.');
     				}
     				else {
-    					alert('등록에 실패했습니다.');
+    					alert('로그인부터 해주시기 바랍니다.');
+    					location.href="/login";
     				}
     			}
     			,error:function(data){
@@ -768,17 +772,16 @@
         function qaBoardList() {
 			let qaCurrent = $('#qa_current_page').val();
 			let listno = $('#list_no').val();
-			let memberno = $('#member_no').val();
 			$.ajax({
     			url:"/ajaxqaboardList"
     			,contentType: 'application/json; charset=utf-8'
-    			,data: JSON.stringify({currentpage:qaCurrent, list_no:listno, member_no:memberno})
+    			,data: JSON.stringify({currentpage:qaCurrent, list_no:listno})
     			,type: "POST"
     			,dataType: "json"
     			,success:function(data){
     				console.log('성공');
     				var result = '';
-    				if(data.length == 0) {
+     				if(data.length == 0) {
     					result += '<div class="productDetailQandA">';
 						result += '<div class="col-xs-2 "></div>';
     					result += '<div class="col-xs-5 productDetailQandAWriter"></div>';
@@ -786,7 +789,7 @@
     					result += '<div class="col-xs-12 productDetailQandAContent">Q & A가 없습니다.</div>';
     					result += '</div>'
     					$('#productDetailQandAMoreButton').hide();
-    				}
+    				} 
     				for(let i=0; i<data.length; i++) {
     					//해당 작가가 아니라면
     					if(data[i].level == 1) {
@@ -836,7 +839,6 @@
 <!-- 각종 정보 모음 -->
 <input type="hidden" value="${listDTO.list_no }" id="list_no" readonly="readonly">
 <input type="hidden" value="${QACurrentPage }" id="qa_current_page" readonly="readonly">
-<input type="hidden" value="${member_no }" id="member_no" readonly="readonly">
     <div class="container">
         <div class="row">
             <div class="col-md-8 productDetailMain">
