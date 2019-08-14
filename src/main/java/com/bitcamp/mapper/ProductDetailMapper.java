@@ -22,4 +22,5 @@ public interface ProductDetailMapper {
 	public int buyReviewInsertSeq();
 	public void buyReviewInsert(BuyReviewDTO buyreviewdto);
 	public int buyReviewInsertCheck(int buy_review_no);
+	public List<BuyReviewDTO> productDetailBuyReviewList(int list_no);
 }

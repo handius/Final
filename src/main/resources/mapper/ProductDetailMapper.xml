@@ -70,5 +70,13 @@
 	select count(*) from buy_review
 	where buy_review_no = #{buy_review_no}
 </select>
+<select id="productDetailBuyReviewList" parameterType="int" resultType="com.bitcamp.DTO.productdetail.BuyReviewDTO">
+	select buy_review_no, buy_review_date, buy_review_content, buy_review_image_loc, buy_review_score, buy_review.order_no, order_add_option, user_name
+	from buy_review inner join order_board
+	on buy_review.order_no = order_board.order_no
+ 	inner join member
+	on order_board.member_no = member.member_no
+	where order_board.list_no = #{list_no}
+</select>
 </mapper>
   

@@ -37,6 +37,8 @@ public class ProductDetailController {
 		Map<String, Object> map = service.productDetailService(list_no);
 		
 		Object tmp_list_order_member_no = session.getAttribute("list_order_member_no");
+		
+		//고객 주문리스트가 있다면
 		if(tmp_list_order_member_no != null) {
 			List<Integer> list_order_member_no = (List<Integer>)tmp_list_order_member_no;
 			model.addAttribute("orderList", service.productDetailOrderService(list_order_member_no));
