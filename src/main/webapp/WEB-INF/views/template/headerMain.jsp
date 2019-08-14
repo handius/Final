@@ -133,7 +133,7 @@
             </div>
             <div>
             <div class="mainlogo">
-                <a href="#">Handius</a>
+                <a href="/">Handius</a>
             </div>
             <div id="mainmenu1">
                 <a class="categoryfontcolor" href="/orderList?order=0">완제품</a>
