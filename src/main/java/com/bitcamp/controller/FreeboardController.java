@@ -20,25 +20,26 @@ public class FreeboardController {
 
 	@Resource(name = "freeboardService")
 	private FreeboardService fbservice;
-	
-//	@PreAuthorize("hasRole('ROLE_MEMBER')")
+
+	// @PreAuthorize("hasRole('ROLE_MEMBER')")
 	@RequestMapping("freeboard/freeboardList")
 	public String freeboardList(
-			@RequestParam(value = "category", required = false, defaultValue = "") String freeboard_category, Model model) {
+			@RequestParam(value = "category", required = false, defaultValue = "전체") String freeboard_category,
+			Model model) {
 
 		List<FreeboardDTO> list = fbservice.listService(freeboard_category);
-		
+
 		model.addAttribute("list", list);
-		
+
 		return "freeboard/freeboardList.mall";
 	}
 
 	@RequestMapping("freeboard/freeboardDetail")
 	public String freeboardDetail(@RequestParam("no") int freeboard_no, Model model) {
-		
+
 		FreeboardDTO dto = fbservice.detailService(freeboard_no);
 		model.addAttribute("board", dto);
-		
+
 		return "freeboard/freeboardDetail.mall";
 	}
 
@@ -48,7 +49,8 @@ public class FreeboardController {
 	}
 
 	@RequestMapping("freeboard/freeboardWriteResult")
-	public String freeboardWriteResult(@RequestParam("category") String freeboard_category,@RequestParam("title") String freeboard_title, @RequestParam int member_no,
+	public String freeboardWriteResult(@RequestParam("category") String freeboard_category,
+			@RequestParam("title") String freeboard_title, @RequestParam int member_no,
 			@RequestParam("content") String freeboard_content) {
 
 		System.out.println("멤버번호" + member_no);
@@ -64,14 +66,48 @@ public class FreeboardController {
 		return "redirect:/freeboard/freeboardList";
 	}
 
+	@RequestMapping("freeboard/boardDelete")
+	public String freeboardDelete(@RequestParam("no") int freeboard_no) {
+
+		return "";
+	}
+
+	@RequestMapping("freeboard/boardModify")
+	public String freeboardModify(@RequestParam("no") int freeboard_no, Model model) {
+
+		FreeboardDTO dto = fbservice.detailService(freeboard_no);
+
+		model.addAttribute("board", dto);
+
+		return "freeboard/freeboardModify.mall";
+	}
+
+	@RequestMapping("freeboard/boardModifyResult")
+	public String freeboardModifyResult(@RequestParam("no") int freeboard_no, @RequestParam("category") String freeboard_category,
+			@RequestParam("title") String freeboard_title, @RequestParam("content") String freeboard_content) {
+
+		FreeboardDTO dto = new FreeboardDTO();
+		dto.setFreeboard_category(freeboard_category);
+		dto.setFreeboard_title(freeboard_title);
+		dto.setFreeboard_content(freeboard_content);
+		System.out.println("수정내용");
+		System.out.println(freeboard_title);
+		System.out.println(freeboard_content);
+		
+		fbservice.modifyService(dto);
+		
+		return "redirect:/freeboard/freeboardDetail?no=" + freeboard_no;
+	}
+
 	@RequestMapping("freeboard/searchResult")
-	public String freeboardSearchResult(@RequestParam String search_type, @RequestParam String search_txt, Model model) {
+	public String freeboardSearchResult(@RequestParam String search_type, @RequestParam String search_txt,
+			Model model) {
 		System.out.println(search_type);
 		System.out.println(search_txt);
 
 		List<FreeboardDTO> list = fbservice.searchList(search_type, search_txt);
-		model.addAttribute("list",list);
-		
+		model.addAttribute("list", list);
+
 		return "freeboard/freeboardList";
 	}
 }

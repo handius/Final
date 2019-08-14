@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html">
 <html>
 <head>
@@ -33,5 +33,11 @@
 			<td>${board.freeboard_content }</td>
 		</tr>
 	</table>
+	<div></div>
+	
+	<button onclick="location='freeboardList'">목록으로</button>
+	<button onclick="location='boardModify?no=${board.freeboard_no}'">수정하기</button>
+	<button onclick="location='boardDelete?no=${board.freeboard_no}'">삭제하기</button>
+
 </body>
 </html>

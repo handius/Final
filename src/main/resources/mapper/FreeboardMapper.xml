@@ -37,7 +37,9 @@
 		freeboard
 		LEFT OUTER JOIN member on freeboard.freeboard_member_no =
 		member.member_no
-		<if test='value!=null'> where freeboard_category=#{value} </if>
+		<where>
+			<if test='_parameter!="전체"'> freeboard_category=#{_parameter} </if>
+		</where>
 		order by freeboard_no desc
 	</select>
 
@@ -48,6 +50,14 @@
 		where freeboard_no =
 		#{freeboard_no}
 	</select>
+
+	<update id="modifyData" parameterType="com.bitcamp.DTO.freeboard.FreeboardDTO">
+		update freeboard set
+		freeboard_category = #{freeboard_category},
+		freeboard_title=#{freeboard_title}, freeboard_content =
+		#{freeboard_content}
+		where freeboard_no = #{freeboard_no}
+	</update>
 
 
 </mapper>

@@ -21,11 +21,9 @@ public class FreeboardService {
 	}
 
 	public List<FreeboardDTO> listService(String category) {
-		System.out.println("카테고리" + category);
-
+		
 		List<FreeboardDTO> dto = fbMapper.getList(category);
-		System.out.println("리스트================");
-
+		
 		return dto;
 	}
 
@@ -40,6 +38,10 @@ public class FreeboardService {
 	public FreeboardDTO detailService(int freeboard_no) {
 		FreeboardDTO dto = fbMapper.getDetail(freeboard_no);
 		return dto;
+	}
+
+	public void modifyService(FreeboardDTO dto) {
+		fbMapper.modifyData(dto);
 	}
 
 }
