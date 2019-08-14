@@ -35,17 +35,15 @@
 		display: inline-block;
 		height: 400px;
 		width: 320px;
-		border: 1px solid black;
+		border: 5px double blue;
 		margin: 0 auto;
-		background-color: blue;
 	}
 	#perfectOrder{
 		display: inline-block;
 		height: 400px;
 		width: 320px;
-		border: 1px solid black;
+		border: 5px double green;
 		margin: 0 auto;
-		background-color: green;
 	}
 </style>
 </head>
