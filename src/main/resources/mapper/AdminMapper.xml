@@ -107,6 +107,15 @@
 		WHERE QUESTION_NO = #{string}
 	</update>
 	
+	<!-- new member -->
+	<select id="getNewMemberList" parameterType="String" resultType="com.bitcamp.VO.admin.NewMemberVO">
+		SELECT TO_CHAR(USER_REGIDATE, 'yyyy-MM-dd') AS join_date, COUNT(*) AS join_count
+		FROM MEMBER
+		WHERE TO_CHAR(USER_REGIDATE, 'yyyy-MM') = #{tochar}
+		GROUP BY TO_CHAR(USER_REGIDATE, 'yyyy-MM-dd')
+		ORDER BY TO_CHAR(USER_REGIDATE, 'yyyy-MM-dd')
+	</select>
+	
 	<!-- search -->
   	<sql id="search_where">
 		<if test="user_name != null and user_name != ''">

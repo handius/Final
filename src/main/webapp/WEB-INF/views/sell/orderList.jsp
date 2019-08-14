@@ -283,7 +283,7 @@
 						<label for="searchType">
 							<select name="searchType" id="searchType" class="form-control">
 								<option value="title">제목</option>
-								<option value="aritst">작성자</option>
+								<option value="artist">작성자</option>
 								<option value="product">상품명</option>
 							</select>
 						</label>

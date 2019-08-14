@@ -22,15 +22,6 @@
     body {
         background-color: #F0E5DE;
     }
-    .admin_content_wrap {
-        background-color: white;
-        border: 1px solid #D9D4CF;
-        border-radius: 5px;
-        width: 1620px;
-        padding: 20px 30px;
-        margin-top: 8px;
-        margin-left: 270px;
-    }
     .membertable tr th.th_one {
         width: 5%;
     }
@@ -57,17 +48,19 @@
 <body>
         <h2>Analysis New Member</h2>
         <div class="admin_content">
-            <form class="form-horizontal" action="" method="post">
+            <form class="form-horizontal" action="/admin/analnewmember" method="post">
               <div class="form-group">
-                <label class="col-sm-1 control-label" for="id3">기간 검색</label>
-                <div class="col-sm-2">
-                    <select class="form-control" name="" id="id3">
+                <label class="col-sm-1 control-label" for="search_date">기간 검색</label>
+                <div class="col-sm-4">
+                    <select class="form-control search_date_year" name="search_date_year" id="search_date">
+                        <option value="0">Year</option>
                         <option value="2019">2019년</option>
                         <option value="2018">2018년</option>
                     </select>
                 </div>
-                <div class="col-sm-2">
-                    <select class="form-control" name="" id="id3">
+                <div class="col-sm-4">
+                    <select class="form-control search_date_month" name="search_date_month" id="search_date">
+                        <option value="0">Month</option>
                         <option value="01">01월</option>
                         <option value="02">02월</option>
                         <option value="03">03월</option>
@@ -85,20 +78,25 @@
             </div>
               <div class="form-group member_search_btn">
                  <div class="col-sm-1 col-sm-offset-1">
-                   <input class="btn btn-default btn-block" type="submit" value="검색">
+                   <input class="btn btn-default btn-block anal_search_btn" type="submit" value="검색">
                  </div>
               </div>
             </form>
         </div>
         <h2>New Member Chart</h2>
         <div class="admin_content">
+        
           <div id="chart_div"></div>
+          
         </div>
         <h2>New Member Table</h2>
         <div class="admin_content">
           <div class="row">
-              <div class="col-sm-2 col-sm-offset-10">
-                 <button class="btn btn-default btn-lg btn-block">Excel Download</button>
+              <div class="col-sm-3 col-sm-offset-9">
+              	<form action="/exceldown" method="post">
+              	 <input type="hidden" name="search" value="${tochar }">
+                 <input type="submit" class="btn btn-default btn-lg btn-block" value="Excel Download">
+              	</form>
               </div>
           </div>
             <table class="Analysistable table table-striped">
@@ -109,55 +107,49 @@
                   </tr>
               </thead>
               <tbody>
+                <c:forEach var="i" items="${list }">
                   <tr>
-                      <td>01일</td>
-                      <td>10</td>
+                      <td class="joinday_data"><c:out value="${i.join_date }"/></td>
+                      <td class="joincount_data"><c:out value="${i.join_count }"/></td>
                   </tr>
-                  <tr>
-                      <td>02일</td>
-                      <td>10</td>
-                  </tr>
-                  <tr>
-                      <td>03일</td>
-                      <td>10</td>
-                  </tr>
-                  <tr>
-                      <td>04일</td>
-                      <td>10</td>
-                  </tr>
-                  <tr>
-                      <td>05일</td>
-                      <td>10</td>
-                  </tr>
-                  <tr>
-                      <td>06일</td>
-                      <td>10</td>
-                  </tr>
-                  <tr>
-                      <td>...</td>
-                      <td>...</td>
-                  </tr>
+                </c:forEach>
               </tbody>
             </table>
         </div>
+        <span id="getjsondata" data-chartvalue="${chart }"></span>
 <script>
+
+$('.anal_search_btn').click(function() {
+	if ($('.search_date_year').val() != 0 && $('.search_date_month').val() == 0) {
+		alert('검색할 달을 선택해주세요.');
+		$('.search_date_year').val(0);
+	}
+	if ($('.search_date_month').val() != 0 && $('.search_date_year').val() == 0) {
+		alert('검색할 연도를 선택해주세요');
+		$('.search_date_month').val(0);
+	}
+});
+
+var jsondata = $('#getjsondata').data("chartvalue");
+
 google.charts.load('current', {packages: ['corechart', 'line']});
 google.charts.setOnLoadCallback(drawBasic);
 
 function drawBasic() {
-
+	    
       var data = new google.visualization.DataTable();
       data.addColumn('number', 'X');
       data.addColumn('number', 'New Member');
-
-      data.addRows([
+      
+      data.addRows(jsondata);
+/*       data.addRows([
         [0, 10],  [1, 10],  [2, 23],  [3, 17],  [4, 18],  [5, 9],
         [6, 11],  [7, 27],  [8, 33],  [9, 40],  [10, 32], [11, 35],
-        [12, 30], [13, 40], [14, 42], [15, 47], [16, 44], [17, 48],
+        [12, 30], [13, 30], [14, 42], [15, 47], [16, 44], [17, 48],
         [18, 52], [19, 54], [20, 42], [21, 55], [22, 56], [23, 57],
         [24, 60], [25, 50], [26, 52], [27, 51], [28, 49], [29, 53],
         [30, 55], [31, 60]
-      ]);
+      ]); */
 
       var options = {
         hAxis: {
@@ -165,7 +157,9 @@ function drawBasic() {
         },
         vAxis: {
           title: 'Join'
-        }
+        },
+        width: 1000,
+        height: 300,
       };
 
       var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
