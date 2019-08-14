@@ -8,10 +8,12 @@
 <title>Insert title here</title>
 <style>
 	.simHash{
-		padding:10px;
-		magring:0 10px;
-		border: 1px solid silver;
-		border-radius: 5px;
+		margin:0px 10px !important;
+		padding:5px 10px !important;
+		border: 1px solid silver !important;
+		border-radius: 20px !important;
+		background-color: white;
+		color:silver;
 	}
 </style>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -110,7 +112,7 @@
 	});
 	
 	$(document).on('click', '.simHash', function(){
-		$(this).parent().parent().children('.hashValue').children('input').val($(this).val());
+		$(this).parent().parent().children('.hashValue').children('input').val($(this).val().substring(1));
 	});
 
 	$(document).on('click', '.searchTag', function(){
@@ -129,7 +131,7 @@
 			, success:function(data){
 				var result = "";
 				$.each(data, function(index, value){
-					result += '<input type="button" class="btn simHash" value="'+value+'">';
+					result += '<input type="button" class="btn simHash" value=#'+value+'>';
 				});
 				
 				tagdiv.html(result);
@@ -277,6 +279,14 @@
 		display: inline-block;
 		margin-right:21px;
 	}
+	.tagbox{
+		position: relative;
+	}
+	#tagbtn{
+		position: absolute;
+		right: 15px;
+		bottom: 10px;
+	}
 </style>
 </head>
 <body>
@@ -415,7 +425,7 @@
 			</div>
 			
 			<hr>
-			<div class="row">
+			<div class="row tagbox">
 				<div class="ctitle">
 					<h2>해쉬 태그 설정</h2>
 				</div>
@@ -431,7 +441,7 @@
 						<div class="col-md-6 tagdiv"></div>
 					</div>
 				</div>
-				<input type="button" class="btn" value="+" onclick="TagAppend()">
+				<input type="button" class="btn" id="tagbtn" value="+" onclick="TagAppend()">
 			</div>
 			<hr>
 			<div class="row">
