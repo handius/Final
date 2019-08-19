@@ -18,5 +18,8 @@ public class BuyReviewDTO {
 	private int buy_review_status;
 	private String order_add_option;
 	private int member_no;
-	private String user_nick;
+	private String user_name;
+	private int list_no;
+	private int start_sql;
+	private int end_sql;
 }

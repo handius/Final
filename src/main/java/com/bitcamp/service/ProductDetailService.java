@@ -13,6 +13,7 @@ import com.bitcamp.DTO.Product.OptionDTO;
 import com.bitcamp.DTO.member.MemberDTO;
 import com.bitcamp.DTO.productdetail.BuyReviewDTO;
 import com.bitcamp.DTO.productdetail.OrderResultDTO;
+import com.bitcamp.DTO.productdetail.ProductDetailOptionListDTO;
 import com.bitcamp.DTO.productdetail.QABoardDTO;
 import com.bitcamp.mapper.ProductDetailMapper;
 
@@ -26,11 +27,11 @@ public class ProductDetailService {
 	public Map<String, Object> productDetailService(int list_no) {
 		Map<String, Object> map = new HashMap<>();
 		ListDTO listdto = mapper.productDetailGet(list_no);
-		List<OptionDTO> optionList = mapper.productDetailOptionGet(list_no);
+		List<ProductDetailOptionListDTO> optionList = mapper.productDetailOptionGet(list_no);
 
 		// 옵션의 재고가 0일때 해당 재고 이름을 재고 없음으로 표시
 		for (int i = 0; i < optionList.size(); i++) {
-			OptionDTO option = optionList.get(i);
+			ProductDetailOptionListDTO option = optionList.get(i);
 			if (option.getOption_stock() <= 0) {
 				option.setOption_name("재고가 없습니다");
 				optionList.set(i, option);
@@ -53,7 +54,7 @@ public class ProductDetailService {
 
 		map.put("productDetail", listdto);
 		map.put("productDetailImg", mapper.productDetailImgGet(list_no));
-		map.put("productDetailOption", mapper.productDetailOptionGet(list_no));
+		map.put("productDetailOption", optionList);
 		map.put("productDetailArtistInfo", memberdto);
 		return map;
 	}
@@ -66,8 +67,8 @@ public class ProductDetailService {
 		return mapper.productDetailQandAInsertCheck(qa_board_no);
 	}
 
-	public List<QABoardDTO> productDetailQandAList(QABoardDTO dto) {
-		List<QABoardDTO> qalist = mapper.productDetailQandAList(dto);
+	public List<QABoardDTO> productDetailQandAListService(QABoardDTO qaboarddto) {
+		List<QABoardDTO> qalist = mapper.productDetailQandAList(qaboarddto);
 
 		// 비밀글 항목이1 일때 내용만 비밀글 처리
 		for (int i = 0; i < qalist.size(); i++) {
@@ -90,5 +91,8 @@ public class ProductDetailService {
 		mapper.buyReviewInsert(buyreviewdto);
 		return mapper.buyReviewInsertCheck(buy_review_no);
 	}
-
+	
+	public List<BuyReviewDTO> productDetailBuyReviewListService(BuyReviewDTO buyreviewdto) {
+		return mapper.productDetailBuyReviewList(buyreviewdto);
+	}
 }

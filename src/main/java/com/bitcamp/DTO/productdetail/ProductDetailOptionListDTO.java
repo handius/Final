@@ -6,9 +6,9 @@ import lombok.Setter;
 
 @NoArgsConstructor
 @Getter @Setter
-public class OrderResultDTO {
-	private int list_order_no;
-	private String order_name;
-	private String order_option;
-	private String order_value;
+public class ProductDetailOptionListDTO {
+	private int option_no;
+	private String option_name;
+	private int option_stock;
+	private int option_price;
 }
