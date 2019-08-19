@@ -78,8 +78,7 @@
 	
 	<div class="jumbotron">
 	  	<div class="container">
-	  		<h1>주문 옵션 입력 페이지</h1>
-	    	<p>주문 옵션 입력 페이지</p>
+	  		
 		</div>
 	</div>
 	<div class="container">
