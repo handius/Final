@@ -35,9 +35,13 @@ public class FreeboardController {
 	@RequestMapping("freeboard/freeboardList")
 	public String freeboardList(
 			@RequestParam(value = "category", required = false, defaultValue = "전체") String freeboard_category,
+			@RequestParam(value = "searchType", required = false, defaultValue = "") String searchType,
+			@RequestParam(value = "searchKeyword", required = false, defaultValue = "") String searchKeyword,
 			Model model) {
 
-		List<FreeboardDTO> list = fbservice.listService(freeboard_category);
+		List<FreeboardDTO> list = fbservice.listService(freeboard_category, searchType, searchKeyword);
+		
+		
 		model.addAttribute("list", list);
 
 		return "freeboard/freeboardList.mall";
@@ -47,13 +51,7 @@ public class FreeboardController {
 	public String freeboardDetail(@RequestParam("no") int freeboard_no, Model model) {
 
 		FreeboardDTO dto = fbservice.detailService(freeboard_no);
-		// List<FreeboardRepDTO> repList = replySerivce.getReply(freeboard_no);
-
-		// System.out.println("댓글리스트==");
-		// System.out.println(repList.toString());
-
 		model.addAttribute("board", dto);
-		// model.addAttribute(repList);
 
 		return "freeboard/freeboardDetail.mall";
 	}
@@ -67,8 +65,6 @@ public class FreeboardController {
 	public String freeboardWriteResult(@RequestParam("category") String freeboard_category,
 			@RequestParam("title") String freeboard_title, @RequestParam int member_no,
 			@RequestParam("content") String freeboard_content) {
-
-		System.out.println("멤버번호" + member_no);
 
 		FreeboardDTO dto = new FreeboardDTO();
 		dto.setFreeboard_category(freeboard_category);
