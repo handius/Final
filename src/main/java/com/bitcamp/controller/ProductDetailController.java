@@ -171,29 +171,38 @@ public class ProductDetailController {
 	}
 	
 	@RequestMapping("/productDetailResult")
-	public String productDetailResult(@RequestParam int list_no, @RequestParam int order_price, @RequestParam List<Integer> order_add_option
-			, @RequestParam List<String> option_name, @RequestParam List<Integer> order_amount, @RequestParam List<Integer> option_price
+	public String productDetailResult(@RequestParam int list_no, @RequestParam int order_price, @RequestParam(defaultValue="0") List<Integer> order_add_option
+			, @RequestParam(defaultValue="") List<String> option_name, @RequestParam(defaultValue="") List<Integer> order_amount, @RequestParam(defaultValue="") List<Integer> option_price
 			, @RequestParam int artist_no, @RequestParam String list_title, HttpSession session) {
+		OrderDTO orderdto = new OrderDTO();
+		
 		System.out.println("리스트 번호 : "+list_no);
 		System.out.println("총 금액 : "+order_price);
-		System.out.print("옵션 번호 : ");
-		for(int i=0; i<order_add_option.size(); i++) {
-			System.out.print(order_add_option.get(i)+"/");
-		}
-		System.out.println();
-		System.out.print("옵션 이름 : ");
-		for(int i=0; i<option_name.size(); i++) {
-			System.out.print(option_name.get(i)+"/");
-		}
-		System.out.println();
-		System.out.print("옵션 수량 : ");
-		for(int i=0; i<order_amount.size(); i++) {
-			System.out.print(order_amount.get(i)+"/");
-		}
-		System.out.println();
-		System.out.print("옵션 가격 : ");
-		for(int i=0; i<option_price.size(); i++) {
-			System.out.print(option_price.get(i)+"/");
+		if(option_name.size() != 0) {
+			System.out.print("옵션 번호 : ");
+			for(int i=0; i<order_add_option.size(); i++) {
+				System.out.print(order_add_option.get(i)+"/");
+			}
+			System.out.println();
+			System.out.print("옵션 이름 : ");
+			for(int i=0; i<option_name.size(); i++) {
+				System.out.print(option_name.get(i)+"/");
+			}
+			System.out.println();
+			System.out.print("옵션 수량 : ");
+			for(int i=0; i<order_amount.size(); i++) {
+				System.out.print(order_amount.get(i)+"/");
+			}
+			System.out.println();
+			System.out.print("옵션 가격 : ");
+			for(int i=0; i<option_price.size(); i++) {
+				System.out.print(option_price.get(i)+"/");
+			}
+			//orderdto 1차대입
+			orderdto.setOrder_add_option(order_add_option);
+			orderdto.setOption_name(option_name);
+			orderdto.setOrder_amount(order_amount);
+			orderdto.setOrder_price(order_price);
 		}
 		
 		System.out.println();
@@ -202,13 +211,8 @@ public class ProductDetailController {
 		System.out.println();
 		System.out.print("작품 타이틀 : "+list_title);
 		
-		//orderdto 대입
-		OrderDTO orderdto = new OrderDTO();
+		//orderdto 2차 대입
 		orderdto.setList_no(list_no);
-		orderdto.setOrder_price(order_price);
-		orderdto.setOrder_add_option(order_add_option);
-		orderdto.setOption_name(option_name);
-		orderdto.setOrder_amount(order_amount);
 		orderdto.setOrder_price(order_price);
 		orderdto.setArtist_no(artist_no);
 		orderdto.setList_title(list_title);
@@ -245,7 +249,7 @@ public class ProductDetailController {
 				System.out.print(order_value.get(i)+"/");
 			}
 			
-			//orderdto 2차 대입
+			//orderdto 3차 대입
 			orderdto.setOrdermade_no(ordermade_no);
 			orderdto.setList_order_no(list_order_no);
 			orderdto.setOrder_value(order_value);

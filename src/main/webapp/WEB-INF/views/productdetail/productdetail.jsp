@@ -938,7 +938,6 @@
                 </div>
                 <div class="productDetailAsideBlock" id="productDetailAsideProductName">
                     	<c:out value="${listDTO.list_title }"></c:out>
-                    	<input type="hidden" value="${listDTO.list_title }" name="list_title" readonly="readonly">
                 </div>
                 <div class="productDetailAsideBlock" id="productDetailAsideArtistName">
                     <a href="#"><c:out value="${listDTO.list_artist }"></c:out></a>
@@ -946,6 +945,7 @@
                 <form method="post" action="/productDetailResult">
                 	<input type="hidden" value="${listDTO.list_no }" id="list_no" name="list_no" readonly="readonly">
                 	<input type="hidden" value="${artist_no }" name="artist_no" readonly="readonly">
+                    <input type="hidden" value="${listDTO.list_title }" name="list_title" readonly="readonly">
                     <!-- 옵션박스 -->
                     <div class="productDetailOptionBox productDetailAsideBlock">
                         <div class="btn-group">
