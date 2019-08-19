@@ -47,6 +47,10 @@
     .Producttable {
         margin-top: 30px;
     }
+    .pagination_block {
+    	text-align: center;
+    }
+    
     /**/
     .admin_content {
         margin: 10px 0 50px;
@@ -59,17 +63,19 @@
 <body>
         <h2>Analysis Popular Product</h2>
         <div class="admin_content">
-            <form class="form-horizontal" action="" method="post">
+            <form class="form-horizontal" action="/admin/analproduct" method="post">
               <div class="form-group">
-                <label class="col-sm-1 control-label" for="id3">기간 검색</label>
-                <div class="col-sm-2">
-                    <select class="form-control" name="" id="id3">
+                <label class="col-sm-1 control-label" for="search_date">기간 검색</label>
+                <div class="col-sm-4">
+                    <select class="form-control search_date_year" name="search_date_year" id="search_date">
+                        <option value="0">Year</option>
                         <option value="2019">2019년</option>
                         <option value="2018">2018년</option>
                     </select>
                 </div>
-                <div class="col-sm-2">
-                    <select class="form-control" name="" id="id3">
+                <div class="col-sm-4">
+                    <select class="form-control search_date_month" name="search_date_month" id="search_date">
+                        <option value="0">Month</option>
                         <option value="01">01월</option>
                         <option value="02">02월</option>
                         <option value="03">03월</option>
@@ -106,47 +112,48 @@
                       <th class="th_two">상품명</th>
                       <th class="th_three">판매수량</th>
                       <th class="th_three">판매금액</th>
-                      <th class="th_three">리뷰</th>
+                      <th class="th_three">상품 카테고리</th>
                   </tr>
               </thead>
               <tbody>
+                <c:forEach var="i" items="${list }">
                   <tr>
-                      <td>1</td>
-                      <td>사람드리 조아하는 상품</td>
-                      <td>15</td>
-                      <td>30,000</td>
-                      <td>5</td>
+                      <td><c:out value="${i.rnum }"/></td>
+                      <td><c:out value="${i.list_product }"/></td>
+                      <td><c:out value="${i.buy_count }"/></td>
+                      <td><c:out value="${i.list_base_price }"/></td>
+                      <td><c:out value="${i.list_category }"/></td>
                   </tr>
-                  <tr>
-                      <td>2</td>
-                      <td>뭐 목걸이</td>
-                      <td>10</td>
-                      <td>130,000</td>
-                      <td>2</td>
-                  </tr>
-                  <tr>
-                      <td>3</td>
-                      <td>적당히 이쁜 인테리어 소품</td>
-                      <td>7</td>
-                      <td>32,000</td>
-                      <td>4</td>
-                  </tr>
-                  <tr>
-                      <td>3</td>
-                      <td>유명한 작가의 머그컵</td>
-                      <td>7</td>
-                      <td>11,200</td>
-                      <td>4</td>
-                  </tr>
-                  <tr>
-                      <td>...</td>
-                      <td>...</td>
-                      <td>...</td>
-                      <td>...</td>
-                      <td>...</td>
-                  </tr>
+                </c:forEach>
               </tbody>
             </table>
+                                
+          <!-- Paging Block -->
+          <div class="pagination_block">
+			  <form action="/admin/analproduct" method="post">
+			  	  <c:if test="${list != null }">
+			  	  
+					<!-- 검색 값 -->
+			 		<input type="hidden" name="tochar" value="${tochar }">
+							
+					<c:if test="${paging.startblock > 1 }">
+						<a href="#">◀</a>
+					</c:if>
+					<c:forEach var="i" begin="${paging.startblock }" end="${paging.endblock }">
+						<c:if test="${i == currpage }">
+							<c:out value="${i }"></c:out>
+						</c:if>
+						<c:if test="${i != currpage }">
+							<input type="submit" class="btn btn-default" name="curr" value="${i }">
+						</c:if>
+					</c:forEach>
+					<c:if test="${paging.endblock < paging.totalpage }">
+						<a href="#">▶</a>
+					</c:if>
+				  </c:if>
+			  </form>
+		  </div>
+
         </div>
 <script>
     
