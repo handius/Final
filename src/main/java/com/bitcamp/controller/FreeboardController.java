@@ -28,9 +28,9 @@ public class FreeboardController {
 	@Resource(name = "freeboardService")
 	private FreeboardService fbservice;
 
-	@Resource(name="freeboardRepService")
+	@Resource(name = "freeboardRepService")
 	private FreeboardRepService replySerivce;
-	
+
 	// @PreAuthorize("hasRole('ROLE_MEMBER')")
 	@RequestMapping("freeboard/freeboardList")
 	public String freeboardList(
@@ -38,7 +38,6 @@ public class FreeboardController {
 			Model model) {
 
 		List<FreeboardDTO> list = fbservice.listService(freeboard_category);
-
 		model.addAttribute("list", list);
 
 		return "freeboard/freeboardList.mall";
@@ -48,7 +47,13 @@ public class FreeboardController {
 	public String freeboardDetail(@RequestParam("no") int freeboard_no, Model model) {
 
 		FreeboardDTO dto = fbservice.detailService(freeboard_no);
+		// List<FreeboardRepDTO> repList = replySerivce.getReply(freeboard_no);
+
+		// System.out.println("댓글리스트==");
+		// System.out.println(repList.toString());
+
 		model.addAttribute("board", dto);
+		// model.addAttribute(repList);
 
 		return "freeboard/freeboardDetail.mall";
 	}
@@ -120,24 +125,7 @@ public class FreeboardController {
 		return "freeboard/freeboardList";
 	}
 
-	@RequestMapping(value = "/freeboard/freeboardReply", method = RequestMethod.POST)
-	public @ResponseBody Map<String, Object> freeboardReply(@RequestBody FreeboardRepDTO repDTO){
 
-		Map<String, Object> result = new HashMap<>();
 
-		try {
-			
-			System.out.println("asdadasda");
-			System.out.println(repDTO.toString());
-//			replySerivce.saveReply(repDTO);
-			
-			result.put("status", "OK");
 
-		} catch (Exception e) {
-			e.printStackTrace();
-			result.put("status", "False");
-		}
-
-		return result;
-	}
 }
