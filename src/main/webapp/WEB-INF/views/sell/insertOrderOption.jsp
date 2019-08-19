@@ -87,6 +87,13 @@
 		padding: 10px;
 		width: 100%;
 	}
+	.oimage{
+		height: 100%;
+		width: 100%;
+	}
+	.ibox{
+		height: 300px;
+	}
 </style>
 </head>
 <body>
@@ -102,9 +109,9 @@
 		</div>
 		<hr>
 		<div class="row">
-			<div class="col-md-3">
+			<div class="col-md-3 ibox">
 				<c:forEach var="image" items="${ListDTO.list_image_loc }" end="0">
-					<img src="${image }" alt="이미지가 없습니다." class="img-responsive">
+					<img src="${image }" alt="이미지가 없습니다." class="oimage">
 				</c:forEach>
 			</div>
 			<div class="col-md-9">
