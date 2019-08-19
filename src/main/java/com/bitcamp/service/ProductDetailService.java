@@ -90,4 +90,5 @@ public class ProductDetailService {
 		mapper.buyReviewInsert(buyreviewdto);
 		return mapper.buyReviewInsertCheck(buy_review_no);
 	}
+
 }
