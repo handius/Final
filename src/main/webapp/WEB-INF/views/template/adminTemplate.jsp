@@ -96,6 +96,12 @@
     .admin_category_child > p > a {
         color: #7C7877;
     }
+    .change_a_style {
+        color: #D9D4CF;
+    }
+    .change_a_style:hover {
+        color: #D9D4CF;
+    }
 </style>
 </head>
 <body>
@@ -106,7 +112,7 @@
         </div>
            <div class="admintopright">
             <span>로그아웃</span>
-            <span>내 쇼핑몰 가기</span>
+            <span><a href="/" class="change_a_style">내 쇼핑몰 가기</a></span>
            </div>
     </div>
     <div class="admin_mid">

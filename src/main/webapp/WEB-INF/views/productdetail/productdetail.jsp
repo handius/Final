@@ -381,6 +381,8 @@
         .customerOrderValue {
             height: 80px;
             padding: 0;
+            text-align: center;
+            font-size: 25px;
         }
 
         .customerOrderValue img {
@@ -564,9 +566,6 @@
     <script>
         var productDetailAsideOptionSelectArr = new Array();
         
-        //시작시 초기화
-        window.onload = qaBoardList;
-        
         //창 크기가 줄어들었을때 모바일 창을 작동
         window.onresize = function(event) {
             let windowWidth = window.innerWidth;
@@ -598,6 +597,8 @@
                 }
             }
         });
+      	//시작시 초기화
+        $(document).ready(qaBoardList);
         
         $(document).on('click', '.minusButton', minusButtonClick);
         $(document).on('click', '.plusButton', plusButtonClick);
@@ -750,12 +751,16 @@
     			,type: "POST"
     			,success:function(data){
     				console.log('성공');
-    				if(data == 1) {
+    				if(data == '1') {
     					$('#productDetailQandAInput').val('');
-    					alert('등록 되었습니다.'); 					
+    					alert('등록 되었습니다.');
+    				}
+    				else if(data == '0') {
+    					alert('등록에 실패했습니다.');
     				}
     				else {
-    					alert('등록에 실패했습니다.');
+    					alert('로그인부터 해주시기 바랍니다.');
+    					location.href="/login";
     				}
     			}
     			,error:function(data){
@@ -766,7 +771,7 @@
         
         function qaBoardList() {
 			let qaCurrent = $('#qa_current_page').val();
-			let listno = document.getElementById("list_no").value;
+			let listno = $('#list_no').val();
 			$.ajax({
     			url:"/ajaxqaboardList"
     			,contentType: 'application/json; charset=utf-8'
@@ -776,14 +781,15 @@
     			,success:function(data){
     				console.log('성공');
     				var result = '';
-    				if(data.length == 0) {
+     				if(data.length == 0) {
     					result += '<div class="productDetailQandA">';
 						result += '<div class="col-xs-2 "></div>';
     					result += '<div class="col-xs-5 productDetailQandAWriter"></div>';
     					result += '<div class="col-xs-5 productDetailQandAWriterDate"></div>';
-    					result += '<div class="col-xs-10 productDetailQandAContent">Q & A가 없습니다.</div>';
+    					result += '<div class="col-xs-12 productDetailQandAContent">Q & A가 없습니다.</div>';
     					result += '</div>'
-    				}
+    					$('#productDetailQandAMoreButton').hide();
+    				} 
     				for(let i=0; i<data.length; i++) {
     					//해당 작가가 아니라면
     					if(data[i].level == 1) {
@@ -912,6 +918,7 @@
                         			</c:if>
                         			<c:if test="${orderList.order_option eq 'color' }">
                         				<c:out value="색상 : ${orderList.order_value }"></c:out>
+                        				<div id="customerOrderColorBox"></div>
                         			</c:if>
                         			<c:if test="${orderList.order_option eq 'text' }">
                         				<c:out value="${orderList.order_value }"></c:out>

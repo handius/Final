@@ -77,10 +77,10 @@ public class ProductService {
 		return mapper.getHashSearch(searchData);
 	}
 	
-	public int insertPerfectOrderDataService(ListDTO dto) {
+	public int insertPerfectOrderDataService(ListDTO dto, String user_id) {
 		
 		//임시로 작가명 설정
-		dto.setList_artist("tempArtist");
+		dto.setList_artist(user_id);
 		
 		HashMap<String, Object> optionData = new HashMap<String, Object>();
 		HashMap<String, Object> imageData = new HashMap<String, Object>();
@@ -119,9 +119,9 @@ public class ProductService {
 		}
 	}
 	
-	public int insertOrderMadeDataService(ListDTO dto) {
+	public int insertOrderMadeDataService(ListDTO dto, String user_id) {
 		//임시로 작가명 설정
-				dto.setList_artist("tempArtist");
+				dto.setList_artist(user_id);
 				
 				HashMap<String, Object> optionData = new HashMap<String, Object>();
 				HashMap<String, Object> imageData = new HashMap<String, Object>();

@@ -24,10 +24,10 @@
 	from member
 	where user_name = #{list_artist}
 </select>
+<select id="productDetailQandAInsertSeq" resultType="int">
+	select qa_board_seq.nextval from dual
+</select>
 <insert id="productDetailQandAInsert" parameterType="com.bitcamp.DTO.productdetail.QABoardDTO">
-	<selectKey order="BEFORE" keyProperty="qa_board_no" resultType="int">
-		select qa_board_seq.nextval from dual
-	</selectKey>
 	insert into qa_board(qa_board_no, list_no, member_no, qa_board_date, qa_board_content, qa_board_secret
 	, qa_board_status, qa_board_delete_status)
 	values(#{qa_board_no}, #{list_no}, #{member_no}, sysdate, #{qa_board_content}, #{qa_board_secret}
@@ -43,10 +43,11 @@
 	, qa_board_parent_no, qa_board_delete_status, user_name, level
 	from qa_board inner join member
 	on qa_board.member_no = member.member_no
-	where rownum <![CDATA[<]]>= #{end_sql} 
+	where rownum <![CDATA[<]]>= #{end_sql} and list_no = #{list_no}
 	start with qa_board_parent_no is null
-    connect by prior qa_board_no = qa_board_parent_no ) e
-	where list_no = #{list_no} and num <![CDATA[>]]>= #{start_sql} and qa_board_delete_status = 1
+    connect by prior qa_board_no = qa_board_parent_no
+    order siblings by qa_board_date desc) e
+	where num <![CDATA[>]]>= #{start_sql} and qa_board_delete_status = 1
 </select>
 <select id="productDetailOrderResultList" resultType="com.bitcamp.DTO.productdetail.OrderResultDTO">
 	select order_name, order_option, order_value
@@ -57,6 +58,25 @@
 			list_order_member_no = #{item}
 		</foreach>
 	</where>
+</select>
+<select id="buyReviewInsertSeq" resultType="int">
+	select buy_review_seq.nextval from dual
+</select>
+<insert id="buyReviewInsert" parameterType="com.bitcamp.DTO.productdetail.BuyReviewDTO" >
+	insert into buy_review(buy_review_no, order_no, buy_review_date, buy_review_content, buy_review_image_loc, buy_review_score, buy_review_status)
+	values(#{buy_review_no}, #{order_no}, sysdate, #{buy_review_content}, #{buy_review_image_loc}, #{buy_review_score}, 1)
+</insert>
+<select id="buyReviewInsertCheck" parameterType="int" resultType="int">
+	select count(*) from buy_review
+	where buy_review_no = #{buy_review_no}
+</select>
+<select id="productDetailBuyReviewList" parameterType="int" resultType="com.bitcamp.DTO.productdetail.BuyReviewDTO">
+	select buy_review_no, buy_review_date, buy_review_content, buy_review_image_loc, buy_review_score, buy_review.order_no, order_add_option, user_name
+	from buy_review inner join order_board
+	on buy_review.order_no = order_board.order_no
+ 	inner join member
+	on order_board.member_no = member.member_no
+	where order_board.list_no = #{list_no}
 </select>
 </mapper>
   

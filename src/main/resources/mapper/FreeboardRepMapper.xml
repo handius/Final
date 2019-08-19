@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bitcamp.mapper.FreeboardRepMapper">
+
+	<insert id="insertData"
+		parameterType="com.bitcamp.DTO.freeboard.FreeboardRepDTO">
+		insert into freeboard_rep(rep_no, member_no,
+		freeboard_no, rep_content, rep_regidate, rep_parent_no)
+		values(freeboard_rep_seq.nextval, 105, #{freeboard_no},
+		#{rep_content}, to_char(sysdate,'YY.MM.DD HH.MI'), 0);
+	</insert>
+
+</mapper>

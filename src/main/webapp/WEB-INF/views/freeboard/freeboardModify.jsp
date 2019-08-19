@@ -1,8 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://www.springframework.org/security/tags"
-	prefix="sec"%>
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html">
 <html>
 <head>
@@ -10,10 +7,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<br>
-	<form action="freeboardWriteResult" method="post">
-		<input type="text" name="member_no"
-			value="<sec:authentication property="principal.member.member_no"/>">
+	<form action="boardModifyResult?no=${board.freeboard_no}" method="post">
+		<%-- <input type="text" name="member_no"
+			value="<sec:authentication property="principal.member.member_no"/>"> --%>
 		<table>
 			<tr>
 				<select name="category">
@@ -25,18 +21,18 @@
 			</tr>
 			<tr>
 				<td>제목</td>
-				<td><input type="text" name="title" required="required"></td>
+				<td><input type="text" name="title" required="required" value="${board.freeboard_title }"></td>
 			</tr>
 			<tr>
 				<td>글쓴이</td>
 				<td><input type="text" name="writer"
-					value='<sec:authentication property="principal.member.user_id"/>'
+					value="${board.user_nick}"
 					readonly="readonly"></td>
 			</tr>
 			<tr>
 				<td>내용</td>
 				<td><textarea rows="30" cols="50" name="content"
-						required="required"></textarea></td>
+						required="required">${board.freeboard_content}</textarea></td>
 			</tr>
 		</table>
 		<input type="button" value="목록으로"

@@ -32,7 +32,7 @@
 		<hr>
 		<div class="row">
 			<div class="col-md-3">
-				<c:forEach var="image" items="${ListDTO.list_image_loc }" end="1">
+				<c:forEach var="image" items="${ListDTO.list_image_loc }" end="0">
 					<img src="${image }" alt="이미지가 없습니다.">
 				</c:forEach>
 			</div>

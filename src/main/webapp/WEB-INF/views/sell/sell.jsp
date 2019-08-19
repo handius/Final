@@ -16,8 +16,17 @@
 <!-- Latest compiled and minified JavaScript -->
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 <style>
+	.jumbotron{
+		margin-top:0px;
+		margin-bottom:0px !important;
+		background-image: url("/resources/image/flower.jpeg");
+		background-size: cover;
+		height: 300px;
+	}
 	.order{
 		text-align: center;
+		margin-top: 100px;
+		margin-bottom: 150px;
 	}
 	.order h2{
 		margin-bottom: 50px;
@@ -26,25 +35,22 @@
 		display: inline-block;
 		height: 400px;
 		width: 320px;
-		border: 1px solid black;
+		border: 5px double blue;
 		margin: 0 auto;
-		background-color: blue;
 	}
 	#perfectOrder{
 		display: inline-block;
 		height: 400px;
 		width: 320px;
-		border: 1px solid black;
+		border: 5px double green;
 		margin: 0 auto;
-		background-color: green;
 	}
 </style>
 </head>
 <body>
 	<div class="jumbotron">
   		<div class="container">
-  			<h1>상품 판매 페이지</h1>
-    		<p>상품 판매 페이지</p>
+  			
 	  	</div>
 	</div>
 	

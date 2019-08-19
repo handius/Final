@@ -20,9 +20,6 @@ public class JoinService {
 	private JoinMapper joinMapper;
 
 	@Autowired
-	private	MemberMapper member;
-
-	@Autowired
 	private JavaMailSender mailSender;
 
 	@Autowired

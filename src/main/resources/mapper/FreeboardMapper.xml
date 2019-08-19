@@ -16,22 +16,20 @@
 			column="freeboard_category"></result>
 		<result property="member_no" column="member_no"></result>
 		<result property="user_nick" column="user_nick" />
-		<!-- <collection property="member" resultMap="memberMap"></collection> -->
 	</resultMap>
-	<!-- <resultMap type="com.bitcamp.DTO.member.MemberDTO" id="memberMap"> 
-		<result property="member_no" column="member_no" /> <result property="user_nick" 
-		column="user_nick" /> </resultMap> -->
 
 	<insert id="insertData"
 		parameterType="com.bitcamp.DTO.freeboard.FreeboardDTO">
 		insert into freeboard
 		values(freeboard_seq.nextval,
 		#{freeboard_title},
-		#{freeboard_content}, sysdate, 0, 1, 'temp',
+		#{freeboard_content}, sysdate, 0, 1,
+		#{freeboard_category},
 		#{member_no})
 	</insert>
 
-	<select id="getList" resultMap="freeboardMap">
+	<select id="getList" resultMap="freeboardMap"
+		parameterType="String">
 		select freeboard_no, freeboard_title,
 		freeboard_content,
 		freeboard_regitime, freeboard_hits,
@@ -39,9 +37,38 @@
 		freeboard
 		LEFT OUTER JOIN member on freeboard.freeboard_member_no =
 		member.member_no
-		<!-- <if test="value!=null"> where freeboard_category=#{category} </if> -->
-
+		<where>
+			<if test='_parameter!="전체"'> freeboard_category=#{_parameter} </if>
+		</where>
+		order by freeboard_no desc
 	</select>
+
+	<select id="getDetail" resultMap="freeboardMap"
+		parameterType="int">
+		select *
+		from freeboard
+		where freeboard_no =
+		#{freeboard_no}
+	</select>
+
+	<update id="modifyData"
+		parameterType="com.bitcamp.DTO.freeboard.FreeboardDTO">
+		update freeboard set
+		freeboard_category =
+		#{freeboard_category},
+		freeboard_title=#{freeboard_title},
+		freeboard_content =
+		#{freeboard_content}
+		where freeboard_no =
+		#{freeboard_no}
+	</update>
+
+	<update id="deleteData" parameterType="Int">
+		update freeboard
+		set
+		freeboard_status = 0
+		where freeboard_no = #{freeboard_no}
+	</update>
 
 
 </mapper>
