@@ -7,12 +7,13 @@ import com.bitcamp.DTO.Product.OptionDTO;
 import com.bitcamp.DTO.member.MemberDTO;
 import com.bitcamp.DTO.productdetail.BuyReviewDTO;
 import com.bitcamp.DTO.productdetail.OrderResultDTO;
+import com.bitcamp.DTO.productdetail.ProductDetailOptionListDTO;
 import com.bitcamp.DTO.productdetail.QABoardDTO;
 
 public interface ProductDetailMapper {
 	public ListDTO productDetailGet(int list_no);
 	public List<String> productDetailImgGet(int list_no);
-	public List<OptionDTO> productDetailOptionGet(int list_no);
+	public List<ProductDetailOptionListDTO> productDetailOptionGet(int list_no);
 	public MemberDTO productDetailArtistGet(String list_artist);
 	public int productDetailQandAInsertSeq();
 	public int productDetailQandAInsert(QABoardDTO qaboarddto);
@@ -22,5 +23,5 @@ public interface ProductDetailMapper {
 	public int buyReviewInsertSeq();
 	public void buyReviewInsert(BuyReviewDTO buyreviewdto);
 	public int buyReviewInsertCheck(int buy_review_no);
-	public List<BuyReviewDTO> productDetailBuyReviewList(int list_no);
+	public List<BuyReviewDTO> productDetailBuyReviewList(BuyReviewDTO buyreviewdto);
 }
