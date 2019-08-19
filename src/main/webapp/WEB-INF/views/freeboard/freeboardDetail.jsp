@@ -97,14 +97,7 @@
 			data : paramData,
 			dataType : 'json',
 			success : function(result) {
-				var htmls = "";
-
-				if (result.length < 1) {
-					htmls.push("등록된 댓글이 없습니다.");
-				} else {
-					showHtml(result);
-				}
-
+				showHtml(result);
 				console.log('실행완료');
 			}
 		});

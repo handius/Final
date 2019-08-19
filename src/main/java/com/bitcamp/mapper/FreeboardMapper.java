@@ -19,4 +19,6 @@ public interface FreeboardMapper {
 
 	public void deleteData(int freeboard_no);
 
+	public List<FreeboardDTO> getSearchList2(Map<String, Object> search);
+
 }

@@ -28,8 +28,7 @@
 		#{member_no})
 	</insert>
 
-	<select id="getList" resultMap="freeboardMap"
-		parameterType="String">
+	<select id="getList" resultMap="freeboardMap">
 		select freeboard_no, freeboard_title,
 		freeboard_content,
 		freeboard_regitime, freeboard_hits,
@@ -70,5 +69,26 @@
 		where freeboard_no = #{freeboard_no}
 	</update>
 
+	<select id="getSearchList2" resultMap="freeboardMap"
+		parameterType="map">
+		select freeboard_no, freeboard_title,
+		freeboard_content,
+		freeboard_regitime, freeboard_hits,
+		freeboard_member_no, user_nick from
+		freeboard
+		LEFT OUTER JOIN member on freeboard.freeboard_member_no =
+		member.member_no
+		<!-- <where> <if test='_parameter!="전체"'> freeboard_category=#{_parameter} 
+			</if> </where> -->
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="searchType=='제목'">
+				and freeboard_title like '%'||#{searchKeyword}||'%'
+			</if>
+			<if test="searchType=='닉네임'">
+				and user_nick like '%'||#{searchKeyword}||'%'
+			</if>
+		</trim>
+		order by freeboard_no desc
+	</select>
 
 </mapper>

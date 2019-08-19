@@ -30,4 +30,5 @@ public class ListDTO {
 	private List<String> order_option;
 	private int buy_count;
 	private int list_status;
+	private int rnum;
 }

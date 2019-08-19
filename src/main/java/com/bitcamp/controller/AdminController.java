@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.bitcamp.DTO.Product.ListDTO;
 import com.bitcamp.DTO.comm.PageDTO;
 import com.bitcamp.DTO.customerqaboard.CustomerQABoardDTO;
 import com.bitcamp.DTO.member.MemberDTO;
@@ -95,21 +96,37 @@ public class AdminController {
 	}
 	
 	@RequestMapping("/admin/analnewmember")
-	public String analnewmember(@ModelAttribute DateVO search_date, Model model) {
-		
+	public String analnewmember(@RequestParam(required=false) String curr,
+								 @ModelAttribute DateVO search_date,
+								 Model model) {
+
+		HashMap<String, Object> search_map = new HashMap<>();
 		// 검색
 		SimpleDateFormat sysdateyyyyMM = new SimpleDateFormat("yyyy-MM");
 		Calendar time = Calendar.getInstance();
 		String sysdate = sysdateyyyyMM.format(time.getTime());
-		
 		String tochar = sysdate;
 		String date1 = search_date.getSearch_date_year();
 		String date2 = search_date.getSearch_date_month();
 		if(date1 != null || date2 != null) tochar = date1 + "-" + date2;
 		if(tochar.equals("0-0")) tochar = sysdate;
+		search_map.put("tochar", tochar);
 		
-		List<NewMemberVO> newmember = adservice.getNewMemberList(tochar);
+		// 페이징
+		int currpage = 1;
+		if(curr != null) currpage = Integer.parseInt(curr);
+		int totalCount = adservice.getNewMemberCount(tochar);		// count(*)
+		int pagepercount = 10;										// 페이지 당 표시할 게시글 갯수
+		int blockSize = 5;											// 페이징 블록 사이즈
+		PageDTO page = new PageDTO(currpage, totalCount, pagepercount, blockSize);
 		
+		// 쿼리 돌릴 값 (페이징)
+		search_map.put("startrow", page.getStartrow());
+		search_map.put("endrow", page.getEndrow());
+		
+		List<NewMemberVO> newmember = adservice.getNewMemberList(search_map);
+		
+		// google chart
 		List<String> test = new ArrayList<String>();
 		Integer test1 = null;
 		Integer test2 = null;
@@ -126,11 +143,44 @@ public class AdminController {
 		model.addAttribute("admin_category", "anal");
 		model.addAttribute("chart", test.toString());
 		model.addAttribute("tochar", tochar);
+		model.addAttribute("paging", page);
 		return "admin/newmember.admin";
 	}
 	
 	@RequestMapping("/admin/analproduct")
-	public String analproduct(Model model) {
+	public String analproduct(@RequestParam(required = false) String curr, 
+			                   @ModelAttribute DateVO search_date, 
+			                   Model model) {
+
+		HashMap<String, Object> search_map = new HashMap<>();
+		// 검색
+		SimpleDateFormat sysdateyyyyMM = new SimpleDateFormat("yyyy-MM");
+		Calendar time = Calendar.getInstance();
+		String sysdate = sysdateyyyyMM.format(time.getTime());
+		String tochar = sysdate;
+		String date1 = search_date.getSearch_date_year();
+		String date2 = search_date.getSearch_date_month();
+		if(date1 != null || date2 != null) tochar = date1 + "-" + date2;
+		if(tochar.equals("0-0")) tochar = sysdate;
+		search_map.put("tochar", tochar);
+
+		// 페이징
+		int currpage = 1;
+		if(curr != null) currpage = Integer.parseInt(curr);
+		int totalCount = adservice.getProductCount(tochar);			// count(*)
+		int pagepercount = 10;										// 페이지 당 표시할 게시글 갯수
+		int blockSize = 5;											// 페이징 블록 사이즈
+		PageDTO page = new PageDTO(currpage, totalCount, pagepercount, blockSize);
+		
+		// 쿼리 돌릴 값 (페이징)
+		search_map.put("startrow", page.getStartrow());
+		search_map.put("endrow", page.getEndrow());
+		
+		List<ListDTO> list = adservice.getPopularProductList(search_map);
+		
+		model.addAttribute("list", list);
+		model.addAttribute("paging", page);
+		model.addAttribute("tochar", tochar);
 		model.addAttribute("admin_category", "anal");
 		return "admin/popularproducts.admin";
 	}

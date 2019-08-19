@@ -48,4 +48,13 @@ public class FreeboardService {
 		fbMapper.deleteData(freeboard_no);
 	}
 
+	public List<FreeboardDTO> listService(String freeboard_category, String searchType, String searchKeyword) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("freeboard_category", freeboard_category);
+		map.put("searchType", searchType);
+		map.put("searchKeyword", searchKeyword);
+		
+		return fbMapper.getSearchList2(map);
+	}
+
 }

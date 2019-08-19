@@ -108,13 +108,60 @@
 	</update>
 	
 	<!-- new member -->
-	<select id="getNewMemberList" parameterType="String" resultType="com.bitcamp.VO.admin.NewMemberVO">
-		SELECT TO_CHAR(USER_REGIDATE, 'yyyy-MM-dd') AS join_date, COUNT(*) AS join_count
-		FROM MEMBER
-		WHERE TO_CHAR(USER_REGIDATE, 'yyyy-MM') = #{tochar}
-		GROUP BY TO_CHAR(USER_REGIDATE, 'yyyy-MM-dd')
-		ORDER BY TO_CHAR(USER_REGIDATE, 'yyyy-MM-dd')
+	<select id="getNewMemberList" parameterType="Object" resultType="com.bitcamp.VO.admin.NewMemberVO">
+		SELECT A.RNUM, A.*
+		FROM (
+		      SELECT X.*, ROWNUM AS RNUM
+		      FROM (
+		            SELECT TO_CHAR(USER_REGIDATE, 'yyyy-MM-dd') AS join_date,  NVL(count(*), 0) AS join_count
+		            FROM MEMBER
+		            WHERE TO_CHAR(USER_REGIDATE, 'yyyy-MM') = #{tochar}
+		            GROUP BY TO_CHAR(USER_REGIDATE, 'yyyy-MM-dd')
+		           ) X
+			  <![CDATA[
+		      WHERE ROWNUM <= #{endrow}
+			  ]]>
+		     ) A
+		<![CDATA[
+		WHERE A.RNUM >= #{startrow}
+		]]>
 	</select>
+	<select id="getNewMemberCount" parameterType="String" resultType="int">
+        SELECT COUNT(X.JOIN_DATE)
+        FROM (
+              SELECT TO_CHAR(USER_REGIDATE, 'yyyy-MM-dd') AS join_date,  NVL(count(*), 0) AS join_count
+              FROM MEMBER
+              WHERE TO_CHAR(USER_REGIDATE, 'yyyy-MM') = #{tochar}
+              GROUP BY TO_CHAR(USER_REGIDATE, 'yyyy-MM-dd')
+             ) X
+	</select>
+	
+	<!-- popular product -->
+	<select id="getProductCount" parameterType="String" resultType="int">
+		SELECT COUNT(*) FROM LIST_BOARD
+	</select>
+	<select id="getPopularProductList" parameterType="Object" resultType="com.bitcamp.DTO.Product.ListDTO">
+		SELECT A.*, A.RNUM
+		FROM (
+           	  SELECT X.*, ROWNUM AS RNUM
+              FROM (
+                    SELECT LIST_NO, LIST_ARTIST, LIST_TITLE,
+                    LIST_PRODUCT, LIST_CATEGORY, LIST_CONTENT,
+                    LIST_BASE_PRICE, LIST_DATE, BUY_COUNT,
+                    ISORDERED, ORDERED_CONTENT, LIST_STATUS
+                    FROM LIST_BOARD
+                    WHERE TO_CHAR(LIST_DATE, 'yyyy-MM') = #{tochar}
+                    ORDER BY BUY_COUNT DESC, LIST_NO
+                   ) X
+			  <![CDATA[
+              WHERE ROWNUM <= #{endrow}
+			  ]]>
+          ) A
+		<![CDATA[
+		WHERE A.RNUM >= #{startrow}
+		]]>
+	</select>
+	
 	
 	<!-- search -->
   	<sql id="search_where">

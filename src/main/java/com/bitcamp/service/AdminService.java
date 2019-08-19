@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bitcamp.DTO.Product.ListDTO;
 import com.bitcamp.DTO.comm.PageDTO;
 import com.bitcamp.DTO.customerqaboard.CustomerQABoardDTO;
 import com.bitcamp.DTO.member.MemberDTO;
@@ -65,7 +66,19 @@ public class AdminService {
 		admapper.deleteAllQuestion(string);
 	}
 
-	public List<NewMemberVO> getNewMemberList(String tochar) {
-		return admapper.getNewMemberList(tochar);
+	public int getNewMemberCount(String tochar) {
+		return admapper.getNewMemberCount(tochar);
+	}
+	
+	public List<NewMemberVO> getNewMemberList(HashMap<String, Object> search_map) {
+		return admapper.getNewMemberList(search_map);
+	}
+
+	public int getProductCount(String tochar) {
+		return admapper.getProductCount(tochar);
+	}
+
+	public List<ListDTO> getPopularProductList(HashMap<String, Object> search_map) {
+		return admapper.getPopularProductList(search_map);
 	}
 }
