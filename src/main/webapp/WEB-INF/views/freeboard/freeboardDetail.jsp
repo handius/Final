@@ -9,6 +9,108 @@
 <script type="text/javascript"
 	src="//code.jquery.com/jquery-3.4.1.min.js"></script>
 <script>
+	$(document).ready(function() {
+		showReplyList();
+		console.log('showReplyList() 실행');
+	});
+
+	function showHtml(result) {
+		let html = "<table class='table table-striped table-bordered' style='margin-top: 10px;'><tbody>";
+		$.each(result, function(index, item) {
+			html += "<tr align='center'>";
+			html += "<td>" + (index + 1) + "</td>";
+			html += "<td>" + item.member_no + "</td>";
+			html += "<td class= 'commentContent"+item.rep_no+"' align='left'>"
+					+ item.rep_content + "</td>";
+			html += "<td>" + item.rep_regiDate;
+			html += "<a onclick='addReply(" + item.rep_no + ")'> 답글 </a>";
+			/* html += "<a onclick='modifyReply(" + item.rep_no + ")'> 수정 </a>"; */
+			html += '<a href="javascript:void(0)" onclick="editReply('
+					+ item.rep_no + ', \'' + item.rep_content
+					+ '\')" style="padding-right:5px">수정</a>';
+			html += "<a onclick='deleteReply(" + item.rep_no + ")'> 삭제 </a>";
+			html += "</td>";
+			html += "</tr>";
+		});
+		html += "</tbody></table>";
+		/*   commPageNum = parseInt(commPageNum);        // 정수로 변경
+		  // commentCount는 동기화되어 값을 받아오기 때문에, 댓글 insert에 즉각적으로 처리되지 못한다.
+		  if("${article.commentCount}" > commPageNum * 10) {
+		      nextPageNum = commPageNum + 1;
+		      html +="<input type='button' class='btn btn-default' onclick='getComment(nextPageNum, event)' value='다음 comment 보기'>";
+		  } */
+
+		$("#repList").html(html);
+	}
+
+	function editReply(rep_no, rep_content) {
+		var a = '';
+
+		a += '<div>';
+		a += '<input type="text" name="content_'+rep_no+'" value="'+rep_content+'"/>';
+		a += '<span class="input-group-btn"><button class="btn btn-default" type="button" onclick="commentUpdateProc('
+				+ rep_no + ');">수정</button> </span>';
+		a += '</div>';
+
+		$('.commentContent' + rep_no).html(a);
+	}
+
+	function commentUpdateProc(rep_no) {
+		var content = $('[name=content_' + rep_no + ']').val();
+		$.ajax({
+			url : '/modifyReply',
+			type : 'post',
+			data : {
+				'rep_content' : content,
+				'rep_no' : rep_no
+			},
+			success : function() {
+				console.log('수정완료');
+				showReplyList();
+			}
+		});
+	}
+
+	function deleteReply(rep_no) {
+		$.ajax({
+			url : '/deleteReply',
+			type : 'post',
+			data : {
+				'rep_no' : rep_no
+			},
+			success : function() {
+				console.log('삭제완료');
+				showReplyList();
+			}
+		});
+	}
+
+	function showReplyList() {
+		var url = "${pageContext.request.contextPath}/getReplyList";
+		var paramData = {
+			"freeboard_no" : "${board.freeboard_no}"
+		};
+
+		$.ajax({
+			type : 'POST',
+			url : url,
+			data : paramData,
+			dataType : 'json',
+			success : function(result) {
+				var htmls = "";
+
+				if (result.length < 1) {
+					htmls.push("등록된 댓글이 없습니다.");
+				} else {
+					showHtml(result);
+				}
+
+				console.log('실행완료');
+			}
+		});
+
+	}
+
 	function writeReply() {
 
 		var freeboard_no = replyForm.board_no.value;
@@ -27,7 +129,6 @@
 				"Content-Type" : "application/json",
 				"X-HTTP-Method-Override" : "POST"
 			};
-
 			$.ajax({
 
 				url : "/freeboard/freeboardReply",
@@ -37,7 +138,7 @@
 				dataType : 'text',
 				success : function(result) {
 					console.log(result);
-					/* showReplyList(); */
+					showReplyList();
 					$('#replyText').val('');
 				},
 				error : function(error) {
@@ -77,7 +178,6 @@
 
 	<div>
 		<p>댓글()</p>
-		<div class="repList"></div>
 		<div>
 			<form id="replyForm">
 				<input id="board_no" type="hidden" value="${board.freeboard_no}">
@@ -86,8 +186,8 @@
 				<br> <a onclick="writeReply()">댓글작성</a>
 			</form>
 		</div>
+		<div id="repList"></div>
 	</div>
-
 	<button onclick="location='freeboardList'">목록으로</button>
 	<button onclick="location='boardModify?no=${board.freeboard_no}'">수정하기</button>
 	<button onclick="location='boardDelete?no=${board.freeboard_no}'">삭제하기</button>

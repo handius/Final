@@ -4,12 +4,36 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bitcamp.mapper.FreeboardRepMapper">
 
+	<select id="getData"
+		resultType="com.bitcamp.DTO.freeboard.FreeboardRepDTO">
+		select *
+		from freeboard_rep
+		where freeboard_no =
+		#{freeboard_no}
+	</select>
+
 	<insert id="insertData"
 		parameterType="com.bitcamp.DTO.freeboard.FreeboardRepDTO">
 		insert into freeboard_rep(rep_no, member_no,
 		freeboard_no, rep_content, rep_regidate, rep_parent_no)
 		values(freeboard_rep_seq.nextval, 105, #{freeboard_no},
-		#{rep_content}, to_char(sysdate,'YY.MM.DD HH.MI'), 0);
+		#{rep_content}, to_char(sysdate,'YY.MM.DD HH.MI'), 0)
 	</insert>
 
+	<update id="updateData"
+		parameterType="com.bitcamp.DTO.freeboard.FreeboardRepDTO">
+		update freeboard_rep set
+		rep_content=#{rep_content} where
+		rep_no=#{rep_no}
+	</update>
+
+	<update id="deleteReply" parameterType="int">
+		update freeboard_rep set
+		rep_status = 0 where rep_no = #{rep_no}
+	</update>
+
+	<select id="selectData" parameterType="int"
+		resultType="com.bitcamp.DTO.freeboard.FreeboardRepDTO">
+		select * from freeboard_rep where rep_no = #{rep_no}
+	</select>
 </mapper>
