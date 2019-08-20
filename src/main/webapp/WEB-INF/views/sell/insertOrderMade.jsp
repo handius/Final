@@ -55,7 +55,7 @@
 	
 	function TagAppend(){
 		var Tagform = "";
-		Tagform+='<div class="row">';
+		Tagform+='<div class="row" style="margin-left: 0px; margin-top: 20px;">';
 		Tagform+='<label class="col-md-2 control-label">태그 설정</label>';
 		Tagform+='<div class="col-md-3 hashValue">';
 		Tagform+='<input type="text" class="form-control inputstyle" name="list_hash" placeholder="태그를 입력해주세요." required="required" autocomplete="off">';
@@ -81,10 +81,14 @@
 		optionform += '<input type="number" class="form-control inputstyle" name="option_stock" value="0" required="required" autocomplete="off">';
 		optionform += '</div>';
 		optionform += '<label class="col-md-1 control-label">가격</label>';
-		optionform += '<div class="col-md-2">';
+		optionform += '<div class="col-md-1">';
 		optionform += '<input type="number" step="1000" class="form-control inputstyle" name="option_price" value="0" required="required" autocomplete="off">';
 		optionform += '</div>';
+		optionform += '<div class="col-md-1">';
+		optionform += '<button type="button" class="btn btn-default removeOpt">-</button>';
 		optionform += '</div>';
+		optionform += '</div>';
+		
 		
 		$('#optionForm').append(optionform);
 	}
@@ -110,7 +114,9 @@
 		span.text('텍스트');
 		return false;
 	});
-	
+	$(document).on('click', '.removeOpt', function(){
+		$(this).parent().parent().remove();
+	})
 	$(document).on('click', '.simHash', function(){
 		$(this).parent().parent().children('.hashValue').children('input').val($(this).val().substring(1));
 	});
@@ -419,8 +425,44 @@
 							<input type="number" class="form-control inputstyle" name="option_stock" value="10" required="required" autocomplete="off">
 						</div>
 						<label class="col-md-1 control-label">가격</label>
-						<div class="col-md-2">
+						<div class="col-md-1">
 							<input type="number" step="1000" class="form-control inputstyle" name="option_price" value="0" required="required" autocomplete="off">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-md-2 control-label">옵션명</label>
+						<div class="col-md-4">
+							<input type="text" class="form-control inputstyle" name="option_name" placeholder="옵션명을 입력해주세요." required="required" autocomplete="off">
+						</div>
+						<label class="col-md-1 control-label">재고</label>
+						<div class="col-md-1">
+							<input type="number" class="form-control inputstyle" name="option_stock" value="0" required="required" autocomplete="off">
+						</div>
+						<label class="col-md-1 control-label">가격</label>
+						<div class="col-md-1">
+							<input type="number" step="1000" class="form-control inputstyle" name="option_price" value="0" required="required" autocomplete="off">
+							
+						</div>
+						<div class="col-md-1">
+							<button type="button" class="btn btn-default removeOpt">-</button>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-md-2 control-label">옵션명</label>
+						<div class="col-md-4">
+							<input type="text" class="form-control inputstyle" name="option_name" placeholder="옵션명을 입력해주세요." required="required" autocomplete="off">
+						</div>
+						<label class="col-md-1 control-label">재고</label>
+						<div class="col-md-1">
+							<input type="number" class="form-control inputstyle" name="option_stock" value="0" required="required" autocomplete="off">
+						</div>
+						<label class="col-md-1 control-label">가격</label>
+						<div class="col-md-1">
+							<input type="number" step="1000" class="form-control inputstyle" name="option_price" value="0" required="required" autocomplete="off">
+							
+						</div>
+						<div class="col-md-1">
+							<button type="button" class="btn btn-default removeOpt">-</button>
 						</div>
 					</div>
 				</div>
