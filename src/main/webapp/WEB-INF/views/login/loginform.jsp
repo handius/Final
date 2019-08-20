@@ -50,7 +50,7 @@
 		</table>
 	</form>
 	<button onclick="location='searchID'">아이디 찾기</button>
-	<button onclick="location='searchPasswordform'">비밀번호 찾기</button>
+	<button onclick="location='searchPassword'">비밀번호 찾기</button>
 	<button onclick="location='join/joinform'">회원가입</button>
 </body>
 </html>

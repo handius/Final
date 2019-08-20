@@ -38,7 +38,6 @@ public class FreeboardRepController {
 
 		try {
 
-			System.out.println("asdadasda");
 			System.out.println(repDTO.toString());
 			replySerivce.saveReply(repDTO);
 

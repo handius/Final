@@ -3,7 +3,8 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bitcamp.mapper.MemberMapper">
-	<resultMap type="com.bitcamp.DTO.member.MemberDTO" id="memberMap">
+	<resultMap type="com.bitcamp.DTO.member.MemberDTO"
+		id="memberMap">
 		<result property="member_no" column="member_no" />
 		<result property="user_id" column="user_id" />
 		<result property="user_password" column="user_password" />
@@ -27,27 +28,51 @@
 	</resultMap>
 
 	<select id="readMember" resultMap="memberMap">
-		select member.member_no, member.user_id,
+		select member.member_no,
+		member.user_id,
 		user_password, user_name,
-		user_nick, user_email, user_address,
+		user_nick, user_email,
+		user_address,
 		user_regidate, user_status,
-		user_call, user_certstatus, user_flatform,
+		user_call, user_certstatus,
+		user_flatform,
 		user_auth
 		from member LEFT OUTER JOIN authority on
 		member.member_no = authority.member_no
-		where member.user_id = #{user_id}
+		where member.user_id =
+		#{user_id}
 	</select>
-	
+
 	<select id="readMemberbyMemberNo" resultMap="memberMap">
-		select member.member_no, member.user_id,
+		select
+		member.member_no, member.user_id,
 		user_password, user_name,
-		user_nick, user_email, user_address,
+		user_nick,
+		user_email, user_address,
 		user_regidate, user_status,
-		user_call, user_certstatus, user_flatform,
+		user_call,
+		user_certstatus, user_flatform,
 		user_auth
-		from member LEFT OUTER JOIN authority on
+		from member LEFT OUTER JOIN
+		authority on
 		member.member_no = authority.member_no
-		where member.member_no = #{member_no}
+		where
+		member.member_no = #{member_no}
 	</select>
+
+	<select id="searchID" resultType="String">
+		select user_id from member
+		where user_name = #{user_name} and user_email = #{user_email}
+	</select>
+
+	<select id="searchPwd" resultType="Int">
+		select count(*) from member
+		where user_id = #{user_id} and user_email = #{user_email}
+	</select>
+
+	<update id="updatePassword">
+		update member set user_password=#{user_password}
+		where user_id = #{user_id}
+	</update>
 
 </mapper>

@@ -8,11 +8,15 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bitcamp.DAO.CustomUser;
+import com.bitcamp.DTO.member.MemberDTO;
 import com.bitcamp.service.CustomUserDetailService;
 import com.bitcamp.service.MemberService;
 
@@ -21,7 +25,7 @@ public class LoginContoller {
 
 	@Resource
 	private MemberService memberService;
-	
+
 	@Resource
 	private CustomUserDetailService userService;
 
@@ -37,47 +41,56 @@ public class LoginContoller {
 		return "login/loginform.mall";
 	}
 
-	@RequestMapping("login/searchID")
+	@RequestMapping("searchID")
 	public String searchID() {
-		return "login/searchIDform";
+		return "login/searchIDform.mall";
 	}
 
-	@RequestMapping("login/searchPassword")
+	@RequestMapping("searchPassword")
 	public String searchPassword() {
-		return "login/searchPasswordform";
+		return "login/searchPasswordform.mall";
 	}
 
-	@RequestMapping("login/changePassword")
-	public String changePassword() {
-		return "login/changePasswordform";
+	@RequestMapping(value = "/changePassword", method = RequestMethod.POST)
+	public String changePassword(HttpServletRequest request, Model model) {
+		String user_id = request.getParameter("id");
+		System.out.println("아이디");
+		System.out.println(user_id);
+
+		model.addAttribute("id", user_id);
+		return "login/changePasswordform.mall";
 	}
 
-	@RequestMapping("login/searchPasswordform")
-	public String SearchPasswordform() {
-
-		return "login/searchPasswordform";
-	}
-
-	@RequestMapping(value="login/loginResult", method=RequestMethod.GET)
+	@RequestMapping(value = "login/loginResult", method = RequestMethod.GET)
 	public String loginResult(Principal prin, HttpServletRequest request) {
-		
+
 		CustomUser user = (CustomUser) userService.loadUserByUsername(prin.getName());
 		System.out.println(user.getMember());
-		
+
 		HttpSession session = request.getSession();
-		session.setAttribute("member", user.getMember());	//로그인 정보 세션 설정
-		
+		session.setAttribute("member", user.getMember()); // 로그인 정보 세션 설정
+
 		return "login/logintest";
 	}
 
-	@RequestMapping("login/searchIDResult")
-	public String SearchIDResult(@RequestParam("name") String user_name, @RequestParam("email") String user_email) {
-
-		return "";
+	@RequestMapping(value = "/searchIDResult", method = RequestMethod.POST, produces = "application/text; charset=utf8")
+	@ResponseBody
+	public String SearchIDResult(@ModelAttribute MemberDTO dto) {
+		String data = memberService.searchID(dto);
+		return data;
 	}
 
-	@RequestMapping("login/searchPasswordResult")
-	public String changePasswordResult() {
+	@RequestMapping(value = "/searchPasswordResult", method = RequestMethod.POST, produces = "application/json")
+	@ResponseBody
+	public int searchPasswordResult(@ModelAttribute MemberDTO dto) {
+		System.out.println(memberService.searchPassword(dto));
+		int data = memberService.searchPassword(dto);
+		return data;
+	}
+
+	@RequestMapping(value = "/changePasswordResult", method = RequestMethod.POST)
+	public String changePasswordChangeResult(@ModelAttribute MemberDTO dto) {
+		memberService.changePassword(dto);
 		return "";
 	}
 
@@ -99,5 +112,4 @@ public class LoginContoller {
 
 		return "login";
 	}
-
 }
