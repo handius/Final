@@ -6,7 +6,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-
+/*
+ * 작성자 : 윤건일
+ * 프로그램 이름 : ListDTO
+ * 내용 : 전체적인 게시글 정보를 포함하고 있는 DTO
+ * 
+ */
 @NoArgsConstructor
 @Getter @Setter
 @ToString
