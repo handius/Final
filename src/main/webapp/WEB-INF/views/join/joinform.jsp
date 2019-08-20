@@ -9,22 +9,6 @@
 <script type="text/javascript"
 	src="//code.jquery.com/jquery-3.4.1.min.js"></script>
 <script>
-	/* $(document).ready(function() {
-		$("input").blur(function() {
-			var id = $("#id").val();
-			
-			$.ajax({
-				url:'${pageContext.request.contextPath}/user/idCheck?userId='+id,
-				type:'get',
-				success:function(data){
-					
-				}, error: function() {
-						console.log("실패");
-				}
-			});
-			
-		});
-	}); */
 
 	function id_checks() {
 		var id = $("#id").val();
@@ -54,7 +38,6 @@
 			},
 			error : function() {
 				console.log("실패");
-
 			}
 		});
 		console.log(isEnabled);
