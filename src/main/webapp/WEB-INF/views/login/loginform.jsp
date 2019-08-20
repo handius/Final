@@ -13,7 +13,7 @@
 <script>
 	
 </script>
-<body onload="document.f.id.focus();">
+<body onload="document.f.id.focus()">
 	<h1>로그인</h1>
 	<h2>
 		<c:out value="${error}"></c:out>

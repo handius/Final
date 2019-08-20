@@ -126,8 +126,8 @@
 <body>
     <div id="mallmenu" class="menu-wrap-row">
             <div id="mainmenu2">
-                <a class="categoryfontcolor" href="#">로그인</a>
-                <a class="categoryfontcolor" href="#">회원가입</a>
+                <a class="categoryfontcolor" href="/login">로그인</a>
+                <a class="categoryfontcolor" href="/join">회원가입</a>
                 <a class="categoryfontcolor" href="#">마이페이지</a>
                 <a class="categoryfontcolor" id="searchcategoryhover" href="#"><span class="glyphicon glyphicon-search"></span></a>
             </div>

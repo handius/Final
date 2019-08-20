@@ -22,6 +22,11 @@ public class JoinController {
 
 	@Autowired
 	private MemberMapper member;
+	
+	@RequestMapping("/join")
+	public String join() {
+		return "join/terms.mall";
+	}
 
 	@RequestMapping("join/terms")
 	private String terms() {
