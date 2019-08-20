@@ -666,6 +666,7 @@
             let optionName = $(this).children('.productDetailAsideOptionSelectName').text().trim();
             let optionPrice = $(this).children('.productDetailAsideOptionSelectPrice').text().replace(/[^0-9]/g, '');
             let optionStock = $(this).children('.productDetailAsideOptionSelectStock').val();
+            let optionNumber = $(this).children('.productDetailAsideOptionSelectOptionNo').val();
             let resultBox = $(this).parent().parent().parent().next();
             var result = "";
             let overlapTest = true;
@@ -692,6 +693,7 @@
             	result += '    <div class="col-xs-6 productDetailAsideOptionPrice">';
             	result += '        <input type="number" value="'+optionPrice+'" name="option_price" class="productDetailAsideOptionPriceResult" readonly><span>원</span>';
             	result += '    </div>';
+            	result += '    <input type="hidden" value="'+optionNumber+'" name="order_add_option" readonly="readonly">'
             	result += '</div>';
             	$('#ResultBox').append(result);
                 $('.productDetailAsideOptionResultBox').css('display','block');
@@ -996,7 +998,6 @@
                             </button>
                             <ul class="dropdown-menu" role="menu">
                             <c:forEach var="optionList" items="${optionList }">
-                            	<input type="hidden" value="${optionList.option_no }" name="order_add_option" readonly="readonly">
                             	<li>
                                     <a href="#" class="productDetailAsideOptionSelect">
                                         <span class="productDetailAsideOptionSelectName">
@@ -1006,6 +1007,7 @@
                                         	<c:out value="${optionList.option_price }"></c:out>
                                         </span>
                                         <input type="hidden" value="${optionList.option_stock }" class="productDetailAsideOptionSelectStock" readonly>
+                                        <input type="hidden" value="${optionList.option_no }" class="productDetailAsideOptionSelectOptionNo" readonly>
                                     </a>
                                 </li>
                             </c:forEach>

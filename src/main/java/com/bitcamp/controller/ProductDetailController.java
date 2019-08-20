@@ -197,6 +197,7 @@ public class ProductDetailController {
 			for(int i=0; i<option_price.size(); i++) {
 				System.out.print(option_price.get(i)+"/");
 			}
+			
 			//orderdto 1차대입
 			orderdto.setOrder_add_option(order_add_option);
 			orderdto.setOption_name(option_name);
