@@ -252,7 +252,7 @@ public class ProductDetailController {
 		
 		session.setAttribute("orderDTO", orderdto);
 		
-		return "order/order/"+list_no;
+		return "redirect:/order/order/"+list_no;
 	}
 	
 	@ResponseBody
