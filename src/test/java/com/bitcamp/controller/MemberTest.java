@@ -28,6 +28,5 @@ public class MemberTest {
 		System.out.println("ddd");
 //		System.out.println(user.getMember());
 		System.out.println(mapper.readMemberbyMemberNo(101).getUser_id());
-		
 	}
 }

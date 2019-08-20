@@ -1,14 +1,19 @@
 package com.bitcamp.controller;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,8 +22,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.bitcamp.DAO.CustomUser;
 import com.bitcamp.DTO.freeboard.FreeboardDTO;
 import com.bitcamp.DTO.freeboard.FreeboardRepDTO;
+import com.bitcamp.DTO.member.MemberDTO;
+import com.bitcamp.service.CustomUserDetailService;
 import com.bitcamp.service.FreeboardRepService;
 import com.bitcamp.service.FreeboardService;
 
@@ -30,17 +38,16 @@ public class FreeboardController {
 
 	@Resource(name = "freeboardRepService")
 	private FreeboardRepService replySerivce;
-
+	
 	// @PreAuthorize("hasRole('ROLE_MEMBER')")
 	@RequestMapping("freeboard/freeboardList")
 	public String freeboardList(
 			@RequestParam(value = "category", required = false, defaultValue = "전체") String freeboard_category,
 			@RequestParam(value = "searchType", required = false, defaultValue = "") String searchType,
 			@RequestParam(value = "searchKeyword", required = false, defaultValue = "") String searchKeyword,
-			Model model) {
+			Model model,Principal prin, Authentication auth) {
 
 		List<FreeboardDTO> list = fbservice.listService(freeboard_category, searchType, searchKeyword);
-		
 		
 		model.addAttribute("list", list);
 

@@ -6,7 +6,7 @@
 	<insert id="insertOrder" parameterType="java.util.HashMap">
 		insert into
 		order_board(order_no,list_no,member_no,order_price,order_add_option,order_amount,order_date,order_status,ordermade_no)
-		values(seq_order_no.nextval,#{list_no},#{member_no},#{order_price},#{order_add_option},#{order_amount},sysdate,'a',#{ordermade_no,jdbcType=VARCHAR})
+		values(order_board_seq.nextval,#{list_no},#{member_no},#{order_price},#{order_add_option},#{order_amount},sysdate,'a',#{ordermade_no,jdbcType=VARCHAR})
 	</insert>
 	<update id="updateOption_stock"
 		parameterType="java.util.HashMap">

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +53,6 @@ public class ProductDetailController {
 		model.addAttribute("optionList", map.get("productDetailOption"));
 		model.addAttribute("artistInfo", map.get("productDetailArtistInfo"));
 		model.addAttribute("qaBoardList", map.get("productDetailQABoardList"));
-		model.addAttribute("artist_no", 1); //임시
 		model.addAttribute("QACurrentPage", 1);
 		model.addAttribute("buyReviewCurrentPage", 1);
 		return "productdetail/productdetail.mall";
@@ -65,7 +65,6 @@ public class ProductDetailController {
 		Object objmember = session.getAttribute("member");
 		if(objmember != null) {
 			MemberDTO memberdto = (MemberDTO)session.getAttribute("member");	
-			System.out.println("디티오 정보 : "+memberdto);
 			
 			int list_no = Integer.parseInt((String)map.get("list_no"));
 			int member_no = memberdto.getMember_no();
@@ -173,7 +172,7 @@ public class ProductDetailController {
 	@RequestMapping("/productDetailResult")
 	public String productDetailResult(@RequestParam int list_no, @RequestParam int order_price, @RequestParam(defaultValue="0") List<Integer> order_add_option
 			, @RequestParam(defaultValue="") List<String> option_name, @RequestParam(defaultValue="") List<Integer> order_amount, @RequestParam(defaultValue="") List<Integer> option_price
-			, @RequestParam int artist_no, @RequestParam String list_title, HttpSession session) {
+			, @RequestParam String list_title, HttpSession session) {
 		OrderDTO orderdto = new OrderDTO();
 		
 		System.out.println("리스트 번호 : "+list_no);
@@ -206,15 +205,11 @@ public class ProductDetailController {
 		}
 		
 		System.out.println();
-		System.out.print("작가 번호 : "+artist_no);
-		
-		System.out.println();
 		System.out.print("작품 타이틀 : "+list_title);
 		
 		//orderdto 2차 대입
 		orderdto.setList_no(list_no);
 		orderdto.setOrder_price(order_price);
-		orderdto.setArtist_no(artist_no);
 		orderdto.setList_title(list_title);
 		
 		List<Integer> ordermade_no = null;
@@ -257,6 +252,20 @@ public class ProductDetailController {
 		
 		session.setAttribute("orderDTO", orderdto);
 		
-		return "order/order/"+list_no;
+		return "redirect:/order/order/"+list_no;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/ajaxCookieInsert", method=RequestMethod.POST)
+	public String ajaxCookieInsert(@RequestBody Map<String, Object> map ) {
+		String value = map.get("formData").toString();
+		System.out.println("결과값 : "+value);
+		
+		String currentTime = Long.toString(System.currentTimeMillis());
+		String CookieName = "cookie"+currentTime;
+		Cookie cookieset = new Cookie(CookieName, value);
+		cookieset.setMaxAge(60*60*24);
+			
+		return "성공";
 	}
 }
