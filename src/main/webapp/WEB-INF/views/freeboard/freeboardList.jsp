@@ -8,19 +8,26 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
+<script type="text/javascript"
+	src="//code.jquery.com/jquery-3.4.1.min.js"></script>
+<script>
+	$(document).on('click', '#btnSearch', function(e) {
+		e.preventDefault();
+		var url = "${pageContext.request.contextPath}/freeboard/freeboardList";
+		url = url + "?searchType=" + $('#searchType').val();
+		url = url + "&searchKeyword=" + $('#searchKeyword').val();
+		location.href = url;
+		console.log(url);
+
+	});
+</script>
 <body>
 	<h1>자유게시판</h1>
 	<a href="freeboardList">전체</a>|
 	<a href="freeboardList?category=정보">정보</a>|
 	<a href="freeboardList?category=교환">교환</a>|
 	<a href="freeboardList?category=잡담">잡담</a>
-	<form action="searchResult" method="post">
-		<select name="search_type">
-			<option value="제목">제목</option>
-			<option value="글쓴이">글쓴이</option>
-		</select> <input type="text" name="search_txt" placeholder="검색어를 입력하세요">
-		<button type="submit">검색</button>
-	</form>
+
 	<div>
 		<table>
 			<thead>
@@ -36,7 +43,8 @@
 				<c:forEach items="${list}" var="list">
 					<tr>
 						<td><c:out value="${list.freeboard_no}"></c:out></td>
-						<td><a href="freeboardDetail?no=${list.freeboard_no}"><c:out value="${list.freeboard_title}"></c:out></a></td>
+						<td><a href="freeboardDetail?no=${list.freeboard_no}"><c:out
+									value="${list.freeboard_title}"></c:out></a></td>
 						<td><c:out value="${list.user_nick}"></c:out></td>
 						<td><c:out value="${list.freeboard_regiTime}"></c:out></td>
 						<td><c:out value="${list.freeboard_hits}"></c:out></td>
@@ -45,6 +53,13 @@
 			</tbody>
 		</table>
 	</div>
+
+	<select id="searchType">
+		<option value="제목">제목</option>
+		<option value="닉네임">닉네임</option>
+	</select>
+	<input type="text" id="searchKeyword" placeholder="검색어를 입력하세요">
+	<button id="btnSearch">검색</button>
 	<button onclick="location='freeboardWrite'">글쓰기</button>
 </body>
 </html>

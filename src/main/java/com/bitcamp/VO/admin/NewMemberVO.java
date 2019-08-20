@@ -11,6 +11,9 @@ import lombok.ToString;
 public class NewMemberVO {
 	private Date join_date;
 	private int join_count;
+	public String getJoin_date2() {
+		return join_date.toString();
+	}
 	public int getJoin_date() {
 		SimpleDateFormat format = new SimpleDateFormat("dd");
 		Integer result = Integer.parseInt(format.format(join_date));

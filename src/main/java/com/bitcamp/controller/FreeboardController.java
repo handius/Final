@@ -28,17 +28,20 @@ public class FreeboardController {
 	@Resource(name = "freeboardService")
 	private FreeboardService fbservice;
 
-	@Resource(name="freeboardRepService")
+	@Resource(name = "freeboardRepService")
 	private FreeboardRepService replySerivce;
-	
+
 	// @PreAuthorize("hasRole('ROLE_MEMBER')")
 	@RequestMapping("freeboard/freeboardList")
 	public String freeboardList(
 			@RequestParam(value = "category", required = false, defaultValue = "전체") String freeboard_category,
+			@RequestParam(value = "searchType", required = false, defaultValue = "") String searchType,
+			@RequestParam(value = "searchKeyword", required = false, defaultValue = "") String searchKeyword,
 			Model model) {
 
-		List<FreeboardDTO> list = fbservice.listService(freeboard_category);
-
+		List<FreeboardDTO> list = fbservice.listService(freeboard_category, searchType, searchKeyword);
+		
+		
 		model.addAttribute("list", list);
 
 		return "freeboard/freeboardList.mall";
@@ -62,8 +65,6 @@ public class FreeboardController {
 	public String freeboardWriteResult(@RequestParam("category") String freeboard_category,
 			@RequestParam("title") String freeboard_title, @RequestParam int member_no,
 			@RequestParam("content") String freeboard_content) {
-
-		System.out.println("멤버번호" + member_no);
 
 		FreeboardDTO dto = new FreeboardDTO();
 		dto.setFreeboard_category(freeboard_category);
@@ -120,24 +121,7 @@ public class FreeboardController {
 		return "freeboard/freeboardList";
 	}
 
-	@RequestMapping(value = "/freeboard/freeboardReply", method = RequestMethod.POST)
-	public @ResponseBody Map<String, Object> freeboardReply(@RequestBody FreeboardRepDTO repDTO){
 
-		Map<String, Object> result = new HashMap<>();
 
-		try {
-			
-			System.out.println("asdadasda");
-			System.out.println(repDTO.toString());
-//			replySerivce.saveReply(repDTO);
-			
-			result.put("status", "OK");
 
-		} catch (Exception e) {
-			e.printStackTrace();
-			result.put("status", "False");
-		}
-
-		return result;
-	}
 }

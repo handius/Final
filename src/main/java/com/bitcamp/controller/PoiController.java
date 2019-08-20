@@ -1,5 +1,6 @@
 package com.bitcamp.controller;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -108,19 +109,23 @@ public class PoiController {
 		cell = row.createCell(1);
 		cell.setCellStyle(headStyle);
 		cell.setCellValue("신규가입자 수");
-
-		List<NewMemberVO> list = adservice.getNewMemberList(search);
+		
+		HashMap<String, Object> search_map = new HashMap<>();
+		search_map.put("tochar", search);
+		search_map.put("startrow", 1);
+		search_map.put("endrow", 31);
+		
+		List<NewMemberVO> list = adservice.getNewMemberList(search_map);
 		
 		// 데이터 부분 생성
 		for (NewMemberVO dto : list) {
 			row = sheet.createRow(rowNo++);
 			cell = row.createCell(0);
 			cell.setCellStyle(bodyStyle);
-			cell.setCellValue(dto.getJoin_date() + "일");
+			cell.setCellValue(dto.getJoin_date2());
 			cell = row.createCell(1);
 			cell.setCellStyle(bodyStyle);
 			cell.setCellValue(dto.getJoin_count());
-
 		}
 		sheet.setColumnWidth((short)0, (short)4000);
 		sheet.setColumnWidth((short)1, (short)4000);

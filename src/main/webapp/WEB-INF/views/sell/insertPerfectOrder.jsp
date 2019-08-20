@@ -386,7 +386,7 @@
 					<h2>해쉬 태그 설정</h2>
 				</div>
 				<div class="form-group" id="tagForm">
-					<div class="row">
+					<div class="row" style="margin-left: 0px;">
 						<label class="col-md-2 control-label">태그 설정</label>
 						<div class="col-md-3 hashValue">
 							<input type="text" class="form-control inputstyle" name="list_hash" placeholder="태그를 입력해주세요." required="required" autocomplete="off">
@@ -413,7 +413,7 @@
 		하여도 보이는 것은 거친뜨거운지라 인간의 동산에는 사랑의 풀이 돋고 이상의 꽃이 피고 희망의 놀이 뜨고 열락의
 		 새가 운다사랑의 풀이 없으면 인간은 사막이다 오아이스도 없는 사막이다 보이는 끝까지 찾아다녀도 목숨이 있는 때
 		 까지 방황하여도 보이는 것은 거친</textarea>
-		 			<input type="checkbox" id="ac1" value="check"><label for="ac1">(필수) 위 사항을 충분히 인지하였고 이에 동의합니다.</label>
+		 			<input type="checkbox" id="ac1" value="check" required="required"><label for="ac1">(필수) 위 사항을 충분히 인지하였고 이에 동의합니다.</label>
 				</div>
 				<div class="col-md-4">
 					<textarea rows="10" cols="50" readonly="readonly" style="overflow:scroll;"> 뜨거운지라 인간의 동산에는 사랑의 풀이 돋고 이상의 꽃이 피고 희망의 놀이 뜨고 열락의 새가 운다사랑의 풀
@@ -423,7 +423,7 @@
 		하여도 보이는 것은 거친뜨거운지라 인간의 동산에는 사랑의 풀이 돋고 이상의 꽃이 피고 희망의 놀이 뜨고 열락의
 		 새가 운다사랑의 풀이 없으면 인간은 사막이다 오아이스도 없는 사막이다 보이는 끝까지 찾아다녀도 목숨이 있는 때
 		 까지 방황하여도 보이는 것은 거친</textarea>
-					<input type="checkbox" id="ac2" value="check"><label for="ac2">(필수) 위 사항을 충분히 인지하였고 이에 동의합니다.</label>
+					<input type="checkbox" id="ac2" value="check" required="required"><label for="ac2">(필수) 위 사항을 충분히 인지하였고 이에 동의합니다.</label>
 				</div>
 				<div class="col-md-4">
 					<textarea rows="10" cols="50" readonly="readonly" style="overflow:scroll;"> 뜨거운지라 인간의 동산에는 사랑의 풀이 돋고 이상의 꽃이 피고 희망의 놀이 뜨고 열락의 새가 운다사랑의 풀

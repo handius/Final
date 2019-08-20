@@ -35,6 +35,9 @@
     .Analysistable {
         margin-top: 30px;
     }
+    .pagination_block {
+    	text-align: center;
+    }
     
     /**/
     .admin_content {
@@ -115,6 +118,33 @@
                 </c:forEach>
               </tbody>
             </table>
+                                
+          <!-- Paging Block -->
+          <div class="pagination_block">
+			  <form action="/admin/analnewmember" method="post">
+			  	  <c:if test="${list != null }">
+			  	  
+					<!-- 검색 값 -->
+			 		<input type="hidden" name="tochar" value="${tochar }">
+							
+					<c:if test="${paging.startblock > 1 }">
+						<a href="#">◀</a>
+					</c:if>
+					<c:forEach var="i" begin="${paging.startblock }" end="${paging.endblock }">
+						<c:if test="${i == currpage }">
+							<c:out value="${i }"></c:out>
+						</c:if>
+						<c:if test="${i != currpage }">
+							<input type="submit" class="btn btn-default" name="curr" value="${i }">
+						</c:if>
+					</c:forEach>
+					<c:if test="${paging.endblock < paging.totalpage }">
+						<a href="#">▶</a>
+					</c:if>
+				  </c:if>
+			  </form>
+		  </div>
+		  
         </div>
         <span id="getjsondata" data-chartvalue="${chart }"></span>
 <script>
