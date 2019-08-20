@@ -33,6 +33,7 @@
 
         .productDetailLine {
             margin-top: 20px;
+            background-color: rgb(201, 194, 180);
         }
 
         .productDetailLine div {
@@ -54,7 +55,7 @@
         #productDetailUnderImgBox {
             width: 100%;
             margin-top: 10px;
-            text-align: center;
+            text-align: left;
         }
 
         #productDetailUnderImgBox img {
@@ -106,7 +107,7 @@
 
         .productDetailQandAStatus {
             height: 100px;
-            background-color: #1E90FF;
+            background-color: rgb(201, 194, 180);
             color: white;
             text-align: center;
             font-size: 20px;
@@ -159,7 +160,7 @@
         #productDetailQandAInputButton {
             width: 14%;
             height: 70px;
-            background-color: #1E90FF;
+            background-color: rgb(201, 194, 180);
             border: 0;
             color: white;
             font-size: 18px;
@@ -242,7 +243,6 @@
             background-color: white;
             display: inline-block;
             position: fixed;
-            border-top: 1px solid silver;
             padding: 0;
             overflow: auto;
         }
@@ -460,7 +460,7 @@
             width: 100%;
             height: 35px;
             border: 0;
-            background-color: #1E90FF;
+            background-color: rgb(201, 194, 180);
             color: white;
             font-size: 20px;
             font-weight: bold;
@@ -470,10 +470,9 @@
         #MobileBuyLinkButtonBox {
             width: 100%;
             height: 10%;
-            border-top: 3px solid silver;
             display: none;
             position: fixed;
-            top: 90%;
+            top: 93.5%;
             background-color: white;
             z-index: 10;
         }
@@ -560,12 +559,18 @@
                 padding: 0;
             }
 
+            .MobileBuyLinkButton {
+            	margin: 0;
+            }
+            
             #MobileBuyLinkButtonBox {
             	max-width: 100%;
             	width: 100%;
+            	height: 60px;
             	right: 0;
                 display: inherit;
             }
+            
         }
     </style>
     <script>
@@ -573,36 +578,20 @@
         
         //창 크기가 줄어들었을때 모바일 창을 작동
         window.onresize = function(event) {
-            let windowWidth = window.innerWidth;
-            if (windowWidth > 991) {
-                $('#productDetailAside').show();
-                $('#productDetailAside').css('display', 'inline-block');
-            }
-
-            if (windowWidth <= 991 ) {
-                $('#productDetailAside').hide();
-            }
+        	mobileViewConverter();
         };
-		
+        
+        function hi() {
+			
+		}
+        
         //스크롤이 푸터영역에 다다르면 사이드창을 고정시킴
         $(window).scroll(function() {
-            let windowHeight = window.innerHeight;
-            let windowWidth = window.innerWidth;
-            let asideHeight = $('#productDetailAside').innerHeight();
-            let scrollPosition = $(window).scrollTop() + windowHeight;
-            let endBlockTop = $('#footer').offset().top;
-            
-            if(windowWidth > 991) {
-                if (endBlockTop > scrollPosition) {
-                    $('#productDetailAside').css('position', 'fixed').css('top', '120px');
-                }
-
-                if (endBlockTop < scrollPosition) {
-                    $('#productDetailAside').css('position', 'absolute').css('top', (endBlockTop-asideHeight) + 'px');
-                }
-            }
+        	asideScrollFix();
         });
+        
       	//시작시 초기화
+      	$(document).ready(mobileViewConverter);
         $(document).ready(qaBoardList);
       	$(document).ready(buyReviewList);
         
@@ -621,7 +610,39 @@
             $('#productDetailQandAInputButton').on('click', qaBoardInsert);
             $('#productDetailQandAMoreButton').on('click', qaBoardList);
             $('#productDetailBuyReviewMoreButton').on('click',buyReviewList);
+            $('.asideBasket').on('click',cookieInsert);
         });
+        
+        function mobileViewConverter() {
+        	let windowWidth = window.innerWidth;
+            if (windowWidth > 991) {
+                $('#productDetailAside').show();
+                $('#productDetailAside').css('display', 'inline-block');
+            }
+
+            if (windowWidth <= 991 ) {
+                $('#productDetailAside').hide();
+            }
+        }
+        
+        function asideScrollFix() {
+        	let windowHeight = window.innerHeight;
+            let windowWidth = window.innerWidth;
+            let asideHeight = $('#productDetailAside').innerHeight();
+            let headerHeight = $('#mallmenu').innerHeight();
+            let scrollPosition = $(window).scrollTop() + windowHeight +headerHeight;
+            let endBlockTop = $('#footer').offset().top;
+            
+            if(windowWidth > 991) {
+                if (endBlockTop > scrollPosition) {
+                    $('#productDetailAside').css('position', 'fixed').css('top', '120px');
+                }
+
+                if (endBlockTop < scrollPosition) {
+                    $('#productDetailAside').css('position', 'absolute').css('top', (endBlockTop-asideHeight) + 'px');
+                }
+            }
+        }
 
         function productDetailUnderImgClick() {
             let imgClickString = ($(this).attr('alt')).replace(/[^0-9]/g, '');
@@ -758,9 +779,12 @@
     			,data: JSON.stringify({qa_content:content, qa_secret:secret, list_no:listno})
     			,type: "POST"
     			,success:function(data){
-    				console.log('성공');
+    				console.log('Q & A 댓글 성공');
     				if(data == '1') {
     					$('#productDetailQandAInput').val('');
+    					$('#productDetailQandAAjaxResult').empty();
+    					$('#qa_current_page').val(1);
+    					qaBoardList();
     					alert('등록 되었습니다.');
     				}
     				else if(data == '0') {
@@ -772,7 +796,7 @@
     				}
     			}
     			,error:function(data){
-    				console.log('실패');
+    				console.log('Q & A 댓글 실패');
     			}
     		});
 		}
@@ -787,10 +811,10 @@
     			,type: "POST"
     			,dataType: "json"
     			,success:function(data){
-    				console.log('성공');
+    				console.log('Q & A 성공');
     				var result = '';
      				if(data.length == 0) {
-    					result += '<div class="productDetailQandA">';
+    					result += '<div class="row productDetailQandA">';
 						result += '<div class="col-xs-2 "></div>';
     					result += '<div class="col-xs-5 productDetailQandAWriter"></div>';
     					result += '<div class="col-xs-5 productDetailQandAWriterDate"></div>';
@@ -802,7 +826,7 @@
     					for(let i=0; i<data.length; i++) {
     						//해당 작가가 아니라면
     						if(data[i].level == 1) {
-    							result += '<div class="productDetailQandA">';
+    							result += '<div class="row productDetailQandA">';
     							result += '<div class="col-xs-2 productDetailQandAStatus">'+data[i].qa_board_status+'</div>';
         						result += '<div class="col-xs-5 productDetailQandAWriter">'+data[i].user_name+'</div>';
         						result += '<div class="col-xs-5 productDetailQandAWriterDate">'+jsonDateConverter(data[i].qa_board_date)+'</div>';
@@ -810,7 +834,7 @@
         						result += '</div>';
     						}
     						else {
-    							result += '<div class="productDetailQandAResponse">';
+    							result += '<div class="row productDetailQandAResponse">';
     							result += '<div class="col-xs-2 productDetailQandAStatus">답변</div>';
         						result += '<div class="col-xs-5 productDetailQandAWriter">'+data[i].user_name+'</div>';
         						result += '<div class="col-xs-5 productDetailQandAWriterDate">'+jsonDateConverter(data[i].qa_board_date)+'</div>';
@@ -823,7 +847,7 @@
     				$('#qa_current_page').val(Number(qaCurrent)+1);
     			}
     			,error:function(data){
-    				console.log('실패');
+    				console.log('Q & A 실패');
     			}
     		});
 		}
@@ -838,7 +862,7 @@
     			,type: "POST"
     			,dataType: "json"
     			,success:function(data){
-    				console.log('성공');
+    				console.log('구매후기 성공');
     				var result = '';
      				if(data.length == 0) {
     					result += '<div class="row productDetailBuyReview">구매후기가 없습니다.';
@@ -870,10 +894,29 @@
     				$('#buyReview_current_page').val(Number(buyReviewCurrent)+1);
     			}
     			,error:function(data){
-    				console.log('실패');
+    				console.log('구매후기 실패');
     			}
     		});
 		}
+        
+        function cookieInsert() {
+        	let formdata = $('#productDetailResultForm').serializeArray();
+        	$.ajax({
+    			url:'/ajaxCookieInsert'
+    			,contentType: 'application/json; charset=utf-8'
+    			,data: JSON.stringify({formData:formdata})
+    			,type: 'POST'
+    			,dataType: "text"
+    			,success: function(data) {
+					console.log('쿠키등록 성공');
+					alert("장바구니에 등록되었습니다.");
+				}
+    			,error:function(data){
+					console.log('쿠키등록 실패');
+					alert("장바구니 등록에 실패했습니다.");
+				}
+    		});
+        }
         
         function jsonDateConverter(milliseconds){
         	let date = new Date(milliseconds);
@@ -942,9 +985,9 @@
                 <div class="productDetailAsideBlock" id="productDetailAsideArtistName">
                     <a href="#"><c:out value="${listDTO.list_artist }"></c:out></a>
                 </div>
-                <form method="post" action="/productDetailResult">
+                <form method="post" action="/productDetailResult" id="productDetailResultForm">
+                	<!-- 구매에 필요한 정보모음 -->
                 	<input type="hidden" value="${listDTO.list_no }" id="list_no" name="list_no" readonly="readonly">
-                	<input type="hidden" value="${artist_no }" name="artist_no" readonly="readonly">
                     <input type="hidden" value="${listDTO.list_title }" name="list_title" readonly="readonly">
                     <!-- 옵션박스 -->
                     <div class="productDetailOptionBox productDetailAsideBlock">

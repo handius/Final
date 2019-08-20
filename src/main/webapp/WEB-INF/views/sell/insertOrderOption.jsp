@@ -44,6 +44,7 @@
 		font-weight: 800;
 		font-size: 1.2em;
 		background-color: rgba(199,192,182);
+		border-radius: 5px 5px 0px 0px;
 	}
 	.align{
 		text-align: center;
@@ -57,20 +58,41 @@
 	#textfrm{
 		border: 1px solid silver;
 		height: 400px;
+		background-color:white;
+		padding: 20px;
 	}
 	.mbox{
 		border:1px solid silver;
 		margin-bottom: 20px;
+		background-color:white;
+		padding: 10px;
 	}
 	.btnfrm{
 		text-align: center;
 		margin-bottom: 30px;
 	}
 	.cspan{
+		display:inline-block;
 		background-color: rgba(201,194,180);
-		border-radius: 5px;
+		border-radius: 5px 5px 0px 0px;
 		text-align: center !important;
-		padding: 5px;
+		padding-top:5px;
+		padding-bottom:5px;
+		width: 130px;
+	}
+	.gspan{
+		display: inline-block;
+		background-color:white;
+		border: 1px solid silver;
+		padding: 10px;
+		width: 100%;
+	}
+	.oimage{
+		height: 100%;
+		width: 100%;
+	}
+	.ibox{
+		height: 300px;
 	}
 </style>
 </head>
@@ -78,8 +100,7 @@
 	
 	<div class="jumbotron">
 	  	<div class="container">
-	  		<h1>주문 옵션 입력 페이지</h1>
-	    	<p>주문 옵션 입력 페이지</p>
+	  		
 		</div>
 	</div>
 	<div class="container">
@@ -88,23 +109,23 @@
 		</div>
 		<hr>
 		<div class="row">
-			<div class="col-md-4">
+			<div class="col-md-3 ibox">
 				<c:forEach var="image" items="${ListDTO.list_image_loc }" end="0">
-					<img src="${image }" alt="이미지가 없습니다." class="img-responsive">
+					<img src="${image }" alt="이미지가 없습니다." class="oimage">
 				</c:forEach>
 			</div>
-			<div class="col-md-7 col-md-offset-1">
+			<div class="col-md-9">
 				<div class="row orderbox">
 					<span class="cspan">게시글 제목</span> 
-					<span><c:out value="${ListDTO.list_title }"></c:out></span>
+					<span class="gspan"><c:out value="${ListDTO.list_title }"></c:out></span>
 				</div>
 				<div class="row orderbox">
 					<span class="cspan">상품 이름</span> 
-					<span><c:out value="${ListDTO.list_product }"></c:out></span>
+					<span class="gspan"><c:out value="${ListDTO.list_product }"></c:out></span>
 				</div>
 				<div class="row orderbox">
 					<span class="cspan">상품 가격</span> 
-					<span><fmt:formatNumber value="${ListDTO.list_base_price }" type="number"/>원</span>
+					<span class="gspan"><fmt:formatNumber value="${ListDTO.list_base_price }" type="number"/>원</span>
 				</div>
 			</div>
 		</div>

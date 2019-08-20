@@ -1,11 +1,6 @@
 package com.bitcamp.mapper;
 
-import java.util.List;
 import java.util.Map;
-
-import org.apache.ibatis.annotations.Mapper;
-
-import com.bitcamp.DTO.order.OrderDTO;
 
 public interface OrderMapper {
 
