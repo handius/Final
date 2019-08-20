@@ -3,7 +3,69 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bitcamp.mapper.MyPageMapper">
-	<!-- <update id="" parameterType="com.bitcamp.DTO.MemberDTO">
-update member set 
-	</update> -->
+	<select id="pWCheck" parameterType="java.util.HashMap"
+		resultType="int">
+		select count(*)
+		from member
+		where user_id=#{user_id} and
+		user_password=#{password}
+	</select>
+	<update id="updateUserInfo"
+		parameterType="com.bitcamp.DTO.MemberDTO">
+		update member set
+		user_password=#{user_password},
+		user_name=#{user_name},
+		user_nick=#{user_nick},
+		user_email=#{user_email},
+		user_address=#{user_addresss},
+		user_call=#{user_call} where
+		user_id=#{user_id}
+	</update>
+	<insert id="insertCQA" parameterType="java.util.HashMap">
+		insert into
+		customer_qa_board(question_no, member_no, question_title,
+		question_content, question_date, answer_status,
+		question_delete_status, question_type)
+		values(customer_qa_board_seq.nextval, #{member_no}, #{question_title},
+		#{question_content}, sysdate, '답변대기', 1, #{question_type})
+	</insert>
+	<update id="withdraw" parameterType="String">
+		update member set
+		user_status=0 where user_id=#{user_id}
+	</update>
+	<select id="buyList" parameterType="int"
+		resultType="com.bitcamp.DTO.OrderDTO">
+		select * from
+		order_board where member_no=#{member_no}
+	</select>
+	<select id="cQAList" parameterType="int"
+		resultType="com.bitcamp.DTO.CustomerQABoardDTO">
+		select * from customer_qa_board where
+		member_no=#{member_no}
+	</select>
+	<select id="buyerPQAList" parameterType="int"
+		resultType="com.bitcamp.DTO.QABoardDTO">
+		select * from qa_board where member_no=#{member_no}
+	</select>
+	<select id="buyerReviewList" parameterType="int"
+		resultType="com.bitcamp.DTO.BuyReviewDTO">
+		select * from order_board ob inner join buy_review br on
+		ob.order_no=br.order_no where member_no=#{member_no}
+	</select>
+	<select id="sellList" parameterType="String"
+		resultType="com.bitcamp.DTO.OrderDTO">
+		select * from order_board ob inner join list_board lb on
+		ob.list_no=lb.list_no where list_artist=#{user_id}
+	</select>
+	<select id="sellerPQAList" parameterType="String"
+		resultType="com.bitcamp.DTO.QABoardDTO">
+		select * from qa_board qb inner join list_board lb on
+		qb.list_no=lb.list_no where list_artist=#{user_id}
+	</select>
+	<select id="sellerReviewList" parameterType="String"
+		resultType="com.bitcamp.DTO.BuyReviewDTO">
+		select * from list_board lb inner join order_board ob on
+		lb.list_no=ob.list no inner join buy_review br on
+		ob.order_no=br.order_no where list_artist=#{user_id}
+	</select>
 </mapper>
