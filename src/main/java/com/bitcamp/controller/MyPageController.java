@@ -24,12 +24,6 @@ public class MyPageController {
 	@Autowired
 	private MyPageService service;
 
-	// @RequestMapping("myPage")
-	// public String myPage(Authentication authentication) {
-	// MemberDTO memberDTO = (MemberDTO) authentication.getPrincipal();
-	// return "mypage/myPage";
-	// }
-
 	@RequestMapping("myPage")
 	public String myPage(HttpSession session) {
 		MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
