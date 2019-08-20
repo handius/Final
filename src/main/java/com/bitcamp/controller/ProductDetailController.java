@@ -172,7 +172,7 @@ public class ProductDetailController {
 	@RequestMapping("/productDetailResult")
 	public String productDetailResult(@RequestParam int list_no, @RequestParam int order_price, @RequestParam(defaultValue="0") List<Integer> order_add_option
 			, @RequestParam(defaultValue="") List<String> option_name, @RequestParam(defaultValue="") List<Integer> order_amount, @RequestParam(defaultValue="") List<Integer> option_price
-			, @RequestParam int artist_no, @RequestParam String list_title, HttpSession session) {
+			, @RequestParam String list_title, HttpSession session) {
 		OrderDTO orderdto = new OrderDTO();
 		
 		System.out.println("리스트 번호 : "+list_no);
@@ -252,7 +252,7 @@ public class ProductDetailController {
 		
 		session.setAttribute("orderDTO", orderdto);
 		
-		return "order/order/"+list_no;
+		return "redirect:/order/order/"+list_no;
 	}
 	
 	@ResponseBody

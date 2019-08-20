@@ -2,6 +2,8 @@ package com.bitcamp.controller;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,16 +20,16 @@ public class OrderController {
 	@Autowired
 	private OrderService service;
 
-	 @RequestMapping("order/order/{list_no}")
-	 public String a(@PathVariable int list_no) {
-	 return "order/order";
-	 }
+	@RequestMapping("order/order/{list_no}")
+	public String a(@PathVariable int list_no) {
+		return "order/order";
+	}
 
-	 @RequestMapping("order/orderResult")
-	 public String success(OrderDTO orderDTO) {
-	 service.buyProduct(orderDTO);
-	 return "order/orderResult";
-	 }
+	@RequestMapping("order/orderResult")
+	public String success(OrderDTO orderDTO) {
+		service.buyProduct(orderDTO);
+		return "order/orderResult";
+	}
 
 	// @RequestMapping("please")
 	// public String please() {
