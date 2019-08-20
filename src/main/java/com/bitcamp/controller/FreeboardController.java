@@ -6,27 +6,14 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.bitcamp.DAO.CustomUser;
 import com.bitcamp.DTO.freeboard.FreeboardDTO;
-import com.bitcamp.DTO.freeboard.FreeboardRepDTO;
-import com.bitcamp.DTO.member.MemberDTO;
-import com.bitcamp.service.CustomUserDetailService;
 import com.bitcamp.service.FreeboardRepService;
 import com.bitcamp.service.FreeboardService;
 
@@ -40,7 +27,7 @@ public class FreeboardController {
 	private FreeboardRepService replySerivce;
 	
 	// @PreAuthorize("hasRole('ROLE_MEMBER')")
-	@RequestMapping("freeboard/freeboardList")
+	@RequestMapping("/freeboard")
 	public String freeboardList(
 			@RequestParam(value = "category", required = false, defaultValue = "전체") String freeboard_category,
 			@RequestParam(value = "searchType", required = false, defaultValue = "") String searchType,
@@ -54,16 +41,20 @@ public class FreeboardController {
 		return "freeboard/freeboardList.mall";
 	}
 
-	@RequestMapping("freeboard/freeboardDetail")
+	@RequestMapping("freeboard/detail")
 	public String freeboardDetail(@RequestParam("no") int freeboard_no, Model model) {
 
 		FreeboardDTO dto = fbservice.detailService(freeboard_no);
+		int countRep = replySerivce.countReply(freeboard_no);
+		fbservice.updateHitsService(freeboard_no);
+		
 		model.addAttribute("board", dto);
+		model.addAttribute("countRep", countRep);
 
 		return "freeboard/freeboardDetail.mall";
 	}
 
-	@RequestMapping("freeboard/freeboardWrite")
+	@RequestMapping("/freeboard/write")
 	public String freeboardWrite() {
 		return "freeboard/freeboardWriteform.mall";
 	}
@@ -81,13 +72,13 @@ public class FreeboardController {
 
 		fbservice.writeService(dto);
 
-		return "redirect:/freeboard/freeboardList";
+		return "redirect:/freeboard";
 	}
 
 	@RequestMapping("freeboard/boardDelete")
 	public String freeboardDelete(@RequestParam("no") int freeboard_no) {
 		fbservice.deleteService(freeboard_no);
-		return "redirect:/freeboard/freeboardList";
+		return "redirect:/freeboard";
 	}
 
 	@RequestMapping("freeboard/boardModify")
@@ -113,22 +104,6 @@ public class FreeboardController {
 
 		fbservice.modifyService(dto);
 
-		return "redirect:/freeboard/freeboardDetail?no=" + freeboard_no;
+		return "redirect:/freeboard/detail?no=" + freeboard_no;
 	}
-
-	@RequestMapping("freeboard/searchResult")
-	public String freeboardSearchResult(@RequestParam String search_type, @RequestParam String search_txt,
-			Model model) {
-		System.out.println(search_type);
-		System.out.println(search_txt);
-
-		List<FreeboardDTO> list = fbservice.searchList(search_type, search_txt);
-		model.addAttribute("list", list);
-
-		return "freeboard/freeboardList";
-	}
-
-
-
-
 }
