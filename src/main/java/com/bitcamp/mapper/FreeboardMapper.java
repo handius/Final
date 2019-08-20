@@ -11,14 +11,14 @@ public interface FreeboardMapper {
 
 	public List<FreeboardDTO> getList(String category);
 
-	public List<FreeboardDTO> getSearchList(Map<String, String> search);
-
 	public FreeboardDTO getDetail(int freeboard_no);
 
 	public void modifyData(FreeboardDTO dto);
 
 	public void deleteData(int freeboard_no);
 
-	public List<FreeboardDTO> getSearchList2(Map<String, Object> search);
+	public List<FreeboardDTO> getSearchList(Map<String, Object> search);
+	
+	public void updateHits(int freeboard_no);
 
 }

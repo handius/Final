@@ -36,4 +36,13 @@
 		resultType="com.bitcamp.DTO.freeboard.FreeboardRepDTO">
 		select * from freeboard_rep where rep_no = #{rep_no}
 	</select>
+
+	<select id="countData" parameterType="int"
+		resultType="java.lang.Integer">
+		select
+		count(*) from freeboard_rep
+		where freeboard_no
+		=
+		#{freeboard_no} and rep_status = 1
+	</select>
 </mapper>

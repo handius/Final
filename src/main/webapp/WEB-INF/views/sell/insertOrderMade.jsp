@@ -210,7 +210,7 @@
 	body{
 		margin: 0px;
 		padding: 0px;
-		background-color: rgba(238, 234, 225, 0.3) !important;
+		background-color: white !important;
 	}
 	.mainImage{
 		display:inline-block;
@@ -235,13 +235,16 @@
 		height: 400px;
 	}
 	#intro{
-		margin-top: 30px;
-		margin-bottom:30px;
+		margin-top: 55px;
+		margin-bottom:55px;
 		background-color: rgba(179,202,197, 0.4);
 		border-radius: 20px;
 		padding: 20px;
 		font-size: 1.2em;
 		font-weight:600;
+	}
+	.ctitle{
+		text-align: center;
 	}
 	.ctitle h2{
 		font-size: 2.8em;
