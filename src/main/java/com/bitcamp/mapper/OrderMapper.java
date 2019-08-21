@@ -6,6 +6,8 @@ public interface OrderMapper {
 
 	int insertOrder(Map<String, Object> parameters);
 
+	void updateBuy_count(int list_no);
+
 	void updateOption_stock(Map<String, Integer> option);
 
 	void updateName(Map<String, Object> parameters);
@@ -13,4 +15,5 @@ public interface OrderMapper {
 	void updateCall(Map<String, Object> parameters);
 
 	void updateAddress(Map<String, Object> parameters);
+
 }

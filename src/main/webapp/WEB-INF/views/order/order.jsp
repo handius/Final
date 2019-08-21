@@ -30,12 +30,13 @@
 							value="${memberDTO.user_name }">
 					</div>
 					<div class="form-group">
-						<label for="tel">연락처</label><input type="text" name="tel" id="tel"
-							required class="form-control" value="${memberDTO.user_call }">
+						<label for="call">연락처</label><input type="text" name="call"
+							id="call" required class="form-control"
+							value="${memberDTO.user_call }">
 					</div>
 					<div class="form-group">
-						<label for="addr">주소</label><input type="text" name="addr"
-							id="addr" required class="form-control"
+						<label for="address">주소</label><input type="text" name="address"
+							id="address" required class="form-control"
 							value="${memberDTO.user_address }">
 					</div>
 				</div>
