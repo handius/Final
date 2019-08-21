@@ -11,13 +11,13 @@ import com.bitcamp.DTO.productdetail.QABoardDTO;
 
 public interface MyPageMapper {
 
-	int pWCheck(Map<String, String> iDPW);
-
 	void withdraw(String user_id);
 
 	void insertCQA(Map<String, Object> parameters);
 
 	void updateUserInfo(MemberDTO memberDTO);
+
+	void updateUserPassword(Map<String, Object> parameters);
 
 	List<OrderDTO> buyList(int member_no);
 

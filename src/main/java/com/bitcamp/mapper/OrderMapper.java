@@ -11,8 +11,6 @@ public interface OrderMapper {
 
 	void updateOption_stock(Map<String, Integer> option);
 
-	void updateName(Map<String, Object> parameters);
-
 	void updateCall(Map<String, Object> parameters);
 
 	void updateAddress(Map<String, Object> parameters);
