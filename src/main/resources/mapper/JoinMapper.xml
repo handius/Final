@@ -13,10 +13,11 @@
 		user_name,user_email,
 		user_address, user_regidate, user_status,
 		user_certkey,
-		user_certstatus, user_flatform)
+		user_certstatus, user_flatform,user_nick)
 		values(member_seq.nextval, #{user_id}, #{user_password}, #{user_name},
 		#{user_email}, #{user_address}, sysdate,
-		1, #{user_certkey}, 0, null)
+		1, #{user_certkey}, 0, null,
+		#{user_nick})
 	</insert>
 
 	<select id="userSelect" parameterType="String" resultType="int">
@@ -24,8 +25,10 @@
 	</select>
 
 	<insert id="userAuthRegister" parameterType="int">
-		insert into authority(auth_no, member_no, user_auth)
-		values(auth_seq.nextval, #{member_no}, 'ROLE_USER')
+		insert into
+		authority(auth_no, member_no, user_auth)
+		values(auth_seq.nextval,
+		#{member_no}, 'ROLE_USER')
 	</insert>
 
 	<select id="compareCertKey"
@@ -42,9 +45,11 @@
 		user_certstatus = 1 , user_certkey=' ' where user_id =
 		#{user_id}
 	</update>
-	
-	<update id="updateMemberAuth" parameterType="int">
-		insert into authority(auth_no, member_no, user_auth)
-		values(auth_seq.nextval, #{member_no}, 'ROLE_MEMBER')
-	</update>
+
+	<insert id="updateMemberAuth" parameterType="int">
+		insert into
+		authority(auth_no, member_no, user_auth)
+		values(auth_seq.nextval,
+		#{member_no}, 'ROLE_MEMBER')
+	</insert>
 </mapper>

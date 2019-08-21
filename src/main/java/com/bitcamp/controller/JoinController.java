@@ -42,8 +42,6 @@ public class JoinController {
 	@ResponseBody
 	public int check(@RequestParam("user_id") String user_id) {
 		
-		System.out.println("사용자 아이디:" + user_id);
-
 		if (user_id.length() > 0) { // 아이디 입력하지 않았을 때
 			for (int i = 0; i < user_id.length(); i++) {
 				char ch = user_id.charAt(i);

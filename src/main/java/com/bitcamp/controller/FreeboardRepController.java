@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,20 +28,20 @@ public class FreeboardRepController {
 	public List<FreeboardRepDTO> getReplyList(@RequestParam("freeboard_no") int freeboard_no, Model model) {
 
 		List<FreeboardRepDTO> result = replySerivce.getReply(freeboard_no);
+		System.out.println(result);
 
 		return result;
 	}
 
 	@RequestMapping(value = "/freeboard/freeboardReply", method = RequestMethod.POST)
-	public @ResponseBody Map<String, Object> freeboardReply(@RequestBody FreeboardRepDTO repDTO) {
+	public @ResponseBody Map<String, Object> freeboardReply(@RequestBody FreeboardRepDTO repDTO, HttpServletRequest request) {
 
 		Map<String, Object> result = new HashMap<>();
 
 		try {
-
-			System.out.println(repDTO.toString());
+			System.out.println(repDTO.getMember_no());
 			replySerivce.saveReply(repDTO);
-
+			
 			result.put("status", "OK");
 
 		} catch (Exception e) {

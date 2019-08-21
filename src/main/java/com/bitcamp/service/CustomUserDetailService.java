@@ -22,9 +22,12 @@ public class CustomUserDetailService implements UserDetailsService {
 	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
 
 		// userName means user_id
+		System.out.println(userName);
 		MemberDTO dto = mapper.readMember(userName);
-		System.out.println("service입니다");
-
+		System.out.println("진입2");
+		System.out.println(dto);
+		System.out.println("dddddddddddddddddddd");
+		System.out.println((UserDetails)new CustomUser(dto));
 		return dto == null ? null : new CustomUser(dto);
 	}
 

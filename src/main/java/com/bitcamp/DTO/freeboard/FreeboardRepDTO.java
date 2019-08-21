@@ -14,5 +14,6 @@ public class FreeboardRepDTO {
 	private String rep_content;
 	private String rep_regiDate;
 	private int rep_parent_no;
+	private String user_nick;
 
 }

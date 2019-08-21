@@ -7,6 +7,8 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
+<script type="text/javascript"
+	src="//code.jquery.com/jquery-3.4.1.min.js"></script>
 <body>
 	<c:set var="memberDTO" value="${sessionScope.member}" />
 	<c:set var="orderDTO" value="${sessionScope.orderDTO}" />
@@ -49,7 +51,8 @@
 					<table class="table table-hover">
 						<tbody>
 							<tr class="table-default">
-								<td rowspan="3"><img alt="list_image" src=""></td>
+								<td rowspan="3"><img alt="list_image"
+									src="${list_image_loc }"></td>
 								<td><a href="/productDetail/${orderDTO.list_no }"><c:out
 											value="${orderDTO.list_title }"></c:out></a></td>
 							</tr>
@@ -88,7 +91,6 @@
 		$(document).ready(function() {
 			$('#payment').on('submit', function(event) {
 				event.preventDefault();
-				console.log('test');
 				var IMP = window.IMP; // 생략가능
 				IMP.init('imp85472948'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
 				IMP.request_pay({
@@ -118,36 +120,6 @@
 					alert(msg);
 				});
 			});
-
-			/* $("#payment").submit(function(event) {
-				event.preventDefault();
-				var IMP = window.IMP; // 생략가능
-				IMP.init('imp85472948'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
-				IMP.request_pay({
-					pg : 'html5_inicis', // version 1.1.0부터 지원.
-					pay_method : 'card',
-					merchant_uid : 'merchant_' + new Date().getTime(),
-					name : '${orderDTO.list_title}',
-					amount : '${orderDTO.order_price}',
-					buyer_email : '${memberDTO.user_email}',
-					buyer_name : '${memberDTO.user_name}',
-					buyer_tel : '${memberDTO.user_call}',
-					buyer_addr : '${memberDTO.user_address}',
-				//m_redirect_url : 'https://www.yourdomain.com/payments/complete'
-				}, function(rsp) {
-					if (rsp.success) {
-						var msg = '결제가 완료되었습니다.';
-						msg += '고유ID : ' + rsp.imp_uid;
-						msg += '상점 거래ID : ' + rsp.merchant_uid;
-						msg += '결제 금액 : ' + rsp.paid_amount;
-						msg += '카드 승인번호 : ' + rsp.apply_num;
-					} else {
-						var msg = '결제에 실패하였습니다.';
-						msg += '에러내용 : ' + rsp.error_msg;
-					}
-					alert(msg);
-				});
-			}); */
 		});
 	</script>
 </body>
