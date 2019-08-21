@@ -50,6 +50,7 @@
 		a += '<input type="text" name="content_'+rep_no+'" value="'+rep_content+'"/>';
 		a += '<span class="input-group-btn"><button class="btn btn-default" type="button" onclick="commentUpdateProc('
 				+ rep_no + ');">수정</button> </span>';
+		a += ''
 		a += '</div>';
 
 		$('.commentContent' + rep_no).html(a);
@@ -170,7 +171,7 @@
 	</table>
 
 	<div>
-		<p>댓글()</p>
+		<p>댓글(${countRep})</p>
 		<div>
 			<form id="replyForm">
 				<input id="board_no" type="hidden" value="${board.freeboard_no}">
@@ -181,7 +182,7 @@
 		</div>
 		<div id="repList"></div>
 	</div>
-	<button onclick="location='freeboardList'">목록으로</button>
+	<button onclick="location='../freeboard'">목록으로</button>
 	<button onclick="location='boardModify?no=${board.freeboard_no}'">수정하기</button>
 	<button onclick="location='boardDelete?no=${board.freeboard_no}'">삭제하기</button>
 

@@ -16,4 +16,6 @@ public interface FreeboardRepMapper {
 
 	public FreeboardRepDTO selectData(int rep_no);
 
+	public int countData(int freeboard_no);
+
 }

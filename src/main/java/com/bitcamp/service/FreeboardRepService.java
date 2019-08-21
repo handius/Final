@@ -38,4 +38,8 @@ public class FreeboardRepService {
 		mapper.updateData(dto);
 	}
 
+	public int countReply(int freeboard_no) {
+		return mapper.countData(freeboard_no);
+	}
+
 }

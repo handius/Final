@@ -36,7 +36,7 @@
 			</tr>
 		</table>
 		<input type="button" value="목록으로"
-			onclick="location.href='freeboardList'">
+			onclick="location.href='freeboard'">
 		<button type="submit">작성완료</button>
 	</form>
 </body>

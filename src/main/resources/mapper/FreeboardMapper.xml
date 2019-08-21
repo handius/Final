@@ -36,9 +36,9 @@
 		freeboard
 		LEFT OUTER JOIN member on freeboard.freeboard_member_no =
 		member.member_no
-		<where>
-			<if test='_parameter!="전체"'> freeboard_category=#{_parameter} </if>
-		</where>
+		where freeboard_status =1
+		<if test='_parameter!="전체"'> and freeboard_category=#{_parameter} </if>
+
 		order by freeboard_no desc
 	</select>
 
@@ -69,7 +69,7 @@
 		where freeboard_no = #{freeboard_no}
 	</update>
 
-	<select id="getSearchList2" resultMap="freeboardMap"
+	<select id="getSearchList" resultMap="freeboardMap"
 		parameterType="map">
 		select freeboard_no, freeboard_title,
 		freeboard_content,
@@ -78,8 +78,6 @@
 		freeboard
 		LEFT OUTER JOIN member on freeboard.freeboard_member_no =
 		member.member_no
-		<!-- <where> <if test='_parameter!="전체"'> freeboard_category=#{_parameter} 
-			</if> </where> -->
 		<trim prefix="WHERE" prefixOverrides="AND|OR">
 			<if test="searchType=='제목'">
 				and freeboard_title like '%'||#{searchKeyword}||'%'
@@ -90,5 +88,12 @@
 		</trim>
 		order by freeboard_no desc
 	</select>
+
+	<update id="updateHits" parameterType="int">
+		update freeboard
+		set
+		freeboard_hits = freeboard_hits+1
+		where freeboard_no = #{freeboard_no}
+	</update>
 
 </mapper>
