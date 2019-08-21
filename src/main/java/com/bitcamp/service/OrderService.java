@@ -29,6 +29,8 @@ public class OrderService {
 		StringBuilder amount = new StringBuilder();
 		List<Integer> ordermade_no = orderDTO.getOrdermade_no();
 		StringBuilder made_no = new StringBuilder();
+		System.out.println(order_add_option);
+		System.out.println(order_amount);
 		for (int i = 0; i < order_add_option.size(); i++) {
 			add_option.append(order_add_option.get(i));
 			amount.append(order_amount.get(i));

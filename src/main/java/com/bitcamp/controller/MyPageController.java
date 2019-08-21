@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.AlternativeJdkIdGenerator;
@@ -19,10 +20,15 @@ import com.bitcamp.DTO.productdetail.BuyReviewDTO;
 import com.bitcamp.DTO.productdetail.QABoardDTO;
 import com.bitcamp.service.MyPageService;
 
+import lombok.Setter;
+
 @Controller
 public class MyPageController {
 	@Autowired
 	private MyPageService service;
+
+	@Setter(onMethod_ = @Autowired)
+	private PasswordEncoder pwdEncoder;
 
 	@RequestMapping("myPage")
 	public String myPage(HttpSession session) {
@@ -35,14 +41,15 @@ public class MyPageController {
 	}
 
 	@RequestMapping("pWCheck")
-	public String pWCheck(HttpSession session, @RequestParam String password) {
+	public String pWCheck(HttpSession session) {
 		return "mypage/pWCheck";
 	}
 
 	@RequestMapping("pWCheckResult")
 	public String pWCheckResult(HttpSession session, @RequestParam String password) {
 		MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
-		boolean result = service.pWCheck(memberDTO.getUser_id(), password);
+		boolean result = pwdEncoder.matches(password, memberDTO.getUser_password());
+		// boolean result = service.pWCheck(memberDTO.getUser_id(), password);
 		if (result) {
 			return "redirect:/userInfo";
 		} else {

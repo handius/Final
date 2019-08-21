@@ -21,12 +21,19 @@ public class OrderController {
 	private OrderService service;
 
 	@RequestMapping("order/order/{list_no}")
-	public String a(@PathVariable int list_no) {
-		return "order/order";
+	public String order(@PathVariable int list_no, HttpSession session) {
+		MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
+		if (memberDTO != null) {
+			return "order/order";
+		} else {
+			return "redirect:/login";
+		}
 	}
 
 	@RequestMapping("order/orderResult")
-	public String success(OrderDTO orderDTO) {
+	public String success(HttpSession session) {
+		OrderDTO orderDTO = (OrderDTO) session.getAttribute("orderDTO");
+		System.out.println(orderDTO.getOption_name());
 		service.buyProduct(orderDTO);
 		return "order/orderResult";
 	}
