@@ -3,14 +3,14 @@
 	xmlns="http://www.springframework.org/schema/security"
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-                                 http://www.springframework.org/schema/beans/spring-beans.xsd
-                                 http://www.springframework.org/schema/security
-                                 http://www.springframework.org/schema/security/spring-security.xsd">
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<beans:bean id="customUserDetailService"
 		class="com.bitcamp.service.CustomUserDetailService"></beans:bean>
-	<beans:bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></beans:bean>
+	<beans:bean id="bcryptPasswordEncoder"
+		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></beans:bean>
 
 	<http>
 		<intercept-url pattern="/**" access="permitAll" />
@@ -24,7 +24,8 @@
 	</http>
 
 	<authentication-manager>
-		<authentication-provider user-service-ref="customUserDetailService">
+		<authentication-provider
+			user-service-ref="customUserDetailService">
 			<password-encoder ref="bcryptPasswordEncoder"></password-encoder>
 		</authentication-provider>
 	</authentication-manager>

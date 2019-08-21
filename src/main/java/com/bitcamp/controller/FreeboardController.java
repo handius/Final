@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.bitcamp.DTO.freeboard.FreeboardDTO;
+import com.bitcamp.DTO.member.MemberDTO;
 import com.bitcamp.service.FreeboardRepService;
 import com.bitcamp.service.FreeboardService;
 
@@ -25,17 +28,16 @@ public class FreeboardController {
 
 	@Resource(name = "freeboardRepService")
 	private FreeboardRepService replySerivce;
-	
+
 	// @PreAuthorize("hasRole('ROLE_MEMBER')")
 	@RequestMapping("/freeboard")
 	public String freeboardList(
 			@RequestParam(value = "category", required = false, defaultValue = "전체") String freeboard_category,
 			@RequestParam(value = "searchType", required = false, defaultValue = "") String searchType,
 			@RequestParam(value = "searchKeyword", required = false, defaultValue = "") String searchKeyword,
-			Model model,Principal prin, Authentication auth) {
+			Model model, Principal prin, Authentication auth) {
 
 		List<FreeboardDTO> list = fbservice.listService(freeboard_category, searchType, searchKeyword);
-		
 		model.addAttribute("list", list);
 
 		return "freeboard/freeboardList.mall";
@@ -47,7 +49,7 @@ public class FreeboardController {
 		FreeboardDTO dto = fbservice.detailService(freeboard_no);
 		int countRep = replySerivce.countReply(freeboard_no);
 		fbservice.updateHitsService(freeboard_no);
-		
+
 		model.addAttribute("board", dto);
 		model.addAttribute("countRep", countRep);
 
@@ -55,7 +57,11 @@ public class FreeboardController {
 	}
 
 	@RequestMapping("/freeboard/write")
-	public String freeboardWrite() {
+	public String freeboardWrite(HttpServletRequest request, Model model) {
+
+		HttpSession session = request.getSession();
+		MemberDTO dto = (MemberDTO) session.getAttribute("member");
+		
 		return "freeboard/freeboardWriteform.mall";
 	}
 

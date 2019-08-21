@@ -1,5 +1,6 @@
 package com.bitcamp.mapper;
 
+import com.bitcamp.DTO.member.AuthorityDTO;
 import com.bitcamp.DTO.member.MemberDTO;
 
 public interface MemberMapper {
@@ -12,4 +13,8 @@ public interface MemberMapper {
 	public int searchPwd(MemberDTO dto);
 
 	public void updatePassword(MemberDTO dto);
+	
+	public void insertAuth(AuthorityDTO dto);
+	
+	public void deleteAuth(AuthorityDTO dto);
 }

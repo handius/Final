@@ -9,10 +9,9 @@
 <script type="text/javascript"
 	src="//code.jquery.com/jquery-3.4.1.min.js"></script>
 <script>
-
 	function id_checks() {
 		var id = $("#id").val();
-		let isEnabled = false;
+		var isEnabled = false;
 		$.ajax({
 			url : '${pageContext.request.contextPath}/user/idCheck',
 			data : {
@@ -20,18 +19,17 @@
 			},
 			dataType : 'json',
 			type : 'post',
+			async : false,
 			success : function(data) {
 				if (data == 1) {
 					$("#id_check_result").text("아이디는 영문 및 숫자만 입력 가능합니다.");
-					isEnabled = true;
-				} else if (data == 2)
+				} else if (data == 2) {
 					$("#id_check_result").text("이미 사용중인 아이디입니다.");
-				else if (data == 3) {
+				} else if (data == 3) {
 					$("#id_check_result").text("아이디를 4~12자까지 입력해주세요.");
-				}else if(data ==5){
+				} else if (data == 5) {
 					$("#id_check_result").text("아이디를 입력해주세요.");
-				} 
-				else {
+				} else {
 					$("#id_check_result").text("사용가능한 아이디입니다.");
 					isEnabled = true;
 				}
@@ -40,7 +38,7 @@
 				console.log("실패");
 			}
 		});
-		console.log(isEnabled);
+		return isEnabled;
 	}
 
 	function checks() {
@@ -48,6 +46,13 @@
 		var getCheck = RegExp(/^[a-zA-Z0-9]{4,12}$/);
 		var getName = RegExp(/^[가-힣]+$/);
 		var fmt = RegExp(/^\d{6}[1234]\d{6}$/);
+
+		if (!id_checks()) {
+			alert("아이디 중복체크를 완료해주세요.");
+			return id_checks();
+			console.log('dd');
+			console.log(id_checks());
+		}
 		
 		//비밀번호 공백 확인
 		if ($("#password").val() == "") {
@@ -124,7 +129,7 @@
 <body>
 	<h1>Handius 회원 가입</h1>
 	<form name="joinform" action="joinResult" method="post"
-		onsubmit="return checks()">
+		onsubmit="return checks();">
 		<table>
 			<tr class="tr1">
 				<td>아이디 *</td>
