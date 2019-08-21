@@ -15,7 +15,9 @@
     <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
     <style>
-        a, a:visited {
+        a:visited,
+        a:active,
+        a:link {
             color: black;
         }
         
@@ -45,7 +47,7 @@
         #artistDetailImgBox img {
             width: 100%;
             height: 100%;
-            object-fit: none;
+            object-fit: cover;
         }
         
         /*작가 정보 시작*/
@@ -275,11 +277,11 @@
     <div class="container">
         <div class="row">
            <div class="col-md-9" id="artistDetailImgBox">
-                <img src="./slide1.jpg" alt="메인이미지">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/1/15/Handmade_Gold_Necklace.jpg" alt="메인이미지">
            </div>
            <div class="col-md-3" id="artistAsideArtistInfoBox">
                <div id="artistAsideArtistInfoArtistName">
-                   작가이름
+                   	작가이름
                </div>
                <div id="artistAsideArtistInfoScore">
                     <span id="artistAsideArtistInfoStarScore">★★★★☆</span><span id="artistAsideArtistInfoNumScore">4.5</span>
@@ -297,9 +299,7 @@
         <div class="row">
             <div class="col-md-9" id="artistDetailBox">
                 <div id="artistDetailTitleBox">
-                    작가의 설명이 들어갈 공간 입니다. 작가의 설명이 들어갈 공간 입니다. 작가의 설명이 들어갈 공간 입니다. 작가의 설명이 들어갈 공간 입니다. 작가의 설명이 들어갈 공간 입니다.
-                     작가의 설명이 들어갈 공간 입니다. 작가의 설명이 들어갈 공간 입니다. 작가의 설명이 들어갈 공간 입니다. 작가의 설명이 들어갈 공간 입니다. 작가의 설명이 들어갈 공간 입니다.
-                      작가의 설명이 들어갈 공간 입니다. 작가의 설명이 들어갈 공간 입니다. 작가의 설명이 들어갈 공간 입니다. 작가의 설명이 들어갈 공간 입니다. 작가의 설명이 들어갈 공간 입니다.
+                	작가 페이지 설명부분 
                 </div>
                 <div class="artistDetailLine">
                      판매중인 작품

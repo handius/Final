@@ -27,7 +27,7 @@
 			<tbody>
 				<tr>
 					<td>아이디</td>
-					<td><input type="text" name="username"></td>
+					<td><input type="text" id="id" name="username"></td>
 				</tr>
 				<tr>
 					<td>비밀번호</td>

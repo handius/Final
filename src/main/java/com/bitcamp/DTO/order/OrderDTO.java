@@ -20,9 +20,9 @@ public class OrderDTO {
 	private List<Integer> option_price;
 	private String order_date;
 	private String order_status;
-	private List<Integer> ordermade_no;
 	private int artist_no;
 	private List<Integer> list_order_no;
+	private List<Integer> ordermade_no;
 	private List<String> order_value;
 
 	private String list_title;
