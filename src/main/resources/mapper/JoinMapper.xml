@@ -43,8 +43,8 @@
 		#{user_id}
 	</update>
 	
-	<update id="updateMemberAuth" parameterType="int">
+	<insert id="updateMemberAuth" parameterType="int">
 		insert into authority(auth_no, member_no, user_auth)
 		values(auth_seq.nextval, #{member_no}, 'ROLE_MEMBER')
-	</update>
+	</insert>
 </mapper>
