@@ -207,6 +207,40 @@
 		loadHash();
 		
 	})
+	function onDelete(){
+		var deleteFiles = [];
+		var jsondata = [];
+		$.each($('.removeCheck:checked'), function(index, value){
+			deleteFiles.push(value.value);
+		});
+		$.each(deleteFiles, function(index, value){
+			jsondata.push({
+				number : value
+			});
+		});
+		console.log(jsondata);
+		var json_sub =  JSON.stringify(jsondata);
+		$.ajax({
+			url : "/deleteProduct",
+			type : "POST",
+			data : {obj : json_sub},
+			success : function(data){
+				console.log(data);
+				console.log("삭제 성공");
+				location.reload();
+			},
+			error:function(request,status,error) { 
+			    alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error); 
+			}
+
+
+			
+
+		})
+		console.log(deleteFiles);
+		console.log("삭제 실행");
+		
+	}
 	function loadHash(){
 		hashCounter = hashCounter+1;
 		console.log("loadHash");
@@ -361,6 +395,9 @@
 			            			<span class="arttxt">${item.list_artist }</span>
 			            			<p class="price"><fmt:formatNumber value="${item.list_base_price }" type="number"/><span class="smtxt">원</span></p>
 			          			</c:if>
+			          			<c:if test="${isAdmin }">
+									<input type="checkbox" value="${item.list_no }" class="removeCheck">
+								</c:if>
 			      			</div>
 			      		</div>
 			   		</div>
@@ -394,6 +431,11 @@
 					<li><a href="?currpage=${PageDTO.endblock+1}&<%=hashTagValues %>hasStock=${Stock}&searchType=${Type}&searchData=${Data}&order=${Order}">▶</a></li> 
 				</c:if>
 			</ul>
+			<div>
+				<c:if test="${isAdmin }">
+					<button type="button" class="btn btn-default" onclick="onDelete()">게시글 삭제</button>
+				</c:if>
+			</div>
 		</div>
 	
 </body>

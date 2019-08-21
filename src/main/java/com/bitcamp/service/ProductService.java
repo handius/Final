@@ -249,4 +249,13 @@ public class ProductService {
 		// TODO Auto-generated method stub
 		return mapper.insertSearcher(searchData);
 	}
+
+	public int deleteProductService(List<Integer> number) {
+		// TODO Auto-generated method stub
+		int result = 0;
+		for(int no : number) {
+			result = mapper.deleteProduct(no);
+		}
+		return result;
+	}
 }

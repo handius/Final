@@ -206,4 +206,8 @@
 		update data_analysis_board
     	set search_text = #{searchData}
 	</update>
+	<delete id="deleteProduct" parameterType="int">
+		delete from list_board
+		where list_no = #{no}
+	</delete>
 </mapper>
