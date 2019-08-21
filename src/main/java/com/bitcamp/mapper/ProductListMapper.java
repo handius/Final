@@ -7,7 +7,10 @@ import com.bitcamp.DTO.Product.ListDTO;
 import com.bitcamp.DTO.Product.OrderOptionDTO;
 import com.bitcamp.DTO.Product.OrderValueDTO;
 import com.bitcamp.DTO.Product.searchTextDTO;
-
+/*
+ * 작성자 : 윤건일
+ * 
+ */
 public interface ProductListMapper {
 	public List<ListDTO> getList(HashMap<String,Object> listData);
 	public int getCount(HashMap<String, Object> countData);

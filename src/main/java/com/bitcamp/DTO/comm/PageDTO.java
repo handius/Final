@@ -4,7 +4,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-
+/*
+ * 작성자 : 윤건일
+ * 프로그램 이름 : PageDTO
+ * 내용 : 페이징 처리에 필요한 메서드와 변수를 가진 DTO
+ */
 @ToString
 @NoArgsConstructor
 @Getter @Setter

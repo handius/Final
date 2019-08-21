@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -125,9 +127,15 @@
 <body>
     <div id="mallmenu" class="menu-wrap">
             <div id="mainmenu2">
-                <a class="categoryfontcolor" href="#">로그인</a>
-                <a class="categoryfontcolor" href="#">회원가입</a>
-                <a class="categoryfontcolor" href="#">마이페이지</a>
+            <sec:authorize access="isAnonymous()">
+				<a class="categoryfontcolor" href="/login">로그인</a>
+				<a class="categoryfontcolor" href="/join">회원가입</a>
+			</sec:authorize>
+			<sec:authorize access="isAuthenticated()">
+				<span class="categoryfontcolor"><sec:authentication property="principal.member.user_id"/>님, 환영합니다!</span>
+				<a class="categoryfontcolor" href="#">마이페이지</a>
+				<a class="categoryfontcolor" href="/login/logout">로그아웃</a>
+			</sec:authorize>
                 <a class="categoryfontcolor" id="searchcategoryhover" href="#"><span class="glyphicon glyphicon-search"></span></a>
             </div>
             <div>
@@ -137,7 +145,7 @@
             <div id="mainmenu1">
                 <a class="categoryfontcolor" href="/orderList?order=0">완제품</a>
                 <a class="categoryfontcolor" href="/orderList?order=1">주문제작</a>
-                <a class="categoryfontcolor" href="#">커뮤니티</a>
+                <a class="categoryfontcolor" href="/freeboard">커뮤니티</a>
                 <a class="categoryfontcolor" href="#">작가페이지</a>
             </div>
             </div>

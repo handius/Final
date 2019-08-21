@@ -48,11 +48,11 @@
 	<table>
 		<tr>
 			<td>비밀번호</td>
-			<td><input type="text" id="password" required="required"></td>
+			<td><input type="password" id="password" required="required"></td>
 		</tr>
 		<tr>
 			<td>비밀번호 확인</td>
-			<td><input type="text" id="passwordChk" required="required"></td>
+			<td><input type="password" id="passwordChk" required="required"></td>
 		</tr>
 	</table>
 	<button onclick="checkPwd()">비밀번호 재설정</button>

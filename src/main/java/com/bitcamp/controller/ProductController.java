@@ -29,12 +29,18 @@ import com.bitcamp.DTO.comm.PageDTO;
 import com.bitcamp.DTO.member.MemberDTO;
 import com.bitcamp.VO.file.FileVO;
 import com.bitcamp.service.ProductService;
-
+/*
+ * 작성자 : 윤건일
+ * 프로그램 이름 : ProductController
+ * 내용 : 제품 리스트 작성 및 리스트 표시에 관련된 컨트롤러, ajax 포함
+ * 
+ */
 @Controller
 public class ProductController {
 	@Resource(name="pservice")
 	private ProductService service;
 	
+	//orderList로 가장 처음 리스트를 표시할 때 들어오는 컨트롤러
 	@RequestMapping(value="/orderList", method= {RequestMethod.POST, RequestMethod.GET})
 	public String listProduct(HttpSession session, @RequestParam(defaultValue="")String searchType, @RequestParam(defaultValue="")String searchData, @RequestParam(defaultValue="1")int currpage, @RequestParam(defaultValue="")List<String> hashTag, @RequestParam(defaultValue="0")int hasStock, @RequestParam(defaultValue="1")int status, @RequestParam(defaultValue="")String order, Model model) {
 		//임시 파일 삭제
@@ -45,30 +51,36 @@ public class ProductController {
 		if(order != null && order != "" && order.length() > 0) {
 			orders = Integer.parseInt(order);
 		}
+		//페이징 처리
 		String list_category = "";
 		int pagePerCount = 16;
 		int blockSize = 5;
 		int totalCount = service.getCountService(searchType, searchData, list_category, hashTag, hasStock, status, orders);
 		System.out.println("hashList : " + hashTag);
 		PageDTO dto = new PageDTO(currpage, totalCount, pagePerCount, blockSize);
+		//리스트와 해쉬 리스트 가져오기
 		List<ListDTO> list = service.getListService(searchType, searchData, dto, list_category, hashTag, hasStock, status, orders);
 		List<String> hashList = service.getHashService(20);
+		//게시글, 해쉬 리스트 model 속성으로 전달
 		model.addAttribute("list", list);
 		model.addAttribute("PageDTO", dto);
 		model.addAttribute("hashList", hashList);
 		return "sell/orderList.mall";
 	}
 	
+	//카테고리 선택시 가져오는 리스트
 	@RequestMapping(value="/orderList/{category}", method= {RequestMethod.POST, RequestMethod.GET})
 	public String listProduct(@RequestParam(defaultValue="")String searchType, @RequestParam(defaultValue="")String searchData, @RequestParam(defaultValue="1")int currpage, @PathVariable(required=false, name="category")String list_category, @RequestParam(defaultValue="")List<String> hashTag, @RequestParam(defaultValue="0")int hasStock, @RequestParam(defaultValue="1")int status, @RequestParam(defaultValue="")String order, Model model) {
 		int orders = 3;
 		if(order != null && order != "" && order.length() > 0) {
 			orders = Integer.parseInt(order);
 		}
+		//페이징 처리
 		int pagePerCount = 16;
 		int blockSize = 5;
 		int totalCount = service.getCountService(searchType, searchData, list_category, hashTag, hasStock, status ,orders);
 		PageDTO dto = new PageDTO(currpage, totalCount, pagePerCount, blockSize);
+		//카테고리 포함해서 리스트와 해쉬 리스트 선택
 		List<ListDTO> list = service.getListService(searchType, searchData, dto, list_category, hashTag, hasStock, status, orders);
 		List<String> hashList = service.getHashService(20);
 		model.addAttribute("list", list);
@@ -77,6 +89,7 @@ public class ProductController {
 		return "sell/orderList.mall";
 	}
 	
+	//HashTag 추가 버튼 클릭시 다음 해쉬 태그를 가져옴
 	@ResponseBody
 	@RequestMapping(value="/ajaxHashPager", method={RequestMethod.POST, RequestMethod.GET})
 	public List<String> ajaxHashPager(@RequestParam int hashPage) {
@@ -84,17 +97,20 @@ public class ProductController {
 		return service.getHashService(endrow);
 	}
 	
+	//해당하는 단어를 포함하는 HashTag를 검색
 	@ResponseBody
 	@RequestMapping(value="/ajaxHashSearcher", method={RequestMethod.POST, RequestMethod.GET})
 	public List<String> ajaxHashPager(@RequestParam String searchData) {
 		return service.getHashSearchService(searchData);
 	}
 	
+	//sell 페이지로 이동
 	@RequestMapping(value="/sell", method= {RequestMethod.POST, RequestMethod.GET})
 	public String sellProduct() {
 		return "sell/sell.mall";
 	}
 	
+	//login 확인 후 완제품 페이지로 이동
 	@RequestMapping(value="/sell/insertPerfectOrder", method= {RequestMethod.POST, RequestMethod.GET})
 	public String sellPerfectOrder(HttpSession session) {
 		MemberDTO dto = (MemberDTO)session.getAttribute("member");
@@ -105,6 +121,7 @@ public class ProductController {
 		}
 	}
 	
+	//login 확인 후 주문 제작 페이지로 이동
 	@RequestMapping(value="/sell/insertOrderMade", method= {RequestMethod.POST, RequestMethod.GET})
 	public String sellOrderMade(HttpSession session) {
 		MemberDTO dto = (MemberDTO)session.getAttribute("member");
@@ -115,6 +132,7 @@ public class ProductController {
 		}
 	}
 	
+	//ajax를 통해 이미지를 업로드 해주는 메서드
 	@RequestMapping(value="*/uploadAjaxAction", method= {RequestMethod.POST, RequestMethod.GET})
 	@ResponseBody
 	public ResponseEntity<List<FileVO>> uploadAjaxPost(HttpSession session, MultipartFile[] uploadFile) {
@@ -146,6 +164,7 @@ public class ProductController {
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 	
+	//완제품 주문 제작 폼에서 데이터를 받아 데이터 베이스에 저장해줌
 	@RequestMapping(value="*/insertPerfectOrderForm", method= {RequestMethod.POST, RequestMethod.GET})
 	public String insertPerfectOrder(ListDTO dto,HttpSession session){
 		MemberDTO mdto = (MemberDTO)session.getAttribute("member");
@@ -160,6 +179,7 @@ public class ProductController {
 		
 	}
 	
+	//주문제작 폼에서 데이터를 받아 데이터 베이스에 저장해줌
 	@RequestMapping(value="*/insertOrderMadeForm", method= {RequestMethod.POST, RequestMethod.GET})
 	public String insertOrderMade(ListDTO dto, HttpSession session){
 		MemberDTO mdto = (MemberDTO)session.getAttribute("member");
@@ -173,6 +193,7 @@ public class ProductController {
 		}
 	}
 	
+	//orderList 페이지에서 게시글 클릭시 대상이 주문 제작품이면 사용자 주문 제작 옵션 추가 페이지로, 그렇지 않으면 완제품 페이지 디테일 페이지로 이동
 	@RequestMapping(value="/checkIsOrdered", method= {RequestMethod.POST, RequestMethod.GET})
 	public String checkOrder(HttpSession session, @RequestParam() int no, Model model) {
 		
@@ -192,12 +213,15 @@ public class ProductController {
 			return "redirect:/login";
 		}
 	}
+	//주문 제작 폼에서 입력받은 사용자 요구 사항을 체크해서 화면에 뿌려준다.
 	@RequestMapping(value="/checking", method= {RequestMethod.POST, RequestMethod.GET})
 	public String check(HttpSession session,@RequestParam(required=false)List<MultipartFile> order_picture, @RequestParam(required=false)List<String> order_color, @RequestParam(required=false)List<String> order_text, @RequestParam(required=false)List<String> order_count, @RequestParam(required=true)int member_no, @RequestParam(required=true)int list_no) {
+		//데이터들을 저장해줄 큐 선언
 		Queue<String> queue = new LinkedList<String>();
 		Queue<String> cqueue = new LinkedList<String>();
 		Queue<String> tqueue = new LinkedList<String>();
 		String uploadFileName = null;
+		//사진객체가 있을 경우
 		if(order_picture != null) {
 			String path = session.getServletContext().getRealPath("/resources/image/fimage");
 			for(MultipartFile multipartFile:order_picture) {
@@ -215,17 +239,21 @@ public class ProductController {
 				queue.offer(image);
 			}
 		}
+		//색상 객체가 있을 경우
 		if(order_color != null) {
 			for(int i=0; i<order_color.size(); i++) {
 				cqueue.offer(order_color.get(i));
 			}
 		}
+		//글 객체가 있을 경우
 		if(order_text != null) {
 			for(int i=0; i<order_text.size(); i++) {
 				tqueue.offer(order_text.get(i));
 			}
 		}
+		//각각의 요구사항을 저장할 리스트 선언
 		List<OrderValueDTO> ovlist = new ArrayList<>();  
+		//dto에 데이터를 담아 리스트에 담는다.
 		for(int i=0; i<order_count.size(); i++) {
 			OrderValueDTO dto = new OrderValueDTO();
 			if(order_count.get(i).contains("p")) {
@@ -249,20 +277,24 @@ public class ProductController {
 			}
 			ovlist.add(dto);
 		}
+		//데이터 베이스에 저장
 		List<Integer> list_order_member_no = service.insertOrderOptionService(ovlist);
 		
 		System.out.println(order_count);
 		System.out.println(list_order_member_no);
+		//세션에 주문 제작 옵션 값을 저장한다.
 		session.setAttribute("list_order_member_no", list_order_member_no);
 		return "redirect:/productDetail/"+list_no;
 	}
 	
+	//관리자 페이지 검색어 분석으로 이동
 	@RequestMapping(value="/admin/searchText", method= {RequestMethod.POST, RequestMethod.GET})
 	public String searchText(Model model) {
 		model.addAttribute("admin_category", "anal");
 		return "admin/dataanalysis.admin";
 	}
 	
+	//데이터 베이스에 저장된 찾을 문자 값을 가져옴
 	@ResponseBody
 	@RequestMapping(value="getsearchTextData", method= {RequestMethod.POST, RequestMethod.GET})
 	public List<searchTextDTO> searchData() {
@@ -270,6 +302,7 @@ public class ProductController {
 		return datas;
 	}
 	
+	//파이썬으로 검색할 데이터 문자열값을 데이터 베이스에 저장
 	@ResponseBody
 	@RequestMapping(value="/insertSearcher" ,method={RequestMethod.POST, RequestMethod.GET})
 	public int insertSearcher(@RequestParam(required=false)String searchData) {

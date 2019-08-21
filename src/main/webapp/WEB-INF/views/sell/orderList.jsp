@@ -157,7 +157,39 @@
 	.smtxt{
 		font-size: 0.6em;
 	}
-	
+	.bul{
+		width: 100%;
+	}
+	.bul li{
+		width: 100%;
+		text-align: center;
+	}
+	.bul li a{
+		font-size: 1.2em;
+		font-weight: 800 !important;
+		display: inline-block;
+		padding: 10px !important;
+	}
+	@media(max-width:769px){
+		
+	}
+	@media(max-width:770px){
+		.pc{
+			display: none;
+		}
+		.mob{
+			display: block;
+		}
+	}
+	@media(min-width:771px) {
+		.pc{
+			display: block;
+		}
+		.mob{
+			display: none;
+		}
+	}
+}
 </style>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <!-- Latest compiled and minified CSS -->
@@ -217,13 +249,11 @@
 	
 		<div class="jumbotron">
 	  		<div class="container">
-	  				
-	  			
 		  	</div>
 		</div>
 	
 		<div class="container-fluid category">
-			<div class="container">
+			<div class="container pc">
 				<div class="row">
 					<div class="col-md-1 col-sm-1">
 						<h5><a href="/orderList/book?order=${Order}">Book</a></h5>
@@ -263,6 +293,17 @@
 					</div>
 				</div>
 			</div>
+			<div class="container mob dropdown">
+				<a data-toggle="dropdown" href="#" class="btn btn-default"><span class="glyphicon glyphicon-align-justify"></span></a>
+				<ul class="dropdown-menu bul" role="menu">
+				    <li role="presentation"><a role="menuitem" tabindex="-1" href="/orderList/book?order=${Order}">Book</a></li>
+				    <li role="presentation"><a role="menuitem" tabindex="-1" href="/orderList/cup?order=${Order}">Mugcup</a></li>
+				    <li role="presentation"><a role="menuitem" tabindex="-1" href="/orderList/table?order=${Order}">Funiture</a></li>
+				    <li role="presentation"><a role="menuitem" tabindex="-1" href="/orderList/accessary?order=${Order}">Accessary</a></li>
+				    <li role="presentation"><a role="menuitem" tabindex="-1" href="/orderList/handmade?order=${Order}">HandCraft</a></li>
+				    <li role="presentation"><a role="menuitem" tabindex="-1" href="/orderList/anything?order=${Order}">ETC</a></li>
+				</ul>
+			</div>
 		</div>
 		<div class="container">
 			
@@ -273,13 +314,13 @@
 				<div class="line">
 				</div>
 				<div id="sform" class="row">
-					<div class="col-md-2">
+					<div class="col-md-2 col-xs-4">
 						<label class="checkbox-inline">
 							<input type="checkbox" id="hasStock" name="hasStock" value="1">
 							<span>품절 품목 제외</span>
 						</label>
 					</div>
-					<div class="col-md4 col-md-offset-6 searchClass">
+					<div class="col-md-5 col-md-offset-5 col-xs-6 col-xs-offset-2 searchClass">
 						<label for="searchType">
 							<select name="searchType" id="searchType" class="form-control">
 								<option value="title">제목</option>
@@ -309,7 +350,6 @@
 			      			<c:forEach var="image" items="${item.list_image_loc }" end="1">
 			      				<a href="/checkIsOrdered?no=${item.list_no} "><img src="${image }" alt="이미지가 없습니다."></a>
 			      			</c:forEach>
-			      		
 			          		<div class="caption">
 			          			<c:if test="${item.isordered eq 1 }">
 			          				<h4><a href="/checkIsOrdered?no=${item.list_no} ">[주문제작]${item.list_title }</a></h4>
@@ -321,7 +361,6 @@
 			            			<span class="arttxt">${item.list_artist }</span>
 			            			<p class="price"><fmt:formatNumber value="${item.list_base_price }" type="number"/><span class="smtxt">원</span></p>
 			          			</c:if>
-			            		
 			      			</div>
 			      		</div>
 			   		</div>

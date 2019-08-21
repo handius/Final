@@ -12,7 +12,7 @@
 		padding:5px 10px !important;
 		border: 1px solid silver !important;
 		border-radius: 20px !important;
-		background-color: white;
+		background-color: #f5f5f5;
 		color:silver;
 	}
 </style>
@@ -29,19 +29,23 @@
 <!-- include summernote css/js -->
 <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.css" rel="stylesheet">
 <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.js"></script>
+<link href="https://fonts.googleapis.com/css?family=Comfortaa&display=swap" rel="stylesheet">
 <script>
 	
 	function TagAppend(){
 		var Tagform = "";
-		Tagform+='<div class="row">';
+		Tagform+='<div class="row" style="margin-left: 0px; margin-top: 20px;">';
 		Tagform+='<label class="col-md-2 control-label">태그 설정</label>';
 		Tagform+='<div class="col-md-3 hashValue">';
 		Tagform+='<input type="text" class="form-control inputstyle" name="list_hash" placeholder="태그를 입력해주세요." required="required" autocomplete="off">';
 		Tagform+='</div>';
 		Tagform+='<div class="col-md-1">';
-		Tagform+='<input type="button" class="btn searchTag" value="검색")>';
+		Tagform+='<input type="button" class="btn searchTag btn-info" value="검색")>';
 		Tagform+='</div>';
-		Tagform+='<div class="col-md-6 tagdiv"></div>';
+		Tagform+='<div class="col-md-1">';
+		Tagform+='<button type="button" class="removeOpt"><span class="glyphicon glyphicon-minus-sign"></span></button>';
+		Tagform+='</div>';
+		Tagform+='<div class="col-md-5 tagdiv"></div>';
 		Tagform+='</div>';
 	
 		$('#tagForm').append(Tagform);
@@ -59,14 +63,19 @@
 		optionform += '<input type="number" class="form-control inputstyle" name="option_stock" value="0" required="required" autocomplete="off">';
 		optionform += '</div>';
 		optionform += '<label class="col-md-1 control-label">가격</label>';
-		optionform += '<div class="col-md-2">';
+		optionform += '<div class="col-md-1">';
 		optionform += '<input type="number" step="1000" class="form-control inputstyle" name="option_price" value="0" required="required" autocomplete="off">';
+		optionform += '</div>';
+		optionform += '<div class="col-md-1">';
+		optionform += '<button type="button" class="removeOpt"><span class="glyphicon glyphicon-minus-sign"></span></button>';
 		optionform += '</div>';
 		optionform += '</div>';
 		
 		$('#optionForm').append(optionform);
 	}
-	
+	$(document).on('click', '.removeOpt', function(){
+		$(this).parent().parent().remove();
+	});
 	$(document).on('click', '.simHash', function(){
 		$(this).parent().parent().children('.hashValue').children('input').val($(this).val().substring(1));
 	});
@@ -156,7 +165,7 @@
 	body{
 		margin: 0px;
 		padding: 0px;
-		background-color: rgba(238, 234, 225, 0.3) !important;
+		background-color: white !important;
 	}
 	.mainImage{
 		display:inline-block;
@@ -181,21 +190,27 @@
 		height: 400px;
 	}
 	#intro{
-		margin-top: 30px;
-		margin-bottom:30px;
+		margin-top: 55px;
+		margin-bottom:55px;
 		background-color: rgba(179,202,197, 0.4);
 		border-radius: 20px;
 		padding: 20px;
 		font-size: 1.2em;
 		font-weight:600;
 	}
+	.ctitle{
+		text-align: center;
+	}
 	.ctitle h2{
 		font-size: 2.8em;
 		font-weight: bold;
-		margin-bottom: 40px;
+		margin-bottom: 65px;
+		color: #676057;
+		font-family: 'Comfortaa', cursive;
+		text-decoration: underline;
 	}
 	.control-label{
-		background-color: rgba(201,194,180);
+		background-color: #e8e2cd;
 		border-radius: 5px;
 		text-align: center !important;
 		padding: 5px;
@@ -243,6 +258,30 @@
 		right: 15px;
 		bottom: 10px;
 	}
+	.removeOpt{
+		background-color: transparent !important;
+		border: none;
+		padding: 8px 0 0 0;
+		font-size: 1.4em;
+	}
+	.imagecenter{
+		text-align: center;
+	}
+	#tagForm{
+		position: relative;
+		left:15px;
+	}
+	#optionForm{
+		position: relative;
+		left:15px;
+	}
+	.plusbtn{
+		background-color: transparent !important;
+		border: none;
+		padding: 8px 0 0 0;
+		font-size: 1.4em;
+		color:green;
+	}
 </style>
 </head>
 <body>
@@ -266,7 +305,7 @@
 		<div class="row">
 			<div class="col-md-7">
 				<div class="ctitle">
-					<h2>기본 정보</h2>
+					<h2>Basic Information</h2>
 				</div>
 				<div>
 					<div class="form-group">
@@ -313,12 +352,12 @@
 				</div>
 			</div>
 			<div class="col-md-4 col-md-offset-1" id="imgbox">
-					<div class="row">
+					<div class="row imagecenter">
 						<div id="uploadedImage">
 							<img class="imgboard mainImage" src="/resources/image/alter.jpg" alt="업로드 된 이미지가 없습니다.">
 						</div>
 					</div>
-					<div class="row">
+					<div class="row imagecenter">
 						<div class="smimgbox" id="uploadedImage2">
 							<img class="imgboard subImage" src="/resources/image/alter.jpg" alt="업로드 된 이미지가 없습니다.">
 						</div>
@@ -337,7 +376,7 @@
 			<hr>
 			<div class="row">
 				<div class="ctitle">
-					<h2>상품 소개</h2>
+					<h2>About Products</h2>
 				</div>
 				<div class="col-md-12">
 					<textarea id="summernote" name="list_content" required="required"></textarea>
@@ -359,7 +398,7 @@
 			<hr>
 			<div class="row optparent">
 				<div class="ctitle">
-					<h2>옵션 추가</h2>
+					<h2>Add Option</h2>
 				</div>
 				<div id="optionForm">
 					<div class="form-group">
@@ -372,18 +411,54 @@
 							<input type="number" class="form-control inputstyle" name="option_stock" value="10" required="required" autocomplete="off">
 						</div>
 						<label class="col-md-1 control-label">가격</label>
-						<div class="col-md-2">
+						<div class="col-md-1">
 							<input type="number" step="1000" class="form-control inputstyle" name="option_price" value="0" required="required" autocomplete="off">
 						</div>
 					</div>
+					<div class="form-group">
+						<label class="col-md-2 control-label">옵션명</label>
+						<div class="col-md-4">
+							<input type="text" class="form-control inputstyle" name="option_name" placeholder="옵션명을 입력해주세요." required="required" autocomplete="off">
+						</div>
+						<label class="col-md-1 control-label">재고</label>
+						<div class="col-md-1">
+							<input type="number" class="form-control inputstyle" name="option_stock" value="0" required="required" autocomplete="off">
+						</div>
+						<label class="col-md-1 control-label">가격</label>
+						<div class="col-md-1">
+							<input type="number" step="1000" class="form-control inputstyle" name="option_price" value="0" required="required" autocomplete="off">
+							
+						</div>
+						<div class="col-md-1">
+							<button type="button" class="removeOpt"><span class="glyphicon glyphicon-minus-sign"></span></button>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-md-2 control-label">옵션명</label>
+						<div class="col-md-4">
+							<input type="text" class="form-control inputstyle" name="option_name" placeholder="옵션명을 입력해주세요." required="required" autocomplete="off">
+						</div>
+						<label class="col-md-1 control-label">재고</label>
+						<div class="col-md-1">
+							<input type="number" class="form-control inputstyle" name="option_stock" value="0" required="required" autocomplete="off">
+						</div>
+						<label class="col-md-1 control-label">가격</label>
+						<div class="col-md-1">
+							<input type="number" step="1000" class="form-control inputstyle" name="option_price" value="0" required="required" autocomplete="off">
+							
+						</div>
+						<div class="col-md-1">
+							<button type="button" class="removeOpt"><span class="glyphicon glyphicon-minus-sign"></span></button>
+						</div>
+					</div>
 				</div>
-				<input type="button" class="btn" id="optplusbtn" value="+" onclick="optionAppend()">
+				<button type="button" class="plusbtn" id="optplusbtn" onclick="optionAppend()"><span class="glyphicon glyphicon-plus"></span></button>
 			</div>
 			
 			<hr>
 			<div class="row tagbox">
 				<div class="ctitle">
-					<h2>해쉬 태그 설정</h2>
+					<h2>Select HashTag</h2>
 				</div>
 				<div class="form-group" id="tagForm">
 					<div class="row" style="margin-left: 0px;">
@@ -392,17 +467,43 @@
 							<input type="text" class="form-control inputstyle" name="list_hash" placeholder="태그를 입력해주세요." required="required" autocomplete="off">
 						</div>
 						<div class="col-md-1">
-							<input type="button" class="btn searchTag" value="검색">
+							<input type="button" class="btn searchTag btn-info" value="검색">
 						</div>
 						<div class="col-md-6 tagdiv"></div>
 					</div>
+					<div class="row" style="margin-left: 0px; margin-top: 20px;">
+						<label class="col-md-2 control-label">태그 설정</label>
+						<div class="col-md-3 hashValue">
+							<input type="text" class="form-control inputstyle" name="list_hash" placeholder="태그를 입력해주세요." required="required" autocomplete="off">
+						</div>
+						<div class="col-md-1">
+							<input type="button" class="btn searchTag btn-info" value="검색">
+						</div>
+						<div class="col-md-1">
+							<button type="button" class="removeOpt"><span class="glyphicon glyphicon-minus-sign"></span></button>
+						</div>
+						<div class="col-md-5 tagdiv"></div>
+					</div>
+					<div class="row" style="margin-left: 0px; margin-top: 20px;">
+						<label class="col-md-2 control-label">태그 설정</label>
+						<div class="col-md-3 hashValue">
+							<input type="text" class="form-control inputstyle" name="list_hash" placeholder="태그를 입력해주세요." required="required" autocomplete="off">
+						</div>
+						<div class="col-md-1">
+							<input type="button" class="btn searchTag btn-info" value="검색">
+						</div>
+						<div class="col-md-1">
+							<button type="button" class="removeOpt"><span class="glyphicon glyphicon-minus-sign"></span></button>
+						</div>
+						<div class="col-md-5 tagdiv"></div>
+					</div>
 				</div>
-				<input type="button" class="btn" id="tagbtn" value="+" onclick="TagAppend()">
+				<button type="button" class="plusbtn" id="tagbtn" onclick="TagAppend()"><span class="glyphicon glyphicon-plus"></span></button>
 			</div>
 			<hr>
 			<div class="row">
 				<div class="ctitle">
-					<h2>이용 동의</h2>
+					<h2>Agreement</h2>
 				</div>
 				<div class="row">
 					<div class="col-md-4">

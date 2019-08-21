@@ -20,21 +20,6 @@ public class FreeboardService {
 		fbMapper.insertData(dto);
 	}
 
-	public List<FreeboardDTO> listService(String category) {
-		
-		List<FreeboardDTO> dto = fbMapper.getList(category);
-		
-		return dto;
-	}
-
-	public List<FreeboardDTO> searchList(String search_type, String search_txt) {
-		Map<String, String> search = new HashMap<>();
-		search.put(search_type, search_txt);
-
-		List<FreeboardDTO> dto = fbMapper.getSearchList(search);
-		return dto;
-	}
-
 	public FreeboardDTO detailService(int freeboard_no) {
 		FreeboardDTO dto = fbMapper.getDetail(freeboard_no);
 		return dto;
@@ -49,12 +34,19 @@ public class FreeboardService {
 	}
 
 	public List<FreeboardDTO> listService(String freeboard_category, String searchType, String searchKeyword) {
-		Map<String, Object> map = new HashMap<>();
-		map.put("freeboard_category", freeboard_category);
-		map.put("searchType", searchType);
-		map.put("searchKeyword", searchKeyword);
-		
-		return fbMapper.getSearchList2(map);
+		if (!(freeboard_category.equals("전체"))) {
+			return fbMapper.getList(freeboard_category);
+		} else {
+			Map<String, Object> map = new HashMap<>();
+			map.put("searchType", searchType);
+			map.put("searchKeyword", searchKeyword);
+
+			return fbMapper.getSearchList(map);
+		}
+	}
+	
+	public void updateHitsService(int freeboard_no) {
+		fbMapper.updateHits(freeboard_no);
 	}
 
 }
