@@ -25,7 +25,7 @@
 		</div>
 		<div class="right">
 			<ul>
-				<li><a href="userInfo">회원 정보 수정</a></li>
+				<li><a href="pWCheck">회원 정보 수정</a></li>
 				<li><a href="buyList">나의 구매 내역</a></li>
 				<li><a href="cQAList">나의 고객 문의</a></li>
 				<li><a href="buyerPQAList">나의 상품 문의</a></li>
