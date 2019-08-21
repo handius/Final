@@ -11,15 +11,13 @@
 <script type="text/javascript"
 	src="//code.jquery.com/jquery-3.4.1.min.js"></script>
 <script>
-	$(document).on('click', '#btnSearch', function(e) {
-		e.preventDefault();
+	function search() {
 		var url = "${pageContext.request.contextPath}/freeboard";
 		url = url + "?searchType=" + $('#searchType').val();
 		url = url + "&searchKeyword=" + $('#searchKeyword').val();
 		location.href = url;
 		console.log(url);
-
-	});
+	}
 </script>
 <body>
 	<a href="freeboard">전체</a>|
@@ -58,7 +56,8 @@
 		<option value="제목">제목</option>
 		<option value="닉네임">닉네임</option>
 	</select>
-	<input type="text" id="searchKeyword" placeholder="검색어를 입력하세요">
-	<button id="btnSearch">검색</button>
+	<input type="text" id="searchKeyword"
+		onKeypress="javascript:if(event.keyCode==13) {search();}">
+	<button id="btnSearch" onclick="search();">검색</button>
 </body>
 </html>
