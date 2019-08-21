@@ -1,5 +1,6 @@
 package com.bitcamp.mapper;
 
+import java.util.List;
 import java.util.Map;
 
 public interface OrderMapper {
@@ -15,5 +16,7 @@ public interface OrderMapper {
 	void updateCall(Map<String, Object> parameters);
 
 	void updateAddress(Map<String, Object> parameters);
+
+	List<String> findImage(int list_no);
 
 }

@@ -21,16 +21,21 @@ public class OrderService {
 	@Autowired
 	OrderMapper mapper;
 
+	public List<String> findImage(int list_no) {
+		// TODO Auto-generated method stub
+		return mapper.findImage(list_no);
+	}
+
 	@Transactional
 	public void buyProduct(int member_no, OrderDTO orderDTO) {
 		List<Integer> order_add_option = orderDTO.getOrder_add_option();
 		List<Integer> order_amount = orderDTO.getOrder_amount();
 		StringBuilder add_option = new StringBuilder();
 		StringBuilder amount = new StringBuilder();
+		List<Integer> list_order_no = orderDTO.getList_order_no();
 		List<Integer> ordermade_no = orderDTO.getOrdermade_no();
+		List<String> order_value = orderDTO.getOrder_value();
 		StringBuilder made_no = new StringBuilder();
-		System.out.println(order_add_option);
-		System.out.println(order_amount);
 		add_option.append("X");
 		amount.append("X");
 		if (order_add_option != null) {
@@ -45,10 +50,10 @@ public class OrderService {
 				}
 			}
 		}
-		if (ordermade_no != null) {
-			for (int i = 0; i < ordermade_no.size(); i++) {
+		if (list_order_no != null) {
+			for (int i = 0; i < list_order_no.size(); i++) {
 				made_no.append(ordermade_no.get(i));
-				if (i < ordermade_no.size() - 1) {
+				if (i < list_order_no.size() - 1) {
 					made_no.append("/");
 				}
 			}
