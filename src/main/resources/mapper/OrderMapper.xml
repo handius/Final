@@ -3,11 +3,19 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bitcamp.mapper.OrderMapper">
+	<select id="findImage" parameterType="int" resultType="String">
+		select
+		list_image_loc from list_image_board where list_no=#{list_no}
+	</select>
 	<insert id="insertOrder" parameterType="java.util.HashMap">
 		insert into
 		order_board(order_no,list_no,member_no,order_price,order_add_option,order_amount,order_date,order_status,ordermade_no)
-		values(order_board_seq.nextval,#{list_no},#{member_no},#{order_price},#{order_add_option},#{order_amount},sysdate,'a',#{ordermade_no,jdbcType=VARCHAR})
+		values(order_board_seq.nextval,#{list_no},#{member_no},#{order_price},#{order_add_option},#{order_amount},sysdate,'배송대기',#{ordermade_no,jdbcType=VARCHAR})
 	</insert>
+	<update id="updateBuy_count" parameterType="int">
+		update list_board set
+		buy_count=buy_count+1 where list_no=#{list_no}
+	</update>
 	<update id="updateOption_stock"
 		parameterType="java.util.HashMap">
 		update list_option_board
@@ -26,15 +34,16 @@
 	<update id="updateCall" parameterType="java.util.HashMap">
 		update member
 		set
-		user_name=#{user_call}
+		user_call=#{user_call}
 		where member_no=#{member_no} and user_call is
 		null
 	</update>
 	<update id="updateAddress" parameterType="java.util.HashMap">
 		update member
 		set
-		user_name=#{user_address}
-		where member_no=#{member_no} and user_address
+		user_address=#{user_address}
+		where member_no=#{member_no} and
+		user_address
 		is null
 	</update>
 </mapper>

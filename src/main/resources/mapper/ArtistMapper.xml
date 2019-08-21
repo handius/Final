@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bitcamp.mapper.ArtistMapper">
+<select id="artistBoardExistenceCheck" parameterType="int" resultType="int">
+	select count(*) from artist_board
+	where member_no = #{member_no}
+</select>
+<select id="artistBoardInsertSeq" resultType="int">
+	select artist_board_seq.nextval from dual
+</select>
+<select id="artistBoardInsert" parameterType="HashMap">
+	insert into artist_board 
+	values(#{artist_no}, #{member_no}, '안녕하세요 저희 페이지에 방문해주셔서 감사합니다.', 'https://upload.wikimedia.org/wikipedia/commons/1/15/Handmade_Gold_Necklace.jpg', 0, 0, 1)
+</select>
+<select id="artistBoardDetailArtistInfo" parameterType="int" resultType="com.bitcamp.DTO.member.MemberDTO">
+	select member.member_no, user_name, user_nick, user_email, user_address
+	from member inner join artist_board
+	on member.member_no = artist_board.member_no
+	where artist_no = #{artist_no};
+</select>
+<select id="artistBoardDetailGet" parameterType="int" resultType="com.bitcamp.DTO.artist.ArtistBoardDTO">
+	select artist_no, member_no, artist_board_title, artist_main_img, artist_count, artist_score, artist_board_status
+	from artist_board
+	where artist_no = #{artist_no}
+</select>
+<update id="artistBoardDetailCountUpdate" parameterType="int">
+	update artist_board set 
+    artist_count = artist_count+1
+    where artist_no = #{artist_no};
+</update>
+</mapper>

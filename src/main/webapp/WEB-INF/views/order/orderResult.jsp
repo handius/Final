@@ -23,6 +23,7 @@ h3, p {
 </style>
 </head>
 <body>
+	<c:set var="orderDTO" value="${sessionScope.orderDTO}" />
 	<div id="wrapper">
 		<div class="progress">
 			<div class="progress-bar progress-bar-striped bg-success"
@@ -36,7 +37,7 @@ h3, p {
 			<h3>주문이 완료되었습니다!</h3>
 			<p>
 				Handius를 이용해 주셔서 감사합니다.<br>주문 내역은 마이 페이지 > 나의 구매 내역에서 확인하실 수
-				있습니다.<br> <a href="../list">목록으로</a>
+				있습니다.<br> <a href="/productDetail/${orderDTO.list_no }">이전 페이지로</a>
 			</p>
 		</div>
 	</div>
