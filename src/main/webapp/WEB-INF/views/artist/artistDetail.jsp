@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -185,7 +186,7 @@
         }
         
         .artistDetailProductCollectionImgBox {
-            padding: 0;
+            padding: 0 !important;
         }
         
         #artistDetailProductCollectionButton, #artistDetailBuyReviewCollectionButton {
@@ -214,7 +215,7 @@
         
         .artistDetailBuyReviewImgBox {
             height: 200px;
-            padding: 0;
+            padding: 0 !important;
         }
         
         .artistDetailBuyReviewImgBox img {
@@ -271,24 +272,151 @@
     </style>
     <script>
     
+    $(document).ready(starScoreCel);
+    $(document).ready(artistDetailBuyReviewList);
+    $(document).ready(artistDetailProductList);
+    
+    $(document).ready(function(){
+    	$('#artistDetailBuyReviewCollectionButton').on('click', artistDetailBuyReviewList);
+    	$('#artistDetailProductCollectionButton').on('click', artistDetailProductList);
+    });
+    
+    function starScoreCel() {
+    	let starScoreNum = Number($('#artistAsideArtistInfoNumScore').text());
+    	let result = "";
+    	let count = Math.round(starScoreNum);
+    	
+    	if(starScoreNum == 0) {
+    		result = "별점이 없습니다."
+    	}
+    	else {
+    		for(let i=1; i<=count; i++) {
+    			if( i == count && count > starScoreNum) {
+    				result += "☆";
+    			}
+    			else {
+    				result += "★";
+    			}
+    		}
+    	}
+    	
+    	$('#artistAsideArtistInfoStarScore').append(result);
+    }
+    
+    function artistDetailProductList() {
+    	let artistNo = Number($('#artist_no').val());
+    	let currentProduct = Number($('#currentProduct').val());
+    	
+    	$.ajax({
+    		url: "/ajaxArtistBoardDetailProductList"
+    		,contentType: "application/json; charset=utf-8"
+    		,data: JSON.stringify({artist_no : artistNo, currentProductInput : currentProduct})
+    		,type: "POST"
+    		,dataType: "json"
+    		,success: function(data) {
+    			console.log('성공');
+    			let result = "";
+    			if(data.length == 0) {
+    				if(currentProduct == 1) {
+    					result += '<div class="col-md-3 col-sm-4 col-xs-6 artistDetailProductCollectionImgBox">';
+    					result += '이미지가 없습니다.';
+    					result += '</div>';
+    				}
+    				$('#artistDetailProductCollectionButton').hide();
+    			}
+    			else {
+    				for(let i=0; i<data.length; i++) {
+    					result += '<div class="col-md-3 col-sm-4 col-xs-6 artistDetailProductCollectionImgBox">';
+    					result += '<a href="../productDetail/'+data[i].list_no+'"><img src="'+data[i].list_image_loc+'" alt="리스트 이미지"></a>';
+    					result += '</div>';
+    				}
+    			}
+    			
+    			$('#artistDetailProductCollection').append(result);
+    			$('#currentProduct').val(currentProduct+1);
+    		}
+    		,error: function(data) {
+    			console.log('실패');
+    		}
+    	});
+    }
+    
+    function artistDetailBuyReviewList() {
+    	let artistNo = Number($('#artist_no').val());
+    	let currentBuyReview = Number($('#currentBuyReview').val());
+    	
+    	$.ajax({
+    		url: "/ajaxArtistDetailBuyReviewList"
+    		,contentType: "application/json; charset=utf-8"
+    		,data: JSON.stringify({artist_no : artistNo, currentBuyReviewInput : currentBuyReview})
+    		,type: "POST"
+    		,dataType: "json"
+    		,success: function(data) {
+    			console.log('성공');
+    			let result = "";
+    			if(data.length == 0) {
+    				if(currentBuyReview == 1) {
+    					result += '<div class="artistDetailBuyReview">';
+        				result += '<div class="col-md-3 artistDetailBuyReviewImgBox"></div>';
+        				result += '<div class="col-md-9 artistDetailBuyReviewProductTitle"></div>';
+        				result += '<div class="col-md-9 artistDetailBuyReviewProductOption"></div>';
+        				result += '<div class="col-md-9 artistDetailBuyReviewContent">구매후기가 없습니다.</div>';
+        				result += '<div class="col-md-4 col-sm-6 col-xs-6 artistDetailBuyReviewStarScore"></div>';
+        				result += '<div class="col-md-5 artistDetailBuyReviewUserName"></div>';
+        				result += '</div>';
+    				}
+    				$('#artistDetailBuyReviewCollectionButton').hide();
+    			}
+    			else {
+    				for(let i=0; i<data.length; i++) {
+    					result += '<div class="artistDetailBuyReview">';
+        				result += '<div class="col-md-3 artistDetailBuyReviewImgBox">';
+        				if(data[i].buy_review_image_loc != null) {
+							result += '<img src="'+data[i].buy_review_image_loc+'" alt="구매후기 이미지">';
+						}
+        				result += '</div>';
+        				result += '<div class="col-md-9 artistDetailBuyReviewProductTitle"><a href="../productDetail/'+data[i].list_no+'">'+data[i].list_title+'</a></div>';
+        				result += '<div class="col-md-9 artistDetailBuyReviewProductOption">'+data[i].order_add_option+'</div>';
+        				result += '<div class="col-md-9 artistDetailBuyReviewContent">'+data[i].buy_review_content+'</div>';
+        				result += '<div class="col-md-4 col-sm-6 col-xs-6 artistDetailBuyReviewStarScore">';
+        				for(let j=1; j<=data[i].buy_review_score; j++) {
+							result += '★';
+						}
+        				result += '</div>';
+        				result += '<div class="col-md-5 artistDetailBuyReviewUserName">'+data[i].user_name+'</div>';
+        				result += '</div>';
+    				}
+    			}
+    			
+    			$('#artistDetailBuyReviewCollection').append(result);
+    			$('#currentBuyReview').val(currentBuyReview+1);
+    		}
+    		,error: function(data) {
+    			console.log('실패');
+    		}
+    	});
+    }
     </script>
 </head>
 <body>
+<!-- 기본 활용 정보 -->
+<input type="hidden" value="${artistBoardDetail.artist_no }" id="artist_no" readonly="readonly">
+<input type="hidden" value="1" id="currentBuyReview" readonly="readonly">
+<input type="hidden" value="1" id="currentProduct" readonly="readonly">
     <div class="container">
         <div class="row">
            <div class="col-md-9" id="artistDetailImgBox">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/1/15/Handmade_Gold_Necklace.jpg" alt="메인이미지">
+                <img src="${artistBoardDetail.artist_main_img }" alt="메인이미지">
            </div>
            <div class="col-md-3" id="artistAsideArtistInfoBox">
                <div id="artistAsideArtistInfoArtistName">
-                   	작가이름
+                   	<c:out value="${artistInfo.user_name }"></c:out>
                </div>
                <div id="artistAsideArtistInfoScore">
-                    <span id="artistAsideArtistInfoStarScore">★★★★☆</span><span id="artistAsideArtistInfoNumScore">4.5</span>
+                    <span id="artistAsideArtistInfoStarScore"></span><span id="artistAsideArtistInfoNumScore">${artistBoardDetail.artist_score }</span>
                </div>
                <div id="artistAsideArtistInfoVisitCount">
-                    <span class="artistLeft">오늘 방문자 수 : </span><span class="artistRight">3</span><br>
-                    <span class="artistLeft">총 방문자 수 : </span><span class="artistRight">45</span>
+                    <span class="artistLeft">총 방문자 수 : </span><span class="artistRight"><c:out value="${artistBoardDetail.artist_count }"></c:out></span>
                </div>
                <div id="artistAsideArtistInfoButton">
                     <button class="btn btn-warning btn-lg btn-block">공유하기</button>
@@ -302,59 +430,17 @@
                 	작가 페이지 설명부분 
                 </div>
                 <div class="artistDetailLine">
-                     판매중인 작품
+                     	판매중인 작품
                 </div>
                 <div id="artistDetailProductCollectionBox">
-                   <div class="row" id="artistDetailProductCollection">
-                        <div class="col-md-3 col-sm-4 col-xs-6 artistDetailProductCollectionImgBox">
-                            <img src="./slide1.jpg" alt="리스트 번호">
-                        </div>
-                        <div class="col-md-3 col-sm-4 col-xs-6 artistDetailProductCollectionImgBox">
-                            <img src="./slide1.jpg" alt="리스트 번호">
-                        </div>
-                        <div class="col-md-3 col-sm-4 col-xs-6 artistDetailProductCollectionImgBox">
-                            <img src="./slide1.jpg" alt="리스트 번호">
-                        </div>
-                        <div class="col-md-3 col-sm-4 col-xs-6 artistDetailProductCollectionImgBox">
-                            <img src="./slide1.jpg" alt="리스트 번호">
-                        </div>
-                        <div class="col-md-3 col-sm-4 col-xs-6 artistDetailProductCollectionImgBox">
-                            <img src="./slide1.jpg" alt="리스트 번호">
-                        </div>
-                        <div class="col-md-3 col-sm-4 col-xs-6 artistDetailProductCollectionImgBox">
-                            <img src="./slide1.jpg" alt="리스트 번호">
-                        </div>
-                        <div class="col-md-3 col-sm-4 col-xs-6 artistDetailProductCollectionImgBox">
-                            <img src="./slide1.jpg" alt="리스트 번호">
-                        </div>
-                        <div class="col-md-3 col-sm-4 col-xs-6 artistDetailProductCollectionImgBox">
-                            <img src="./slide1.jpg" alt="리스트 번호">
-                        </div>
-                   </div>
+                   <div class="row" id="artistDetailProductCollection"></div>
                    <button class="btn btn-default btn-lg btn-block" id="artistDetailProductCollectionButton">더보기</button>
                 </div>
                 <div class="artistDetailLine">
-                     구매후기
+                     	구매후기
                 </div>
                 <div id="artistDetailBuyReviewCollectionBox">
-                    <div id="artistDetailBuyReviewCollection">
-                         <div class="artistDetailBuyReview">
-                             <div class="col-md-3 artistDetailBuyReviewImgBox"><img src="./slide1.jpg" alt="리스트 번호"></div>
-                             <div class="col-md-9 artistDetailBuyReviewProductTitle"><a href="#">상품이름</a></div>
-                             <div class="col-md-9 artistDetailBuyReviewProductOption">상품옵션</div>
-                             <div class="col-md-9 artistDetailBuyReviewContent">후기내용후기내용후기내용후기내용후기내용후기내용후기내용후기내용후기내용후기내용</div>
-                             <div class="col-md-4 col-sm-6 col-xs-6 artistDetailBuyReviewStarScore">★★★★★</div>
-                             <div class="col-md-5 artistDetailBuyReviewUserName">홍길동</div>
-                         </div>
-                         <div class="artistDetailBuyReview">
-                             <div class="col-md-3 artistDetailBuyReviewImgBox"><img src="./slide1.jpg" alt="리스트 번호"></div>
-                             <div class="col-md-9 artistDetailBuyReviewProductTitle"><a href="#">상품이름</a></div>
-                             <div class="col-md-9 artistDetailBuyReviewProductOption">상품옵션</div>
-                             <div class="col-md-9 artistDetailBuyReviewContent">후기내용후기내용후기내용후기내용후기내용후기내용후기내용후기내용후기내용후기내용</div>
-                             <div class="col-md-4 col-sm-6 col-xs-6 artistDetailBuyReviewStarScore">★★★★★</div>
-                             <div class="col-md-5 artistDetailBuyReviewUserName">홍길동</div>
-                         </div>
-                    </div>
+                    <div id="artistDetailBuyReviewCollection"></div>
                     <button class="btn btn-default btn-lg btn-block" id="artistDetailBuyReviewCollectionButton">더보기</button>
                 </div>
             </div>

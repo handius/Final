@@ -18,7 +18,7 @@
 	select member.member_no, user_name, user_nick, user_email, user_address
 	from member inner join artist_board
 	on member.member_no = artist_board.member_no
-	where artist_no = #{artist_no};
+	where artist_no = #{artist_no}
 </select>
 <select id="artistBoardDetailGet" parameterType="int" resultType="com.bitcamp.DTO.artist.ArtistBoardDTO">
 	select artist_no, member_no, artist_board_title, artist_main_img, artist_count, artist_score, artist_board_status
@@ -28,6 +28,33 @@
 <update id="artistBoardDetailCountUpdate" parameterType="int">
 	update artist_board set 
     artist_count = artist_count+1
-    where artist_no = #{artist_no};
+    where artist_no = #{artist_no}
 </update>
+<select id="artistBoardDetailProductListNo" parameterType="HashMap" resultType="int">
+	select list_no
+    from (select rownum as num , list_no
+        from list_board
+        where list_artist = #{user_name} and list_status = 1 and rownum <![CDATA[<]]>= #{end_sql}) 
+    where num <![CDATA[>]]>= #{start_sql}
+</select>
+<select id="artistBoardDetailProductListImg" parameterType="int" resultType="String">
+	select list_image_loc 
+	from list_image_board 
+	where list_no = #{list_no}
+</select>
+<select id="artistBoardDetailBuyReviewList" parameterType="HashMap" resultType="com.bitcamp.DTO.productdetail.BuyReviewDTO">
+	select num, e.*
+    from (select rownum as num ,buy_review_date, buy_review_content, buy_review_image_loc, buy_review_score, buy_review_status ,order_board.list_no, list_title ,order_add_option, user_name
+        from order_board inner join artist_board
+        on order_board.member_no = artist_board.member_no
+        inner join buy_review
+        on order_board.order_no = buy_review.order_no
+        inner join member
+        on order_board.member_no = member.member_no
+        inner join list_board
+        on order_board.list_no = list_board.list_no
+        where artist_no = #{artist_no} and buy_review_status = 1 and rownum <![CDATA[<]]>= #{end_sql}  
+        order by buy_review_date desc) e
+    where num <![CDATA[>]]>= #{start_sql}
+</select>
 </mapper>

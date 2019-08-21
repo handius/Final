@@ -20,6 +20,7 @@ public class BuyReviewDTO {
 	private int member_no;
 	private String user_name;
 	private int list_no;
+	private String list_title;
 	private int start_sql;
 	private int end_sql;
 }
