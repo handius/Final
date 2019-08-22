@@ -34,28 +34,30 @@ public class OrderService {
 		StringBuilder amount = new StringBuilder();
 		List<Integer> list_order_no = orderDTO.getList_order_no();
 		List<Integer> ordermade_no = orderDTO.getOrdermade_no();
-		List<String> order_value = orderDTO.getOrder_value();
 		StringBuilder made_no = new StringBuilder();
 		add_option.append("X");
 		amount.append("X");
 		if (order_add_option != null) {
+			add_option.delete(0, add_option.length());
+			amount.delete(0, amount.length());
 			for (int i = 0; i < order_add_option.size(); i++) {
-				add_option.delete(0, add_option.length());
-				amount.delete(0, amount.length());
 				add_option.append(order_add_option.get(i));
+				add_option.append("/");
 				amount.append(order_amount.get(i));
-				if (i < order_add_option.size() - 1) {
-					add_option.append("/");
-					amount.append("/");
-				}
+				amount.append("/");
+				// if (i < order_add_option.size() - 1) {
+				// add_option.append("/");
+				// amount.append("/");
+				// }
 			}
 		}
 		if (list_order_no != null) {
 			for (int i = 0; i < list_order_no.size(); i++) {
 				made_no.append(ordermade_no.get(i));
-				if (i < list_order_no.size() - 1) {
-					made_no.append("/");
-				}
+				made_no.append("/");
+				// if (i < list_order_no.size() - 1) {
+				// made_no.append("/");
+				// }
 			}
 		}
 
