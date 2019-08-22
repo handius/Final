@@ -349,7 +349,7 @@
 	</div>
 	<hr>
 	<div class="container">
-	<form class="form-horizontal" name="form" role="form" method="post" action="/sell/insertPerfectOrderForm">
+	<form class="form-horizontal" name="form" role="form" method="post" action="/sell/insertOrderMadeForm">
 		<div class="row">
 			<div class="col-md-7 col-xs-12">
 				<div class="ctitle">

@@ -75,4 +75,14 @@
 		where user_id = #{user_id}
 	</update>
 
+	<insert id="insertAuth">
+		insert into authority(member_no, user_auth)
+		values(#{member_no}, #{user_auth})
+	</insert>
+
+	<delete id="deleteAuth">
+		delete from authority where member_no=#{member_no}
+		and user_auth=#{user_auth}
+	</delete>
+
 </mapper>

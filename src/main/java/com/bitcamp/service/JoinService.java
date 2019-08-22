@@ -42,13 +42,14 @@ public class JoinService {
 		System.out.println(user_id + user_password + user_name + user_email + user_address);
 		MemberDTO dto = new MemberDTO();
 		dto.setUser_id(user_id);
-		dto.setUser_password(pwdEncoder.encode(user_password));	//패스워드 인코딩
+		dto.setUser_password(pwdEncoder.encode(user_password)); // 패스워드 인코딩
 		dto.setUser_name(user_name);
 		dto.setUser_email(user_email);
 		dto.setUser_address(user_address);
-
+		dto.setUser_nick(InitUserNick(user_id));
+		
 		String authKey = mailCertDAO.createKey(); // 메일 인증 키 생성
-		dto.setUser_certkey(authKey);	
+		dto.setUser_certkey(authKey);
 
 		joinMapper.userRegister(dto); // 유저 등록
 		int member_no = joinMapper.userSelect(dto.getUser_id());
@@ -82,4 +83,7 @@ public class JoinService {
 		}
 	}
 
+	public String InitUserNick(String user_id) {
+		return user_id.substring(0, 4) + "***";
+	}
 }

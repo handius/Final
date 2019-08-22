@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.bitcamp.DTO.member.AuthorityDTO;
 import com.bitcamp.DTO.member.MemberDTO;
 import com.bitcamp.mapper.MemberMapper;
 
@@ -48,5 +49,15 @@ public class MemberService {
 		System.out.println("새로운 패스워드");
 		System.out.println(newPwd);
 		mem.updatePassword(dto);
+	}
+	
+	public void authInsertService(AuthorityDTO dto) {
+		//dto에 member_no, user_auth set
+		mem.insertAuth(dto);
+	}
+	
+	public void authDeleteService(AuthorityDTO dto) {
+		//dto에 member_no, user_auth set
+		mem.deleteAuth(dto);
 	}
 }

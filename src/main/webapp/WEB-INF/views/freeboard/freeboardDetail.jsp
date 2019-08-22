@@ -11,7 +11,6 @@
 <script>
 	$(document).ready(function() {
 		showReplyList();
-		console.log('showReplyList() 실행');
 	});
 
 	function showHtml(result) {
@@ -19,7 +18,7 @@
 		$.each(result, function(index, item) {
 			html += "<tr align='center'>";
 			html += "<td>" + (index + 1) + "</td>";
-			html += "<td>" + item.member_no + "</td>";
+			html += "<td>" + item.user_nick + "</td>";
 			html += "<td class= 'commentContent"+item.rep_no+"' align='left'>"
 					+ item.rep_content + "</td>";
 			html += "<td>" + item.rep_regiDate;
@@ -66,7 +65,6 @@
 				'rep_no' : rep_no
 			},
 			success : function() {
-				console.log('수정완료');
 				showReplyList();
 			}
 		});
@@ -80,7 +78,6 @@
 				'rep_no' : rep_no
 			},
 			success : function() {
-				console.log('삭제완료');
 				showReplyList();
 			}
 		});
@@ -99,7 +96,6 @@
 			dataType : 'json',
 			success : function(result) {
 				showHtml(result);
-				console.log('실행완료');
 			}
 		});
 
@@ -109,6 +105,7 @@
 
 		var freeboard_no = replyForm.board_no.value;
 		var rep_content = replyForm.replyText.value;
+		var member_no = replyForm.member_no.value;
 
 		if (!rep_content) {
 			alert("내용을 입력하세요.");
@@ -116,7 +113,8 @@
 
 			var paramData = JSON.stringify({
 				"rep_content" : rep_content,
-				"freeboard_no" : freeboard_no
+				"freeboard_no" : freeboard_no,
+				"member_no" : member_no
 			});
 
 			var headers = {
@@ -131,7 +129,6 @@
 				type : 'POST',
 				dataType : 'text',
 				success : function(result) {
-					console.log(result);
 					showReplyList();
 					$('#replyText').val('');
 				},
@@ -174,10 +171,17 @@
 		<p>댓글(${countRep})</p>
 		<div>
 			<form id="replyForm">
-				<input id="board_no" type="hidden" value="${board.freeboard_no}">
-				<textarea id="replyText" name="replyText" rows="2" cols="50"
-					placeholder="댓글을 입력해주세요"></textarea>
-				<br> <a onclick="writeReply()">댓글작성</a>
+				<input id="member_no" type="hidden"
+					value="${sessionScope.member.member_no}"> <input
+					id="board_no" type="hidden" value="${board.freeboard_no}">
+				<table>
+					<tr>
+						<td>${sessionScope.member.user_nick }</td>
+						<td><textarea id="replyText" name="replyText" rows="2"
+								cols="50" placeholder="댓글을 입력해주세요"></textarea></td>
+						<td><a onclick="writeReply()">댓글작성</a></td>
+					</tr>
+				</table>
 			</form>
 		</div>
 		<div id="repList"></div>

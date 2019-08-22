@@ -14,8 +14,7 @@
 		<result property="freeboard_status" column="freeboard_status"></result>
 		<result property="freeboard_category"
 			column="freeboard_category"></result>
-		<result property="member_no" column="member_no"></result>
-		<result property="user_nick" column="user_nick" />
+		<result property="member_no" column="freeboard_member_no"></result>
 	</resultMap>
 
 	<insert id="insertData"
