@@ -34,7 +34,7 @@ public class MyPageController {
 	public String myPage(HttpSession session) {
 		MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
 		if (memberDTO != null) {
-			return "mypage/myPage";
+			return "mypage/myPage.mall";
 		} else {
 			return "redirect:/login";
 		}
@@ -42,14 +42,13 @@ public class MyPageController {
 
 	@RequestMapping("pWCheck")
 	public String pWCheck(HttpSession session) {
-		return "mypage/pWCheck";
+		return "mypage/pWCheck.mall";
 	}
 
 	@RequestMapping("pWCheckResult")
 	public String pWCheckResult(HttpSession session, @RequestParam String password) {
 		MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
 		boolean result = pwdEncoder.matches(password, memberDTO.getUser_password());
-		// boolean result = service.pWCheck(memberDTO.getUser_id(), password);
 		if (result) {
 			return "redirect:/userInfo";
 		} else {
@@ -61,22 +60,25 @@ public class MyPageController {
 	public String userInfo(HttpSession session, Model model) {
 		MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
 		model.addAttribute("memberDTO", memberDTO);
-		return "mypage/userInfo";
+		return "mypage/userInfo.mall";
 	}
 
 	@RequestMapping("userInfoResult")
-	public String userInfoResult(HttpSession session, @RequestParam String password, @RequestParam String name,
-			@RequestParam String nick, @RequestParam String email, @RequestParam String address,
-			@RequestParam String call) {
+	public String userInfoResult(HttpSession session, @RequestParam String password, @RequestParam String user_name,
+			@RequestParam String user_nick, @RequestParam String user_email, @RequestParam String user_address,
+			@RequestParam String user_call) {
 		MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
-		memberDTO.setUser_password(password);
-		memberDTO.setUser_name(name);
-		memberDTO.setUser_nick(nick);
-		memberDTO.setUser_email(email);
-		memberDTO.setUser_address(address);
-		memberDTO.setUser_call(call);
+		memberDTO.setUser_name(user_name);
+		memberDTO.setUser_nick(user_nick);
+		memberDTO.setUser_email(user_email);
+		memberDTO.setUser_address(user_address);
+		memberDTO.setUser_call(user_call);
+		if (password != null) {
+			String newPwd = pwdEncoder.encode(password);
+			service.updateUserPassword(memberDTO.getMember_no(), newPwd);
+		}
 		service.updateUserInfo(memberDTO);
-		return "mypage/userInfoResult";
+		return "redirect:/myPage";
 	}
 
 	@RequestMapping("customerQA")
@@ -97,7 +99,7 @@ public class MyPageController {
 	public String withdraw(HttpSession session) {
 		MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
 		service.withdraw(memberDTO.getUser_id());
-		return "redirect:myPage";
+		return "redirect:login/logout";
 	}
 
 	@RequestMapping("buyList")

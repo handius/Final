@@ -95,7 +95,6 @@ public class OrderService {
 		parameters.put("user_name", user_name);
 		parameters.put("user_call", user_call);
 		parameters.put("user_address", user_address);
-		mapper.updateName(parameters);
 		mapper.updateCall(parameters);
 		mapper.updateAddress(parameters);
 	}
