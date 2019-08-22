@@ -137,7 +137,7 @@
 	</select>
 	
 	<!-- popular product -->
-	<select id="getProductCount" parameterType="String" resultType="int">
+	<select id="getPopularProductCount" parameterType="String" resultType="int">
 		SELECT COUNT(*) FROM LIST_BOARD
 	</select>
 	<select id="getPopularProductList" parameterType="Object" resultType="com.bitcamp.DTO.Product.ListDTO">
@@ -146,9 +146,9 @@
            	  SELECT X.*, ROWNUM AS RNUM
               FROM (
                     SELECT LIST_NO, LIST_ARTIST, LIST_TITLE,
-                    LIST_PRODUCT, LIST_CATEGORY, LIST_CONTENT,
-                    LIST_BASE_PRICE, LIST_DATE, BUY_COUNT,
-                    ISORDERED, ORDERED_CONTENT, LIST_STATUS
+                           LIST_PRODUCT, LIST_CATEGORY, LIST_CONTENT,
+                           LIST_BASE_PRICE, LIST_DATE, BUY_COUNT,
+                           ISORDERED, ORDERED_CONTENT, LIST_STATUS
                     FROM LIST_BOARD
                     WHERE TO_CHAR(LIST_DATE, 'yyyy-MM') = #{tochar}
                     ORDER BY BUY_COUNT DESC, LIST_NO
@@ -162,6 +162,48 @@
 		]]>
 	</select>
 	
+	<!-- main set -->
+	<update id="updateMainImage" parameterType="Object">
+		UPDATE MAIN_IMAGE
+		SET MAIN_IMAGE_PATH = #{main_image_path},
+			MAIN_IMAGE_LINK = #{main_image_link},
+			MAIN_IMAGE_DATE = SYSDATE
+		WHERE MAIN_IMAGE_NO = #{main_image_no}
+	</update>
+	<update id="updateMainImage2" parameterType="Object">
+		UPDATE MAIN_IMAGE
+		SET MAIN_IMAGE_PATH = #{main_image_path},
+			MAIN_IMAGE_LINK = #{main_image_link},
+			MAIN_IMAGE_DATE = SYSDATE
+		WHERE MAIN_IMAGE_NO = 5
+	</update>
+	<select id="getProductCount" parameterType="Object" resultType="int">
+		SELECT COUNT(*)
+		FROM LIST_BOARD
+		<where>
+			<include refid="product_search"></include>
+		</where>
+	</select>
+	<select id="getProductList" parameterType="Object" resultType="com.bitcamp.DTO.Product.ListDTO">
+		SELECT A.RNUM, A.*
+		FROM (
+              SELECT LIST_NO, LIST_ARTIST, LIST_TITLE,
+                     LIST_PRODUCT, LIST_CATEGORY, LIST_CONTENT,
+                     LIST_BASE_PRICE, LIST_DATE, BUY_COUNT,
+                     ISORDERED, ORDERED_CONTENT, LIST_STATUS,
+                     ROWNUM AS RNUM
+              FROM LIST_BOARD
+		      <where>
+		      <![CDATA[
+			  ROWNUM <= #{endrow}
+		      ]]>
+		      <include refid="product_search"></include>
+		      </where>
+		     ) A
+		<![CDATA[
+		WHERE A.RNUM >= #{startrow} 
+		]]>
+	</select>
 	
 	<!-- search -->
   	<sql id="search_where">
@@ -184,6 +226,17 @@
 		</if>
 		<if test="answer_status != null and answer_status != ''">
 			AND ANSWER_STATUS = #{answer_status}
+		</if>
+  	</sql>
+  	<sql id="product_search">
+		<if test="list_category != null and list_category != ''">
+			AND LIST_CATEGORY = #{list_category}
+		</if>
+		<if test="list_product != null and list_product != ''">
+			AND LIST_PRODUCT LIKE '%' || #{list_product} || '%'
+		</if>
+		<if test="list_artist != null and list_artist != ''">
+			AND LIST_ARTIST LIKE '%' || #{list_artist} || '%'
 		</if>
   	</sql>
 </mapper>
