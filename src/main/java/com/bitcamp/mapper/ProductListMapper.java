@@ -31,4 +31,5 @@ public interface ProductListMapper {
 	public Integer getListOrderMember();
 	public List<searchTextDTO> getSearchText();
 	public int insertSearcher(String searchData);
+	public int deleteProduct(int no);
 }

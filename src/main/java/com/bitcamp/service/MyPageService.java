@@ -19,22 +19,17 @@ public class MyPageService {
 	@Autowired
 	MyPageMapper mapper;
 
-	public boolean pWCheck(String user_id, String password) {
-		// TODO Auto-generated method stub
-		Map<String, String> parameters = new HashMap<>();
-		parameters.put("user_id", user_id);
-		parameters.put("password", password);
-		int count = mapper.pWCheck(parameters);
-		boolean result = false;
-		if (count == 1) {
-			result = true;
-		}
-		return result;
-	}
-
 	public void updateUserInfo(MemberDTO memberDTO) {
 		// TODO Auto-generated method stub
 		mapper.updateUserInfo(memberDTO);
+	}
+
+	public void updateUserPassword(int member_no, String newPwd) {
+		// TODO Auto-generated method stub
+		Map<String, Object> parameters = new HashMap<>();
+		parameters.put("member_no", member_no);
+		parameters.put("newPwd", newPwd);
+		mapper.updateUserPassword(parameters);
 	}
 
 	public void insertCQA(int member_no, String question_type, String question_title, String question_content) {
@@ -86,4 +81,5 @@ public class MyPageService {
 		// TODO Auto-generated method stub
 		return mapper.sellerReviewList(user_id);
 	}
+
 }

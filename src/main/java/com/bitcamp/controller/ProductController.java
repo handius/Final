@@ -10,6 +10,10 @@ import java.util.UUID;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -26,6 +30,7 @@ import com.bitcamp.DTO.Product.OrderOptionDTO;
 import com.bitcamp.DTO.Product.OrderValueDTO;
 import com.bitcamp.DTO.Product.searchTextDTO;
 import com.bitcamp.DTO.comm.PageDTO;
+import com.bitcamp.DTO.member.AuthorityDTO;
 import com.bitcamp.DTO.member.MemberDTO;
 import com.bitcamp.VO.file.FileVO;
 import com.bitcamp.service.ProductService;
@@ -43,6 +48,23 @@ public class ProductController {
 	//orderList로 가장 처음 리스트를 표시할 때 들어오는 컨트롤러
 	@RequestMapping(value="/orderList", method= {RequestMethod.POST, RequestMethod.GET})
 	public String listProduct(HttpSession session, @RequestParam(defaultValue="")String searchType, @RequestParam(defaultValue="")String searchData, @RequestParam(defaultValue="1")int currpage, @RequestParam(defaultValue="")List<String> hashTag, @RequestParam(defaultValue="0")int hasStock, @RequestParam(defaultValue="1")int status, @RequestParam(defaultValue="")String order, Model model) {
+		//로그인 멤버 관리자 체크
+		MemberDTO mdto = (MemberDTO)session.getAttribute("member");
+		if(mdto!=null) {
+			List<AuthorityDTO> authList = mdto.getAuthorityList();
+			//임시 관리자 권한 부여
+			AuthorityDTO tempauth = new AuthorityDTO();
+			tempauth.setUser_auth("ROLE_ADMIN");
+			authList.add(tempauth);
+			for(AuthorityDTO auth : authList) {
+				if(auth.getUser_auth().equals("ROLE_ADMIN")) {
+					System.out.println("관리자 권한 설정");
+					model.addAttribute("isAdmin", true);
+					status = 0;
+					break;
+				}
+			}
+		}
 		//임시 파일 삭제
 		String path = session.getServletContext().getRealPath("/resources/image/dimage");
 		service.checkImageValidateService(path);
@@ -70,7 +92,20 @@ public class ProductController {
 	
 	//카테고리 선택시 가져오는 리스트
 	@RequestMapping(value="/orderList/{category}", method= {RequestMethod.POST, RequestMethod.GET})
-	public String listProduct(@RequestParam(defaultValue="")String searchType, @RequestParam(defaultValue="")String searchData, @RequestParam(defaultValue="1")int currpage, @PathVariable(required=false, name="category")String list_category, @RequestParam(defaultValue="")List<String> hashTag, @RequestParam(defaultValue="0")int hasStock, @RequestParam(defaultValue="1")int status, @RequestParam(defaultValue="")String order, Model model) {
+	public String listProduct(HttpSession session, @RequestParam(defaultValue="")String searchType, @RequestParam(defaultValue="")String searchData, @RequestParam(defaultValue="1")int currpage, @PathVariable(required=false, name="category")String list_category, @RequestParam(defaultValue="")List<String> hashTag, @RequestParam(defaultValue="0")int hasStock, @RequestParam(defaultValue="1")int status, @RequestParam(defaultValue="")String order, Model model) {
+		//관리자 여부 확인
+		MemberDTO mdto = (MemberDTO)session.getAttribute("member");
+		if(mdto!=null) {
+			List<AuthorityDTO> authList = mdto.getAuthorityList();
+			for(AuthorityDTO auth : authList) {
+				if(auth.getUser_auth().equals("ROLE_MEMBER")) {
+					//관리자일시 임시 삭제된 파일도 모두 보여줌
+					status = 0;
+					break;
+				}
+			}
+		}
+		//주문제작 품 여부 체크
 		int orders = 3;
 		if(order != null && order != "" && order.length() > 0) {
 			orders = Integer.parseInt(order);
@@ -113,9 +148,16 @@ public class ProductController {
 	//login 확인 후 완제품 페이지로 이동
 	@RequestMapping(value="/sell/insertPerfectOrder", method= {RequestMethod.POST, RequestMethod.GET})
 	public String sellPerfectOrder(HttpSession session) {
+		//유저가 인증된 유저인지 확인
 		MemberDTO dto = (MemberDTO)session.getAttribute("member");
 		if(dto!=null) {
-			return "sell/insertPerfectOrder.mall";
+			List<AuthorityDTO> authList = dto.getAuthorityList();
+			for(AuthorityDTO auth : authList) {
+				if(auth.getUser_auth().equals("ROLE_MEMBER")) {
+					return "sell/insertPerfectOrder.mall";
+				}
+			}	
+			return "redirect:/login";
 		}else {
 			return "redirect:/login";
 		}
@@ -126,7 +168,13 @@ public class ProductController {
 	public String sellOrderMade(HttpSession session) {
 		MemberDTO dto = (MemberDTO)session.getAttribute("member");
 		if(dto!=null) {
-			return "sell/insertOrderMade.mall";
+			List<AuthorityDTO> authList = dto.getAuthorityList();
+			for(AuthorityDTO auth : authList) {
+				if(auth.getUser_auth().equals("ROLE_MEMBER")) {
+					return "sell/insertOrderMade.mall";
+				}
+			}	
+			return "redirect:/login";
 		}else {
 			return "redirect:/login";
 		}
@@ -167,12 +215,19 @@ public class ProductController {
 	//완제품 주문 제작 폼에서 데이터를 받아 데이터 베이스에 저장해줌
 	@RequestMapping(value="*/insertPerfectOrderForm", method= {RequestMethod.POST, RequestMethod.GET})
 	public String insertPerfectOrder(ListDTO dto,HttpSession session){
+		//유저가 인증된 유저인지 확인
 		MemberDTO mdto = (MemberDTO)session.getAttribute("member");
 		if(mdto!=null) {
-			System.out.println(dto);
-			int result = service.insertPerfectOrderDataService(dto, mdto.getUser_id());
-			System.out.println("결과 : " + result);
-			return "redirect:/orderList";
+			List<AuthorityDTO> authList = mdto.getAuthorityList();
+			for(AuthorityDTO auth : authList) {
+				if(auth.getUser_auth().equals("ROLE_MEMBER")) {
+					System.out.println("완제품 제출");
+					int result = service.insertPerfectOrderDataService(dto, mdto.getUser_id());
+					System.out.println("결과 : " + result);
+					return "redirect:/orderList";
+				}
+			}	
+			return "redirect:/login";
 		}else {
 			return "redirect:/login";
 		}
@@ -182,12 +237,19 @@ public class ProductController {
 	//주문제작 폼에서 데이터를 받아 데이터 베이스에 저장해줌
 	@RequestMapping(value="*/insertOrderMadeForm", method= {RequestMethod.POST, RequestMethod.GET})
 	public String insertOrderMade(ListDTO dto, HttpSession session){
+		//유저가 인증된 유저인지 확인
 		MemberDTO mdto = (MemberDTO)session.getAttribute("member");
 		if(mdto!=null) {
-			System.out.println(dto);
-			int result = service.insertOrderMadeDataService(dto, mdto.getUser_id());
-			System.out.println("결과 : " + result);
-			return "redirect:/orderList";
+			List<AuthorityDTO> authList = mdto.getAuthorityList();
+			for(AuthorityDTO auth : authList) {
+				if(auth.getUser_auth().equals("ROLE_MEMBER")) {
+					System.out.println("주문제작 폼 제출");
+					int result = service.insertOrderMadeDataService(dto, mdto.getUser_id());
+					System.out.println("결과 : " + result);
+					return "redirect:/orderList";
+				}
+			}	
+			return "redirect:/login";
 		}else {
 			return "redirect:/login";
 		}
@@ -196,19 +258,26 @@ public class ProductController {
 	//orderList 페이지에서 게시글 클릭시 대상이 주문 제작품이면 사용자 주문 제작 옵션 추가 페이지로, 그렇지 않으면 완제품 페이지 디테일 페이지로 이동
 	@RequestMapping(value="/checkIsOrdered", method= {RequestMethod.POST, RequestMethod.GET})
 	public String checkOrder(HttpSession session, @RequestParam() int no, Model model) {
-		
+		//유저가 인증된 유저인지 확인
 		MemberDTO mdto = (MemberDTO)session.getAttribute("member");
 		ListDTO dto = service.getNoListService(no);			
 		if(dto.getIsordered() == 0) {
 			return "redirect:/productDetail/"+no;
 		}else if(mdto!=null){
-			int member_no = mdto.getMember_no();
-			List<OrderOptionDTO> odto = service.getOrderListService(dto);
-			System.out.println("odto" + odto);
-			model.addAttribute("ListDTO",dto);
-			model.addAttribute("orders", odto);
-			model.addAttribute("member_no", member_no);
-			return "sell/insertOrderOption.mall";
+			List<AuthorityDTO> authList = mdto.getAuthorityList();
+			System.out.println(authList);
+			for(AuthorityDTO auth : authList) {
+				if(auth.getUser_auth().equals("ROLE_MEMBER")) {
+					int member_no = mdto.getMember_no();
+					List<OrderOptionDTO> odto = service.getOrderListService(dto);
+					System.out.println("odto" + odto);
+					model.addAttribute("ListDTO",dto);
+					model.addAttribute("orders", odto);
+					model.addAttribute("member_no", member_no);
+					return "sell/insertOrderOption.mall";
+				}
+			}	
+			return "redirect:/login";
 		}else {
 			return "redirect:/login";
 		}
@@ -308,5 +377,26 @@ public class ProductController {
 	public int insertSearcher(@RequestParam(required=false)String searchData) {
 		System.out.println("data ::" + searchData);
 		return service.insertSearcherService(searchData);
+	}
+	
+	//게시글 삭제 ajax 기능
+	@ResponseBody
+	@RequestMapping(value="/deleteProduct" ,method={RequestMethod.POST, RequestMethod.GET})
+	public int deletePro(@RequestParam(required=true)String obj) {
+		JSONParser parser = new JSONParser();
+		List<Integer> number = new ArrayList<>();
+		try {
+			JSONArray jarray = (JSONArray)parser.parse(obj);
+			for(int i=0; i<jarray.size(); i++) {
+				JSONObject temp = (JSONObject)jarray.get(i);
+				number.add(Integer.parseInt((String)temp.get("number")));
+			}
+			System.out.println(number);
+			return service.deleteProductService(number);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 1;
 	}
 }

@@ -845,8 +845,9 @@
     						}
     					}
      				}
+     				$('#productDetailQandAAjaxResult').val(0);
     				$('#productDetailQandAAjaxResult').append(result);
-    				$('#qa_current_page').val(Number(qaCurrent)+1);
+    				$('#qa_current_page').val(Number(qaCurrent)+3);
     			}
     			,error:function(data){
     				console.log('Q & A 실패');

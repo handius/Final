@@ -75,10 +75,27 @@ public class AdminService {
 	}
 
 	public int getProductCount(String tochar) {
-		return admapper.getProductCount(tochar);
+		return admapper.getPopularProductCount(tochar);
 	}
 
 	public List<ListDTO> getPopularProductList(HashMap<String, Object> search_map) {
 		return admapper.getPopularProductList(search_map);
+	}
+
+	public void updateMainImage(HashMap<String, Object> upload_map) {
+		admapper.updateMainImage(upload_map);
+	}
+
+	public void updateMainImage2(HashMap<String, Object> upload_map) {
+		admapper.updateMainImage2(upload_map);
+		
+	}
+
+	public int getProductCount(HashMap<String, Object> search_map) {
+		return admapper.getProductCount(search_map);
+	}
+
+	public List<ListDTO> getProductList(HashMap<String, Object> search_map) {
+		return admapper.getProductList(search_map);
 	}
 }
