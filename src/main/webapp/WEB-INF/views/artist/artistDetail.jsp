@@ -259,24 +259,32 @@
             }
             
             .artistDetailBuyReview {
+            min-height:200px;
             height: 100%;
-        }
+        	}
             
             .artistDetailBuyReviewImgBox {
+            min-height: 200px;
             height: 100%;
             }
             
             .artistDetailBuyReviewImgBox img {
+            min-height: 200px;
             height: 100%;
             }
         }
     </style>
     <script>
-
+    
     $(document).ready(starScoreCel);
     $(document).ready(artistDetailBuyReviewList);
     $(document).ready(artistDetailProductList);
     $(document).ready(artistDetailRepList);
+    $(document).ready(function(){
+    	let currentHeight = $("#artistAsideRepContentBox")[0].scrollHeight;
+    	console.log(currentHeight);
+    	$('#artistAsideRepContentBox').animate({scrollTop : currentHeight}, 400);
+    });
     
     $(document).ready(function(){
     	$('#artistDetailBuyReviewCollectionButton').on('click', artistDetailBuyReviewList);
@@ -302,7 +310,6 @@
     			}
     		}
     	}
-    	
     	$('#artistAsideArtistInfoStarScore').append(result);
     }
     
@@ -430,6 +437,10 @@
         			$('#currentRep').val(1);
         			$('#artistAsideRepContent').empty();
         			artistDetailRepList();
+        			if(data == '로그인부터 해주시기바랍니다.') {
+        				console.log('hi');
+        				location.href = 'http://localhost:8080/login';
+        			}
         		}
         		,error: function(data) {
         			console.log('실패')
@@ -470,19 +481,26 @@
         			$('#artistAsideRepContent').prepend(result);
         			$('#currentRep').val(currentRep+1);
         		}
+        		else {
+        			repScrollPrevent = false;
+        		}
         	}
         	,error: function(data) {
         		console.log('실패')
         	}
     	});
     }
-    
+	let repScrollPrevent = true;
     function repScroll(){
         var divBox = $("#artistAsideRepContentBox");
-        let test = $('.artistAsideRepContentUser').offset();
-        console.log(test);
-        if(divBox.scrollTop() == 0) {
+        
+        if(divBox.scrollTop() == 0 && repScrollPrevent == true) {     	
         	artistDetailRepList();
+        	let result = '<input type="hidden" id="tmpBox">'
+        	$('#artistAsideRepContent').prepend(result);
+        	let offset = $('#artistAsideRepContent').offset();
+        	$('#artistAsideRepContentBox').animate({scrollTop : offset.top}, 400);
+        	$('#tmpBox').remove();
         }
 	}
 

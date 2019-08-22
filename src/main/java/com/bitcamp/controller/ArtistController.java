@@ -57,7 +57,7 @@ public class ArtistController {
 	@ResponseBody
 	@RequestMapping(value="/ajaxArtistDetailRepInsert", produces="application/text; charset=utf-8")
 	public String ajaxArtistDetailRepInsert(@RequestBody Map<String, String> map, HttpSession session) {
-		String resultMessage = "로그인부터 하세요";
+		String resultMessage = "로그인부터 해주시기바랍니다.";
 		Object obj = session.getAttribute("member");
 		
 		if(obj != null) {
