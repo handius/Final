@@ -30,6 +30,11 @@
     artist_count = artist_count+1
     where artist_no = #{artist_no}
 </update>
+<select id="artistBoardDetailProductListMaxCount" parameterType="String" resultType="int">
+	select count(*)
+	from list_board
+	where list_status = 1 and list_artist = #{value}
+</select>
 <select id="artistBoardDetailProductListNo" parameterType="HashMap" resultType="int">
 	select list_no
     from (select rownum as num , list_no
@@ -41,6 +46,16 @@
 	select list_image_loc 
 	from list_image_board 
 	where list_no = #{list_no}
+</select>
+<select id="artistBoardDetailBuyReviewListMaxCount" parameterType="int" resultType="int">
+	select count(*)
+	from order_board inner join artist_board
+	on order_board.member_no = artist_board.member_no
+	inner join buy_review
+	on order_board.order_no = buy_review.order_no
+	inner join member
+	on order_board.member_no = member.member_no
+	where artist_no = #{artist_no} and buy_review_status = 1
 </select>
 <select id="artistBoardDetailBuyReviewList" parameterType="HashMap" resultType="com.bitcamp.DTO.productdetail.BuyReviewDTO">
 	select num, e.*
@@ -55,6 +70,33 @@
         on order_board.list_no = list_board.list_no
         where artist_no = #{artist_no} and buy_review_status = 1 and rownum <![CDATA[<]]>= #{end_sql}  
         order by buy_review_date desc) e
+    where num <![CDATA[>]]>= #{start_sql}
+</select>
+<select id="artistRepInsertSeq" resultType="int">
+	select artist_rep_seq.nextval from dual
+</select>
+<insert id="artistRepInsert" parameterType="com.bitcamp.DTO.artist.ArtistRepDTO">
+	insert into artist_rep(artist_rep_no, artist_no, member_no, artist_rep_content, artist_rep_date)
+	 values(#{artist_rep_no}, #{artist_no}, #{member_no}, #{artist_rep_content}, sysdate)
+</insert>
+<select id="artistRepInsertCheck" parameterType="int" resultType="int">
+	select count(*) from artist_rep
+	where artist_rep_no = #{artist_rep_no}
+</select>
+<select id="artistRepListMaxCount" parameterType="int" resultType="int">
+	select count(*)
+	from artist_rep
+	where artist_no = #{artist_no}
+</select>
+<select id="artistRepList" parameterType="HashMap" resultType="com.bitcamp.DTO.artist.ArtistRepDTO">
+	select num, e.* 
+	from (select rownum as num, e2.*
+   		from (select artist_rep_no, artist_rep.member_no, artist_rep_content, artist_rep_date, user_name
+            from artist_rep inner join member
+            on artist_rep.member_no = member.member_no
+            where artist_no = #{artist_no}
+            order by artist_rep_date desc) e2
+        where rownum <![CDATA[<]]>= #{end_sql}) e
     where num <![CDATA[>]]>= #{start_sql}
 </select>
 </mapper>
