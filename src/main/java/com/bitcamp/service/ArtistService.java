@@ -10,8 +10,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bitcamp.DTO.Product.ListDTO;
+import com.bitcamp.DTO.artist.ArtistBoardProductListDTO;
+import com.bitcamp.DTO.artist.ArtistRepDTO;
 import com.bitcamp.DTO.member.MemberDTO;
 import com.bitcamp.DTO.productdetail.BuyReviewDTO;
+import com.bitcamp.comm.ScrollCalculation;
 import com.bitcamp.mapper.ArtistMapper;
 
 @Service
@@ -57,26 +60,87 @@ public class ArtistService {
 		return insertResultMessage;
 	}
 	
-	public List<Map<String, Object>> artistBoardDetailProductListService(HashMap<String, Object> map) {
+	@Transactional
+	public Map<String, Object> artistBoardDetailProductListService(Map<String, Integer> map) {
 		int artist_no = (int) map.get("artist_no");
-		MemberDTO memberdto = mapper.artistBoardDetailArtistInfo(artist_no);
-//		map.put("user_name", memberdto.getUser_name());
-		map.put("user_name", "Min"); //임시 User_name 
+		int currentPage = (int) map.get("currentProductInput");
 		
-		List<Map<String, Object>> listinput = new ArrayList<>();
-		List<Integer> listNum = mapper.artistBoardDetailProductListNo(map);
-		for(int i=0; i<listNum.size(); i++) {
-			Map<String, Object> listMap = new HashMap<>();
-			List<String> listImg = mapper.artistBoardDetailProductListImg(listNum.get(i));
-			listMap.put("list_no", listNum.get(i));
-			listMap.put("list_image_loc", listImg.get(0));
-			listinput.add(listMap);
+		MemberDTO memberdto = mapper.artistBoardDetailArtistInfo(artist_no);
+//		String user_name = memberdto.getUser_name();
+		String user_name = "Min"; //임시 유저 이름
+		int maxCount = mapper.artistBoardDetailProductListMaxCount(user_name);
+		ScrollCalculation scroll = new ScrollCalculation(currentPage, 8, maxCount);
+		
+		HashMap<String, Object> productList = new HashMap<>();
+		productList.put("user_name", user_name);
+		productList.put("start_sql", scroll.getStartSql());
+		productList.put("end_sql", scroll.getEndSql());
+		productList.put("max_sql", maxCount);
+		List<ArtistBoardProductListDTO> artistProductList = new ArrayList<>();
+		
+		if(scroll.isActive()) {
+			List<Integer> listNum = mapper.artistBoardDetailProductListNo(productList);
+			for(int i=0; i<listNum.size(); i++) {
+				ArtistBoardProductListDTO listDto = new ArtistBoardProductListDTO();
+				List<String> listImg = mapper.artistBoardDetailProductListImg(listNum.get(i));
+				listDto.setList_no(listNum.get(i));
+				listDto.setList_image_loc(listImg.get(0));
+				artistProductList.add(listDto);
+			}
 		}
-		return listinput;
+		
+		productList.put("productList", artistProductList);
+		
+		return productList;
 	}
 	
-	public List<BuyReviewDTO> artistBoardDetailBuyReviewList(HashMap<String, Object> map) {
-		return mapper.artistBoardDetailBuyReviewList(map);
+	@Transactional
+	public Map<String, Object> artistBoardDetailBuyReviewListService(Map<String, Integer> map) {
+		int artist_no = map.get("artist_no");
+		int maxCount = mapper.artistBoardDetailBuyReviewListMaxCount(artist_no);
+		int currentPage = map.get("currentBuyReviewInput");
+		
+		ScrollCalculation scroll = new ScrollCalculation(currentPage, 5, maxCount);	
+		List<BuyReviewDTO> list = new ArrayList<>();
+		if(scroll.isActive()) {
+			HashMap<String, Object> hashmap = new HashMap<>();
+			hashmap.put("artist_no", map.get("artist_no"));
+			hashmap.put("start_sql", scroll.startSql);
+			hashmap.put("end_sql", scroll.endSql);
+			list = mapper.artistBoardDetailBuyReviewList(hashmap);
+		}
+		
+		Map<String, Object> hashmap = new HashMap<>();
+		hashmap.put("end_sql", scroll.endSql);
+		hashmap.put("max_sql", maxCount);
+		hashmap.put("list", list);
+		return hashmap;
+	}
+	
+	@Transactional
+	public int artistBoardDetailRepInsertService(ArtistRepDTO dto) {
+		int artist_rep_no = mapper.artistRepInsertSeq();
+		dto.setArtist_rep_no(artist_rep_no);
+		mapper.artistRepInsert(dto);
+		return mapper.artistRepInsertCheck(artist_rep_no); 
+	}
+	
+	public List<ArtistRepDTO> artistBoardDetailRepListService(Map<String, Integer> map) {
+		int artist_no = map.get("artist_no");
+		int currentPage = map.get("currentRepInput");
+		int maxSql = mapper.artistRepListMaxCount(artist_no);
+		ScrollCalculation scroll = new ScrollCalculation(currentPage, 15, maxSql);
+		
+		List<ArtistRepDTO> replist = new ArrayList<>();
+		if(scroll.isActive()) {
+			HashMap<String, Integer> hashmap = new HashMap<>();
+			hashmap.put("artist_no", artist_no);
+			hashmap.put("start_sql", scroll.startSql);
+			hashmap.put("end_sql", scroll.endSql);
+			replist = mapper.artistRepList(hashmap);
+		}
+		System.out.println("작동됨");
+		return replist;
 	}
 	
 }

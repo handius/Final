@@ -109,6 +109,7 @@
         #artistAsideRepContentBox {
             height: 600px;
             padding: 0 20px;
+            overflow: auto;
         }
         
         #artistAsideRepContent {
@@ -271,14 +272,16 @@
         }
     </style>
     <script>
-    
+
     $(document).ready(starScoreCel);
     $(document).ready(artistDetailBuyReviewList);
     $(document).ready(artistDetailProductList);
+    $(document).ready(artistDetailRepList);
     
     $(document).ready(function(){
     	$('#artistDetailBuyReviewCollectionButton').on('click', artistDetailBuyReviewList);
     	$('#artistDetailProductCollectionButton').on('click', artistDetailProductList);
+    	$('#artistAsideRepButton').on('click', artistDetailRepInsert);
     });
     
     function starScoreCel() {
@@ -316,6 +319,9 @@
     		,success: function(data) {
     			console.log('성공');
     			let result = "";
+    			let productList = data.productList;
+    			let max_sql = data.max_sql;
+    			let end_sql = data.end_sql;
     			if(data.length == 0) {
     				if(currentProduct == 1) {
     					result += '<div class="col-md-3 col-sm-4 col-xs-6 artistDetailProductCollectionImgBox">';
@@ -325,10 +331,13 @@
     				$('#artistDetailProductCollectionButton').hide();
     			}
     			else {
-    				for(let i=0; i<data.length; i++) {
+    				for(let i=0; i<productList.length; i++) {
     					result += '<div class="col-md-3 col-sm-4 col-xs-6 artistDetailProductCollectionImgBox">';
-    					result += '<a href="../productDetail/'+data[i].list_no+'"><img src="'+data[i].list_image_loc+'" alt="리스트 이미지"></a>';
+    					result += '<a href="../productDetail/'+productList[i].list_no+'"><img src="'+productList[i].list_image_loc+'" alt="리스트 이미지"></a>';
     					result += '</div>';
+    				}
+    				if(end_sql >= max_sql) {
+    					$('#artistDetailProductCollectionButton').hide();
     				}
     			}
     			
@@ -342,7 +351,7 @@
     }
     
     function artistDetailBuyReviewList() {
-    	let artistNo = Number($('#artist_no').val());
+    	let artistNo = $('#artist_no').val();
     	let currentBuyReview = Number($('#currentBuyReview').val());
     	
     	$.ajax({
@@ -354,7 +363,10 @@
     		,success: function(data) {
     			console.log('성공');
     			let result = "";
-    			if(data.length == 0) {
+    			let list = data.list;
+    			let max_sql = data.max_sql;
+    			let end_sql = data.end_sql;
+    			if(list.length == 0) {
     				if(currentBuyReview == 1) {
     					result += '<div class="artistDetailBuyReview">';
         				result += '<div class="col-md-3 artistDetailBuyReviewImgBox"></div>';
@@ -368,23 +380,26 @@
     				$('#artistDetailBuyReviewCollectionButton').hide();
     			}
     			else {
-    				for(let i=0; i<data.length; i++) {
+    				for(let i=0; i<list.length; i++) {
     					result += '<div class="artistDetailBuyReview">';
         				result += '<div class="col-md-3 artistDetailBuyReviewImgBox">';
-        				if(data[i].buy_review_image_loc != null) {
-							result += '<img src="'+data[i].buy_review_image_loc+'" alt="구매후기 이미지">';
+        				if(list[i].buy_review_image_loc != null) {
+							result += '<img src="'+list[i].buy_review_image_loc+'" alt="구매후기 이미지">';
 						}
         				result += '</div>';
-        				result += '<div class="col-md-9 artistDetailBuyReviewProductTitle"><a href="../productDetail/'+data[i].list_no+'">'+data[i].list_title+'</a></div>';
-        				result += '<div class="col-md-9 artistDetailBuyReviewProductOption">'+data[i].order_add_option+'</div>';
-        				result += '<div class="col-md-9 artistDetailBuyReviewContent">'+data[i].buy_review_content+'</div>';
+        				result += '<div class="col-md-9 artistDetailBuyReviewProductTitle"><a href="../productDetail/'+list[i].list_no+'">'+list[i].list_title+'</a></div>';
+        				result += '<div class="col-md-9 artistDetailBuyReviewProductOption">'+list[i].order_add_option+'</div>';
+        				result += '<div class="col-md-9 artistDetailBuyReviewContent">'+list[i].buy_review_content+'</div>';
         				result += '<div class="col-md-4 col-sm-6 col-xs-6 artistDetailBuyReviewStarScore">';
-        				for(let j=1; j<=data[i].buy_review_score; j++) {
+        				for(let j=1; j<=list[i].buy_review_score; j++) {
 							result += '★';
 						}
         				result += '</div>';
-        				result += '<div class="col-md-5 artistDetailBuyReviewUserName">'+data[i].user_name+'</div>';
+        				result += '<div class="col-md-5 artistDetailBuyReviewUserName">'+list[i].user_name+'</div>';
         				result += '</div>';
+    				}
+    				if(end_sql >= max_sql) {
+    					$('#artistDetailBuyReviewCollectionButton').hide();
     				}
     			}
     			
@@ -396,6 +411,81 @@
     		}
     	});
     }
+    
+    function artistDetailRepInsert() {
+    	let artistNo = $('#artist_no').val();
+    	let artistRepContent = $('#artistAsideRepInput').val();
+    	
+    	if(artistRepContent != null && artistRepContent != "") {
+    		$.ajax({
+    			url: "/ajaxArtistDetailRepInsert"
+        		,contentType: "application/json; charset=utf-8"
+        		,data: JSON.stringify({artist_no : artistNo, artist_rep_content : artistRepContent})
+        		,type: "POST"
+        		,dataType: "text"
+        		,success: function(data) {
+        			console.log('성공');
+        			alert(data);
+        			$('#artistAsideRepInput').val("");
+        			$('#currentRep').val(1);
+        			$('#artistAsideRepContent').empty();
+        			artistDetailRepList();
+        		}
+        		,error: function(data) {
+        			console.log('실패')
+        		}
+    		});
+    	}
+    }
+    
+    function artistDetailRepList() {
+    	let artistNo = $('#artist_no').val();
+    	let currentRep = Number($('#currentRep').val());
+    	let artistName = $('#artistAsideArtistInfoArtistName').text().trim();
+    	
+    	$.ajax({
+    		url: "/ajaxArtistBoardDetailRepList"
+        	,contentType: "application/json; charset=utf-8"
+        	,data: JSON.stringify({artist_no : artistNo, currentRepInput : currentRep})
+        	,type: "POST"
+        	,dataType: "json"
+        	,success: function(data) {
+        		console.log('성공');
+        		let result = "";
+        		if(data.length != 0) {
+        			for(let i=data.length-1; i>=0; i--) {
+        				if(data[i].user_name == artistName) {
+        					result += '<li class="artistAsideRepContentArtist">';
+                			result += '<div class="artistAsideRepUserName">'+data[i].user_name+'</div>';
+                			result += '<div class="artistAsideRepUserContent">'+data[i].artist_rep_content+'</div>';
+                			result += '</li>';
+        				}
+        				else {
+        					result += '<li class="artistAsideRepContentUser">';
+                			result += '<div class="artistAsideRepUserName">'+data[i].user_name+'</div>';
+                			result += '<div class="artistAsideRepUserContent">'+data[i].artist_rep_content+'</div>';
+                			result += '</li>';
+        				}
+        			}
+        			$('#artistAsideRepContent').prepend(result);
+        			$('#currentRep').val(currentRep+1);
+        		}
+        	}
+        	,error: function(data) {
+        		console.log('실패')
+        	}
+    	});
+    }
+    
+    function repScroll(){
+        var divBox = $("#artistAsideRepContentBox");
+        let test = $('.artistAsideRepContentUser').offset();
+        console.log(test);
+        if(divBox.scrollTop() == 0) {
+        	artistDetailRepList();
+        }
+	}
+
     </script>
 </head>
 <body>
@@ -403,6 +493,7 @@
 <input type="hidden" value="${artistBoardDetail.artist_no }" id="artist_no" readonly="readonly">
 <input type="hidden" value="1" id="currentBuyReview" readonly="readonly">
 <input type="hidden" value="1" id="currentProduct" readonly="readonly">
+<input type="hidden" value="1" id="currentRep" readonly="readonly">
     <div class="container">
         <div class="row">
            <div class="col-md-9" id="artistDetailImgBox">
@@ -446,32 +537,11 @@
             </div>
             <div class="col-md-3" id="artistAsideRepBox">
                 <div id="artistAsideRepTitle">작가에게 하고 싶은 말</div>
-                <div id="artistAsideRepContentBox">
-                     <ul id="artistAsideRepContent">
-                         <li class="artistAsideRepContentUser">
-                             <div class="artistAsideRepUserName">홍길동</div>
-                             <div class="artistAsideRepUserContent">안녕하세요요요요요요요요요요요요요요요요요요요요요요요요</div>
-                         </li>
-                         <li class="artistAsideRepContentUser">
-                             <div class="artistAsideRepUserName">홍길동</div>
-                             <div class="artistAsideRepUserContent">안녕하세요!</div>
-                         </li>
-                         <li class="artistAsideRepContentUser">
-                             <div class="artistAsideRepUserName">홍길동</div>
-                             <div class="artistAsideRepUserContent">안녕하세요!</div>
-                         </li>
-                         <li class="artistAsideRepContentArtist">
-                             <div class="artistAsideRepUserName">작가</div>
-                             <div class="artistAsideRepUserContent">현재시각은 3시 56분 입니다. 벌써 시간이 이렇게...</div>
-                         </li>
-                         <li class="artistAsideRepContentUser">
-                             <div class="artistAsideRepUserName">홍길동</div>
-                             <div class="artistAsideRepUserContent">안녕하세요!</div>
-                         </li>
-                     </ul>
+                <div id="artistAsideRepContentBox" onscroll="repScroll()">
+                	<ul id="artistAsideRepContent"></ul>
                 </div>
                 <div id="artistAsideRepInputBox">
-                    <input type="text" class="form-control" id="artistAsideRepInput">
+                    <input type="text" class="form-control" id="artistAsideRepInput" maxlength="30" required="required">
                     <button class="btn btn-default" id="artistAsideRepButton">전송</button>
                 </div>
             </div>
