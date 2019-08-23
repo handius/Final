@@ -1,5 +1,6 @@
 package com.bitcamp.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,7 +50,44 @@ public class MyPageService {
 
 	public List<OrderDTO> buyList(int member_no) {
 		// TODO Auto-generated method stub
-		return mapper.buyList(member_no);
+		List<OrderDTO> buyList = mapper.buyList(member_no);
+		for (int i = 0; i < buyList.size(); i++) {
+			String list_title = mapper.buyListList_title(buyList.get(i).getList_no());
+			buyList.get(i).setList_title(list_title);
+			Map<String, Object> results = mapper.buyListOption(buyList.get(i).getOrder_no());
+			String order_add_option = (String) results.get("ORDER_ADD_OPTION");
+			String order_amount = (String) results.get("ORDER_AMOUNT");
+			String ordermade_no = (String) results.get("ORDERMADE_NO");
+			List<Integer> order_add_option_list = new ArrayList<>();
+			List<Integer> order_amount_list = new ArrayList<>();
+			List<Integer> ordermade_no_list = new ArrayList<>();
+			List<String> option_name_list = new ArrayList<>();
+			if (order_add_option.contains("/")) {
+				String[] order_add_option_array = order_add_option.split("/");
+				String[] order_amount_array = order_amount.split("/");
+				for (int j = 0; j < order_add_option_array.length; j++) {
+					order_add_option_list.add(Integer.parseInt(order_add_option_array[j]));
+					order_amount_list.add(Integer.parseInt(order_amount_array[j]));
+				}
+				buyList.get(i).setOrder_add_option(order_add_option_list);
+				buyList.get(i).setOrder_amount(order_amount_list);
+			}
+			if (ordermade_no != null) {
+				if (ordermade_no.contains("/")) {
+					String[] ordermade_no_array = ordermade_no.split("/");
+					for (int j = 0; j < ordermade_no_array.length; j++) {
+						ordermade_no_list.add(Integer.parseInt(ordermade_no_array[j]));
+					}
+					buyList.get(i).setOrdermade_no(ordermade_no_list);
+				}
+			}
+			for (int j = 0; j < order_add_option_list.size(); j++) {
+				String option_name = mapper.buyListOption_name(order_add_option_list.get(j));
+				option_name_list.add(option_name);
+			}
+			buyList.get(i).setOption_name(option_name_list);
+		}
+		return buyList;
 	}
 
 	public List<CustomerQABoardDTO> cQAList(int member_no) {

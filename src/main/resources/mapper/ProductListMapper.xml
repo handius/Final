@@ -32,7 +32,10 @@
 				<if test="hasStock != 0">
 					AND lob.option_stock != 0
 				</if>
-				<if test="status != 0">
+				<if test="status == 0">
+					AND lb.list_status in (0, 1)
+				</if>
+				<if test="status == 1">
 					AND lb.list_status = 1
 				</if>
 				<if test="isordered == 0">

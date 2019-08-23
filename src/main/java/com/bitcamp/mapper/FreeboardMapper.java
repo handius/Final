@@ -1,5 +1,6 @@
 package com.bitcamp.mapper;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -9,16 +10,16 @@ public interface FreeboardMapper {
 
 	public void insertData(FreeboardDTO dto);
 
-	public List<FreeboardDTO> getList(String category);
-
 	public FreeboardDTO getDetail(int freeboard_no);
 
 	public void modifyData(FreeboardDTO dto);
 
 	public void deleteData(int freeboard_no);
 
-	public List<FreeboardDTO> getSearchList(Map<String, Object> search);
+	public List<FreeboardDTO> getSearchList(HashMap<String, Object> listMap);
 	
 	public void updateHits(int freeboard_no);
+
+	public int getListCount(HashMap<String, Object> listMap);
 
 }

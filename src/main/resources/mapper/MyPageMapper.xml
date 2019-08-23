@@ -35,7 +35,23 @@
 	<select id="buyList" parameterType="int"
 		resultType="com.bitcamp.DTO.order.OrderDTO">
 		select * from
-		order_board where member_no=#{member_no}
+		order_board where member_no=#{member_no} order
+		by order_date desc
+	</select>
+	<select id="buyListList_title" parameterType="int"
+		resultType="String">
+		select list_title from list_board where list_no=#{list_no}
+	</select>
+	<select id="buyListOption" parameterType="int"
+		resultType="java.util.HashMap">
+		select order_add_option, order_amount, ordermade_no from
+		order_board where
+		order_no=#{order_no}
+	</select>
+	<select id="buyListOption_name" parameterType="int"
+		resultType="String">
+		select option_name from list_option_board where
+		option_no=#{option_no}
 	</select>
 	<select id="cQAList" parameterType="int"
 		resultType="com.bitcamp.DTO.customerqaboard.CustomerQABoardDTO">

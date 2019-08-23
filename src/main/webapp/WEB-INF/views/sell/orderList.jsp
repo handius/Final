@@ -164,11 +164,21 @@
 		width: 100%;
 		text-align: center;
 	}
+	#deletebtn{
+		text-align: right;
+		padding : 20px;
+		padding-right: 10%;
+		padding-top: 0px;
+	}
+	
 	.bul li a{
 		font-size: 1.2em;
 		font-weight: 800 !important;
 		display: inline-block;
 		padding: 10px !important;
+	}
+	.captionSelector + .caption{
+		background-color: #fcf8e3;
 	}
 	@media(max-width:769px){
 		
@@ -232,10 +242,6 @@
 			error:function(request,status,error) { 
 			    alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error); 
 			}
-
-
-			
-
 		})
 		console.log(deleteFiles);
 		console.log("삭제 실행");
@@ -384,6 +390,9 @@
 			      			<c:forEach var="image" items="${item.list_image_loc }" end="1">
 			      				<a href="/checkIsOrdered?no=${item.list_no} "><img src="${image }" alt="이미지가 없습니다."></a>
 			      			</c:forEach>
+			      			<c:if test="${item.list_status eq 0 }">
+			      				<div class="captionSelector"></div>
+			      			</c:if>
 			          		<div class="caption">
 			          			<c:if test="${item.isordered eq 1 }">
 			          				<h4><a href="/checkIsOrdered?no=${item.list_no} ">[주문제작]${item.list_title }</a></h4>
@@ -398,6 +407,10 @@
 			          			<c:if test="${isAdmin }">
 									<input type="checkbox" value="${item.list_no }" class="removeCheck">
 								</c:if>
+								<c:if test="${item.list_status eq 0 }">
+									<div><span>유저가 이미 삭제한 게시글입니다.</span></div>
+								</c:if>
+								
 			      			</div>
 			      		</div>
 			   		</div>
@@ -431,9 +444,9 @@
 					<li><a href="?currpage=${PageDTO.endblock+1}&<%=hashTagValues %>hasStock=${Stock}&searchType=${Type}&searchData=${Data}&order=${Order}">▶</a></li> 
 				</c:if>
 			</ul>
-			<div>
+			<div id="deletebtn">
 				<c:if test="${isAdmin }">
-					<button type="button" class="btn btn-default" onclick="onDelete()">게시글 삭제</button>
+					<button type="button" class="btn btn-success" onclick="onDelete()">게시글 삭제</button>
 				</c:if>
 			</div>
 		</div>

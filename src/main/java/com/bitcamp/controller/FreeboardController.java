@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.bitcamp.DTO.comm.PageDTO;
 import com.bitcamp.DTO.freeboard.FreeboardDTO;
 import com.bitcamp.DTO.member.MemberDTO;
 import com.bitcamp.service.FreeboardRepService;
@@ -30,15 +31,35 @@ public class FreeboardController {
 	private FreeboardRepService replySerivce;
 
 	// @PreAuthorize("hasRole('ROLE_MEMBER')")
-	@RequestMapping("/freeboard")
+	@RequestMapping(value="/freeboard")
 	public String freeboardList(
 			@RequestParam(value = "category", required = false, defaultValue = "전체") String freeboard_category,
 			@RequestParam(value = "searchType", required = false, defaultValue = "") String searchType,
 			@RequestParam(value = "searchKeyword", required = false, defaultValue = "") String searchKeyword,
-			Model model, Principal prin, Authentication auth) {
+			@RequestParam(required = false) String curr, Model model, Principal prin, Authentication auth) {
 
-		List<FreeboardDTO> list = fbservice.listService(freeboard_category, searchType, searchKeyword);
+		// 검색, 리스트출력
+		HashMap<String, Object> listMap = new HashMap<>();
+		listMap.put("freeboard_category", freeboard_category);
+		listMap.put("searchType", searchType);
+		listMap.put("searchKeyword", searchKeyword);
+
+		// 페이징
+		int totalCount = fbservice.getListCountService(listMap);
+		int currpage = 1;
+		if (curr != null)
+			currpage = Integer.parseInt(curr);
+		int pagepercount = 10;
+		int blockSize = 10;
+
+		PageDTO page = new PageDTO(currpage, totalCount, pagepercount, blockSize);
+		listMap.put("startrow", page.getStartrow());
+		listMap.put("endrow", page.getEndrow());
+
+		List<FreeboardDTO> list = fbservice.listService(listMap);
+
 		model.addAttribute("list", list);
+		model.addAttribute("paging", page);
 
 		return "freeboard/freeboardList.mall";
 	}
@@ -61,7 +82,7 @@ public class FreeboardController {
 
 		HttpSession session = request.getSession();
 		MemberDTO dto = (MemberDTO) session.getAttribute("member");
-		
+
 		return "freeboard/freeboardWriteform.mall";
 	}
 
@@ -112,4 +133,5 @@ public class FreeboardController {
 
 		return "redirect:/freeboard/detail?no=" + freeboard_no;
 	}
+
 }
