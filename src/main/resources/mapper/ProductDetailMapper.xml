@@ -7,7 +7,7 @@
 	select list_no, list_artist, list_title, list_product, list_content
 	, list_base_price, list_date, isordered, ordered_content
 	from list_board 
-	where list_no = #{list_no} and list_status = 1
+	where list_no = #{list_no}
 </select>
 <select id="productDetailImgGet" parameterType="int" resultType="String">
 	select list_image_loc 

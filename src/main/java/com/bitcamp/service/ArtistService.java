@@ -124,7 +124,7 @@ public class ArtistService {
 		return mapper.artistRepInsertCheck(artist_rep_no); 
 	}
 	
-	public List<ArtistRepDTO> artistBoardDetailRepListService(Map<String, Integer> map) {
+	public Map<String, Object> artistBoardDetailRepListService(Map<String, Integer> map) {
 		int artist_no = map.get("artist_no");
 		int currentPage = map.get("currentRepInput");
 		int maxSql = mapper.artistRepListMaxCount(artist_no);
@@ -138,8 +138,13 @@ public class ArtistService {
 			hashmap.put("end_sql", scroll.endSql);
 			replist = mapper.artistRepList(hashmap);
 		}
-		System.out.println("작동됨");
-		return replist;
+		
+		Map<String, Object> resultMap = new HashMap<>();
+		resultMap.put("replist", replist);
+		resultMap.put("end_sql", scroll.endSql);
+		resultMap.put("max_sql", maxSql);
+
+		return resultMap;
 	}
 	
 }

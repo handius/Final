@@ -27,6 +27,7 @@ public class ProductDetailService {
 	public Map<String, Object> productDetailService(int list_no) {
 		Map<String, Object> map = new HashMap<>();
 		ListDTO listdto = mapper.productDetailGet(list_no);
+		System.out.println(listdto); //
 		List<ProductDetailOptionListDTO> optionList = mapper.productDetailOptionGet(list_no);
 
 		// 옵션의 재고가 0일때 해당 재고 이름을 재고 없음으로 표시
