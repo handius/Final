@@ -15,6 +15,9 @@
 
     <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    
+    <!-- 클립 보드 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js"></script>
     <style>
         a:visited,
         a:active,
@@ -252,6 +255,49 @@
             font-size: 20px;
         }
         
+        /* 모달창 */
+        #myModalLabel {
+            text-align: center;
+            font-size: 25px;
+        }
+        
+        #donationList {
+            list-style: none;
+            padding: 0 20px;
+        }
+        
+        #donationList li {
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+        
+        #donationList li label {
+            font-size: 20px;
+            padding-left: 10px;
+        }
+        
+        #donationList li input {
+            margin-left: 10px;
+        }
+        
+        .donationIcon {
+            font-size: 20px;
+        }
+        
+        .donationPrice {
+            float: right;
+            font-size: 20px;
+        }
+        
+        .modal-dialog {
+            max-width: 400px;
+        }
+        
+        .donationButton {
+            width: 49%;
+            display: inline-block;
+        }
+        
         @media (max-width: 1091px) {
             #artistDetailBox {
                 padding: 30px 0;
@@ -290,6 +336,7 @@
     	$('#artistDetailBuyReviewCollectionButton').on('click', artistDetailBuyReviewList);
     	$('#artistDetailProductCollectionButton').on('click', artistDetailProductList);
     	$('#artistAsideRepButton').on('click', artistDetailRepInsert);
+    	$('#artistDetailUrlCoppy').on('click', artistDetailUrlCoppy);
     });
     
     function starScoreCel() {
@@ -463,20 +510,27 @@
         	,success: function(data) {
         		console.log('성공');
         		let result = "";
-        		if(data.length != 0) {
-        			for(let i=data.length-1; i>=0; i--) {
-        				if(data[i].user_name == artistName) {
+        		let replist = data.replist;
+        		let end_sql = data.end_sql;
+        		let max_sql = data.max_sql;
+        		console.log(replist[0].user_name);
+        		if(replist.length != 0) {
+        			for(let i=replist.length-1; i>=0; i--) {
+        				if(replist[i].user_name == artistName) {
         					result += '<li class="artistAsideRepContentArtist">';
-                			result += '<div class="artistAsideRepUserName">'+data[i].user_name+'</div>';
-                			result += '<div class="artistAsideRepUserContent">'+data[i].artist_rep_content+'</div>';
+                			result += '<div class="artistAsideRepUserName">'+replist[i].user_name+'</div>';
+                			result += '<div class="artistAsideRepUserContent">'+replist[i].artist_rep_content+'</div>';
                 			result += '</li>';
         				}
         				else {
         					result += '<li class="artistAsideRepContentUser">';
-                			result += '<div class="artistAsideRepUserName">'+data[i].user_name+'</div>';
-                			result += '<div class="artistAsideRepUserContent">'+data[i].artist_rep_content+'</div>';
+                			result += '<div class="artistAsideRepUserName">'+replist[i].user_name+'</div>';
+                			result += '<div class="artistAsideRepUserContent">'+replist[i].artist_rep_content+'</div>';
                 			result += '</li>';
         				}
+        			}
+        			if(end_sql == max_sql) {
+        				repScrollPrevent = false;
         			}
         			$('#artistAsideRepContent').prepend(result);
         			$('#currentRep').val(currentRep+1);
@@ -490,6 +544,7 @@
         	}
     	});
     }
+    
 	let repScrollPrevent = true;
     function repScroll(){
         var divBox = $("#artistAsideRepContentBox");
@@ -503,6 +558,18 @@
         	$('#tmpBox').remove();
         }
 	}
+    
+    function artistDetailUrlCoppy()
+    {
+    	$('body').append('<input type="text" value="" id="urlcoppy" class="" readonly="readonly">');
+    	var urlcoppy = document.getElementById("urlcoppy");
+    	urlcoppy.value = window.document.location.href;  
+    	urlcoppy.select();  
+    	document.execCommand("copy");
+    	urlcoppy.blur();
+    	$('#urlcoppy').remove();
+    	alert("URL이 클립보드에 복사되었습니다"); 
+    }
 
     </script>
 </head>
@@ -515,11 +582,12 @@
     <div class="container">
         <div class="row">
            <div class="col-md-9" id="artistDetailImgBox">
-                <img src="${artistBoardDetail.artist_main_img }" alt="메인이미지">
+                <img src="${artistBoardDetail.artist_main_img }" alt="메인이미지" id="artistDetailTitleImg">
            </div>
            <div class="col-md-3" id="artistAsideArtistInfoBox">
                <div id="artistAsideArtistInfoArtistName">
                    	<c:out value="${artistInfo.user_name }"></c:out>
+                   	<button class="btn btn-default" id="artistDetailModifyPage">작가페이지 수정</button>
                </div>
                <div id="artistAsideArtistInfoScore">
                     <span id="artistAsideArtistInfoStarScore"></span><span id="artistAsideArtistInfoNumScore">${artistBoardDetail.artist_score }</span>
@@ -528,15 +596,15 @@
                     <span class="artistLeft">총 방문자 수 : </span><span class="artistRight"><c:out value="${artistBoardDetail.artist_count }"></c:out></span>
                </div>
                <div id="artistAsideArtistInfoButton">
-                    <button class="btn btn-warning btn-lg btn-block">공유하기</button>
-                    <button class="btn btn-info btn-lg btn-block">후원하기</button>
+                    <button class="btn btn-warning btn-lg btn-block" id="artistDetailUrlCoppy">공유하기</button>
+                    <button class="btn btn-info btn-lg btn-block" data-toggle="modal" data-target="#myModal">후원하기</button>
                </div>
            </div>
         </div>
         <div class="row">
             <div class="col-md-9" id="artistDetailBox">
                 <div id="artistDetailTitleBox">
-                	작가 페이지 설명부분 
+                	<c:out value="${artistBoardDetail.artist_board_title }"></c:out> 
                 </div>
                 <div class="artistDetailLine">
                      	판매중인 작품
@@ -564,6 +632,44 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  			<div class="modal-dialog">
+    			<div class="modal-content">
+      				<div class="modal-header">
+        				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        				<h4 class="modal-title" id="myModalLabel">후원하기</h4>
+      				</div>
+      				<div class="modal-body">
+          				<form method="post" action="list.do">
+             				<ul id="donationList">
+                				<li>
+                    				<span class="glyphicon glyphicon-cutlery donationIcon"></span>
+                     				<label for="dinner">식사</label>
+                     				<input type="radio" name="donation" value="6000" id="dinner">
+                     				<span class="donationPrice">6000원</span>
+                 				</li>
+                 				<li>
+                     				<span class="glyphicon glyphicon-film donationIcon"></span>
+                     				<label for="cake">영화</label>
+                     				<input type="radio" name="donation" value="12000">
+                     				<span class="donationPrice">12000원</span>
+                 				</li>
+                  				<li>
+                     				<span class="glyphicon glyphicon-glass donationIcon"></span>
+                     				<label for="coffee">와인</label>
+                     				<input type="radio" name="donation" value="20000" id="coffee">
+                     				<span class="donationPrice">20000원</span>
+                 				</li>
+             				</ul>
+             				<input type="submit" value="후원" class="btn btn-info donationButton">
+             				<input type="reset" value="닫기" class="btn btn-default donationButton" data-dismiss="modal">
+          				</form>
+      				</div>
+      				<div class="modal-footer">
+      				</div>
+    			</div> <!-- 모달 콘텐츠 -->
+  			</div> <!-- 모달 다이얼로그 -->
+		</div> <!-- 모달 전체 윈도우 -->
     </div>
 </body>
 </html>
