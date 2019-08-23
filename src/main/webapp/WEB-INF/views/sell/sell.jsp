@@ -30,6 +30,7 @@
 	}
 	.order h2{
 		margin-bottom: 50px;
+		font-weight: 550;
 	}
 	#orderMade{
 		display: inline-block;
