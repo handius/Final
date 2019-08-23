@@ -28,6 +28,12 @@
     .admin_content p {
         margin-bottom: 30px;
     }
+    .product_delete_span {
+    	margin-right: 20px;
+    }
+    .product_delete_span_xbutton {
+    	cursor: pointer;
+    }
     
     /**/
     .admin_content {
@@ -138,7 +144,8 @@
               <div class="form-group">
                 <label class="col-sm-1 control-label" for="main_view_name">전시명</label>
                 <div class="col-sm-5">
-                    <input class="form-control" type="text" name="main_view_name" id="main_view_name" placeholder="이름을 입력하세요.">
+                    <input class="form-control" type="text" name="main_view_name" id="main_view_name" placeholder="이름을 입력하세요."
+                           required="required">
                 </div>
               </div>
               <div class="form-group">
@@ -147,12 +154,16 @@
                     <button class="btn btn-default main_view_product" name="main_view_product" id="template2" value="2"
                             data-toggle="modal" data-target="#myModal">작품선택</button>
                 </div>
+                
       			<!-- 작품명 들어올 곳 -->
       			<div id="template1_append"></div>
+      			
+      			<!-- main_view_no -->
+      			<input type="hidden" name="main_view_no" value="2">
               </div>
               <div class="form-group member_search_btn">
                  <div class="col-sm-1 col-sm-offset-1">
-                   <button class="btn btn-default btn-block" id="template2-btn">저장</button>
+                   <button class="btn btn-default btn-block productsubmitbutton" id="template2-btn">저장</button>
                  </div>
               </div>
             </form>
@@ -205,7 +216,8 @@
               <div class="form-group">
                 <label class="col-sm-1 control-label" for="main_view_name">전시명</label>
                 <div class="col-sm-5">
-                    <input class="form-control" type="text" name="main_view_name" id="main_view_name" placeholder="이름을 입력하세요.">
+                    <input class="form-control" type="text" name="main_view_name" id="main_view_name" placeholder="이름을 입력하세요."
+                           required="required">
                 </div>
               </div>
               <div class="form-group">
@@ -214,11 +226,17 @@
                     <button class="btn btn-default main_view_product" name="main_view_product" id="template4" value="4"
                             data-toggle="modal" data-target="#myModal">작품선택</button>
                 </div>
-      			<!-- 작품명 들어올 곳 -->
+                
+      			<!-- 작품명, hidden값 들어올 곳 -->
+      			<div id="template2_append"></div>
+      			
+      			<!-- main_view_no -->
+      			<input type="hidden" name="main_view_no" value="4">
+      			
               </div>
               <div class="form-group member_search_btn">
                  <div class="col-sm-1 col-sm-offset-1">
-                   <button class="btn btn-default btn-block" id="template2-btn">저장</button>
+                   <button class="btn btn-default btn-block productsubmitbutton" id="template2-btn">저장</button>
                  </div>
               </div>
             </form>
@@ -242,7 +260,8 @@
               <div class="form-group">
                 <label class="col-sm-1 control-label" for="main_view_name">전시명</label>
                 <div class="col-sm-5">
-                    <input class="form-control" type="text" name="main_view_name" id="main_view_name" placeholder="이름을 입력하세요.">
+                    <input class="form-control" type="text" name="main_view_name" id="main_view_name" placeholder="이름을 입력하세요."
+                           required="required">
                 </div>
               </div>
               <div class="form-group">
@@ -251,11 +270,17 @@
                     <button class="btn btn-default main_view_product" name="main_view_product" id="template5" value="5"
                             data-toggle="modal" data-target="#myModal">작품선택</button>
                 </div>
+                
       			<!-- 작품명 들어올 곳 -->
+      			<div id="template3_append"></div>
+      			
+      			<!-- main_view_no -->
+      			<input type="hidden" name="main_view_no" value="5">
+      			
               </div>
               <div class="form-group member_search_btn">
                  <div class="col-sm-1 col-sm-offset-1">
-                   <button class="btn btn-default btn-block" id="template2-btn">저장</button>
+                   <button class="btn btn-default btn-block productsubmitbutton" id="template2-btn">저장</button>
                  </div>
               </div>
             </form>
@@ -282,6 +307,15 @@
   </div>
   
 <script>
+	$('.productsubmitbutton').click(function() {
+		alert("템플릿 설정이 완료되었습니다.");
+	});
+
+	$(document).on("click", ".product_delete_span_xbutton", function() {
+		$(this).parents('span').next().remove();
+		$(this).parents('span').remove();
+	});
+	
 	//작품검색
 	$('#template2').on("click", function() {
 	 	$.ajax({

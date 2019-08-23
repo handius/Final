@@ -52,15 +52,13 @@ public class ProductController {
 		MemberDTO mdto = (MemberDTO)session.getAttribute("member");
 		if(mdto!=null) {
 			List<AuthorityDTO> authList = mdto.getAuthorityList();
-			//임시 관리자 권한 부여
-			AuthorityDTO tempauth = new AuthorityDTO();
-			tempauth.setUser_auth("ROLE_ADMIN");
-			authList.add(tempauth);
+			System.out.println(authList);
 			for(AuthorityDTO auth : authList) {
 				if(auth.getUser_auth().equals("ROLE_ADMIN")) {
 					System.out.println("관리자 권한 설정");
 					model.addAttribute("isAdmin", true);
 					status = 0;
+					System.out.println("status :: "+status);
 					break;
 				}
 			}
@@ -82,6 +80,7 @@ public class ProductController {
 		PageDTO dto = new PageDTO(currpage, totalCount, pagePerCount, blockSize);
 		//리스트와 해쉬 리스트 가져오기
 		List<ListDTO> list = service.getListService(searchType, searchData, dto, list_category, hashTag, hasStock, status, orders);
+		System.out.println("출력 리스트 목록 :: "+list);
 		List<String> hashList = service.getHashService(20);
 		//게시글, 해쉬 리스트 model 속성으로 전달
 		model.addAttribute("list", list);
@@ -97,10 +96,13 @@ public class ProductController {
 		MemberDTO mdto = (MemberDTO)session.getAttribute("member");
 		if(mdto!=null) {
 			List<AuthorityDTO> authList = mdto.getAuthorityList();
+			System.out.println(authList);
 			for(AuthorityDTO auth : authList) {
-				if(auth.getUser_auth().equals("ROLE_MEMBER")) {
-					//관리자일시 임시 삭제된 파일도 모두 보여줌
+				if(auth.getUser_auth().equals("ROLE_ADMIN")) {
+					System.out.println("관리자 권한 설정");
+					model.addAttribute("isAdmin", true);
 					status = 0;
+					System.out.println("status :: "+status);
 					break;
 				}
 			}
@@ -117,6 +119,7 @@ public class ProductController {
 		PageDTO dto = new PageDTO(currpage, totalCount, pagePerCount, blockSize);
 		//카테고리 포함해서 리스트와 해쉬 리스트 선택
 		List<ListDTO> list = service.getListService(searchType, searchData, dto, list_category, hashTag, hasStock, status, orders);
+		System.out.println("출력 리스트 목록 :: "+list);
 		List<String> hashList = service.getHashService(20);
 		model.addAttribute("list", list);
 		model.addAttribute("PageDTO", dto);
@@ -153,11 +156,11 @@ public class ProductController {
 		if(dto!=null) {
 			List<AuthorityDTO> authList = dto.getAuthorityList();
 			for(AuthorityDTO auth : authList) {
-				if(auth.getUser_auth().equals("ROLE_MEMBER")) {
+				if(auth.getUser_auth().equals("ROLE_SELLER")) {
 					return "sell/insertPerfectOrder.mall";
 				}
 			}	
-			return "redirect:/login";
+			return "sell/needSeller.mall";
 		}else {
 			return "redirect:/login";
 		}
@@ -170,11 +173,11 @@ public class ProductController {
 		if(dto!=null) {
 			List<AuthorityDTO> authList = dto.getAuthorityList();
 			for(AuthorityDTO auth : authList) {
-				if(auth.getUser_auth().equals("ROLE_MEMBER")) {
+				if(auth.getUser_auth().equals("ROLE_SELLER")) {
 					return "sell/insertOrderMade.mall";
 				}
 			}	
-			return "redirect:/login";
+			return "sell/needSeller.mall";
 		}else {
 			return "redirect:/login";
 		}

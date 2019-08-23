@@ -135,6 +135,7 @@
 				<span class="categoryfontcolor"><sec:authentication property="principal.member.user_id"/>님, 환영합니다!</span>
 				<a class="categoryfontcolor" href="/myPage">마이페이지</a>
 				<a class="categoryfontcolor" href="/login/logout">로그아웃</a>
+				<a class="categoryfontcolor" href="/sell">판매하기</a>
 			</sec:authorize>
                 <a class="categoryfontcolor" id="searchcategoryhover" href="#"><span class="glyphicon glyphicon-search"></span></a>
             </div>

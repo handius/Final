@@ -1,11 +1,11 @@
 package com.bitcamp.controller;
 
-import java.util.HashMap;
-import java.util.List;
+import java.io.File;
+import java.io.IOException;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
-import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,12 +13,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
-import com.bitcamp.DTO.Product.ListDTO;
 import com.bitcamp.DTO.artist.ArtistRepDTO;
 import com.bitcamp.DTO.member.MemberDTO;
-import com.bitcamp.DTO.productdetail.BuyReviewDTO;
+import com.bitcamp.VO.file.FileVO;
 import com.bitcamp.service.ArtistService;
 
 @Controller
@@ -84,7 +85,31 @@ public class ArtistController {
 	
 	@ResponseBody
 	@RequestMapping("/ajaxArtistBoardDetailRepList")
-	public List<ArtistRepDTO> ajaxArtistBoardDetailRepList(@RequestBody Map<String, Integer> map) {
+	public Map<String, Object> ajaxArtistBoardDetailRepList(@RequestBody Map<String, Integer> map) {
 		return service.artistBoardDetailRepListService(map);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/ajaxArtistDetailModifyImgUpload", method= {RequestMethod.POST})
+	public FileVO ajaxArtistDetailModifyImgUpload(HttpSession session, MultipartFile[] uploadFile) {
+		System.out.println("작동됨");
+		FileVO filevo = new FileVO();
+		
+		if(uploadFile.length != 0) {
+			String buyReviewImgFolder = session.getServletContext().getRealPath("/resources/image/artistTitleImg");
+			UUID uuid = UUID.randomUUID();
+			String fileName = uuid.toString() + "-" + uploadFile[0].getOriginalFilename();
+			filevo.setFileName(fileName);
+			filevo.setUploadPath(buyReviewImgFolder);
+			filevo.setUuid(uuid.toString());
+			try {
+				File file = new File(buyReviewImgFolder, fileName);
+				uploadFile[0].transferTo(file);
+			}
+			catch(IOException e) {
+				System.out.println(e);
+			}
+		}
+		return filevo;
 	}
 }

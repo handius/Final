@@ -3,6 +3,10 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bitcamp.mapper.MyPageMapper">
+	<select id="findList_title" parameterType="int"
+		resultType="String">
+		select list_title from list_board where list_no=#{list_no}
+	</select>
 	<update id="updateUserInfo"
 		parameterType="com.bitcamp.DTO.member.MemberDTO">
 		update member set
@@ -35,17 +39,30 @@
 	<select id="buyList" parameterType="int"
 		resultType="com.bitcamp.DTO.order.OrderDTO">
 		select * from
-		order_board where member_no=#{member_no}
+		order_board where member_no=#{member_no} order
+		by order_date desc
+	</select>
+	<select id="buyListOption" parameterType="int"
+		resultType="java.util.HashMap">
+		select order_add_option, order_amount, ordermade_no from
+		order_board where
+		order_no=#{order_no}
+	</select>
+	<select id="buyListOption_name" parameterType="int"
+		resultType="String">
+		select option_name from list_option_board where
+		option_no=#{option_no}
 	</select>
 	<select id="cQAList" parameterType="int"
 		resultType="com.bitcamp.DTO.customerqaboard.CustomerQABoardDTO">
 		select * from customer_qa_board where
 		member_no=#{member_no}
 	</select>
-	<select id="buyerPQAList" parameterType="int"
+	<select id="buyerPQList" parameterType="int"
 		resultType="com.bitcamp.DTO.productdetail.QABoardDTO">
 		select * from qa_board where member_no=#{member_no}
 	</select>
+
 	<select id="buyerReviewList" parameterType="int"
 		resultType="com.bitcamp.DTO.productdetail.BuyReviewDTO">
 		select * from order_board ob inner join buy_review br on
