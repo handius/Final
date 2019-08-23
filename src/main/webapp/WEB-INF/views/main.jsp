@@ -20,9 +20,9 @@
         height: 620px !important;
     }
     .mainsettemplate {
-        font-family: 'Comfortaa', cursive;
+        font-family: 'Comfortaa', '맑은 고딕', cursive;
         color: #7C7877;
-        height: 600px;
+        height: 620px;
         width: 1140px;
         margin: auto;
         margin-top: 20px;
@@ -60,6 +60,13 @@
         color: #7C7877;
         cursor: pointer;
     }
+    .showmoreproduct {
+    	margin: 40px;
+    	text-align: center;
+    }
+    .showmoreproduct > h4 > a {
+    	color: #7C7877;
+    }
 </style>
 </head>
 <body>
@@ -74,87 +81,81 @@
 
   <!-- Wrapper for slides -->
   <div class="carousel-inner" role="listbox">
-    <div class="item active">
-      <img src="/resources/image/1.jpg" alt="1">
-    </div>
-
-    <div class="item">
-      <img src="/resources/image/2.jpg" alt="2">
-    </div>
-
-    <div class="item">
-      <img src="/resources/image/3.jpg" alt="3">
-    </div>
-
-    <div class="item">
-      <img src="/resources/image/4.jpg" alt="4">
-    </div>
+  <c:forEach var="i" items="${mainimglist }" varStatus="status">
+    <c:if test="${i.main_view_no == 1 }">
+      <c:if test="${status.count == 1 }">
+      	<div class="item active">
+      	  <a href="${i.main_image_link }"><img src="${i.main_image_path }" alt="${status.count }"></a>
+    	</div>
+      </c:if>
+      <c:if test="${status.count != 1 }">
+      	<div class="item">
+      	  <a href="${i.main_image_link }"><img src="${i.main_image_path }" alt="${status.count }"></a>
+    	</div>
+      </c:if>
+    </c:if>
+  </c:forEach>
   </div>
 </div>
 
 <div class="mainsettemplate">
-    <div class="maintemplatetitle">Second</div>
-        <div class="row">
-         <div class="col-md-4">
-          <img class="mainproductslide" src="/resources/image/color1.jpg" alt="1">
-          <div class="mainproductname"><h4>product1</h4></div>
-          <div class="mainproductname">product price & content</div>
-         </div>
-         <div class="col-md-4">
-          <img class="mainproductslide" src="/resources/image/color2.jpg" alt="2">
-          <div class="mainproductname"><h4>product2</h4></div>
-          <div class="mainproductname">product price & content</div>
-         </div>
-         <div class="col-md-4">
-          <img class="mainproductslide" src="/resources/image/color3.jpg" alt="3">
-          <div class="mainproductname"><h4>product3</h4></div>
-          <div class="mainproductname">product price & content</div>
-         </div>
-        </div>
-    </div>
+  <c:forEach var="i" items="${mainviewlist }">
+    <c:if test="${i.main_view_no == 2 && i.main_view_use == 1 }">
+      <div class="maintemplatetitle">${i.main_view_name }</div>
+	    <div class="row">
+          <c:forEach var="i" items="${product1 }">
+	         <div class="col-md-4">
+	          <a href="/productDetail/${i.list_no }"><img class="mainproductslide" src="${i.list_image_loc }" alt="${i }"></a>
+	          <div class="mainproductname"><h4>${i.list_title }</h4></div>
+	          <div class="mainproductname">${i.list_base_price }￦</div>
+	         </div>
+          </c:forEach>
+	    </div>
+    </c:if>
+  </c:forEach>
+  <div class="showmoreproduct"><h4><a href="/orderList?order=0">More + </a></h4></div>
+</div>
 
 <div class="mainimgtemplate">
-      <img src="/resources/image/2.jpg" alt="2">
+  <c:forEach var="i" items="${mainimglist }">
+    <c:if test="${i.main_view_no == 3}">
+      <img src="${i.main_image_path }" alt="2">
+    </c:if>
+  </c:forEach>
 </div>
 <div class="mainsettemplate">
-    <div class="maintemplatetitle">fourth</div>
-        <div class="row">
-         <div class="col-md-4">
-          <img class="mainproductslide" src="/resources/image/color1.jpg" alt="1">
-          <div class="mainproductname"><h4>product1</h4></div>
-          <div class="mainproductname">product price & content</div>
-         </div>
-         <div class="col-md-4">
-          <img class="mainproductslide" src="/resources/image/color2.jpg" alt="2">
-          <div class="mainproductname"><h4>product2</h4></div>
-          <div class="mainproductname">product price & content</div>
-         </div>
-         <div class="col-md-4">
-          <img class="mainproductslide" src="/resources/image/color3.jpg" alt="3">
-          <div class="mainproductname"><h4>product3</h4></div>
-          <div class="mainproductname">product price & content</div>
-         </div>
-        </div>
+  <c:forEach var="i" items="${mainviewlist }">
+    <c:if test="${i.main_view_no == 4 && i.main_view_use == 1 }">
+      <div class="maintemplatetitle">${i.main_view_name }</div>
+	    <div class="row">
+          <c:forEach var="i" items="${product2 }">
+	         <div class="col-md-4">
+	          <a href="/productDetail/${i.list_no }"><img class="mainproductslide" src="${i.list_image_loc }" alt="${i }"></a>
+	          <div class="mainproductname"><h4>${i.list_title }</h4></div>
+	          <div class="mainproductname">${i.list_base_price }￦</div>
+	         </div>
+          </c:forEach>
+	    </div>
+    </c:if>
+  </c:forEach>
+  <div class="showmoreproduct"><h4><a href="/orderList?order=0">More + </a></h4></div>
 </div>
 <div class="mainsettemplate">
-    <div class="maintemplatetitle">Fifth</div>
-        <div class="row">
-         <div class="col-md-4">
-          <img class="mainproductslide" src="/resources/image/color1.jpg" alt="1">
-          <div class="mainproductname"><h4>product1</h4></div>
-          <div class="mainproductname">product price & content</div>
-         </div>
-         <div class="col-md-4">
-          <img class="mainproductslide" src="/resources/image/color2.jpg" alt="2">
-          <div class="mainproductname"><h4>product2</h4></div>
-          <div class="mainproductname">product price & content</div>
-         </div>
-         <div class="col-md-4">
-          <img class="mainproductslide" src="/resources/image/color3.jpg" alt="3">
-          <div class="mainproductname"><h4>product3</h4></div>
-          <div class="mainproductname">product price & content</div>
-         </div>
-        </div>
+  <c:forEach var="i" items="${mainviewlist }">
+    <c:if test="${i.main_view_no == 5 && i.main_view_use == 1 }">
+      <div class="maintemplatetitle">${i.main_view_name }</div>
+	    <div class="row">
+          <c:forEach var="i" items="${product3 }">
+	         <div class="col-md-4">
+	          <a href="/productDetail/${i.list_no }"><img class="mainproductslide" src="${i.list_image_loc }" alt="${i }"></a>
+	          <div class="mainproductname"><h4>${i.list_title }</h4></div>
+	          <div class="mainproductname">${i.list_base_price }￦</div>
+	         </div>
+          </c:forEach>
+	    </div>
+    </c:if>
+  </c:forEach>
+  <div class="showmoreproduct"><h4><a href="/orderList?order=0">More + </a></h4></div>
 </div>
     <div class="gotopicon">
         <span class="glyphicon glyphicon-chevron-up"></span>

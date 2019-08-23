@@ -12,16 +12,18 @@
 	<beans:bean id="bcryptPasswordEncoder"
 		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></beans:bean>
 
-	<http>
+	<http entry-point-ref="InterceptFailure">
 		<intercept-url pattern="/**" access="permitAll" />
 		<csrf disabled="true" />
 		<form-login login-page="/login/loginform"
 			default-target-url="/login/loginResult"
-			authentication-failure-forward-url="/login?error" />
+			authentication-failure-handler-ref="loginFailureHandler" />
 		<logout logout-success-url="/logout" />
 		<access-denied-handler
 			error-page="/access_denied_page" />
 	</http>
+
+	<!-- authentication-failure-forward-url="/login?error" -->
 
 	<authentication-manager>
 		<authentication-provider
@@ -30,4 +32,12 @@
 		</authentication-provider>
 	</authentication-manager>
 
+	<beans:bean id="loginFailureHandler"
+		class="com.bitcamp.DAO.LoginFailureHandler">
+		<beans:property name="defaultFailureUrl"
+			value="/login?error"></beans:property>
+			<beans:property name="errormsg" value="errormsg"></beans:property>
+	</beans:bean>
+	<beans:bean id="InterceptFailure"
+		class="com.bitcamp.DAO.InterceptFailureHandler"></beans:bean>
 </beans:beans>

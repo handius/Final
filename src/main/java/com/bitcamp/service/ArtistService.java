@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bitcamp.DTO.artist.ArtistBoardDTO;
 import com.bitcamp.DTO.artist.ArtistBoardProductListDTO;
 import com.bitcamp.DTO.artist.ArtistRepDTO;
 import com.bitcamp.DTO.member.MemberDTO;
@@ -25,7 +26,6 @@ public class ArtistService {
 	@Transactional
 	public Map<String, Object> artistBoardDetailService(int artist_no) {
 		Map<String, Object> map = new HashMap<>();
-		
 		map.put("artistInfo", mapper.artistBoardDetailArtistInfo(artist_no));
 		map.put("artistBoardDetail", mapper.artistBoardDetailGet(artist_no));
 		
@@ -145,6 +145,10 @@ public class ArtistService {
 		resultMap.put("max_sql", maxSql);
 
 		return resultMap;
+	}
+	
+	public void artistBoardDetailModifyService(ArtistBoardDTO dto) {
+		mapper.artistBoardDetailModify(dto);
 	}
 	
 }

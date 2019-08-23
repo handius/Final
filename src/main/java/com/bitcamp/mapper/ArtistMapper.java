@@ -30,4 +30,6 @@ public interface ArtistMapper {
 	//
 	public int artistRepListMaxCount(int artist_no);
 	public List<ArtistRepDTO> artistRepList(HashMap<String, Integer> map);
+	//
+	public void artistBoardDetailModify(ArtistBoardDTO dto);
 }

@@ -51,15 +51,29 @@
             height: 100%;
             border-right: 1px solid silver;
         }
+        
+        #myCarousel {
+        	width: 100%;
+        	height: 400px !important;
+        }
+        
+        .item img {
+        	width: 100%;
+        	height: 400px !important;
+        	object-fit: cover;
+        	overflow: hidden;
+        }
 
         #productDetailUnderImgBox {
             width: 100%;
+            height: 140px;
             margin-top: 10px;
             text-align: left;
         }
 
         #productDetailUnderImgBox img {
             width: 24%;
+            height: 100%;
         }
 
         #productDetail {
@@ -167,15 +181,6 @@
             font-weight: bold;
         }
 
-        /*
-        .col-xs-1, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9, .col-xs-10, .col-xs-11, .col-xs-12
-        , .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12
-        , .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12 {
-            padding: 0;
-            margin: 0;
-        }
-*/
-
         .productDetailBuyReview {
             max-width: 780px;
             border-bottom: 1px solid silver;
@@ -236,6 +241,13 @@
         }
 
         /* 사이드 */
+        
+        #productRemove {
+        	width: 100%;
+        	height: 50px;
+        	display: none;
+        	margin-top: 20px;
+        }
 
         #productDetailAside {
             max-width: 390px;
@@ -594,6 +606,7 @@
       	$(document).ready(mobileViewConverter);
         $(document).ready(qaBoardList);
       	$(document).ready(buyReviewList);
+      	$(document).ready(productRemoveOn);
         
         $(document).on('click', '.minusButton', minusButtonClick);
         $(document).on('click', '.plusButton', plusButtonClick);
@@ -611,6 +624,7 @@
             $('#productDetailQandAMoreButton').on('click', qaBoardList);
             $('#productDetailBuyReviewMoreButton').on('click',buyReviewList);
             $('.asideBasket').on('click',cookieInsert);
+            $('#artistDetailPageMove').on('click', artistDetailPageMove);
         });
         
         function mobileViewConverter() {
@@ -934,6 +948,18 @@
         	}
         	return year+'-'+month+'-'+day;
         }
+        
+        function artistDetailPageMove() {
+        	let artist_no = $('#artist_no').val();
+        	location.href="/artistDetail/"+artist_no;
+        }
+        
+        function productRemoveOn() {
+        	let productRemoveDecision = $('#productRemoveDecision').val();
+        	if(productRemoveDecision == 'true') {
+        		$('#productRemove').show();
+        	}
+        }
 
     </script>
 </head>
@@ -943,6 +969,8 @@
 <input type="hidden" value="${QACurrentPage }" id="qa_current_page" readonly="readonly">
 <input type="hidden" value="${buyReviewCurrentPage }" id="buyReview_current_page" readonly="readonly">
 <input type="hidden" value="${listDTO.list_base_price }" id="base_price" readonly="readonly">
+<input type="hidden" value="${artistBoardNo}" id="artist_no" readonly="readonly">
+<input type="hidden" value="${productRemoveDecision }" id="productRemoveDecision" readonly="readonly">
     <div class="container">
         <div class="row">
             <div class="col-md-8 productDetailMain">
@@ -965,7 +993,7 @@
                     <a class="right carousel-control" href="#myCarousel" data-slide="next">
                         <span class="icon-next"></span>
                     </a>
-                </div>
+                </div> 
                 <div id="productDetailUnderImgBox">
                 	<c:forEach var="img" items="${imgList }" varStatus="i">
                 		<img src="${img }" alt="슬라이드 ${i.index }" class="productDetailUnderImg img-rounded">
@@ -982,11 +1010,12 @@
                 <div id="MobileBuyCloseButtonBox">
                     <span class="glyphicon glyphicon-chevron-down MobileBuyCloseButton"></span>
                 </div>
+                <input type="button" class="btn btn-default" value="상품 삭제" id="productRemove">
                 <div class="productDetailAsideBlock" id="productDetailAsideProductName">
                     	<c:out value="${listDTO.list_title }"></c:out>
                 </div>
                 <div class="productDetailAsideBlock" id="productDetailAsideArtistName">
-                    <a href="#"><c:out value="${listDTO.list_artist }"></c:out></a>
+                    <a href="#" id="artistDetailPageMove"><c:out value="${listDTO.list_artist }"></c:out></a>
                 </div>
                 <form method="post" action="/productDetailResult" id="productDetailResultForm">
                 	<!-- 구매에 필요한 정보모음 -->

@@ -15,7 +15,7 @@
     <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
     
-    <script>
+    <script>z
     	$(document).ready(function() {
 			$('#imgUploadButton').on('click', imgUpload);
 			$('.starButton').on('click', startScore);

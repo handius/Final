@@ -14,11 +14,14 @@ public interface ProductDetailMapper {
 	public ListDTO productDetailGet(int list_no);
 	public List<String> productDetailImgGet(int list_no);
 	public List<ProductDetailOptionListDTO> productDetailOptionGet(int list_no);
-	public MemberDTO productDetailArtistGet(String list_artist);
+	public MemberDTO productDetailArtistGet(String user_id);
+	public Integer productDetailArtistBoardGet(int member_no);
+	//
 	public int productDetailQandAInsertSeq();
 	public int productDetailQandAInsert(QABoardDTO qaboarddto);
 	public int productDetailQandAInsertCheck(int qa_board_no);
 	public List<QABoardDTO> productDetailQandAList(QABoardDTO dto);
+	//
 	public List<OrderResultDTO> productDetailOrderResultList(List<Integer> list_order_member_no);
 	public int buyReviewInsertSeq();
 	public void buyReviewInsert(BuyReviewDTO buyreviewdto);

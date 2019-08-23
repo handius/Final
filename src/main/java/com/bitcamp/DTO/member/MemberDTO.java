@@ -25,6 +25,7 @@ public class MemberDTO {
 	private String user_certkey;
 	private int user_certstatus;
 	private String user_flatform;
+	private String user_authority;
 	private List<AuthorityDTO> authorityList;
 
 }

@@ -27,7 +27,6 @@ public class ProductDetailService {
 	public Map<String, Object> productDetailService(int list_no) {
 		Map<String, Object> map = new HashMap<>();
 		ListDTO listdto = mapper.productDetailGet(list_no);
-		System.out.println(listdto); //
 		List<ProductDetailOptionListDTO> optionList = mapper.productDetailOptionGet(list_no);
 
 		// 옵션의 재고가 0일때 해당 재고 이름을 재고 없음으로 표시
@@ -41,6 +40,8 @@ public class ProductDetailService {
 
 		// 작가정보에서 없는값을 매꿈
 		MemberDTO memberdto = mapper.productDetailArtistGet(listdto.getList_artist());
+		//작가 페이지 번호 기본값
+		int artist_no = 0;
 		if (memberdto != null) {
 			if (memberdto.getUser_name() == null) {
 				memberdto.setUser_name("이름이 없습니다.");
@@ -51,12 +52,17 @@ public class ProductDetailService {
 			if (memberdto.getUser_call() == null) {
 				memberdto.setUser_call("전화번호가 없습니다.");
 			}
+			
+			Object objArtistNo = mapper.productDetailArtistBoardGet(memberdto.getMember_no());
+			if(objArtistNo != null) {
+				artist_no = (int)objArtistNo;
+			}
 		}
-
 		map.put("productDetail", listdto);
 		map.put("productDetailImg", mapper.productDetailImgGet(list_no));
 		map.put("productDetailOption", optionList);
 		map.put("productDetailArtistInfo", memberdto);
+		map.put("productDetailArtistBoardNo", artist_no);
 		return map;
 	}
 

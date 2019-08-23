@@ -4,8 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.bitcamp.DTO.Product.ListDTO;
+import com.bitcamp.DTO.admin.MainImageDTO;
+import com.bitcamp.DTO.admin.MainViewDTO;
 import com.bitcamp.DTO.customerqaboard.CustomerQABoardDTO;
 import com.bitcamp.DTO.member.MemberDTO;
+import com.bitcamp.VO.admin.MainProductVO;
 import com.bitcamp.VO.admin.NewMemberVO;
 
 public interface AdminMapper {
@@ -29,4 +32,8 @@ public interface AdminMapper {
 	public void updateMainImage2(HashMap<String, Object> upload_map);
 	public int getProductCount(HashMap<String, Object> search_map);
 	public List<ListDTO> getProductList(HashMap<String, Object> search_map);
+	public void updateProductemplate(MainViewDTO mainview);
+	public List<MainViewDTO> getMainViewList();
+	public List<MainImageDTO> getMainImageList();
+	public MainProductVO getMainProduct(String string);
 }

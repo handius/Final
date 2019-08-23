@@ -56,6 +56,10 @@
         
         /*작가 정보 시작*/
         
+        #artistDetailModifyPage {
+        	display: none;
+        }
+        
         #artistAsideArtistInfoBox {
             height: 300px;
             padding: 0;
@@ -255,6 +259,11 @@
             font-size: 20px;
         }
         
+        #artistDetailModifyPage {
+        	width: 80%;
+        	margin-top: 20px;
+        }
+        
         /* 모달창 */
         #myModalLabel {
             text-align: center;
@@ -328,8 +337,17 @@
     $(document).ready(artistDetailRepList);
     $(document).ready(function(){
     	let currentHeight = $("#artistAsideRepContentBox")[0].scrollHeight;
-    	console.log(currentHeight);
     	$('#artistAsideRepContentBox').animate({scrollTop : currentHeight}, 400);
+    });
+    
+    $(document).ready(function(){
+    	let master = $("#master").val();
+    	
+    	// 해당 작가페이지의 주인이라면 수정버튼을 보여주고 이름을 숨김
+    	if(master == 'true') {
+    		$('#artistDetailModifyPage').show();
+    		$('#artistAsideArtistInfoArtistName').hide();
+    	}
     });
     
     $(document).ready(function(){
@@ -337,6 +355,7 @@
     	$('#artistDetailProductCollectionButton').on('click', artistDetailProductList);
     	$('#artistAsideRepButton').on('click', artistDetailRepInsert);
     	$('#artistDetailUrlCoppy').on('click', artistDetailUrlCoppy);
+    	$('#artistDetailModifyPage').on('click', artistDetailModifyPage);
     });
     
     function starScoreCel() {
@@ -407,7 +426,6 @@
     function artistDetailBuyReviewList() {
     	let artistNo = $('#artist_no').val();
     	let currentBuyReview = Number($('#currentBuyReview').val());
-    	
     	$.ajax({
     		url: "/ajaxArtistDetailBuyReviewList"
     		,contentType: "application/json; charset=utf-8"
@@ -513,7 +531,6 @@
         		let replist = data.replist;
         		let end_sql = data.end_sql;
         		let max_sql = data.max_sql;
-        		console.log(replist[0].user_name);
         		if(replist.length != 0) {
         			for(let i=replist.length-1; i>=0; i--) {
         				if(replist[i].user_name == artistName) {
@@ -559,8 +576,7 @@
         }
 	}
     
-    function artistDetailUrlCoppy()
-    {
+    function artistDetailUrlCoppy() {
     	$('body').append('<input type="text" value="" id="urlcoppy" class="" readonly="readonly">');
     	var urlcoppy = document.getElementById("urlcoppy");
     	urlcoppy.value = window.document.location.href;  
@@ -570,12 +586,18 @@
     	$('#urlcoppy').remove();
     	alert("URL이 클립보드에 복사되었습니다"); 
     }
+    
+    function artistDetailModifyPage() {
+    	let artist_no = $('#artist_no').val();
+		location.href = "/artistDetail/artistDetailModify/"+artist_no;
+	}
 
     </script>
 </head>
 <body>
 <!-- 기본 활용 정보 -->
 <input type="hidden" value="${artistBoardDetail.artist_no }" id="artist_no" readonly="readonly">
+<input type="hidden" value="${master }" id="master" readonly="readonly">
 <input type="hidden" value="1" id="currentBuyReview" readonly="readonly">
 <input type="hidden" value="1" id="currentProduct" readonly="readonly">
 <input type="hidden" value="1" id="currentRep" readonly="readonly">
@@ -585,9 +607,9 @@
                 <img src="${artistBoardDetail.artist_main_img }" alt="메인이미지" id="artistDetailTitleImg">
            </div>
            <div class="col-md-3" id="artistAsideArtistInfoBox">
+           	   <button class="btn btn-default" id="artistDetailModifyPage">작가페이지 수정</button>
                <div id="artistAsideArtistInfoArtistName">
                    	<c:out value="${artistInfo.user_name }"></c:out>
-                   	<button class="btn btn-default" id="artistDetailModifyPage">작가페이지 수정</button>
                </div>
                <div id="artistAsideArtistInfoScore">
                     <span id="artistAsideArtistInfoStarScore"></span><span id="artistAsideArtistInfoNumScore">${artistBoardDetail.artist_score }</span>

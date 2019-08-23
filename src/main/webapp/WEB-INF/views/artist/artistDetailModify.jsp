@@ -15,12 +15,53 @@
 
     <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <style>
+    	 #artistDetailImgBox {
+            height: 300px;
+            background-color: azure;
+            overflow: hidden;
+            padding: 0;
+        }
+        
+        #artistDetailImgBox img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        #artistDetailTitleBox {
+            height: 200px;
+            font-size: 20px;
+        }
+        
+        #artistDetailTitleModify {
+        	width: 100%;
+        	height: 100%;
+        }
+        
+        #artistDetailImgModify {
+        	width: 30%;
+        	display: inline-block;
+        }
+        
+        #artistBoardDetailImgPath {
+        	width: 69%;
+        	border: 0;
+        }
+        
+        .btn-default {
+        	width: 100%;
+        	height: 60px;
+        }
+    </style>
     <script>
-    document.ready(function(){
-    	
+    $(document).ready(function(){
+    	let artist_board_title = $("#artist_board_title").val();
+    	console.log(artist_board_title);
+    	$('#artistDetailTitleModify').text(artist_board_title);
     });
     
-    function artistDetailImgModify() {
+    function artistDetailImgModifyChange() {
     	let formData = new FormData();
     	let imgFile = $('#artistDetailImgModify');
     	imgFile = imgFile[0].files;
@@ -38,7 +79,7 @@
 				if(data.fileName != null) {
 					let imgPath = "/resources/image/artistTitleImg/" + data.fileName;
 					$('#artistDetailTitleImg').prop('src',imgPath);
-					$('#artistBoardDetailImgPath').text(imgPath);
+					$('#artistBoardDetailImgPath').val(imgPath);
 				}
 				else {
 					alert('이미지를 먼저 등록해주세요');
@@ -53,17 +94,17 @@
 </head>
 <body>
 <!-- 기본 활용 정보 -->
-<input type="hidden" value="${artistBoardDetail.artist_no }" id="artist_no" readonly="readonly">
 <input type="hidden" value="${artistBoardDetail.artist_board_title }" id="artist_board_title" readonly="readonly">
 	<div class="container">
 		<div id="artistDetailImgBox">
 			<img src="${artistBoardDetail.artist_main_img }" alt="메인이미지" id="artistDetailTitleImg">
 		</div>
 		<form method="post" action="/artistDetail/artistDetailModifyResult">
+			<input type="hidden" value="${artistBoardDetail.artist_no }" name="artist_no" id="artist_no" readonly="readonly" required="required">
+			<input type="file" id="artistDetailImgModify" onchange=" artistDetailImgModifyChange() ">
 			<input type="text" value="${artistBoardDetail.artist_main_img }" name="artist_main_img" id="artistBoardDetailImgPath"readonly="readonly">
-			<input type="file" id="artistDetailImgModify" onchange="artistDetailImgModify()">
 			<div id="artistDetailTitleBox">
-        		<textarea rows="30" cols="10" name="artist_board_title" id="artistDetailTitleModify"></textarea> 
+        		<textarea name="artist_board_title" id="artistDetailTitleModify" maxlength="99" required="required"></textarea> 
         	</div>
         	<button type="submit" class="btn btn-default">수정완료</button>
 		</form>

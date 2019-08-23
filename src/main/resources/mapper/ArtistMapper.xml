@@ -99,4 +99,10 @@
         where rownum <![CDATA[<]]>= #{end_sql}) e
     where num <![CDATA[>]]>= #{start_sql}
 </select>
+<select id="artistBoardDetailModify" parameterType="com.bitcamp.DTO.artist.ArtistRepDTO">
+	update artist_board set
+		artist_main_img = #{artist_main_img}
+		, artist_board_title = #{artist_board_title}
+		where artist_no = #{artist_no}
+</select>
 </mapper>

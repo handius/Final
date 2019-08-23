@@ -157,19 +157,20 @@
 		 		</c:if>
 				</c:forEach>
 						
+				<!-- 페이징 -->
 				<c:if test="${paging.startblock > 1 }">
-					<a href="#">◀</a>
+					<button class="btn btn-default" name="curr" value="${paging.startblock - 1 }">◀</button>
 				</c:if>
 				<c:forEach var="i" begin="${paging.startblock }" end="${paging.endblock }">
-					<c:if test="${i == currpage }">
+					<c:if test="${i == paging.currpage }">
 						<c:out value="${i }"></c:out>
 					</c:if>
-					<c:if test="${i != currpage }">
+					<c:if test="${i != paging.currpage }">
 						<input type="submit" class="btn btn-default" name="curr" value="${i }">
 					</c:if>
 				</c:forEach>
 				<c:if test="${paging.endblock < paging.totalpage }">
-					<a href="#">▶</a>
+					<button class="btn btn-default" name="curr" value="${paging.endblock + 1 }">▶</button>
 				</c:if>
 			  </c:if>
 		  </form>
