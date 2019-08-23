@@ -35,16 +35,37 @@
 		display: inline-block;
 		height: 400px;
 		width: 320px;
-		border: 5px double blue;
+		border: 1px solid silver;
+		border-radius: 50px;
 		margin: 0 auto;
+		background-image: url("/resources/image/orde.jpg");
+		background-size: contain;
+		background-position: bottom;
+		box-shadow: 3px 5px silver;
+		transition: 0.3s;
+	}
+	#orderMade:hover{
+		border: 2px solid blue;
+		box-shadow: 5px 7px silver;
 	}
 	#perfectOrder{
 		display: inline-block;
 		height: 400px;
 		width: 320px;
-		border: 5px double green;
+		border: 1px solid silver;
+		border-radius: 50px;
 		margin: 0 auto;
+		background-image: url("/resources/image/perf.jpg");
+		background-size: cover;
+		box-shadow: 3px 5px silver;
+		transition: 0.3s;
 	}
+	#perfectOrder:hover {
+		border: 2px solid green;
+		box-shadow: 5px 7px silver;
+	}
+}
+	
 </style>
 </head>
 <body>
