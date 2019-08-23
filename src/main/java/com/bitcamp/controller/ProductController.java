@@ -156,11 +156,11 @@ public class ProductController {
 		if(dto!=null) {
 			List<AuthorityDTO> authList = dto.getAuthorityList();
 			for(AuthorityDTO auth : authList) {
-				if(auth.getUser_auth().equals("ROLE_MEMBER")) {
+				if(auth.getUser_auth().equals("ROLE_SELLER")) {
 					return "sell/insertPerfectOrder.mall";
 				}
 			}	
-			return "redirect:/login";
+			return "sell/needSeller.mall";
 		}else {
 			return "redirect:/login";
 		}
@@ -173,11 +173,11 @@ public class ProductController {
 		if(dto!=null) {
 			List<AuthorityDTO> authList = dto.getAuthorityList();
 			for(AuthorityDTO auth : authList) {
-				if(auth.getUser_auth().equals("ROLE_MEMBER")) {
+				if(auth.getUser_auth().equals("ROLE_SELLER")) {
 					return "sell/insertOrderMade.mall";
 				}
 			}	
-			return "redirect:/login";
+			return "sell/needSeller.mall";
 		}else {
 			return "redirect:/login";
 		}
