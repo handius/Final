@@ -1,6 +1,7 @@
 package com.bitcamp.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -121,8 +122,12 @@ public class MyPageController {
 	@RequestMapping("buyerPQAList")
 	public String buyerPQAList(HttpSession session, Model model) {
 		MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
-		List<QABoardDTO> buyerPQAList = service.buyerPQAList(memberDTO.getMember_no());
-		model.addAttribute("buyerPQAList", buyerPQAList);
+		Map<String, Object> parameters = service.buyerPQList(memberDTO.getMember_no());
+		List<QABoardDTO> buyerPQList = (List<QABoardDTO>) parameters.get("buyerPQList");
+		List<String> list_title_list = (List<String>) parameters.get("list_title_list");
+		// List<QABoardDTO> buyerPAList = service.buyerPAList(buyerPQList);
+		model.addAttribute("buyerPQList", buyerPQList);
+		model.addAttribute("list_title_list", list_title_list);
 		return "mypage/buyerPQAList";
 	}
 

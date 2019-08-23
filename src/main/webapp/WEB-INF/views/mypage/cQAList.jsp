@@ -9,13 +9,15 @@
 </head>
 <body>
 	<table>
-		<tr>
-			<th>번호</th>
-			<th>제목</th>
-			<th>문의유형</th>
-			<th>문의일자</th>
-			<th>답변유무</th>
-		</tr>
+		<thead>
+			<tr>
+				<th>번호</th>
+				<th>제목</th>
+				<th>문의유형</th>
+				<th>문의일자</th>
+				<th>답변유무</th>
+			</tr>
+		</thead>
 		<tbody>
 			<c:forEach var="item" items="${cQAList }">
 				<tr>

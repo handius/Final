@@ -52,7 +52,7 @@ public class MyPageService {
 		// TODO Auto-generated method stub
 		List<OrderDTO> buyList = mapper.buyList(member_no);
 		for (int i = 0; i < buyList.size(); i++) {
-			String list_title = mapper.buyListList_title(buyList.get(i).getList_no());
+			String list_title = mapper.findList_title(buyList.get(i).getList_no());
 			buyList.get(i).setList_title(list_title);
 			Map<String, Object> results = mapper.buyListOption(buyList.get(i).getOrder_no());
 			String order_add_option = (String) results.get("ORDER_ADD_OPTION");
@@ -95,10 +95,32 @@ public class MyPageService {
 		return mapper.cQAList(member_no);
 	}
 
-	public List<QABoardDTO> buyerPQAList(int member_no) {
+	public Map<String, Object> buyerPQList(int member_no) {
 		// TODO Auto-generated method stub
-		return mapper.buyerPQAList(member_no);
+		List<QABoardDTO> buyerPQList = mapper.buyerPQList(member_no);
+		List<String> list_title_list = new ArrayList<>();
+		Map<String, Object> parameters = new HashMap<>();
+		for (int i = 0; i < buyerPQList.size(); i++) {
+			String list_title = mapper.findList_title(buyerPQList.get(i).getList_no());
+			list_title_list.add(list_title);
+		}
+		parameters.put("buyerPQList", buyerPQList);
+		parameters.put("list_title_list", list_title_list);
+		return parameters;
 	}
+
+	// public List<QABoardDTO> buyerPAList(List<QABoardDTO> buyerPQList) {
+	// // TODO Auto-generated method stub
+	// List<QABoardDTO> buyerPALists = new ArrayList<>();
+	// for (int i = 0; i < buyerPQList.size(); i++) {
+	// List<QABoardDTO> buyerPAList =
+	// mapper.buyerPAList(buyerPQList.get(i).getQa_board_no());
+	// for (int j = 0; j < buyerPAList.size(); j++) {
+	// buyerPALists.add(buyerPAList.get(j));
+	// }
+	// }
+	// return buyerPALists;
+	// }
 
 	public List<BuyReviewDTO> buyerReviewList(int member_no) {
 		// TODO Auto-generated method stub
