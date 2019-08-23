@@ -12,7 +12,7 @@
 <body>
 	<div>
 		<div class="left">
-			<sec:authorize access="hasAnyRole('ROLE_USER','ROLE_MEMBER')">
+			<sec:authorize access="!hasRole('ROLE_SELLER')">
 				<img alt="buyer" src="/resources/image/wink.png">
 				<h3>구매자</h3>
 			</sec:authorize>

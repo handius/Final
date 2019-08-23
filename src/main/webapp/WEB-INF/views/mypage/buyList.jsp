@@ -11,12 +11,14 @@
 </head>
 <body>
 	<table>
-		<tr>
-			<th>주문일자</th>
-			<th>상품정보</th>
-			<th>결제금액</th>
-			<th>상태</th>
-		</tr>
+		<thead>
+			<tr>
+				<th>주문일자</th>
+				<th>상품정보</th>
+				<th>결제금액</th>
+				<th>상태</th>
+			</tr>
+		</thead>
 		<tbody>
 			<%
 				List<OrderDTO> buyList = (List<OrderDTO>) request.getAttribute("buyList");
@@ -29,8 +31,7 @@
 				List<Integer> order_amount = buyList.get(i).getOrder_amount();
 				if (option_name != null) {
 					for (int j = 0; j < option_name.size(); j++) {%>
-					<%=option_name.get(j)%>
-					<%=order_amount.get(j)%>
+					<%=option_name.get(j)%> <%=order_amount.get(j)%>
 					<%
 					}
 					}
