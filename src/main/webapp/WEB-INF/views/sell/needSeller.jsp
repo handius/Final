@@ -5,8 +5,16 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+	.container span{
+		font-size: 2em;
+		text-align: center;
+	}
+</style>
 </head>
 <body>
-	<div class="container"> 판매자 계정으로 등록되어 있지 않습니다. 관리자에게 문의하세요.</div>
+	<div class="container"> 
+		<span>판매자 계정으로 등록되어 있지 않습니다. 관리자에게 문의하세요.</span>
+	</div>
 </body>
 </html>
