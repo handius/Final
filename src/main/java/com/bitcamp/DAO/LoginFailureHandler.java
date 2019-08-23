@@ -28,7 +28,7 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 		if (exception instanceof BadCredentialsException) {
 			errormsg = "아이디나 비밀번호가 맞지 않습니다. 다시 확인해주세요";
 		} else if (exception instanceof InternalAuthenticationServiceException) {
-			errormsg = "존재하지 않는 아이디입니다.";
+			errormsg = "아이디나 비밀번호가 맞지 않습니다. 다시 확인해주세요";
 		} else if (exception instanceof DisabledException) {
 			errormsg = "계정이 잠겨있습니다. 관리자에게 문의하세요.";
 		} else if (exception instanceof CredentialsExpiredException) {
