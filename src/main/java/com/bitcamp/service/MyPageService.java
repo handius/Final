@@ -122,9 +122,18 @@ public class MyPageService {
 	// return buyerPALists;
 	// }
 
-	public List<BuyReviewDTO> buyerReviewList(int member_no) {
+	public Map<String, Object> buyerReviewList(int member_no) {
 		// TODO Auto-generated method stub
-		return mapper.buyerReviewList(member_no);
+		List<BuyReviewDTO> buyerReviewList = mapper.buyerReviewList(member_no);
+		List<String> list_title_list = new ArrayList<>();
+		Map<String, Object> parameters = new HashMap<>();
+		for (int i = 0; i < buyerReviewList.size(); i++) {
+			String list_title = mapper.findList_title(buyerReviewList.get(i).getList_no());
+			list_title_list.add(list_title);
+		}
+		parameters.put("buyerReviewList", buyerReviewList);
+		parameters.put("list_title_list", list_title_list);
+		return parameters;
 	}
 
 	public List<OrderDTO> sellList(String user_id) {
