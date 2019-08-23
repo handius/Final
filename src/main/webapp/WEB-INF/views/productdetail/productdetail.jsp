@@ -52,20 +52,28 @@
             border-right: 1px solid silver;
         }
         
+        #myCarousel {
+        	width: 100%;
+        	height: 400px !important;
+        }
+        
         .item img {
         	width: 100%;
+        	height: 400px !important;
         	object-fit: cover;
         	overflow: hidden;
         }
 
         #productDetailUnderImgBox {
             width: 100%;
+            height: 140px;
             margin-top: 10px;
             text-align: left;
         }
 
         #productDetailUnderImgBox img {
             width: 24%;
+            height: 100%;
         }
 
         #productDetail {
@@ -233,6 +241,13 @@
         }
 
         /* 사이드 */
+        
+        #productRemove {
+        	width: 100%;
+        	height: 50px;
+        	display: none;
+        	margin-top: 20px;
+        }
 
         #productDetailAside {
             max-width: 390px;
@@ -591,6 +606,7 @@
       	$(document).ready(mobileViewConverter);
         $(document).ready(qaBoardList);
       	$(document).ready(buyReviewList);
+      	$(document).ready(productRemoveOn);
         
         $(document).on('click', '.minusButton', minusButtonClick);
         $(document).on('click', '.plusButton', plusButtonClick);
@@ -937,6 +953,13 @@
         	let artist_no = $('#artist_no').val();
         	location.href="/artistDetail/"+artist_no;
         }
+        
+        function productRemoveOn() {
+        	let productRemoveDecision = $('#productRemoveDecision').val();
+        	if(productRemoveDecision == 'true') {
+        		$('#productRemove').show();
+        	}
+        }
 
     </script>
 </head>
@@ -947,6 +970,7 @@
 <input type="hidden" value="${buyReviewCurrentPage }" id="buyReview_current_page" readonly="readonly">
 <input type="hidden" value="${listDTO.list_base_price }" id="base_price" readonly="readonly">
 <input type="hidden" value="${artistBoardNo}" id="artist_no" readonly="readonly">
+<input type="hidden" value="${productRemoveDecision }" id="productRemoveDecision" readonly="readonly">
     <div class="container">
         <div class="row">
             <div class="col-md-8 productDetailMain">
@@ -986,6 +1010,7 @@
                 <div id="MobileBuyCloseButtonBox">
                     <span class="glyphicon glyphicon-chevron-down MobileBuyCloseButton"></span>
                 </div>
+                <input type="button" class="btn btn-default" value="상품 삭제" id="productRemove">
                 <div class="productDetailAsideBlock" id="productDetailAsideProductName">
                     	<c:out value="${listDTO.list_title }"></c:out>
                 </div>

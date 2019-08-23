@@ -48,11 +48,27 @@ public class ProductDetailController {
 			model.addAttribute("orderList", service.productDetailOrderService(list_order_member_no));
 		}
 		
+		//로그인한사람이 판매자라면
+		boolean productRemoveDecision = false;
+		Object objmdto = session.getAttribute("member");
+		if(objmdto != null) {
+			MemberDTO mdto = (MemberDTO) objmdto;
+			int memberNo = mdto.getMember_no();
+			Object objArtistInfo = map.get("productDetailArtistInfo");
+			if(objArtistInfo != null) {
+				MemberDTO adto = (MemberDTO) objArtistInfo;
+				int artistMemberNo = adto.getMember_no();
+				if(memberNo == artistMemberNo) {
+					productRemoveDecision = true;
+				}
+			}
+		}
+		
 		int artist_no = (int) map.get("productDetailArtistBoardNo");
-		if(artist_no == 0) {
+		/*if(artist_no == 0) {
 			model.addAttribute("error", "판매자 정보가 없습니다.");
 			return "productdetail/error";
-		}
+		}*/
 		
 		model.addAttribute("listDTO", map.get("productDetail"));
 		model.addAttribute("imgList", map.get("productDetailImg"));
@@ -60,6 +76,7 @@ public class ProductDetailController {
 		model.addAttribute("qaBoardList", map.get("productDetailQABoardList"));
 		model.addAttribute("artistInfo", map.get("productDetailArtistInfo"));
 		model.addAttribute("artistBoardNo", artist_no);
+		model.addAttribute("productRemoveDecision", productRemoveDecision);
 		model.addAttribute("QACurrentPage", 1);
 		model.addAttribute("buyReviewCurrentPage", 1);
 		return "productdetail/productdetail.mall";
