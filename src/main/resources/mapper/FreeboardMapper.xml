@@ -3,19 +3,6 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bitcamp.mapper.FreeboardMapper">
-	<resultMap type="com.bitcamp.DTO.freeboard.FreeboardDTO"
-		id="freeboardMap">
-		<result property="freeboard_no" column="freeboard_no"></result>
-		<result property="freeboard_title" column="freeboard_title"></result>
-		<result property="freeboard_content" column="freeboard_content"></result>
-		<result property="freeboard_regiTime"
-			column="freeboard_regitime"></result>
-		<result property="freeboard_hits" column="freeboard_hits"></result>
-		<result property="freeboard_status" column="freeboard_status"></result>
-		<result property="freeboard_category"
-			column="freeboard_category"></result>
-		<result property="member_no" column="freeboard_member_no"></result>
-	</resultMap>
 
 	<insert id="insertData"
 		parameterType="com.bitcamp.DTO.freeboard.FreeboardDTO">
@@ -27,21 +14,8 @@
 		#{member_no})
 	</insert>
 
-	<select id="getList" resultMap="freeboardMap">
-		select freeboard_no, freeboard_title,
-		freeboard_content,
-		freeboard_regitime, freeboard_hits,
-		freeboard_member_no, user_nick from
-		freeboard
-		LEFT OUTER JOIN member on freeboard.freeboard_member_no =
-		member.member_no
-		where freeboard_status =1
-		<if test='_parameter!="전체"'> and freeboard_category=#{_parameter} </if>
-
-		order by freeboard_no desc
-	</select>
-
-	<select id="getDetail" resultMap="freeboardMap"
+	<select id="getDetail"
+		resultType="com.bitcamp.DTO.freeboard.FreeboardDTO"
 		parameterType="int">
 		select *
 		from freeboard
@@ -68,24 +42,34 @@
 		where freeboard_no = #{freeboard_no}
 	</update>
 
-	<select id="getSearchList" resultMap="freeboardMap"
-		parameterType="map">
-		select freeboard_no, freeboard_title,
-		freeboard_content,
-		freeboard_regitime, freeboard_hits,
-		freeboard_member_no, user_nick from
-		freeboard
-		LEFT OUTER JOIN member on freeboard.freeboard_member_no =
-		member.member_no
-		<trim prefix="WHERE" prefixOverrides="AND|OR">
-			<if test="searchType=='제목'">
-				and freeboard_title like '%'||#{searchKeyword}||'%'
-			</if>
-			<if test="searchType=='닉네임'">
-				and user_nick like '%'||#{searchKeyword}||'%'
-			</if>
-		</trim>
-		order by freeboard_no desc
+	<select id="getSearchList"
+		resultType="com.bitcamp.DTO.freeboard.FreeboardDTO"
+		parameterType="Object">
+		select A.RNUM, A.*
+		from (
+			select freeboard_no, freeboard_title,
+				freeboard_content,
+				freeboard_regitime, freeboard_hits,
+				freeboard_member_no, user_nick, ROWNUM as RNUM
+			from
+				freeboard
+				LEFT OUTER JOIN member on
+				freeboard.freeboard_member_no =
+				member.member_no
+			<where>
+				<![CDATA[
+				rownum <= #{endrow}
+		        ]]>
+
+				<include refid="search_board"></include>
+				<include refid="search_category"></include>
+			</where>
+			order by freeboard_no DESC
+		) A
+		<![CDATA[
+		WHERE A.RNUM >= #{startrow} 
+		]]>
+		<!-- order by a.rnum desc -->
 	</select>
 
 	<update id="updateHits" parameterType="int">
@@ -94,5 +78,29 @@
 		freeboard_hits = freeboard_hits+1
 		where freeboard_no = #{freeboard_no}
 	</update>
+
+	<select id="getListCount" parameterType="Object"
+		resultType="int">
+		select count(*) from freeboard
+		<where>
+			<include refid="search_board"></include>
+			<include refid="search_category"></include>
+		</where>
+	</select>
+
+
+	<sql id="search_board">
+		<if test="searchType=='제목'">
+			and freeboard_title like '%'||#{searchKeyword}||'%'
+		</if>
+		<if test="searchType=='닉네임'">
+			and user_nick like '%'||#{searchKeyword}||'%'
+		</if>
+	</sql>
+	<sql id="search_category">
+		<if test="freeboard_category !='전체'">
+			and freeboard_category = #{freeboard_category}
+		</if>
+	</sql>
 
 </mapper>

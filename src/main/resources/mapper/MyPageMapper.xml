@@ -6,13 +6,19 @@
 	<update id="updateUserInfo"
 		parameterType="com.bitcamp.DTO.member.MemberDTO">
 		update member set
-		user_password=#{user_password},
 		user_name=#{user_name},
 		user_nick=#{user_nick},
 		user_email=#{user_email},
-		user_address=#{user_addresss},
+		user_address=#{user_address},
 		user_call=#{user_call} where
-		user_id=#{user_id}
+		member_no=#{member_no}
+	</update>
+	<update id="updateUserPassword"
+		parameterType="java.util.HashMap">
+		update member set
+		user_password=#{newPwd}
+		where
+		member_no=#{member_no}
 	</update>
 	<insert id="insertCQA" parameterType="java.util.HashMap">
 		insert into
@@ -29,7 +35,23 @@
 	<select id="buyList" parameterType="int"
 		resultType="com.bitcamp.DTO.order.OrderDTO">
 		select * from
-		order_board where member_no=#{member_no}
+		order_board where member_no=#{member_no} order
+		by order_date desc
+	</select>
+	<select id="buyListList_title" parameterType="int"
+		resultType="String">
+		select list_title from list_board where list_no=#{list_no}
+	</select>
+	<select id="buyListOption" parameterType="int"
+		resultType="java.util.HashMap">
+		select order_add_option, order_amount, ordermade_no from
+		order_board where
+		order_no=#{order_no}
+	</select>
+	<select id="buyListOption_name" parameterType="int"
+		resultType="String">
+		select option_name from list_option_board where
+		option_no=#{option_no}
 	</select>
 	<select id="cQAList" parameterType="int"
 		resultType="com.bitcamp.DTO.customerqaboard.CustomerQABoardDTO">

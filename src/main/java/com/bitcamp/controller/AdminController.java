@@ -1,5 +1,7 @@
 package com.bitcamp.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -13,8 +15,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.bitcamp.DTO.Product.ListDTO;
+import com.bitcamp.DTO.admin.MainViewDTO;
 import com.bitcamp.DTO.comm.PageDTO;
 import com.bitcamp.DTO.customerqaboard.CustomerQABoardDTO;
 import com.bitcamp.DTO.member.MemberDTO;
@@ -185,10 +190,107 @@ public class AdminController {
 		return "admin/popularproducts.admin";
 	}
 	
+	// 메인
 	@RequestMapping("/admin/mainset")
 	public String mainset(Model model) {
+		
 		model.addAttribute("admin_category", "mainset");
 		return "admin/mainset.admin";
+	}
+	
+	private String path = "C:\\bitcamp\\final\\finalProject\\src\\main\\webapp\\resources\\image";
+	
+	// 이미지 업로드
+	@RequestMapping("/admin/imgtemplate")
+	public String template1_Fileupload(MultipartHttpServletRequest multipartHttpServletRequest,
+			 				  @RequestParam int main_view_no,
+			 				  MultipartFile imagefile,
+			 				  @RequestParam List<String> main_image_link,
+			 				  Model model) {
+		List<MultipartFile> multi = multipartHttpServletRequest.getFiles("imagefile");
+		
+		// 첫번째 템플릿은 다 정해져있음
+		try {
+			if (!multi.isEmpty()) {
+				for(int i = 0; i < multi.size(); i++) {
+					// 사진 업로드
+					File file = new File(path, multi.get(i).getOriginalFilename());
+					multi.get(i).transferTo(file);
+				}
+				// DB에 이미지 경로와 링크 등록
+					for (int i = 0; i < main_image_link.size(); i++) {
+						String imgpath = path + "\\" + multi.get(i).getOriginalFilename();
+						System.out.println("사진" + i + 1);
+						System.out.println("1. 이미지 경로 : " + imgpath);
+						System.out.println("2. 이미지 링크 : " + main_image_link.get(i));
+
+						HashMap<String, Object> upload_map = new HashMap<>();
+						upload_map.put("main_image_path", imgpath);
+						upload_map.put("main_image_link", main_image_link.get(i));
+						if(main_view_no == 1) {
+							upload_map.put("main_image_no", i + 1);
+							adservice.updateMainImage(upload_map);
+						}
+						if(main_view_no == 3) {
+							adservice.updateMainImage2(upload_map);
+						}
+					}
+			}
+			return "admin/mainset.admin";
+		} catch (IllegalStateException | IOException e) {
+			System.out.println(e);
+		}
+		return "redirect:/admin/mainset";
+	}
+	
+	@RequestMapping("/admin/producttemplate")
+	public String productTemplate(@ModelAttribute MainViewDTO mainview,
+								   Model model) {
+		
+		return "admin/mainset.admin";
+	}
+	
+	@RequestMapping("/admin/productmodal")
+	public String productModal(@RequestParam(required = false) String curr,
+								@ModelAttribute ListDTO product,
+								@RequestParam int main_view_no,
+								Model model) {
+
+		System.out.println(main_view_no);
+		
+		// 쿼리 돌릴 값 (검색)
+		HashMap<String, Object> search_map = new HashMap<>();
+		search_map.put("list_category", product.getList_category());
+		search_map.put("list_product", product.getList_product());
+		search_map.put("list_artist", product.getList_artist());
+		
+		// 페이징
+		int currpage = 1;
+		if(curr != null) currpage = Integer.parseInt(curr);
+		int totalCount = adservice.getProductCount(search_map);		// count(*)
+		int pagepercount = 5;										// 페이지 당 표시할 게시글 갯수
+		int blockSize = 10;											// 페이징 블록 사이즈
+		PageDTO page = new PageDTO(currpage, totalCount, pagepercount, blockSize);
+		
+		// 쿼리 돌릴 값 (페이징)
+		search_map.put("startrow", page.getStartrow());
+		search_map.put("endrow", page.getEndrow());
+		
+		// 리스트 가져오기
+		List<ListDTO> list = adservice.getProductList(search_map);
+
+		HashMap<String, Object> test = new HashMap<>();
+		test.put("list_category", search_map.get("list_category"));
+		test.put("list_product", search_map.get("list_product"));
+		test.put("list_artist", search_map.get("list_artist"));
+		test.put("main_view_no", main_view_no);
+		
+		// 페이징 검색 값
+		model.addAttribute("test", test);
+		model.addAttribute("list", list);
+		model.addAttribute("paging", page);
+		
+		return "admin/productsearch";
 	}
 	
 	@RequestMapping("/admin/qna")
@@ -227,6 +329,7 @@ public class AdminController {
 		search_map2.put("startrow", page.getStartrow());
 		search_map2.put("endrow", page.getEndrow());
 		
+		// 리스트 가져오기
 		List<CustomerQABoardDTO> question = adservice.getCustomerQuestion(search_map2);
 		
 		model.addAttribute("list", question);
@@ -237,6 +340,7 @@ public class AdminController {
 		test.put("search_date", search_date);
 		test.put("search_date", search_map2.get("search_date"));
 		test.put("answer_status", search_map2.get("answer_status"));
+		
 		// 페이징 검색 값
 		model.addAttribute("test", test);
 		model.addAttribute("paging", page);

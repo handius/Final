@@ -24,13 +24,6 @@
 		where
 		option_no=#{order_add_option}
 	</update>
-	<update id="updateName" parameterType="java.util.HashMap">
-		update member
-		set
-		user_name=#{user_name}
-		where member_no=#{member_no} and user_name is
-		null
-	</update>
 	<update id="updateCall" parameterType="java.util.HashMap">
 		update member
 		set
