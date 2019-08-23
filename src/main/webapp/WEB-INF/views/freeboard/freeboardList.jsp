@@ -52,12 +52,32 @@
 	</div>
 	<button onclick="location='freeboard/write'">글쓰기</button>
 	<br>
+	<form action="/freeboard" method="post">
+		<c:if test="${paging.startblock > 1 }">
+			<a href="#">◀</a>
+		</c:if>
+		<c:forEach var="i" begin="${paging.startblock }"
+			end="${paging.endblock }">
+			<c:if test="${i == currpage }">
+				<c:out value="${i }"></c:out>
+			</c:if>
+			<c:if test="${i != currpage }">
+				<input type="submit" class="btn btn-default" name="curr"
+					value="${i }">
+			</c:if>
+		</c:forEach>
+		<c:if test="${paging.endblock < paging.totalpage }">
+			<a href="#">▶</a>
+		</c:if>
+	</form>
 	<select id="searchType">
 		<option value="제목">제목</option>
 		<option value="닉네임">닉네임</option>
 	</select>
+
 	<input type="text" id="searchKeyword"
 		onKeypress="javascript:if(event.keyCode==13) {search();}">
 	<button id="btnSearch" onclick="search();">검색</button>
+
 </body>
 </html>

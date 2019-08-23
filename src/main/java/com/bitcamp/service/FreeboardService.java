@@ -17,7 +17,7 @@ public class FreeboardService {
 
 	@Autowired
 	private FreeboardMapper fbMapper;
-	
+
 	@Autowired
 	private MemberMapper memMapper;
 
@@ -26,11 +26,11 @@ public class FreeboardService {
 	}
 
 	public FreeboardDTO detailService(int freeboard_no) {
-		
+
 		FreeboardDTO dto = fbMapper.getDetail(freeboard_no);
 		String user_nick = memMapper.readMemberbyMemberNo(dto.getMember_no()).getUser_nick();
 		dto.setUser_nick(user_nick);
-		
+
 		return dto;
 	}
 
@@ -42,20 +42,16 @@ public class FreeboardService {
 		fbMapper.deleteData(freeboard_no);
 	}
 
-	public List<FreeboardDTO> listService(String freeboard_category, String searchType, String searchKeyword) {
-		if (!(freeboard_category.equals("전체"))) {
-			return fbMapper.getList(freeboard_category);
-		} else {
-			Map<String, Object> map = new HashMap<>();
-			map.put("searchType", searchType);
-			map.put("searchKeyword", searchKeyword);
-
-			return fbMapper.getSearchList(map);
-		}
-	}
-	
 	public void updateHitsService(int freeboard_no) {
 		fbMapper.updateHits(freeboard_no);
+	}
+
+	public int getListCountService(HashMap<String, Object> listMap) {
+		return fbMapper.getListCount(listMap);
+	}
+
+	public List<FreeboardDTO> listService(HashMap<String, Object> listMap) {
+		return fbMapper.getSearchList(listMap);
 	}
 
 }
