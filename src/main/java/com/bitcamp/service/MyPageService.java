@@ -58,11 +58,13 @@ public class MyPageService {
 			String order_add_option = (String) results.get("ORDER_ADD_OPTION");
 			String order_amount = (String) results.get("ORDER_AMOUNT");
 			String ordermade_no = (String) results.get("ORDERMADE_NO");
+			List<Integer> order_add_option_list = new ArrayList<>();
+			List<Integer> order_amount_list = new ArrayList<>();
+			List<Integer> ordermade_no_list = new ArrayList<>();
+			List<String> option_name_list = new ArrayList<>();
 			if (order_add_option.contains("/")) {
 				String[] order_add_option_array = order_add_option.split("/");
 				String[] order_amount_array = order_amount.split("/");
-				List<Integer> order_add_option_list = new ArrayList<>();
-				List<Integer> order_amount_list = new ArrayList<>();
 				for (int j = 0; j < order_add_option_array.length; j++) {
 					order_add_option_list.add(Integer.parseInt(order_add_option_array[j]));
 					order_amount_list.add(Integer.parseInt(order_amount_array[j]));
@@ -73,14 +75,17 @@ public class MyPageService {
 			if (ordermade_no != null) {
 				if (ordermade_no.contains("/")) {
 					String[] ordermade_no_array = ordermade_no.split("/");
-					List<Integer> ordermade_no_list = new ArrayList<>();
 					for (int j = 0; j < ordermade_no_array.length; j++) {
 						ordermade_no_list.add(Integer.parseInt(ordermade_no_array[j]));
 					}
 					buyList.get(i).setOrdermade_no(ordermade_no_list);
 				}
 			}
-			System.out.println(order_add_option);
+			for (int j = 0; j < order_add_option_list.size(); j++) {
+				String option_name = mapper.buyListOption_name(order_add_option_list.get(j));
+				option_name_list.add(option_name);
+			}
+			buyList.get(i).setOption_name(option_name_list);
 		}
 		return buyList;
 	}

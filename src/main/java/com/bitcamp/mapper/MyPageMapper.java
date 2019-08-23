@@ -25,6 +25,8 @@ public interface MyPageMapper {
 
 	Map<String, Object> buyListOption(int order_no);
 
+	String buyListOption_name(int option_no);
+
 	List<CustomerQABoardDTO> cQAList(int member_no);
 
 	List<QABoardDTO> buyerPQAList(int member_no);

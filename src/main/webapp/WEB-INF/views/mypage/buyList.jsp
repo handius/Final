@@ -14,6 +14,7 @@
 		<tr>
 			<th>주문일자</th>
 			<th>상품정보</th>
+			<th>결제금액</th>
 			<th>상태</th>
 		</tr>
 		<tbody>
@@ -24,14 +25,17 @@
 			<tr>
 				<td><%=buyList.get(i).getOrder_date()%></td>
 				<td><%=buyList.get(i).getList_title()%>
-				<%List<Integer> option_name = buyList.get(i).getOrder_add_option();
+				<%List<String> option_name = buyList.get(i).getOption_name();
 				List<Integer> order_amount = buyList.get(i).getOrder_amount();
 				if (option_name != null) {
 					for (int j = 0; j < option_name.size(); j++) {%>
-					<%=option_name.get(j)%> <%=order_amount.get(j)%>
-					<%}
-					}%>
-					<%=buyList.get(i).getOrder_price()%></td>
+					<%=option_name.get(j)%>
+					<%=order_amount.get(j)%>
+					<%
+					}
+					}
+					%></td>
+				<td><%=buyList.get(i).getOrder_price()%></td>
 				<td><%=buyList.get(i).getOrder_status()%></td>
 			</tr>
 			<%
