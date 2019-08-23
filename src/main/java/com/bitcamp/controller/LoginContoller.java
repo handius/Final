@@ -63,17 +63,13 @@ public class LoginContoller {
 
 	@RequestMapping(value = "login/loginResult", method = RequestMethod.GET)
 	public String loginResult(Principal prin, HttpServletRequest request) {
-		System.out.println("진입");
-		System.out.println("이름 : " + prin.getName());
 		CustomUser user = (CustomUser) userService.loadUserByUsername(prin.getName());
-		System.out.println("loginResult~~!");
 		System.out.println(user.getMember());
-		System.out.println();
 		
 		HttpSession session = request.getSession();
 		session.setAttribute("member", user.getMember()); // 로그인 정보 세션 설정
 		
-		if(prin.getName().equals("admin01"))
+		if(memberService.checkAuth(user.getMember(), "ROLE_ADMIN"))
 			return "redirect:/admin";
 		return "redirect:/";
 	}
