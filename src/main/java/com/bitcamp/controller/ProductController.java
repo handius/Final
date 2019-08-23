@@ -52,10 +52,7 @@ public class ProductController {
 		MemberDTO mdto = (MemberDTO)session.getAttribute("member");
 		if(mdto!=null) {
 			List<AuthorityDTO> authList = mdto.getAuthorityList();
-			//임시 관리자 권한 부여
-			AuthorityDTO tempauth = new AuthorityDTO();
-			tempauth.setUser_auth("ROLE_ADMIN");
-			authList.add(tempauth);
+			System.out.println(authList);
 			for(AuthorityDTO auth : authList) {
 				if(auth.getUser_auth().equals("ROLE_ADMIN")) {
 					System.out.println("관리자 권한 설정");
