@@ -36,4 +36,5 @@ public interface AdminMapper {
 	public List<MainViewDTO> getMainViewList();
 	public List<MainImageDTO> getMainImageList();
 	public MainProductVO getMainProduct(String string);
+	public void updateMemberRole(int member_no);
 }

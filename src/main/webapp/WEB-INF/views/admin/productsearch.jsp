@@ -109,7 +109,7 @@
 					</c:if>
 					<c:forEach var="i" begin="${paging.startblock }" end="${paging.endblock }">
 						<c:if test="${i == paging.currpage }">
-							<c:out value="${i }"></c:out>
+							<button class="btn"><c:out value="${i }"></c:out></button>
 						</c:if>
 						<c:if test="${i != paging.currpage }">
 							<button class="btn btn-default paging_btn" name="curr" value="${i }"><c:out value="${i }"/></button>

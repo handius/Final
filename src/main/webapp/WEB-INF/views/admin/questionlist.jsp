@@ -137,12 +137,12 @@
               <tbody>
                 <c:forEach var="i" items="${list }" varStatus="status">
                   <tr>
-                      <td class="qna_td_one"><input type="checkbox" name="deletechkbox" value="${i.question_no }"></td>
-                      <td><c:out value="${status.count }"/></td>
-                      <td><a href="/admin/answer/${i.question_no }"><c:out value="${i.question_title }"/></a> :: <c:out value="${i.question_delete_status }"/></td>
-                      <td><c:out value="${i.user_name }"/></td>
-                      <td><c:out value="${i.question_date }"/></td>
-                      <td><c:out value="${i.answer_status }"/></td>
+                    <td class="qna_td_one"><input type="checkbox" name="deletechkbox" value="${i.question_no }"></td>
+                    <td><c:out value="${status.count }"/></td>
+                    <td><a href="/admin/answer/${i.question_no }"><c:out value="${i.question_title }"/></a></td>
+                    <td><c:out value="${i.user_name }"/></td>
+                    <td><c:out value="${i.question_date }"/></td>
+                    <td><c:out value="${i.answer_status }"/></td>
                   </tr>
                 </c:forEach>
               </tbody>
@@ -164,10 +164,10 @@
 						<a href="#">◀</a>
 					</c:if>
 					<c:forEach var="i" begin="${paging.startblock }" end="${paging.endblock }">
-						<c:if test="${i == currpage }">
-							<c:out value="${i }"></c:out>
+						<c:if test="${i == paging.currpage }">
+							<button class="btn"><c:out value="${i }"></c:out></button>
 						</c:if>
-						<c:if test="${i != currpage }">
+						<c:if test="${i != paging.currpage }">
 							<input type="submit" class="btn btn-default" name="curr" value="${i }">
 						</c:if>
 					</c:forEach>

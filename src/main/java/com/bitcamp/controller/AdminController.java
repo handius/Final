@@ -67,12 +67,13 @@ public class AdminController {
 	public String adminmain(@RequestParam(required=false) String curr,
 							 @RequestParam(required=false) String user_name,
 							 @ModelAttribute DateVO search_date,
-							 @RequestParam(required=false) String tempROLE,
+							 @RequestParam(required=false) String user_authority,
 							 Model model) {
 
 		// 쿼리 돌릴 값 (검색)
 		HashMap<String, Object> search_map = new HashMap<>();
 		search_map.put("user_name", user_name);
+		search_map.put("user_authority", user_authority);
 		String make_to_char = null;
 		String date1 = search_date.getSearch_date_year();
 		String date2 = search_date.getSearch_date_month();
@@ -106,7 +107,7 @@ public class AdminController {
 		if(user_name != null) test.put("user_name", user_name);
 		if(year != null) test.put("search_date_year", year);
 		if(month != null) test.put("search_date_month", month);
-		if(tempROLE != null) test.put("tempROLE", tempROLE);
+		if(user_authority != null) test.put("user_authority", user_authority);
 		model.addAttribute("test", test);
 		return "admin/memberlist.admin";
 	}
@@ -119,6 +120,14 @@ public class AdminController {
 		model.addAttribute("detail", memberdetail);
 		model.addAttribute("admin_category", "member");
 		return "admin/memberdetail.admin";
+	}
+
+	@RequestMapping("/admin/memberroleupdate")
+	public String memberupdate(@RequestParam int member_no) {
+		
+		adservice.updateMemberRole(member_no);
+		
+		return "redirect:/admin";
 	}
 	
 	@RequestMapping("/admin/deletemember/{memberno}")
