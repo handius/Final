@@ -19,11 +19,13 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.bitcamp.DTO.Product.ListDTO;
+import com.bitcamp.DTO.admin.MainImageDTO;
 import com.bitcamp.DTO.admin.MainViewDTO;
 import com.bitcamp.DTO.comm.PageDTO;
 import com.bitcamp.DTO.customerqaboard.CustomerQABoardDTO;
 import com.bitcamp.DTO.member.MemberDTO;
 import com.bitcamp.VO.admin.DateVO;
+import com.bitcamp.VO.admin.MainProductVO;
 import com.bitcamp.VO.admin.NewMemberVO;
 import com.bitcamp.service.AdminService;
 
@@ -34,6 +36,30 @@ public class AdminController {
 	
 	@RequestMapping("/")
 	public String main(Model model) {
+		
+		List<MainViewDTO> mainview = adservice.getMainViewList();
+		List<MainImageDTO> mainimg = adservice.getMainImageList();
+		List<MainProductVO> product1 = new ArrayList<>();
+		List<MainProductVO> product2 = new ArrayList<>();
+		List<MainProductVO> product3 = new ArrayList<>();
+		String[] template2 = mainview.get(1).getMain_view_product().split(",");
+		String[] template4 = mainview.get(3).getMain_view_product().split(",");
+		String[] template5 = mainview.get(4).getMain_view_product().split(",");
+		
+		for(int i = 0; i < template2.length; i++) {
+			MainProductVO vo1 = adservice.getMainProduct(template2[i]);
+			MainProductVO vo2 = adservice.getMainProduct(template4[i]);
+			MainProductVO vo3 = adservice.getMainProduct(template5[i]);
+			product1.add(vo1);
+			product2.add(vo2);
+			product3.add(vo3);
+		}
+		
+		model.addAttribute("product1", product1);
+		model.addAttribute("product2", product2);
+		model.addAttribute("product3", product3);
+		model.addAttribute("mainviewlist", mainview);
+		model.addAttribute("mainimglist", mainimg);
 		model.addAttribute("ifpagemain", 1);
 		return "main.mall";
 	}
@@ -71,6 +97,8 @@ public class AdminController {
 		model.addAttribute("memberList", memberlist);
 		model.addAttribute("paging", page);
 			
+		System.out.println(page.getCurrpage());
+		
 		// 페이징 검색 값
 		HashMap<String, Object> test = new HashMap<>();
 		String year = search_date.getSearch_date_year();
@@ -194,6 +222,9 @@ public class AdminController {
 	@RequestMapping("/admin/mainset")
 	public String mainset(Model model) {
 		
+		List<MainViewDTO> list = adservice.getMainViewList();
+		
+		model.addAttribute("list", list);
 		model.addAttribute("admin_category", "mainset");
 		return "admin/mainset.admin";
 	}
@@ -219,7 +250,7 @@ public class AdminController {
 				}
 				// DB에 이미지 경로와 링크 등록
 					for (int i = 0; i < main_image_link.size(); i++) {
-						String imgpath = path + "\\" + multi.get(i).getOriginalFilename();
+						String imgpath = "/resources/image/" + multi.get(i).getOriginalFilename();
 						System.out.println("사진" + i + 1);
 						System.out.println("1. 이미지 경로 : " + imgpath);
 						System.out.println("2. 이미지 링크 : " + main_image_link.get(i));
@@ -243,21 +274,12 @@ public class AdminController {
 		return "redirect:/admin/mainset";
 	}
 	
-	@RequestMapping("/admin/producttemplate")
-	public String productTemplate(@ModelAttribute MainViewDTO mainview,
-								   Model model) {
-		
-		return "admin/mainset.admin";
-	}
-	
 	@RequestMapping("/admin/productmodal")
 	public String productModal(@RequestParam(required = false) String curr,
 								@ModelAttribute ListDTO product,
 								@RequestParam int main_view_no,
 								Model model) {
 
-		System.out.println(main_view_no);
-		
 		// 쿼리 돌릴 값 (검색)
 		HashMap<String, Object> search_map = new HashMap<>();
 		search_map.put("list_category", product.getList_category());
@@ -290,7 +312,28 @@ public class AdminController {
 		model.addAttribute("list", list);
 		model.addAttribute("paging", page);
 		
+		model.addAttribute("main_view_no", main_view_no);
+		
 		return "admin/productsearch";
+	}
+	
+	@RequestMapping("/admin/producttemplate")
+	public String productsubmit(@ModelAttribute MainViewDTO mainview,
+								 @RequestParam(required=false) List<String> main_view_product,
+								 Model model) {
+		
+		String product;
+		if(main_view_product != null) {
+			product = "";
+			for(int i = 0; i < main_view_product.size(); i++) product += main_view_product.get(i) + ",";
+		} else {
+			product = null;
+		}
+		mainview.setMain_view_product(product);
+		
+		adservice.updateProductemplate(mainview);
+		
+		return "redirect:/admin/mainset";
 	}
 	
 	@RequestMapping("/admin/qna")

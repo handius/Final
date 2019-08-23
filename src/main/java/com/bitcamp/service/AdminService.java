@@ -10,9 +10,12 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bitcamp.DTO.Product.ListDTO;
+import com.bitcamp.DTO.admin.MainImageDTO;
+import com.bitcamp.DTO.admin.MainViewDTO;
 import com.bitcamp.DTO.comm.PageDTO;
 import com.bitcamp.DTO.customerqaboard.CustomerQABoardDTO;
 import com.bitcamp.DTO.member.MemberDTO;
+import com.bitcamp.VO.admin.MainProductVO;
 import com.bitcamp.VO.admin.NewMemberVO;
 import com.bitcamp.mapper.AdminMapper;
 
@@ -97,5 +100,21 @@ public class AdminService {
 
 	public List<ListDTO> getProductList(HashMap<String, Object> search_map) {
 		return admapper.getProductList(search_map);
+	}
+
+	public void updateProductemplate(MainViewDTO mainview) {
+		admapper.updateProductemplate(mainview);
+	}
+
+	public List<MainViewDTO> getMainViewList() {
+		return admapper.getMainViewList();
+	}
+
+	public List<MainImageDTO> getMainImageList() {
+		return admapper.getMainImageList();
+	}
+
+	public MainProductVO getMainProduct(String string) {
+		return admapper.getMainProduct(string);
 	}
 }
