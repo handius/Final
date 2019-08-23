@@ -103,7 +103,7 @@ public class MyPageController {
 
 	@RequestMapping("customerQA")
 	public String customerQA(HttpSession session) {
-		return "mypage/customerQA";
+		return "mypage/customerQA.mall";
 	}
 
 	@RequestMapping("customerQAResult")
@@ -132,7 +132,7 @@ public class MyPageController {
 		MemberDTO memberDTO = user.getMember();
 		List<OrderDTO> buyList = service.buyList(memberDTO.getMember_no());
 		model.addAttribute("buyList", buyList);
-		return "mypage/buyList";
+		return "mypage/buyList.mall";
 	}
 
 	@RequestMapping("cQAList")
@@ -142,7 +142,7 @@ public class MyPageController {
 		MemberDTO memberDTO = user.getMember();
 		List<CustomerQABoardDTO> cQAList = service.cQAList(memberDTO.getMember_no());
 		model.addAttribute("cQAList", cQAList);
-		return "mypage/cQAList";
+		return "mypage/cQAList.mall";
 	}
 
 	@RequestMapping("buyerPQAList")
@@ -153,10 +153,9 @@ public class MyPageController {
 		Map<String, Object> parameters = service.buyerPQList(memberDTO.getMember_no());
 		List<QABoardDTO> buyerPQList = (List<QABoardDTO>) parameters.get("buyerPQList");
 		List<String> list_title_list = (List<String>) parameters.get("list_title_list");
-		// List<QABoardDTO> buyerPAList = service.buyerPAList(buyerPQList);
 		model.addAttribute("buyerPQList", buyerPQList);
 		model.addAttribute("list_title_list", list_title_list);
-		return "mypage/buyerPQAList";
+		return "mypage/buyerPQAList.mall";
 	}
 
 	@RequestMapping("buyerReviewList")
@@ -178,8 +177,10 @@ public class MyPageController {
 		CustomUser user = (CustomUser) userService.loadUserByUsername(prin.getName());
 		MemberDTO memberDTO = user.getMember();
 		List<OrderDTO> sellList = service.sellList(memberDTO.getUser_id());
+		System.out.println(memberDTO.getUser_id());
 		model.addAttribute("sellList", sellList);
-		return "mypage/sellList";
+		System.out.println(sellList);
+		return "mypage/sellList.mall";
 	}
 
 	@RequestMapping("sellerPQAList")
