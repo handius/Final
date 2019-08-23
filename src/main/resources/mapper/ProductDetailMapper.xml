@@ -20,9 +20,14 @@
 	where list_no = #{list_no}
 </select>
 <select id="productDetailArtistGet" parameterType="String" resultType="com.bitcamp.DTO.member.MemberDTO">
-	select user_nick, user_name, user_address, user_call, user_email
+	select member_no ,user_nick, user_name, user_address, user_call, user_email
 	from member
-	where user_name = #{list_artist}
+	where user_id = #{user_id}
+</select>
+<select id="productDetailArtistBoardGet" parameterType="int" resultType="Integer" >
+	select artist_no
+	from artist_board
+	where member_no = #{member_no}
 </select>
 <select id="productDetailQandAInsertSeq" resultType="int">
 	select qa_board_seq.nextval from dual

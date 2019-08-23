@@ -48,11 +48,18 @@ public class ProductDetailController {
 			model.addAttribute("orderList", service.productDetailOrderService(list_order_member_no));
 		}
 		
+		int artist_no = (int) map.get("productDetailArtistBoardNo");
+		if(artist_no == 0) {
+			model.addAttribute("error", "판매자 정보가 없습니다.");
+			return "productdetail/error";
+		}
+		
 		model.addAttribute("listDTO", map.get("productDetail"));
 		model.addAttribute("imgList", map.get("productDetailImg"));
 		model.addAttribute("optionList", map.get("productDetailOption"));
-		model.addAttribute("artistInfo", map.get("productDetailArtistInfo"));
 		model.addAttribute("qaBoardList", map.get("productDetailQABoardList"));
+		model.addAttribute("artistInfo", map.get("productDetailArtistInfo"));
+		model.addAttribute("artistBoardNo", artist_no);
 		model.addAttribute("QACurrentPage", 1);
 		model.addAttribute("buyReviewCurrentPage", 1);
 		return "productdetail/productdetail.mall";
