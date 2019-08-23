@@ -72,7 +72,9 @@ public class LoginContoller {
 		
 		HttpSession session = request.getSession();
 		session.setAttribute("member", user.getMember()); // 로그인 정보 세션 설정
-
+		
+		if(prin.getName().equals("admin01"))
+			return "redirect:/admin";
 		return "redirect:/";
 	}
 
