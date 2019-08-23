@@ -26,9 +26,11 @@ public class FreeboardService {
 	}
 
 	public FreeboardDTO detailService(int freeboard_no) {
-
 		FreeboardDTO dto = fbMapper.getDetail(freeboard_no);
-		String user_nick = memMapper.readMemberbyMemberNo(dto.getMember_no()).getUser_nick();
+		System.out.println(fbMapper.getDetail(freeboard_no));
+		System.out.println("번호..");
+		System.out.println(dto.getFreeboard_member_no());
+		String user_nick = memMapper.readMemberbyMemberNo(dto.getFreeboard_member_no()).getUser_nick();
 		dto.setUser_nick(user_nick);
 
 		return dto;

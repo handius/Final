@@ -13,11 +13,11 @@
 		user_name,user_email,
 		user_address, user_regidate, user_status,
 		user_certkey,
-		user_certstatus, user_flatform,user_nick)
+		user_certstatus, user_flatform, user_nick, user_authority)
 		values(member_seq.nextval, #{user_id}, #{user_password}, #{user_name},
 		#{user_email}, #{user_address}, sysdate,
 		1, #{user_certkey}, 0, null,
-		#{user_nick})
+		#{user_nick}, 'ROLE_USER')
 	</insert>
 
 	<select id="userSelect" parameterType="String" resultType="int">
@@ -42,7 +42,7 @@
 
 	<update id="updateCertStatus" parameterType="String">
 		update member set
-		user_certstatus = 1 , user_certkey=' ' where user_id =
+		user_certstatus = 1 , user_certkey=' ' ,user_authority = 'ROLE_MEMBER' where user_id =
 		#{user_id}
 	</update>
 

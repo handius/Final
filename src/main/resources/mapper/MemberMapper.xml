@@ -17,6 +17,7 @@
 		<result property="user_call" column="user_call" />
 		<result property="user_certstatus" column="user_certstatus" />
 		<result property="user_flatform" column="user_flatform" />
+		<result property="user_authority" column="user_authority" />
 		<collection property="authorityList" resultMap="authMap"></collection>
 	</resultMap>
 
@@ -36,7 +37,7 @@
 		user_regidate, user_status,
 		user_call, user_certstatus,
 		user_flatform,
-		user_auth
+		user_auth, user_authority
 		from member LEFT OUTER JOIN authority on
 		member.member_no = authority.member_no
 		where member.user_id =
@@ -52,7 +53,7 @@
 		user_regidate, user_status,
 		user_call,
 		user_certstatus, user_flatform,
-		user_auth
+		user_auth, user_authority
 		from member LEFT OUTER JOIN
 		authority on
 		member.member_no = authority.member_no

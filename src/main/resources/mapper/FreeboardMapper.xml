@@ -45,29 +45,28 @@
 	<select id="getSearchList"
 		resultType="com.bitcamp.DTO.freeboard.FreeboardDTO"
 		parameterType="Object">
-		select A.rnum, A.*
-			from (
-				select freeboard_no, freeboard_title,
+			select * from (    
+    			select rownum as rnum, A.*
+				from (
+					select freeboard_no, freeboard_title,
 						freeboard_content,
 						freeboard_regitime, freeboard_hits,
-						freeboard_member_no, user_nick, rownum as rnum
-				from
+						freeboard_member_no, user_nick
+					from
 						freeboard
 						LEFT OUTER JOIN member on
 						freeboard.freeboard_member_no =
 						member.member_no
-			<where>
-			<![CDATA[
-				rownum <= #{endrow} 
-			]]>
-				<include refid="search_board"></include>
-				<include refid="search_category"></include>
-			</where>
-			order by freeboard_no desc
-		) A 
-		<![CDATA[
-		WHERE A.rnum >= #{startrow} 
-		]]>
+					
+					order by freeboard_no desc
+					) A
+					<![CDATA[
+						where rownum <= #{endrow} 
+					]]>
+				)B 
+				<![CDATA[
+				WHERE rnum >= #{startrow} 
+				]]>
 	</select>
 
 	<update id="updateHits" parameterType="int">
