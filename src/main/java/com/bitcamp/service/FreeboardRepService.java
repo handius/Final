@@ -14,23 +14,23 @@ public class FreeboardRepService {
 	@Autowired
 	private FreeboardRepMapper mapper;
 	
-	public void saveReply(FreeboardRepDTO repDTO) {
+	public void saveReplyService(FreeboardRepDTO repDTO) {
 		mapper.insertData(repDTO);
 	}
 	
-	public List<FreeboardRepDTO> getReply(int freeboard_no){
+	public List<FreeboardRepDTO> getReplyService(int freeboard_no){
 		return mapper.getData(freeboard_no);
 	}
 	
-	public void modifyReply(FreeboardRepDTO dto) {
+	public void modifyReplyService(FreeboardRepDTO dto) {
 		mapper.updateData(dto);
 	}
 	
-	public void deleteReply(int rep_no) {
+	public void deleteReplyService(int rep_no) {
 		mapper.deleteData(rep_no);
 	}
 
-	public void updateReplyData(int rep_no, String rep_content) {
+	public void updateReplyDataService(int rep_no, String rep_content) {
 		FreeboardRepDTO dto =new FreeboardRepDTO();
 		dto.setRep_no(rep_no);
 		dto.setRep_content(rep_content);
@@ -38,8 +38,12 @@ public class FreeboardRepService {
 		mapper.updateData(dto);
 	}
 
-	public int countReply(int freeboard_no) {
+	public int countReplyService(int freeboard_no) {
 		return mapper.countData(freeboard_no);
+	}
+
+	public void saveReplyRepService(FreeboardRepDTO repDTO) {
+		mapper.insertRepRepData(repDTO);
 	}
 
 }
