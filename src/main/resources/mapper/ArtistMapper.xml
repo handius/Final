@@ -105,4 +105,40 @@
 		, artist_board_title = #{artist_board_title}
 		where artist_no = #{artist_no}
 </select>
+<!-- 작가 리스트 시작 -->
+<select id="artistListMaxCount" parameterType="String" resultType="int">
+	select count(*) 
+	from artist_board
+	<if test="!_parameter.equals('ROLL_ADMIN')">
+			where artist_board_status = 1
+	</if>
+</select>
+<select id="artistListGet" parameterType="HashMap" resultType="com.bitcamp.DTO.artist.ArtistBoardDTO">
+	select num, e1.*
+	from (select rownum as num , e2.* 
+    	  from (select artist_no, artist_board_title, artist_main_img, artist_score, artist_board_status, user_id
+                from artist_board inner join member
+                on artist_board.member_no = member.member_no
+                <if test="!user_authority.equals('ROLL_ADMIN')">
+                	where artist_board_status = 1
+                </if>
+                <if test="listType.equals('인기순')">
+                	order by artist_count desc
+                </if>
+                <if test="listType.equals('평점순')">
+                	order by artist_score desc
+                </if> 
+                <if test="listType.equals('최신순')">
+                	order by artist_no desc
+                </if>  
+                ) e2
+          where rownum <![CDATA[<]]>= #{endSql} ) e1
+    where num <![CDATA[>]]>= #{startSql}
+</select>
+<select id="artistListImgGet" parameterType="String" resultType="String">
+	select list_image_loc
+	from list_board inner join list_image_board
+	on list_board.list_no = list_image_board.list_no
+	where list_artist = #{value}
+</select>
 </mapper>
