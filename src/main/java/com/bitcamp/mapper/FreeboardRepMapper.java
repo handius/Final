@@ -18,4 +18,6 @@ public interface FreeboardRepMapper {
 
 	public int countData(int freeboard_no);
 
+	public void insertRepRepData(FreeboardRepDTO repDTO);
+
 }

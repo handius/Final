@@ -105,7 +105,7 @@
         </div>
         <h2>Member Update</h2>
         <div class="admin_content">
-          <form method="post" action="">
+          <form method="post" action="/admin/memberroleupdate">
             <table class="table table-bordered table-condensed">
               <tbody class="memberdetailtable">
                   <tr>
@@ -130,6 +130,7 @@
                     <button class="btn-default memberupdatebtn_default btn-block member_delete" value="${detail.member_no }">탈퇴시키기</button>
                 </div>
                 <div class="col-sm-1">
+                	<input type="hidden" name="member_no" value="${detail.member_no }">
                     <input type="submit" class="btn-default memberupdatebtn_default btn-block" value="저장">
                 </div>
             </div>

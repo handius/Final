@@ -117,4 +117,8 @@ public class AdminService {
 	public MainProductVO getMainProduct(String string) {
 		return admapper.getMainProduct(string);
 	}
+
+	public void updateMemberRole(int member_no) {
+		admapper.updateMemberRole(member_no);
+	}
 }

@@ -102,12 +102,12 @@
                         <option value="12">12월</option>
                     </select>
                 </div>
-                <label class="col-sm-1 control-label" for="tempROLE">회원 구분</label>
+                <label class="col-sm-1 control-label" for="user_authority">회원 구분</label>
                 <div class="col-sm-4">
-                    <select class="form-control" name="tempROLE" id="tempROLE">
+                    <select class="form-control" name="user_authority" id="user_authority">
                         <option>ROLE</option>
-                        <option value="custmor">일반</option>
-                        <option value="artist">작가</option>
+                        <option value="ROLE_MEMBER">일반</option>
+                        <option value="ROLE_SELLER">작가</option>
                     </select>
                 </div>
               </div>
@@ -163,7 +163,7 @@
 				</c:if>
 				<c:forEach var="i" begin="${paging.startblock }" end="${paging.endblock }">
 					<c:if test="${i == paging.currpage }">
-						<c:out value="${i }"></c:out>
+						<button class="btn"><c:out value="${i }"></c:out></button>
 					</c:if>
 					<c:if test="${i != paging.currpage }">
 						<input type="submit" class="btn btn-default" name="curr" value="${i }">

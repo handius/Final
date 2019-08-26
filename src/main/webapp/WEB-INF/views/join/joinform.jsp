@@ -9,6 +9,7 @@
 <script type="text/javascript"
 	src="//code.jquery.com/jquery-3.4.1.min.js"></script>
 <script>
+	/* document.domain = "localhost:8080"; */
 	function id_checks() {
 		var id = $("#id").val();
 		var isEnabled = false;
@@ -53,7 +54,7 @@
 			console.log('dd');
 			console.log(id_checks());
 		}
-		
+
 		//비밀번호 공백 확인
 		if ($("#password").val() == "") {
 			alert("비밀번호를 입력해주세요.");
@@ -125,6 +126,26 @@
 
 		return true;
 	}
+
+	function goPopup() {
+		// 호출된 페이지(jusopopup.jsp)에서 실제 주소검색URL(http://www.juso.go.kr/addrlink/addrLinkUrl.do)를 호출하게 됩니다.
+		var pop = window.open("../join/popup/jusoPopup", "pop",
+				"width=570,height=420, scrollbars=yes, resizable=yes");
+
+		// 모바일 웹인 경우, 호출된 페이지(jusopopup.jsp)에서 실제 주소검색URL(http://www.juso.go.kr/addrlink/addrMobileLinkUrl.do)를 호출하게 됩니다.
+		//var pop = window.open("/popup/jusoPopup.jsp","pop","scrollbars=yes, resizable=yes"); 
+	}
+	/** API 서비스 제공항목 확대 (2017.02) **/
+	function jusoCallBack(roadFullAddr, roadAddrPart1, addrDetail,
+			roadAddrPart2, engAddr, jibunAddr, zipNo, admCd, rnMgtSn, bdMgtSn,
+			detBdNmList, bdNm, bdKdcd, siNm, sggNm, emdNm, liNm, rn, udrtYn,
+			buldMnnm, buldSlno, mtYn, lnbrMnnm, lnbrSlno, emdNo) {
+		// 팝업페이지에서 주소입력한 정보를 받아서, 현 페이지에 정보를 등록합니다.
+		document.getElementById('address1').value=roadAddrPart1;
+		document.getElementById('address2').value=roadAddrPart2;
+		console.log(addrDetail);
+		
+	}
 </script>
 <body>
 	<h1>Handius 회원 가입</h1>
@@ -160,8 +181,10 @@
 			</tr>
 			<tr>
 				<td>주소</td>
-				<td><input type="text" name="address1" placeholder="주소"><br>
-					<input type="text" name="address2"></td>
+				<td><input type="text" name="address1" id="address1"
+					placeholder="주소" readonly="readonly" onclick="goPopup()">
+					<button onclick="goPopup()">주소찾기</button> <br> <input
+					type="text" name="address2" id="address2"></td>
 			</tr>
 		</table>
 		이메일을 통한 인증이 완료되어야<br> 서비스를 이용하실 수 있습니다. <br> <input
