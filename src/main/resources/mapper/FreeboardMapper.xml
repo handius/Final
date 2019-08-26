@@ -57,7 +57,7 @@
 						LEFT OUTER JOIN member on
 						freeboard.freeboard_member_no =
 						member.member_no
-					
+					where freeboard_status = 1
 					order by freeboard_no desc
 					) A
 					<![CDATA[

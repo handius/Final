@@ -44,7 +44,7 @@
 					</font>
 				</c:if> --%>
 				<tr>
-					<td><input name="submit" type="submit" value="로그인"></td>
+					<td colspan="2"><input name="submit" type="submit" value="로그인"></td>
 				</tr>
 				<input name="${_csrf.parameterName}" type="hidden"
 					value="${_csrf.token}">
