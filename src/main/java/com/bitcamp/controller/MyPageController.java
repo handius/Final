@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.AlternativeJdkIdGenerator;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -169,7 +170,7 @@ public class MyPageController {
 		List<String> list_title_list = (List<String>) parameters.get("list_title_list");
 		model.addAttribute("buyerReviewList", buyerReviewList);
 		model.addAttribute("list_title_list", list_title_list);
-		return "mypage/buyerReviewList";
+		return "mypage/buyerReviewList.mall";
 	}
 
 	@RequestMapping("registerList")
@@ -178,7 +179,7 @@ public class MyPageController {
 		MemberDTO memberDTO = user.getMember();
 		List<ListDTO> registerList = service.registerList(memberDTO.getUser_id());
 		model.addAttribute("registerList", registerList);
-		return "mypage/registerList";
+		return "mypage/registerList.mall";
 	}
 
 	@RequestMapping("sellList")
@@ -191,7 +192,7 @@ public class MyPageController {
 		List<MemberDTO> buyerList = (List<MemberDTO>) parameters.get("buyerList");
 		model.addAttribute("sellList", sellList);
 		model.addAttribute("buyerList", buyerList);
-		return "mypage/sellList";
+		return "mypage/sellList.mall";
 	}
 
 	@RequestMapping("sellerPQAList")
@@ -204,7 +205,7 @@ public class MyPageController {
 		List<String> list_title_list = (List<String>) parameters.get("list_title_list");
 		model.addAttribute("sellerPQAList", sellerPQAList);
 		model.addAttribute("list_title_list", list_title_list);
-		return "mypage/sellerPQAList";
+		return "mypage/sellerPQAList.mall";
 	}
 
 	@RequestMapping("sellerReviewList")
@@ -217,7 +218,17 @@ public class MyPageController {
 		List<String> list_title_list = (List<String>) parameters.get("list_title_list");
 		model.addAttribute("sellerReviewList", sellerReviewList);
 		model.addAttribute("list_title_list", list_title_list);
-		return "mypage/sellerReviewList";
+		return "mypage/sellerReviewList.mall";
+	}
+
+	// Completion of receipt
+	@RequestMapping("cor/{order_no}")
+	public String cor(Principal prin, HttpSession session, @PathVariable int order_no) {
+		// MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
+		CustomUser user = (CustomUser) userService.loadUserByUsername(prin.getName());
+		MemberDTO memberDTO = user.getMember();
+		service.cor(order_no);
+		return "redirect:/buyList";
 	}
 
 }
