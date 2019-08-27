@@ -6,7 +6,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>test</title>
+    <title>ADMIN PAGE</title>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <!-- 합쳐지고 최소화된 최신 CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
@@ -50,6 +50,7 @@
         font-size: 16px;
         width: 250px;
         color: #333333;
+        cursor: pointer;
     }
     .admin_category_child {
         border-bottom: 1px solid #D9D4CF;

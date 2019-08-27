@@ -104,9 +104,12 @@ public class AdminController {
 	public String memberupdate(@RequestParam int member_no,
 								@RequestParam String user_authority) {
 		
+		// 쿼리 돌릴 파라미터
 		HashMap<String, Object> update_map = new HashMap<>();
 		update_map.put("no", member_no);
 		update_map.put("auth", user_authority);
+		
+		// 권한 업데이트 및 추가
 		adservice.updateMemberRole(update_map);
 		adservice.insertRealAuthority(update_map);
 		

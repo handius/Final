@@ -5,7 +5,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>test</title>
+    <title>ADMIN PAGE</title>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <!-- 합쳐지고 최소화된 최신 CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
@@ -92,7 +92,7 @@
         <h2>Product Table</h2>
         <div class="admin_content">
           <div class="row">
-              <div class="col-sm-2 col-sm-offset-10">
+              <div class="col-sm-3 col-sm-offset-9">
               	<form action="/exceldown2" method="post">
               	 <input type="hidden" name="search" value="${tochar }">
                  <button class="btn btn-default btn-lg btn-block">Excel Download</button>

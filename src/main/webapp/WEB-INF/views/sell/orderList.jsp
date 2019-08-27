@@ -13,7 +13,7 @@
 	body{
 		margin: 0px;
 		padding: 0px;
-		background-color: rgba(232, 232, 232, 0.6) !important;
+		background-color: #F0E5DE !important;
 	}
 	.category a{
 		color: rgba(93,93,93) !important;
@@ -33,7 +33,7 @@
 		margin-bottom:10px;
 	}
 	.category{
-		background-color: white;
+		background-color: #D9D4CF;
 		border: 1px solid silver;
 		height: 50px;
 		vertical-align: middle;
@@ -151,7 +151,7 @@
 		font-family: 'Comfortaa', cursive;
 		font-style: italic;
 		font-weight: bolder;
-		color: silver;
+		color: black;
 		font-size: 0.9em;
 	}
 	.smtxt{
@@ -178,7 +178,7 @@
 		padding: 10px !important;
 	}
 	.captionSelector + .caption{
-		background-color: #fcf8e3;
+		background-color: #D9D4CF;
 	}
 	@media(max-width:769px){
 		
