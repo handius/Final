@@ -25,6 +25,62 @@
 * {
 	font-family: 'Comfortaa', '맑은 고딕', cursive;
 }
+
+#wrap {
+	margin: 0 auto;
+	width: 1000px;
+	padding-top: 30px;
+}
+
+.nav {
+	color: #7C7877;
+	text-align: center;
+	padding: 20px;
+}
+
+.nav a {
+	color: #7C7877;
+	padding: 0px 20px;
+}
+
+.btnWrite {
+	background-color: #ABD0CE;
+	color: #ffffff;
+	float: right;
+}
+
+.table a {
+	color: black;
+}
+
+#btnSearch {
+	background-color: #D9D4CF;
+}
+
+table {
+	width: 100%;
+}
+
+thead {
+	background-color: #F0E5DE;
+}
+/* 
+th:nth-child(1) {
+	width: 50px;
+}
+
+th:nth-child(5) {
+	width: 70px;
+} */
+
+.formSearch{
+	padding: 10px 270px;
+}
+
+#searchKeyword{
+	width : 300px;
+}
+
 </style>
 <script>
 	function search() {
@@ -36,64 +92,65 @@
 	}
 </script>
 <body>
-	<a href="freeboard">전체</a>|
-	<a href="freeboard?category=정보">정보</a>|
-	<a href="freeboard?category=교환">교환</a>|
-	<a href="freeboard?category=잡담">잡담</a>
-
-	<div>
-		<table>
-			<thead>
-				<tr>
-					<th>번호</th>
-					<th>제목</th>
-					<th>닉네임</th>
-					<th>작성일</th>
-					<th>조회수</th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:forEach items="${list}" var="list">
-					<tr>
-						<td><c:out value="${list.freeboard_no}"></c:out></td>
-						<td><a href="freeboard/detail?no=${list.freeboard_no}"><c:out
-									value="${list.freeboard_title}"></c:out></a></td>
-						<td><c:out value="${list.user_nick}"></c:out></td>
-						<td><c:out value="${list.freeboard_regiTime}"></c:out></td>
-						<td><c:out value="${list.freeboard_hits}"></c:out></td>
+	<div id="wrap">
+		<div class="nav">
+			<a href="freeboard">전체</a> | <a href="freeboard?category=정보">정보</a> |
+			<a href="freeboard?category=교환">교환</a> | <a
+				href="freeboard?category=잡담">잡담</a>
+		</div>
+		<div>
+			<table class="table">
+				<thead align="center">
+					<tr class="trHead">
+						<th width="70px">번호</th>
+						<th>제목</th>
+						<th width="150px">닉네임</th>
+						<th width="150px">작성일</th>
+						<th width="70px">조회수</th>
 					</tr>
-				</c:forEach>
-			</tbody>
-		</table>
+				</thead>
+				<tbody>
+					<c:forEach items="${list}" var="list">
+						<tr>
+							<td><c:out value="${list.freeboard_no}"></c:out></td>
+							<td><a href="freeboard/detail?no=${list.freeboard_no}"><c:out
+										value="${list.freeboard_title}"></c:out></a></td>
+							<td><c:out value="${list.user_nick}"></c:out></td>
+							<td><c:out value="${list.freeboard_regiTime}"></c:out></td>
+							<td><c:out value="${list.freeboard_hits}"></c:out></td>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>
+		</div>
+		<button class="btn btnWrite" onclick="location='freeboard/write'">글쓰기</button>
+		<br>
+		<form class="formPage" action="/freeboard" method="post">
+			<c:if test="${paging.startblock > 1 }">
+				<a href="#">◀</a>
+			</c:if>
+			<c:forEach var="i" begin="${paging.startblock }"
+				end="${paging.endblock }">
+				<c:if test="${i == currpage }">
+					<c:out value="${i }"></c:out>
+				</c:if>
+				<c:if test="${i != currpage }">
+					<input type="submit" class="btn btn-default" name="curr"
+						value="${i }">
+				</c:if>
+			</c:forEach>
+			<c:if test="${paging.endblock < paging.totalpage }">
+				<a href="#">▶</a>
+			</c:if>
+		</form>
+		<div class="form-group form-inline formSearch">
+			<select id="searchType" class="form-control">
+				<option value="제목">제목</option>
+				<option value="닉네임">닉네임</option>
+			</select> <input type="text" class="form-control" id="searchKeyword"
+				onKeypress="javascript:if(event.keyCode==13) {search();}">
+			<button id="btnSearch" class="btn" onclick="search();">검색</button>
+		</div>
 	</div>
-	<button onclick="location='freeboard/write'">글쓰기</button>
-	<br>
-	<form action="/freeboard" method="post">
-		<c:if test="${paging.startblock > 1 }">
-			<a href="#">◀</a>
-		</c:if>
-		<c:forEach var="i" begin="${paging.startblock }"
-			end="${paging.endblock }">
-			<c:if test="${i == currpage }">
-				<c:out value="${i }"></c:out>
-			</c:if>
-			<c:if test="${i != currpage }">
-				<input type="submit" class="btn btn-default" name="curr"
-					value="${i }">
-			</c:if>
-		</c:forEach>
-		<c:if test="${paging.endblock < paging.totalpage }">
-			<a href="#">▶</a>
-		</c:if>
-	</form>
-	<select id="searchType">
-		<option value="제목">제목</option>
-		<option value="닉네임">닉네임</option>
-	</select>
-
-	<input type="text" id="searchKeyword"
-		onKeypress="javascript:if(event.keyCode==13) {search();}">
-	<button id="btnSearch" onclick="search();">검색</button>
-
 </body>
 </html>
