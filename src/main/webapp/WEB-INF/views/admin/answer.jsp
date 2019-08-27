@@ -142,6 +142,7 @@
 		if ($('#summernote').val() == '') {
 			alert('내용을 입력해주세요');
 		}
+		event.de
 		return false;
 	});
 

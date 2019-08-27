@@ -36,5 +36,6 @@ public interface AdminMapper {
 	public List<MainViewDTO> getMainViewList();
 	public List<MainImageDTO> getMainImageList();
 	public MainProductVO getMainProduct(String string);
-	public void updateMemberRole(int member_no);
+	public void updateMemberRole(HashMap<String, Object> update_map);
+	public void insertRealAuthority(HashMap<String, Object> update_map);
 }

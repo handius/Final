@@ -108,7 +108,7 @@
                 <div class="col-sm-4">
                     <select class="form-control" name="answer_status" id="answer_status">
                         <option value="">Status</option>
-                        <option value="답변 대기">답변 대기</option>
+                        <option value="답변대기">답변대기</option>
                         <option value="완료">완료</option>
                     </select>
                 </div>

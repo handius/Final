@@ -151,4 +151,36 @@ public class ArtistService {
 		mapper.artistBoardDetailModify(dto);
 	}
 	
+	public List<Object> artistList(Map<String, Object> map) {
+		List<Object> artistList = new ArrayList<>();
+		
+		//스크롤 기능
+		int currentPage = Integer.parseInt(map.get("currentArtistList").toString());
+		int sizeSql = 5;
+		int maxSql = mapper.artistListMaxCount(map.get("user_authority").toString());
+		ScrollCalculation scroll = new ScrollCalculation(currentPage, sizeSql, maxSql);
+		int startSql = scroll.getStartSql();
+		int endSql = scroll.getEndSql();
+		
+		//함수 작동 여부를 확인
+		if(scroll.isActive()) {
+			HashMap<String, Object> hashmap = new HashMap<>();
+			hashmap.put("user_authority", map.get("user_authority").toString());
+			hashmap.put("listType", map.get("listType"));
+			hashmap.put("endSql", endSql);
+			hashmap.put("startSql", startSql);
+
+			List<ArtistBoardDTO> artistBoardList = mapper.artistListGet(hashmap);
+			for(int i=0; i<artistBoardList.size(); i++) {
+				HashMap<String, Object> tmpHashmap = new HashMap<>();
+				List<String> imgLocList = mapper.artistListImgGet(artistBoardList.get(i).getUser_id());
+				tmpHashmap.put("productImgList", imgLocList);
+				tmpHashmap.put("artistBoardInfo", artistBoardList.get(i));
+				artistList.add(tmpHashmap);
+			}
+		}
+		
+		return artistList;
+	}
+	
 }

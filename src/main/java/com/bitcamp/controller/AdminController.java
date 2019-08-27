@@ -116,18 +116,28 @@ public class AdminController {
 	public String memberdetail(@PathVariable int memberno ,Model model) {
 		
 		MemberDTO memberdetail = adservice.getMemberDetail(memberno);
+
+		HashMap<String, Object> search_map = new HashMap<>();
+		search_map.put("member_no", memberno);
+		int questioncount = adservice.getQuestionCount(search_map);
 		
+		model.addAttribute("count", questioncount);
 		model.addAttribute("detail", memberdetail);
 		model.addAttribute("admin_category", "member");
 		return "admin/memberdetail.admin";
 	}
 
 	@RequestMapping("/admin/memberroleupdate")
-	public String memberupdate(@RequestParam int member_no) {
+	public String memberupdate(@RequestParam int member_no,
+								@RequestParam String user_authority) {
 		
-		adservice.updateMemberRole(member_no);
+		HashMap<String, Object> update_map = new HashMap<>();
+		update_map.put("no", member_no);
+		update_map.put("auth", user_authority);
+		adservice.updateMemberRole(update_map);
+		adservice.insertRealAuthority(update_map);
 		
-		return "redirect:/admin";
+		return "redirect:/admin/memberdetail/" + member_no;
 	}
 	
 	@RequestMapping("/admin/deletemember/{memberno}")
@@ -209,7 +219,7 @@ public class AdminController {
 		// 페이징
 		int currpage = 1;
 		if(curr != null) currpage = Integer.parseInt(curr);
-		int totalCount = adservice.getProductCount(tochar);			// count(*)
+		int totalCount = adservice.getPopularProductCount(tochar);	// count(*)
 		int pagepercount = 10;										// 페이지 당 표시할 게시글 갯수
 		int blockSize = 5;											// 페이징 블록 사이즈
 		PageDTO page = new PageDTO(currpage, totalCount, pagepercount, blockSize);
@@ -361,12 +371,15 @@ public class AdminController {
 		if(date1 != null || date2 != null) make_to_char = date1 + "-" + date2;
 		search_map2.put("search_date", make_to_char);
 		search_map2.put("answer_status", qnadto.getAnswer_status());
+		search_map2.put("member_no", qnadto.getMember_no());
 		
 		// test
 		System.out.println(search_map2.get("question_title"));
 		System.out.println(search_map2.get("question_type"));
 		System.out.println(search_map2.get("search_date"));
 		System.out.println(search_map2.get("answer_status"));
+		System.out.println("---------------------------");
+		System.out.println(search_map2.get("member_no"));
 		System.out.println("---------------------------");
 		
 		// 페이징
