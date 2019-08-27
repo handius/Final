@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,7 +31,7 @@ public class FreeboardController {
 	@Resource(name = "freeboardRepService")
 	private FreeboardRepService replySerivce;
 
-	// @PreAuthorize("hasRole('ROLE_MEMBER')")
+//	@PreAuthorize("hasRole('ROLE_MEMBER')")
 	@RequestMapping(value="/freeboard")
 	public String freeboardList(
 			@RequestParam(value = "category", required = false, defaultValue = "전체") String freeboard_category,

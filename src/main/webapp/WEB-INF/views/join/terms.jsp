@@ -6,6 +6,69 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<!-- 합쳐지고 최소화된 최신 CSS -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+<!-- 부가적인 테마 -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+<!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<link
+	href="https://fonts.googleapis.com/css?family=Comfortaa&display=swap"
+	rel="stylesheet">
+<link
+	href="https://fonts.googleapis.com/css?family=Barriecito&display=swap"
+	rel="stylesheet">
+<style>
+* {
+	font-family: 'Comfortaa', '맑은 고딕', cursive;
+}
+
+.mainlogo {
+	margin-bottom: 50px;
+	padding: 0px 100px;
+	text-align: center;
+}
+
+.mainlogo>a {
+	font-family: 'Barriecito', cursive;
+	font-size: 4em;
+	color: #333333;
+	display: inline-block;
+}
+
+.mainlogo h1 {
+	margin: 0px;
+}
+
+#wrap {
+	padding-top: 50px;
+	width: 650px;
+	margin: 0 auto;
+	width: 650px;
+}
+
+label {
+	padding: 10px;
+}
+
+.nav {
+	padding: 0px 200px;
+}
+
+.btn {
+	width: 100px;
+	color: #ffffff;
+}
+
+.btnAcc {
+	background-color: #ABD0CE;
+}
+</style>
+
 <script type="text/javascript">
 	function checkedAll() {
 		document.form.check1.checked = true;
@@ -28,9 +91,14 @@
 	}
 </script>
 <body>
-	<h1>Terms & Policy</h1>
-	<form name="form" action="joinform" method="post">
-		<textarea rows="20" cols="100">제1조(목적) 이 약관은 핸디어스(전자상거래 사업자)가 운영하는 핸디어스 사이버 몰(이하 “몰”이라 한다)에서 제공하는 인터넷 관련 서비스(이하 “서비스”라 한다)를 이용함에 있어 사이버 몰과 이용자의 권리․의무 및 책임사항을 규정함을 목적으로 합니다.
+	<div id="wrap">
+		<div class="mainlogo">
+			<a href="/">Handius</a>
+			<h1>Terms & Policy</h1>
+		</div>
+		<form name="form" action="joinform" method="post">
+			<div>
+				<textarea rows="20" cols="80">제1조(목적) 이 약관은 핸디어스(전자상거래 사업자)가 운영하는 핸디어스 사이버 몰(이하 “몰”이라 한다)에서 제공하는 인터넷 관련 서비스(이하 “서비스”라 한다)를 이용함에 있어 사이버 몰과 이용자의 권리․의무 및 책임사항을 규정함을 목적으로 합니다.
 
   ※「PC통신, 무선 등을 이용하는 전자상거래에 대해서도 그 성질에 반하지 않는 한 이 약관을 준용합니다.」
 
@@ -58,9 +126,11 @@
 
   ⑥ 이 약관에서 정하지 아니한 사항과 이 약관의 해석에 관하여는 전자상거래 등에서의 소비자보호에 관한 법률, 약관의 규제 등에 관한 법률, 공정거래위원회가 정하는 전자상거래 등에서의 소비자 보호지침 및 관계법령 또는 상관례에 따릅니다.
 </textarea>
-		<br> <br> <input type="checkbox" name="check1"
-			value="check1"> 이용약관 동의 (필수) <br> <br>
-		<textarea rows="20" cols="100">
+				<label><input type="checkbox" name="check1" value="check1">
+					이용약관 동의 (필수) </label>
+			</div>
+			<div>
+				<textarea rows="20" cols="80">
 제17조(개인정보보호)
 
   ① “몰”은 이용자의 개인정보 수집시 서비스제공을 위하여 필요한 범위에서 최소한의 개인정보를 수집합니다. 
@@ -98,12 +168,20 @@
   ② 회원은 자신의 ID 및 비밀번호를 제3자에게 이용하게 해서는 안됩니다.
 
   ③ 회원이 자신의 ID 및 비밀번호를 도난당하거나 제3자가 사용하고 있음을 인지한 경우에는 바로 “몰”에 통보하고 “몰”의 안내가 있는 경우에는 그에 따라야 합니다.</textarea>
-		<br> <br> <input type="checkbox" name="check2"
-			value="check2"> 개인정보 수집 및 동의 (필수) <br> <input
-			type="checkbox" name="checkAll" value="checkAll"
-			onclick="checkedAll()"> 이용약관, 개인정보 수집 및 이용에 모두 동의합니다. <br>
-		<input type="button" value="취소" onclick="denied()"> <input
-			type="button" value="동의" onclick="acceptTerms()">
-	</form>
+				<label><input type="checkbox" name="check2" value="check2">
+					개인정보 수집 및 동의 (필수)</label>
+			</div>
+			<div>
+				<label><input type="checkbox" name="checkAll"
+					value="checkAll" onclick="checkedAll()"> 이용약관, 개인정보 수집 및
+					이용에 모두 동의합니다. </label><br><br>
+			</div>
+			<div class="nav">
+				<input type="button" class="btn btn-lg" value="취소" onclick="denied()">
+				<input type="button" class="btn btnAcc btn-lg" value="동의"
+					onclick="acceptTerms()">
+			</div>
+		</form>
+	</div>
 </body>
 </html>
