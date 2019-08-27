@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.bitcamp.DTO.artist.ArtistBoardDTO;
+import com.bitcamp.DTO.artist.ArtistListDTO;
 import com.bitcamp.DTO.artist.ArtistRepDTO;
 import com.bitcamp.DTO.member.MemberDTO;
 import com.bitcamp.VO.file.FileVO;
@@ -55,9 +56,9 @@ public class ArtistController {
 		return "artist/artistDetail.mall";
 	}
 	
-	@RequestMapping("/artistInsert")
-	public String artistInsert() {
-		String insertResultMessage = service.artistBoardInsertService(121); //임시번호
+	@RequestMapping("/artistInsert/{member_no}")
+	public String artistInsert(@PathVariable int member_no) {
+		String insertResultMessage = service.artistBoardInsertService(member_no);
 		System.out.println(insertResultMessage);
 		return "redirect:/login";
 	}
@@ -156,7 +157,7 @@ public class ArtistController {
 	
 	@ResponseBody
 	@RequestMapping("/ajaxArtistList")
-	public List<Object> ajaxArtistList(HttpSession session, @RequestBody Map<String, Object> map) {
+	public List<ArtistListDTO> ajaxArtistList(HttpSession session, @RequestBody Map<String, Object> map) {
 		
 		//회원 권한을 얻기
 		String user_authority = "ROLE_USER";

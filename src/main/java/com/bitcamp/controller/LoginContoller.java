@@ -29,7 +29,7 @@ public class LoginContoller {
 
 	@RequestMapping(value = "login", method = { RequestMethod.GET, RequestMethod.POST })
 	public String login() {
-		return "login/loginform.mall";
+		return "login/loginform";
 	}
 
 	@RequestMapping("searchID")

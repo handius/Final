@@ -3,6 +3,8 @@ package com.bitcamp.mapper;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
+
 import com.bitcamp.DTO.Product.ListDTO;
 import com.bitcamp.DTO.admin.MainImageDTO;
 import com.bitcamp.DTO.admin.MainViewDTO;

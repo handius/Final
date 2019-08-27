@@ -4,12 +4,76 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Handius 회원가입</title>
 </head>
-<script type="text/javascript"
-	src="//code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<!-- 합쳐지고 최소화된 최신 CSS -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+<!-- 부가적인 테마 -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+<!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<link
+	href="https://fonts.googleapis.com/css?family=Comfortaa&display=swap"
+	rel="stylesheet">
+<link
+	href="https://fonts.googleapis.com/css?family=Barriecito&display=swap"
+	rel="stylesheet">
+<style>
+* {
+	font-family: 'Comfortaa', '맑은 고딕', cursive;
+}
+
+.mainlogo {
+	margin-bottom: 50px;
+	padding: 0px 100px;
+	text-align: center;
+}
+
+.mainlogo>a {
+	font-family: 'Barriecito', cursive;
+	font-size: 4em;
+	color: #333333;
+	display: inline-block;
+}
+
+#wrap {
+	padding-top: 50px;
+	padding-bottom: 50px;
+	width: 400px;
+	margin: 0 auto;
+	width: 400px;
+}
+
+#reg_submit {
+	background-color: #ABD0CE;
+	color: #ffffff;
+}
+
+.btnCheck {
+	width: 85px;
+	background-color: #D9D4CF;
+	color: #ffffff;
+}
+
+.p {
+	padding-top: 40px;
+	padding-bottom: 20px;
+	text-align: center;
+}
+
+.inputCheck {
+	width: 310px;
+}
+
+.formInline {
+	display: inline-block;
+}
+</style>
 <script>
-	/* document.domain = "localhost:8080"; */
 	function id_checks() {
 		var id = $("#id").val();
 		var isEnabled = false;
@@ -141,54 +205,62 @@
 			detBdNmList, bdNm, bdKdcd, siNm, sggNm, emdNm, liNm, rn, udrtYn,
 			buldMnnm, buldSlno, mtYn, lnbrMnnm, lnbrSlno, emdNo) {
 		// 팝업페이지에서 주소입력한 정보를 받아서, 현 페이지에 정보를 등록합니다.
-		document.getElementById('address1').value=roadAddrPart1;
-		document.getElementById('address2').value=roadAddrPart2;
+		document.getElementById('address1').value = roadAddrPart1;
+		document.getElementById('address2').value = roadAddrPart2;
 		console.log(addrDetail);
-		
+
 	}
 </script>
 <body>
-	<h1>Handius 회원 가입</h1>
-	<form name="joinform" action="joinResult" method="post"
-		onsubmit="return checks();">
-		<table>
-			<tr class="tr1">
-				<td>아이디 *</td>
-				<td><input type="text" id="id" name="id" required="required"
-					placeholder="아이디"><input type="button" id="id_check"
-					value="중복체크" onclick="id_checks();"></input>
-					<div id="id_check_result"></div>
-			</tr>
-			<tr>
-				<td>비밀번호 *</td>
-				<td><input type="password" id="password" name="password"
-					required="required" placeholder="비밀번호"><br>
-			</tr>
-			<tr>
-				<td>비밀번호 확인 *</td>
-				<td><input type="password" id="password_check"
-					name="password_check" required="required" placeholder="비밀번호 확인"><br>
-			</tr>
-			<tr>
-				<td>이름 *</td>
-				<td><input type="text" id="name" name="name"
-					required="required" placeholder="이름"><br>
-			</tr>
-			<tr>
-				<td>이메일 *</td>
-				<td><input type="text" id="email" name="email"
-					required="required" placeholder="이메일"><br>
-			</tr>
-			<tr>
-				<td>주소</td>
-				<td><input type="text" name="address1" id="address1"
-					placeholder="주소" readonly="readonly" onclick="goPopup()">
-					<button onclick="goPopup()">주소찾기</button> <br> <input
-					type="text" name="address2" id="address2"></td>
-			</tr>
-		</table>
-		이메일을 통한 인증이 완료되어야<br> 서비스를 이용하실 수 있습니다. <br> <input
-			type="submit" id="reg_submit" value="가입하기">
-	</form>
+	<div id="wrap">
+		<div class="mainlogo">
+			<a href="/">Handius</a>
+			<h1>회원 가입</h1>
+		</div>
+		<form name="joinform" action="joinResult" method="post"
+			onsubmit="return checks();">
+			<label for="id">아이디 *</label><br>
+			<div class="form-group formInline">
+				<input type="text" class="form-control inputCheck" id="id" name="id"
+					required="required" placeholder="아이디">
+			</div>
+			<button id="id_check" class="btn btnCheck" onclick="id_checks();">중복체크</button>
+			<div id="id_check_result"></div>
+			<div class="form-group">
+				<label for="password">비밀번호 *</label> <input type="password"
+					class="form-control" id="password" name="password"
+					required="required" placeholder="비밀번호">
+			</div>
+			<div class="form-group">
+				<label for="password_check">비밀번호 확인 *</label> <input type="password"
+					class="form-control" id="password_check" name="password_check"
+					required="required" placeholder="비밀번호 확인">
+			</div>
+			<div class="form-group">
+				<label for="name">이름 *</label> <input type="text"
+					class="form-control" id="name" name="name" required="required"
+					placeholder="이름">
+			</div>
+			<div class="form-group">
+				<label for="email">이메일 *</label> <input type="text"
+					class="form-control" id="email" name="email" required="required"
+					placeholder="이메일">
+			</div>
+			<label for="address1">주소</label><br>
+			<div class="form-group formInline">
+				<input type="text" class="form-control inputCheck" name="address1"
+					id="address1" placeholder="주소" readonly="readonly"
+					onclick="goPopup()">
+			</div>
+			<button class="btn btnCheck" onclick="goPopup()">주소찾기</button>
+			<input type="text" class="form-control" name="address2" id="address2">
+			<div class="p">
+				<p>이메일을 통한 인증이 완료되어야</p>
+				<p>서비스를 이용하실 수 있습니다.</p>
+			</div>
+			<br> <input type="submit" class="btn btn-block btn-lg" id="reg_submit"
+				value="가입하기">
+		</form>
+	</div>
 </body>
 </html>

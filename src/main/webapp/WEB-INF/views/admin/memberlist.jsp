@@ -5,7 +5,7 @@
 <html lang="en">
 <head>
  <meta charset="UTF-8">
- <title>test</title>
+ <title>ADMIN PAGE</title>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <!-- 합쳐지고 최소화된 최신 CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
