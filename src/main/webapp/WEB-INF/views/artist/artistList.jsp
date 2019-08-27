@@ -29,7 +29,7 @@
         }
         
         body {
-            background-color: #f1f1f1 !important;
+            background-color: #f0e5de !important;
         }
         
         ul {
@@ -56,11 +56,15 @@
         #artistListNaxBox {
             height: 50px;
             border-bottom: 1px solid silver;
-            background-color: white;
+            background-color: #d9d4cf;
         }
         
         #mobileArtistListNavBox {
             display: none;
+        }
+        
+        #mobileArtistListNavBoxBackground {
+        	background-color: #d9d4cf;
         }
         
         .artistListNavTypeBlock {
@@ -68,6 +72,10 @@
             text-align: center;
             font-size: 20px;
             font-weight: bold;
+        }
+        
+        .artistListNavTypeBlock a {
+        	color: rgba(93,93,93);
         }
         
         #artistListNavSearchBox {
@@ -79,14 +87,14 @@
             width: 50%;
             height: 40px;
             border: 0;
-            border: 2px solid #ABD0CE;
+            border: 2px solid #7C7877;
         }
         
         .artistListNavSearchButton {
             width: 10%;
             height: 40px;
-            border: 2px solid #ABD0CE;
-            background-color: #ABD0CE;
+            border: 2px solid #7C7877;
+            background-color: #7C7877;
             color: white;
             margin-left: -5px;
         }
@@ -165,7 +173,6 @@
             }
             
             #mobileArtistListNavBox .container {
-                background-color: white;
                 border-bottom: 1px solid silver;
             }
             
@@ -196,7 +203,8 @@
             #dropdownButton {
                 width: 100%;
                 height: 40px;
-                background-color: white;
+                color: white;
+                background-color: #7C7877;
                 border: 1px solid silver;
                 margin: 5px 0;
             }
@@ -233,10 +241,11 @@
     let listTypeSave = "인기순"; //선택 저장값
     function listTypeReplace() {
     	let listType = $(this).children('a').text();
-    	$('.artistListNavTypeBlock').css('background-color','white');
-    	$('.drowdownList').css('background-color','white');
+    	$('.artistListNavTypeBlock').css('background-color','#d9d4cf');
+    	$('.drowdownList').css('background-color','#d9d4cf');
     	let selectValue = $(this).children('a').attr('href');
-    	$('[href="'+selectValue+'"]').parent().css('background-color','#ABD0CE');
+    	$('[href="'+selectValue+'"]').parent().css('background-color','#7C7877');
+    	$('[href="'+selectValue+'"]').css('color','white');
     	$('#dropdownResultBox').text(listType);
     	
     	//선택한 값이 이전값과 같다면 함수작동을 멈춤
@@ -394,7 +403,7 @@
         </div>
         <div id="mobileArtistListNavBox">      
             <div class="container">
-               <div class="row">
+               <div class="row" id="mobileArtistListNavBoxBackground">
                    <div class="col-xs-4">
                         <div class="dropdown">
                             <button class="dropdown-toggle" id="dropdownButton" data-toggle="dropdown">

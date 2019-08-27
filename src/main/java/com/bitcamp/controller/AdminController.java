@@ -29,12 +29,16 @@ import com.bitcamp.VO.admin.DateVO;
 import com.bitcamp.VO.admin.MainProductVO;
 import com.bitcamp.VO.admin.NewMemberVO;
 import com.bitcamp.service.AdminService;
+import com.bitcamp.service.ArtistService;
 
 @Controller
 //@PreAuthorize("hasRole('ROLE_ADMIN')")
 public class AdminController {
 	@Autowired
 	private AdminService adservice;
+	
+	@Autowired
+	private ArtistService artistservice;
 	
 	@RequestMapping("/admin")
 	public String adminmain(@RequestParam(required=false) String curr,
@@ -112,6 +116,9 @@ public class AdminController {
 		// 권한 업데이트 및 추가
 		adservice.updateMemberRole(update_map);
 		adservice.insertRealAuthority(update_map);
+		
+		//작가 페이지 생성
+		artistservice.artistBoardInsertService(member_no);
 		
 		return "redirect:/admin/memberdetail/" + member_no;
 	}
