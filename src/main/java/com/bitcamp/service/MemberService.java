@@ -15,7 +15,7 @@ public class MemberService {
 
 	@Autowired
 	private MemberMapper mem;
-	
+
 	@Setter(onMethod_ = @Autowired)
 	private PasswordEncoder pwdEncoder;
 
@@ -33,10 +33,10 @@ public class MemberService {
 		} else {
 			StringBuilder newID = new StringBuilder(id);
 			newID.setCharAt(4, '*');
-			id = "회원님의 아이디는 "+ newID.toString()+" 입니다.";
+			id = "회원님의 아이디는 " + newID.toString() + " 입니다.";
 		}
 		System.out.println(id);
-		return id;	
+		return id;
 	}
 
 	public int searchPassword(MemberDTO dto) {
@@ -50,14 +50,22 @@ public class MemberService {
 		System.out.println(newPwd);
 		mem.updatePassword(dto);
 	}
-	
+
 	public void authInsertService(AuthorityDTO dto) {
-		//dto에 member_no, user_auth set
+		// dto에 member_no, user_auth set
 		mem.insertAuth(dto);
 	}
-	
+
 	public void authDeleteService(AuthorityDTO dto) {
-		//dto에 member_no, user_auth set
+		// dto에 member_no, user_auth set
 		mem.deleteAuth(dto);
+	}
+
+	public boolean checkAuth(MemberDTO dto, String auth) {
+		for (AuthorityDTO data : dto.getAuthorityList()) {
+			if (data.getUser_auth().equals("ROLE_ADMIN"))
+				return true;
+		}
+		return false;
 	}
 }

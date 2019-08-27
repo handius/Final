@@ -204,6 +204,40 @@
 		WHERE A.RNUM >= #{startrow} 
 		]]>
 	</select>
+	<update id="updateProductemplate" parameterType="com.bitcamp.DTO.admin.MainViewDTO">
+		UPDATE MAIN_VIEW
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="main_view_use != null">
+				MAIN_VIEW_USE = #{main_view_use},
+			</if>
+			<if test="main_view_name != null">
+				MAIN_VIEW_NAME = #{main_view_name},
+			</if>
+			<if test="main_view_product != null">
+				MAIN_VIEW_PRODUCT = #{main_view_product},
+			</if>
+		</trim>
+		WHERE MAIN_VIEW_NO = #{main_view_no}
+	</update>
+	<select id="getMainViewList" resultType="com.bitcamp.DTO.admin.MainViewDTO">
+		SELECT MAIN_VIEW_NO, MAIN_VIEW_NAME,
+			   MAIN_VIEW_USE, MAIN_VIEW_PRODUCT
+		FROM MAIN_VIEW
+	</select>
+	
+	<!-- main -->
+	<select id="getMainImageList" resultType="com.bitcamp.DTO.admin.MainImageDTO">
+		SELECT MAIN_IMAGE_NO, MAIN_IMAGE_PATH, MAIN_IMAGE_DATE,
+			   MAIN_IMAGE_LINK, MAIN_VIEW_NO
+		FROM MAIN_IMAGE
+	</select>
+	<select id="getMainProduct" parameterType="String" resultType="com.bitcamp.VO.admin.MainProductVO">
+		SELECT P.LIST_NO, LIST_TITLE, LIST_BASE_PRICE, LIST_IMAGE_LOC
+		FROM LIST_BOARD P JOIN LIST_IMAGE_BOARD I
+		  ON P.LIST_NO = I.LIST_NO
+		WHERE P.LIST_NO = #{string}
+		AND ROWNUM = 1
+	</select>
 	
 	<!-- search -->
   	<sql id="search_where">

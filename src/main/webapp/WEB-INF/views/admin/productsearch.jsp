@@ -83,7 +83,9 @@
                   <tr class="fortrpercent">
                       <td><c:out value="${status.count}"/></td>
                       <td><c:out value="${i.list_category}"/></td>
-                      <td><c:out value="${i.list_product}"/></td>
+                      <td><a class="product_choice" data-dismiss="modal" data-product_pk="${i.list_no}"
+                             data-main_view_no="${main_view_no }"><c:out value="${i.list_product}"/></a>
+                      </td>
                       <td><c:out value="${i.list_artist}"/></td>
                       <td><c:out value="${i.buy_count}"/></td>
                   </tr>
@@ -106,10 +108,10 @@
 						<a href="#">◀</a>
 					</c:if>
 					<c:forEach var="i" begin="${paging.startblock }" end="${paging.endblock }">
-						<c:if test="${i == currpage }">
+						<c:if test="${i == paging.currpage }">
 							<c:out value="${i }"></c:out>
 						</c:if>
-						<c:if test="${i != currpage }">
+						<c:if test="${i != paging.currpage }">
 							<button class="btn btn-default paging_btn" name="curr" value="${i }"><c:out value="${i }"/></button>
 						</c:if>
 					</c:forEach>
@@ -122,6 +124,39 @@
         </div>
 	<script>
 
+	//작품을 템플릿에 추가
+	$('.product_choice').click(function(event) {
+		if($(this).data('main_view_no') == 2) {
+			var child_count = $('#template1_append').children('.product_children').length;
+			if (child_count >= 3) {
+				alert("전시 작품은 최대 3개까지 입니다.");
+			} else {
+				$('#template1_append').append('<span class="product_delete_span">' + $(this).text() + '<span class="product_delete_span_xbutton"> x </span></span>'); 
+				$('#template1_append').append('<input type="hidden" class="product_children" name="main_view_product" value="' + $(this).data("product_pk") + '">');
+			}
+			console.log(child_count);
+			console.log("??");
+		}
+		if($(this).data('main_view_no') == 4) {
+			var child_count = $('#template2_append').children('.product_children').length;
+			if (child_count >= 3) {
+				alert("전시 작품은 최대 3개까지 입니다.");
+			} else {
+				$('#template2_append').append('<span class="product_delete_span">' + $(this).text() + '<span class="product_delete_span_xbutton"> x </span></span>'); 
+				$('#template2_append').append('<input type="hidden" class="product_children" name="main_view_product" value="' + $(this).data("product_pk") + '">');
+			}
+		}
+		if($(this).data('main_view_no') == 5) {
+			var child_count = $('#template3_append').children('.product_children').length;
+			if (child_count >= 3) {
+				alert("전시 작품은 최대 3개까지 입니다.");
+			} else {
+				$('#template3_append').append('<span class="product_delete_span">' + $(this).text() + '<span class="product_delete_span_xbutton"> x </span></span>'); 
+				$('#template3_append').append('<input type="hidden" class="product_children" name="main_view_product" value="' + $(this).data("product_pk") + '">');
+			}
+		}
+	});
+	
 	// 작품 검색 검색
 	$('.submitbutton').click(function(event) {
 		event.preventDefault();

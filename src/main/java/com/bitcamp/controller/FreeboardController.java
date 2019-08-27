@@ -95,7 +95,7 @@ public class FreeboardController {
 		dto.setFreeboard_category(freeboard_category);
 		dto.setFreeboard_title(freeboard_title);
 		dto.setFreeboard_content(freeboard_content);
-		dto.setMember_no(member_no);
+		dto.setFreeboard_member_no(member_no);
 
 		fbservice.writeService(dto);
 

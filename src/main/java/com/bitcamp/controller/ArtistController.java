@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.bitcamp.DTO.artist.ArtistBoardDTO;
 import com.bitcamp.DTO.artist.ArtistRepDTO;
 import com.bitcamp.DTO.member.MemberDTO;
 import com.bitcamp.VO.file.FileVO;
@@ -29,16 +31,30 @@ public class ArtistController {
 	private ArtistService service;
 	
 	@RequestMapping("/artistDetail/{artist_no}")
-	public String artistBoard(@PathVariable int artist_no, Model model) {
+	public String artistBoard(@PathVariable int artist_no, Model model, HttpSession session) {
 		Map<String, Object> map = service.artistBoardDetailService(artist_no);
+		boolean master = false;
+		
+		Object obj = session.getAttribute("member");
+		if(obj != null) {
+			MemberDTO mdto = (MemberDTO) obj;
+			int loginMemberNo = mdto.getMember_no();
+			ArtistBoardDTO artistdto = (ArtistBoardDTO) map.get("artistBoardDetail");
+			int atistmemberNo = artistdto.getMember_no();
+			if(loginMemberNo == atistmemberNo) {
+				master = true;
+			}
+		}
 		model.addAttribute("artistInfo", map.get("artistInfo"));
 		model.addAttribute("artistBoardDetail", map.get("artistBoardDetail"));
+		model.addAttribute("master", master);
+
 		return "artist/artistDetail.mall";
 	}
 	
 	@RequestMapping("/artistInsert")
 	public String artistInsert() {
-		String insertResultMessage = service.artistBoardInsertService(64); //임시번호
+		String insertResultMessage = service.artistBoardInsertService(121); //임시번호
 		System.out.println(insertResultMessage);
 		return "redirect:/login";
 	}
@@ -89,10 +105,16 @@ public class ArtistController {
 		return service.artistBoardDetailRepListService(map);
 	}
 	
+	@RequestMapping("/artistDetail/artistDetailModify/{artist_no}")
+	public String artistDetailModify(@PathVariable int artist_no, Model model) {
+		Map<String, Object> map = service.artistBoardDetailService(artist_no);
+		model.addAttribute("artistBoardDetail", map.get("artistBoardDetail"));
+		return "artist/artistDetailModify.mall";
+	}
+	
 	@ResponseBody
 	@RequestMapping(value="/ajaxArtistDetailModifyImgUpload", method= {RequestMethod.POST})
 	public FileVO ajaxArtistDetailModifyImgUpload(HttpSession session, MultipartFile[] uploadFile) {
-		System.out.println("작동됨");
 		FileVO filevo = new FileVO();
 		
 		if(uploadFile.length != 0) {
@@ -111,5 +133,15 @@ public class ArtistController {
 			}
 		}
 		return filevo;
+	}
+	
+	@RequestMapping("/artistDetail/artistDetailModifyResult")
+	public String artistDetailModifyResult(@RequestParam int artist_no, @RequestParam String artist_main_img, @RequestParam String artist_board_title) {
+		ArtistBoardDTO dto = new ArtistBoardDTO();
+		dto.setArtist_no(artist_no);
+		dto.setArtist_main_img(artist_main_img);
+		dto.setArtist_board_title(artist_board_title);
+		service.artistBoardDetailModifyService(dto);
+		return "redirect:/artistDetail/"+artist_no;
 	}
 }

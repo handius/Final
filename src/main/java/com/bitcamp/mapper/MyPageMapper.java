@@ -31,8 +31,6 @@ public interface MyPageMapper {
 
 	List<QABoardDTO> buyerPQList(int member_no);
 
-//	List<QABoardDTO> buyerPAList(int qa_board_no);
-
 	List<BuyReviewDTO> buyerReviewList(int member_no);
 
 	List<OrderDTO> sellList(String user_id);
