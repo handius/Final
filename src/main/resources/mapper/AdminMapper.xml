@@ -37,15 +37,19 @@
 			   USER_NAME, USER_NICK, USER_EMAIL,
 			   USER_ADDRESS, USER_REGIDATE, USER_STATUS,
 			   USER_CALL, USER_CERTKEY, USER_CERTSTATUS,
-			   USER_FLATFORM, ROWNUM AS RNUM
+			   USER_FLATFORM, USER_AUTHORITY
 		FROM MEMBER
 		WHERE MEMBER_NO = #{memberno}
 	</select>
-	<update id="updateMemberRole" parameterType="int">
+	<update id="updateMemberRole" parameterType="Object">
 		UPDATE MEMBER
-		SET USER_AUTHORITY = 'ROLE_SELLER'
-		WHERE MEMBER_NO = #{member_no}
+		SET USER_AUTHORITY = #{auth}
+		WHERE MEMBER_NO = #{no}
 	</update>
+	<insert id="insertRealAuthority" parameterType="Object">
+		INSERT INTO AUTHORITY(AUTH_NO, MEMBER_NO, USER_AUTH)
+		VALUES(AUTH_SEQ.NEXTVAL, #{no}, #{auth})
+	</insert>
 	
 	<!-- qna -->
 	<update id="updateMemberStatus" parameterType="int">
@@ -56,8 +60,13 @@
 	<select id="getQuestionCount" parameterType="Object" resultType="int">
 		SELECT COUNT(*)
 		FROM CUSTOMER_QA_BOARD
-		WHERE QUESTION_DELETE_STATUS = 1
-		<where><include refid="qna_search"></include></where>
+		<where>
+		QUESTION_DELETE_STATUS = 1	
+		<include refid="qna_search"></include>
+			<if test="member_no != null and member_no != 0">
+				AND MEMBER_NO = #{member_no}
+			</if>
+		</where>
 	</select>
 	<select id="getQuestionList" parameterType="Object"
 							     resultType="com.bitcamp.DTO.customerqaboard.CustomerQABoardDTO">
@@ -72,9 +81,12 @@
 		        <where>
 		        <![CDATA[
 				ROWNUM <= #{endrow}
-				AND QUESTION_DELETE_STATUS = 1
 		        ]]>
 		        	<include refid="qna_search"></include>
+				<if test="member_no != null and member_no != 0">
+					AND Q.MEMBER_NO = #{member_no}
+				</if>
+				AND QUESTION_DELETE_STATUS = 1
 		        </where>
 		        ORDER BY QUESTION_DATE DESC
 		     ) A
@@ -257,6 +269,12 @@
 		<if test="user_authority != null and user_authority != ''">
 			<if test="user_authority == 'ROLE_SELLER'">
 				AND USER_AUTHORITY = 'ROLE_SELLER'
+			</if>
+			<if test="user_authority == 'ROLE_MEMBER'">
+				AND USER_AUTHORITY = 'ROLE_MEMBER'
+			</if>
+			<if test="user_authority == 'ROLE_USER'">
+				AND USER_AUTHORITY = 'ROLE_USER'
 			</if>
 		</if>
   	</sql>

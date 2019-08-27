@@ -32,4 +32,9 @@ public interface ArtistMapper {
 	public List<ArtistRepDTO> artistRepList(HashMap<String, Integer> map);
 	//
 	public void artistBoardDetailModify(ArtistBoardDTO dto);
+	//
+	//작가 리스트 시작
+	public int artistListMaxCount(String user_authority);
+	public List<ArtistBoardDTO> artistListGet(HashMap<String, Object> hashmap);
+	public List<String> artistListImgGet(String user_id);
 }

@@ -77,7 +77,7 @@ public class AdminService {
 		return admapper.getNewMemberList(search_map);
 	}
 
-	public int getProductCount(String tochar) {
+	public int getPopularProductCount(String tochar) {
 		return admapper.getPopularProductCount(tochar);
 	}
 
@@ -118,7 +118,11 @@ public class AdminService {
 		return admapper.getMainProduct(string);
 	}
 
-	public void updateMemberRole(int member_no) {
-		admapper.updateMemberRole(member_no);
+	public void updateMemberRole(HashMap<String, Object> update_map) {
+		admapper.updateMemberRole(update_map);
+	}
+
+	public void insertRealAuthority(HashMap<String, Object> update_map) {
+		admapper.insertRealAuthority(update_map);
 	}
 }

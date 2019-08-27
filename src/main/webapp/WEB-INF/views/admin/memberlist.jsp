@@ -4,8 +4,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>test</title>
+ <meta charset="UTF-8">
+ <title>test</title>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <!-- 합쳐지고 최소화된 최신 CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
@@ -106,7 +106,8 @@
                 <div class="col-sm-4">
                     <select class="form-control" name="user_authority" id="user_authority">
                         <option>ROLE</option>
-                        <option value="ROLE_MEMBER">일반</option>
+                        <option value="ROLE_USER">인증필요</option>
+                        <option value="ROLE_MEMBER">회원</option>
                         <option value="ROLE_SELLER">작가</option>
                     </select>
                 </div>
@@ -136,7 +137,7 @@
                   <tr>
                       <td><c:out value="${status.count }"/></td>
                       <td><c:out value="수정필요"/></td>
-                      <td><c:out value="${i.user_name }"/> :: <c:out value="${i.user_status }"/></td>
+                      <td><c:out value="${i.user_name }"/> :: <c:out value="${i.user_authority }"/></td>
                       <td><c:out value="${i.user_id }"/></td>
                       <td><c:out value="${i.user_regidate }"/></td>
                       <td><button class="btn btn-default btn-xs gomemberdetail" value="${i.member_no }">관리</button></td>
