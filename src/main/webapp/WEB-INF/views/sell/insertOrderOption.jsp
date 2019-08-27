@@ -21,7 +21,10 @@
 	body{
 		margin: 0px;
 		padding: 0px;
-		background-color: rgba(238, 234, 225, 0.3) !important;
+		background-color: #F0E5DE !important;
+	}
+	hr{
+		border-top: 3px double #D9D4CF !important;
 	}
 	.jumbotron{
 		background-image: url("/resources/image/perfectimage.jpeg");
@@ -39,12 +42,14 @@
 		font-weight: 500;
 		text-align: center;
 		margin-bottom: 40px;
+		color: #7C7877;
 	}
 	.bold{
 		font-weight: 800;
 		font-size: 1.2em;
-		background-color: rgba(199,192,182);
+		background-color: #ABD0CE;
 		border-radius: 5px 5px 0px 0px;
+		color: #7C7877;
 	}
 	.align{
 		text-align: center;
@@ -73,12 +78,13 @@
 	}
 	.cspan{
 		display:inline-block;
-		background-color: rgba(201,194,180);
+		background-color: #ABD0CE;
 		border-radius: 5px 5px 0px 0px;
 		text-align: center !important;
 		padding-top:5px;
 		padding-bottom:5px;
 		width: 130px;
+		color: #7C7877;
 	}
 	.gspan{
 		display: inline-block;
