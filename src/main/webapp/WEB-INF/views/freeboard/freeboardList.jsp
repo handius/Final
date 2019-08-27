@@ -54,7 +54,7 @@
 }
 
 #btnSearch {
-	background-color: #D9D4CF;
+	background-color: #F0E5DE;
 }
 
 table {
@@ -79,6 +79,10 @@ th:nth-child(5) {
 
 #searchKeyword{
 	width : 300px;
+}
+
+.formPage{
+	margin:0px auto 0px auto;
 }
 
 </style>

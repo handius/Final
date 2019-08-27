@@ -6,8 +6,33 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
-<script type="text/javascript"
-	src="//code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<!-- 합쳐지고 최소화된 최신 CSS -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+<!-- 부가적인 테마 -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+<!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<link
+	href="https://fonts.googleapis.com/css?family=Comfortaa&display=swap"
+	rel="stylesheet">
+<link
+	href="https://fonts.googleapis.com/css?family=Barriecito&display=swap"
+	rel="stylesheet">
+<style>
+* {
+	font-family: 'Comfortaa', '맑은 고딕', cursive;
+}
+
+#wrap{
+	margin : 0 auto;
+	padding: 30px 50px;
+	width: 1000px;
+}
+</style>
 <script>
 	$(document).ready(function() {
 		showReplyList();
@@ -151,12 +176,12 @@
 			});
 		}
 	}
-	
-	function writeRepRep(rep_no){
+
+	function writeRepRep(rep_no) {
 		var freeboard_no = replyForm.board_no.value;
 		var rep_content = $('#repContent').val();
 		var member_no = replyForm.member_no.value;
-		
+
 		if (!rep_content) {
 			alert("내용을 입력하세요.");
 		} else {
@@ -186,59 +211,60 @@
 				}
 			});
 		}
-		
+
 	}
 </script>
 <body>
-	<table>
-		<tr>
-			<td>카테고리</td>
-			<td>${board.freeboard_category }</td>
-		</tr>
-		<tr>
-			<td>닉네임</td>
-			<td>${board.user_nick}</td>
-		</tr>
-		<tr>
-			<td>작성일</td>
-			<td>${board.freeboard_regiTime }</td>
-		</tr>
-		<tr>
-			<td>조회수</td>
-			<td>${board.freeboard_hits }</td>
-		</tr>
-		<tr>
-			<td>제목</td>
-			<td>${board.freeboard_title }</td>
-		</tr>
-		<tr>
-			<td>내용</td>
-			<td>${board.freeboard_content }</td>
-		</tr>
-	</table>
+	<div id="wrap">
+		<table>
+			<tr>
+				<td>카테고리</td>
+				<td>${board.freeboard_category }</td>
+			</tr>
+			<tr>
+				<td>닉네임</td>
+				<td>${board.user_nick}</td>
+			</tr>
+			<tr>
+				<td>작성일</td>
+				<td>${board.freeboard_regiTime }</td>
+			</tr>
+			<tr>
+				<td>조회수</td>
+				<td>${board.freeboard_hits }</td>
+			</tr>
+			<tr>
+				<td>제목</td>
+				<td>${board.freeboard_title }</td>
+			</tr>
+			<tr>
+				<td>내용</td>
+				<td>${board.freeboard_content }</td>
+			</tr>
+		</table>
 
-	<div>
-		<p>댓글(${countRep})</p>
 		<div>
-			<form id="replyForm">
-				<input id="member_no" type="hidden"
-					value="${sessionScope.member.member_no}"> <input
-					id="board_no" type="hidden" value="${board.freeboard_no}">
-				<table>
-					<tr>
-						<td>${sessionScope.member.user_nick }</td>
-						<td><textarea id="replyText" name="replyText" rows="2"
-								cols="50" placeholder="댓글을 입력해주세요"></textarea></td>
-						<td><a onclick="writeReply()">댓글작성</a></td>
-					</tr>
-				</table>
-			</form>
+			<p>댓글(${countRep})</p>
+			<div>
+				<form id="replyForm">
+					<input id="member_no" type="hidden"
+						value="${sessionScope.member.member_no}"> <input
+						id="board_no" type="hidden" value="${board.freeboard_no}">
+					<table>
+						<tr>
+							<td>${sessionScope.member.user_nick }</td>
+							<td><textarea class="form-control" id="replyText" name="replyText" rows="2"
+									cols="50" placeholder="댓글을 입력해주세요"></textarea></td>
+							<td><a onclick="writeReply()">댓글작성</a></td>
+						</tr>
+					</table>
+				</form>
+			</div>
+			<div id="repList"></div>
 		</div>
-		<div id="repList"></div>
+		<button class="btn" onclick="location='../freeboard'">목록으로</button>
+		<button class="btn" onclick="location='boardModify?no=${board.freeboard_no}'">수정</button>
+		<button class="btn" onclick="location='boardDelete?no=${board.freeboard_no}'">삭제</button>
 	</div>
-	<button onclick="location='../freeboard'">목록으로</button>
-	<button onclick="location='boardModify?no=${board.freeboard_no}'">수정하기</button>
-	<button onclick="location='boardDelete?no=${board.freeboard_no}'">삭제하기</button>
-
 </body>
 </html>

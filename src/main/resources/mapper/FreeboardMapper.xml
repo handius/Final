@@ -11,7 +11,7 @@
 		#{freeboard_title},
 		#{freeboard_content}, sysdate, 0, 1,
 		#{freeboard_category},
-		#{member_no})
+		#{freeboard_member_no})
 	</insert>
 
 	<select id="getDetail"
