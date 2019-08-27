@@ -41,7 +41,7 @@
 		from member LEFT OUTER JOIN authority on
 		member.member_no = authority.member_no
 		where member.user_id =
-		#{user_id}
+		#{user_id} and user_status = 1
 	</select>
 
 	<select id="readMemberbyMemberNo" resultMap="memberMap">
@@ -58,7 +58,7 @@
 		authority on
 		member.member_no = authority.member_no
 		where
-		member.member_no = #{member_no}
+		member.member_no = #{member_no} and user_status=1
 	</select>
 
 	<select id="searchID" resultType="String">
