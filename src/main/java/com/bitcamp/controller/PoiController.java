@@ -259,7 +259,7 @@ public class PoiController {
 
 		// 컨텐츠 타입과 파일명 지정
 		response.setContentType("ms-vnd/excel");
-		response.setHeader("Content-Disposition", "attachment;filename=[New Member].xls");
+		response.setHeader("Content-Disposition", "attachment;filename=[New Member]" + search + ".xls");
 
 		// 엑셀 출력
 		wb.write(response.getOutputStream());
