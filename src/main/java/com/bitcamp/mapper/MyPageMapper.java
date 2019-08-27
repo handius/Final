@@ -44,4 +44,6 @@ public interface MyPageMapper {
 
 	List<ListDTO> registerList(String user_id);
 
+	void cor(int order_no);
+
 }

@@ -143,6 +143,10 @@
 	outline: none;
 }
 
+.loginInfo{
+color: #7C7877;
+}
+
 @media ( max-width : 1140px) {
 	#mallmenu {
 		width: 1140px;
@@ -158,7 +162,7 @@
 				<a class="categoryfontcolor" href="/join">회원가입</a>
 			</sec:authorize>
 			<sec:authorize access="isAuthenticated()">
-				<span class="categoryfontcolor"><sec:authentication property="principal.member.user_id"/>님, 환영합니다!</span>
+				<span class="categoryfontcolor loginInfo"><sec:authentication property="principal.member.user_id"/>님, 환영합니다!♥</span>
 				<a class="categoryfontcolor" href="/myPage">마이페이지</a>
 				<a class="categoryfontcolor" href="/login/logout">로그아웃</a>
 				<a class="categoryfontcolor" href="/sell">판매하기</a>

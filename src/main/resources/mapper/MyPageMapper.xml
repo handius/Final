@@ -96,4 +96,8 @@
 		resultType="com.bitcamp.DTO.member.MemberDTO">
 		select * from member where member_no=#{member_no}
 	</select>
+	<update id="cor" parameterType="int">
+		update order_board set
+		order_status='배송완료' where order_no=#{order_no}
+	</update>
 </mapper>

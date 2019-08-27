@@ -216,4 +216,9 @@ public class MyPageService {
 		// TODO Auto-generated method stub
 		return mapper.registerList(user_id);
 	}
+
+	public void cor(int order_no) {
+		// TODO Auto-generated method stub
+		mapper.cor(order_no);
+	}
 }
