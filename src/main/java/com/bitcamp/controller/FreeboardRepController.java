@@ -27,21 +27,21 @@ public class FreeboardRepController {
 	@RequestMapping(value = "/getReplyList", method = RequestMethod.POST)
 	public List<FreeboardRepDTO> getReplyList(@RequestParam("freeboard_no") int freeboard_no, Model model) {
 
-		List<FreeboardRepDTO> result = replySerivce.getReply(freeboard_no);
+		List<FreeboardRepDTO> result = replySerivce.getReplyService(freeboard_no);
 		System.out.println(result);
 
 		return result;
 	}
 
 	@RequestMapping(value = "/freeboard/freeboardReply", method = RequestMethod.POST)
-	public @ResponseBody Map<String, Object> freeboardReply(@RequestBody FreeboardRepDTO repDTO, HttpServletRequest request) {
+	public @ResponseBody Map<String, Object> freeboardReply(@RequestBody FreeboardRepDTO repDTO) {
 
 		Map<String, Object> result = new HashMap<>();
 
 		try {
 			System.out.println(repDTO.getMember_no());
-			replySerivce.saveReply(repDTO);
-			
+			replySerivce.saveReplyService(repDTO);
+
 			result.put("status", "OK");
 
 		} catch (Exception e) {
@@ -55,13 +55,32 @@ public class FreeboardRepController {
 	@RequestMapping(value = "/modifyReply", method = RequestMethod.POST)
 	@ResponseBody
 	public void modifyReply(@RequestParam int rep_no, @RequestParam String rep_content) {
-//		return replySerivce.getReplyData(rep_no);
-		replySerivce.updateReplyData(rep_no, rep_content);
+		// return replySerivce.getReplyData(rep_no);
+		replySerivce.updateReplyDataService(rep_no, rep_content);
 	}
-	
+
 	@RequestMapping(value="/deleteReply", method=RequestMethod.POST)
 	@ResponseBody
 	public void deleteReply(@RequestParam int rep_no) {
-//		replySerivce.deleteReply(rep_no);
+		replySerivce.deleteReplyService(rep_no);
 	}
+
+	@RequestMapping(value="freeboard/ReplyReply", method=RequestMethod.POST)
+	public @ResponseBody Map<String, Object> freeboardRepRep(@RequestBody FreeboardRepDTO repDTO) {
+		Map<String, Object> result = new HashMap<>();
+
+		try {
+			System.out.println(repDTO.getMember_no());
+			replySerivce.saveReplyRepService(repDTO);
+
+			result.put("status", "OK");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.put("status", "False");
+		}
+
+		return result;
+	}
+	
 }

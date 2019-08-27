@@ -91,7 +91,7 @@
             </table>
               
               <!-- 답변 하기 전 -->
-              <c:if test="${dto.answer_status == '답변 대기' }">
+              <c:if test="${dto.answer_status == '답변대기' }">
                 <form action="/admin/answercontentupdate/${dto.question_no }" method="post">
                   <textarea id="summernote" name="answer_content" class="form-control answerbtn get_content_class"></textarea>
                   <div class="a_margindiv"></div>
@@ -142,6 +142,7 @@
 		if ($('#summernote').val() == '') {
 			alert('내용을 입력해주세요');
 		}
+		event.de
 		return false;
 	});
 

@@ -2,6 +2,8 @@ package com.bitcamp.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -22,6 +24,7 @@ import com.bitcamp.DTO.artist.ArtistBoardDTO;
 import com.bitcamp.DTO.artist.ArtistRepDTO;
 import com.bitcamp.DTO.member.MemberDTO;
 import com.bitcamp.VO.file.FileVO;
+import com.bitcamp.comm.ScrollCalculation;
 import com.bitcamp.service.ArtistService;
 
 @Controller
@@ -143,5 +146,27 @@ public class ArtistController {
 		dto.setArtist_board_title(artist_board_title);
 		service.artistBoardDetailModifyService(dto);
 		return "redirect:/artistDetail/"+artist_no;
+	}
+	
+	//작가 리스트 시작
+	@RequestMapping("/artistList")
+	public String artistList(HttpSession session) {	
+		return "artist/artistList.mall";
+	}
+	
+	@ResponseBody
+	@RequestMapping("/ajaxArtistList")
+	public List<Object> ajaxArtistList(HttpSession session, @RequestBody Map<String, Object> map) {
+		
+		//회원 권한을 얻기
+		String user_authority = "ROLE_USER";
+		Object objmember = session.getAttribute("member");
+		if(objmember != null) {
+			MemberDTO memberdto = (MemberDTO) objmember;
+			user_authority = memberdto.getUser_authority();
+		}	
+		map.put("user_authority", user_authority);
+		
+		return service.artistList(map);
 	}
 }

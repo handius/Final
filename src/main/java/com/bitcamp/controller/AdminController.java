@@ -67,12 +67,13 @@ public class AdminController {
 	public String adminmain(@RequestParam(required=false) String curr,
 							 @RequestParam(required=false) String user_name,
 							 @ModelAttribute DateVO search_date,
-							 @RequestParam(required=false) String tempROLE,
+							 @RequestParam(required=false) String user_authority,
 							 Model model) {
 
 		// 쿼리 돌릴 값 (검색)
 		HashMap<String, Object> search_map = new HashMap<>();
 		search_map.put("user_name", user_name);
+		search_map.put("user_authority", user_authority);
 		String make_to_char = null;
 		String date1 = search_date.getSearch_date_year();
 		String date2 = search_date.getSearch_date_month();
@@ -106,7 +107,7 @@ public class AdminController {
 		if(user_name != null) test.put("user_name", user_name);
 		if(year != null) test.put("search_date_year", year);
 		if(month != null) test.put("search_date_month", month);
-		if(tempROLE != null) test.put("tempROLE", tempROLE);
+		if(user_authority != null) test.put("user_authority", user_authority);
 		model.addAttribute("test", test);
 		return "admin/memberlist.admin";
 	}
@@ -115,10 +116,28 @@ public class AdminController {
 	public String memberdetail(@PathVariable int memberno ,Model model) {
 		
 		MemberDTO memberdetail = adservice.getMemberDetail(memberno);
+
+		HashMap<String, Object> search_map = new HashMap<>();
+		search_map.put("member_no", memberno);
+		int questioncount = adservice.getQuestionCount(search_map);
 		
+		model.addAttribute("count", questioncount);
 		model.addAttribute("detail", memberdetail);
 		model.addAttribute("admin_category", "member");
 		return "admin/memberdetail.admin";
+	}
+
+	@RequestMapping("/admin/memberroleupdate")
+	public String memberupdate(@RequestParam int member_no,
+								@RequestParam String user_authority) {
+		
+		HashMap<String, Object> update_map = new HashMap<>();
+		update_map.put("no", member_no);
+		update_map.put("auth", user_authority);
+		adservice.updateMemberRole(update_map);
+		adservice.insertRealAuthority(update_map);
+		
+		return "redirect:/admin/memberdetail/" + member_no;
 	}
 	
 	@RequestMapping("/admin/deletemember/{memberno}")
@@ -200,7 +219,7 @@ public class AdminController {
 		// 페이징
 		int currpage = 1;
 		if(curr != null) currpage = Integer.parseInt(curr);
-		int totalCount = adservice.getProductCount(tochar);			// count(*)
+		int totalCount = adservice.getPopularProductCount(tochar);	// count(*)
 		int pagepercount = 10;										// 페이지 당 표시할 게시글 갯수
 		int blockSize = 5;											// 페이징 블록 사이즈
 		PageDTO page = new PageDTO(currpage, totalCount, pagepercount, blockSize);
@@ -352,12 +371,15 @@ public class AdminController {
 		if(date1 != null || date2 != null) make_to_char = date1 + "-" + date2;
 		search_map2.put("search_date", make_to_char);
 		search_map2.put("answer_status", qnadto.getAnswer_status());
+		search_map2.put("member_no", qnadto.getMember_no());
 		
 		// test
 		System.out.println(search_map2.get("question_title"));
 		System.out.println(search_map2.get("question_type"));
 		System.out.println(search_map2.get("search_date"));
 		System.out.println(search_map2.get("answer_status"));
+		System.out.println("---------------------------");
+		System.out.println(search_map2.get("member_no"));
 		System.out.println("---------------------------");
 		
 		// 페이징

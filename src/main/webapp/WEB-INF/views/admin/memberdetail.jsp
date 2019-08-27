@@ -80,7 +80,11 @@
               <tbody class="memberdetailtable">
                   <tr>
                       <td class="td_one">회원구분</td>
-                      <td class="td_two">수정필요</td>
+                      <td class="td_two get_user_auth">
+                        <c:if test="${detail.user_authority == 'ROLE_SELLER' }">작가</c:if>
+                        <c:if test="${detail.user_authority == 'ROLE_MEMBER' }">회원</c:if>
+                        <c:if test="${detail.user_authority == 'ROLE_USER' }">인증필요</c:if>
+                      </td>
                       <td class="td_one">가입일</td>
                       <td class="td_two"><c:out value="${detail.user_regidate }"/></td>
                   </tr>
@@ -105,37 +109,57 @@
         </div>
         <h2>Member Update</h2>
         <div class="admin_content">
-          <form method="post" action="">
+          <form method="post" action="/admin/memberroleupdate">
             <table class="table table-bordered table-condensed">
               <tbody class="memberdetailtable">
                   <tr>
                       <td class="td_five">회원구분</td>
                       <td class="td_two">
                        <div class="col-sm-3">
-                        <select class="form-control input-sm" name="user_role" id="user_role">
-                            <option value="2019">일반</option>
-                            <option value="2018">작가</option>
+                        <select class="form-control input-sm" name="user_authority" id="user_authority">
+                            <option value="ROLE_MEMBER">일반</option>
+                            <option class="ifselleroption" value="ROLE_SELLER">작가</option>
                         </select>
                        </div></td>
                       <td class="td_five">문의내역</td>
-                      <td class="td_six">0개<a href="/admin/qna">내역></a></td>
+                      <td class="td_six"><c:out value="${count }"/>개<a href="/admin/qna?member_no=${detail.member_no }">내역></a></td>
                   </tr>
               </tbody>
             </table>
             <div class="form-group row">
-                <div class="col-sm-1">
+                <div class="col-sm-2">
                     <input type="button" id="gomemberlist" class="btn-default memberupdatebtn_default btn-block" value="리스트로">
                 </div>
-                <div class="col-sm-1 col-sm-offset-9">
+                <div class="col-sm-2 col-sm-offset-7">
                     <button class="btn-default memberupdatebtn_default btn-block member_delete" value="${detail.member_no }">탈퇴시키기</button>
                 </div>
                 <div class="col-sm-1">
-                    <input type="submit" class="btn-default memberupdatebtn_default btn-block" value="저장">
+                	<input type="hidden" name="member_no" value="${detail.member_no }">
+                    <input type="submit" class="btn-default memberupdatebtn_default submitblock btn-block" value="저장">
                 </div>
             </div>
           </form>
         </div>
 <script>
+var detail_auth = $.trim($('.get_user_auth').text());
+if(detail_auth == '작가') {
+	$('.ifselleroption').attr('selected', 'selected');
+	$('.ifselleroption').parent().attr('disabled', 'disabled');
+}
+
+$('.submitblock').click(function(event) {
+	var memberrole = $('#user_authority option:selected').val();
+	if(detail_auth == '회원' && memberrole == 'ROLE_MEMBER') {
+		alert("이미 인증된 회원입니다.");
+		event.preventDefault();
+	}
+	if(detail_auth == '작가' && memberrole == 'ROLE_SELLER') {
+		alert("이미 작가입니다.");
+		event.preventDefault();
+	}
+	console.log(memberrole);
+})
+
 $('#gomemberlist').on('click', function() {
 	location.href="/admin"
 });

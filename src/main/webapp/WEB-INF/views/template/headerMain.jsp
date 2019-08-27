@@ -174,7 +174,7 @@
 				<a class="categoryfontcolor" href="/orderList?order=0">완제품</a> <a
 					class="categoryfontcolor" href="/orderList?order=1">주문제작</a> <a
 					class="categoryfontcolor" href="/freeboard">커뮤니티</a> <a
-					class="categoryfontcolor" href="#">작가페이지</a>
+					class="categoryfontcolor" href="/artistList">작가페이지</a>
 			</div>
 		</div>
 	</div>

@@ -84,5 +84,10 @@ public class JoinController {
 
 		return "join/joinConfirm.mall";
 	}
+	
+	@RequestMapping("join/popup/jusoPopup")
+	public String addressAPI(){
+		return "join/popup/jusoPopup";
+	}
 
 }

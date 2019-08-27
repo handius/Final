@@ -68,7 +68,7 @@ public class FreeboardController {
 	public String freeboardDetail(@RequestParam("no") int freeboard_no, Model model) {
 
 		FreeboardDTO dto = fbservice.detailService(freeboard_no);
-		int countRep = replySerivce.countReply(freeboard_no);
+		int countRep = replySerivce.countReplyService(freeboard_no);
 		fbservice.updateHitsService(freeboard_no);
 
 		model.addAttribute("board", dto);
@@ -133,5 +133,6 @@ public class FreeboardController {
 
 		return "redirect:/freeboard/detail?no=" + freeboard_no;
 	}
+	
 
 }

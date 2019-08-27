@@ -22,15 +22,6 @@
     body {
         background-color: #F0E5DE;
     }
-    .admin_content_wrap {
-        background-color: white;
-        border: 1px solid #D9D4CF;
-        border-radius: 5px;
-        width: 1620px;
-        padding: 20px 30px;
-        margin-top: 8px;
-        margin-left: 270px;
-    }
     .membertable tr th.th_one {
         width: 5%;
     }
@@ -102,7 +93,10 @@
         <div class="admin_content">
           <div class="row">
               <div class="col-sm-2 col-sm-offset-10">
+              	<form action="/exceldown2" method="post">
+              	 <input type="hidden" name="search" value="${tochar }">
                  <button class="btn btn-default btn-lg btn-block">Excel Download</button>
+                </form>
               </div>
           </div>
             <table class="Producttable table table-striped">
@@ -140,10 +134,10 @@
 						<a href="#">◀</a>
 					</c:if>
 					<c:forEach var="i" begin="${paging.startblock }" end="${paging.endblock }">
-						<c:if test="${i == currpage }">
-							<c:out value="${i }"></c:out>
+						<c:if test="${i == paging.currpage }">
+							<button class="btn"><c:out value="${i }"></c:out></button>
 						</c:if>
-						<c:if test="${i != currpage }">
+						<c:if test="${i != paging.currpage }">
 							<input type="submit" class="btn btn-default" name="curr" value="${i }">
 						</c:if>
 					</c:forEach>

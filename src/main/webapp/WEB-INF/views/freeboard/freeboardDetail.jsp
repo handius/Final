@@ -14,10 +14,10 @@
 	});
 
 	function showHtml(result) {
-		let html = "<table class='table table-striped table-bordered' style='margin-top: 10px;'><tbody>";
+		let html = "<table class='table table-striped table-bordered' style='margin-top: 10px;'><tbody id='rep_tbody'>";
 		$.each(result, function(index, item) {
-			html += "<tr align='center'>";
-			html += "<td>" + (index + 1) + "</td>";
+			html += "<tr id='tr"+item.rep_no+"' align='center'>";
+			html += "<td id='rep_no"+item.rep_no+"'>" + (index + 1) + "</td>";
 			html += "<td>" + item.user_nick + "</td>";
 			html += "<td class= 'commentContent"+item.rep_no+"' align='left'>"
 					+ item.rep_content + "</td>";
@@ -40,6 +40,19 @@
 		  } */
 
 		$("#repList").html(html);
+	}
+
+	function addReply(rep_no) {
+		console.log("function 실행" + rep_no);
+
+		var a = '<tr><td></td><td>${sessionScope.member.user_nick }</td>';
+		a += '<td colspan="2"><textarea id="repContent"></textarea><a onclick="writeRepRep('
+				+ rep_no + ')">작성</a></td>';
+		a += '</tr>';
+
+		var trHtml = $("tr[id=tr" + rep_no + "]:last");
+		console.log(trHtml);
+		trHtml.after(a);
 	}
 
 	function editReply(rep_no, rep_content) {
@@ -137,6 +150,43 @@
 				}
 			});
 		}
+	}
+	
+	function writeRepRep(rep_no){
+		var freeboard_no = replyForm.board_no.value;
+		var rep_content = $('#repContent').val();
+		var member_no = replyForm.member_no.value;
+		
+		if (!rep_content) {
+			alert("내용을 입력하세요.");
+		} else {
+			var paramData = JSON.stringify({
+				"rep_parent_no" : rep_no,
+				"rep_content" : rep_content,
+				"freeboard_no" : freeboard_no,
+				"member_no" : member_no
+			});
+
+			var headers = {
+				"Content-Type" : "application/json",
+				"X-HTTP-Method-Override" : "POST"
+			};
+			$.ajax({
+
+				url : "/freeboard/ReplyReply",
+				headers : headers,
+				data : paramData,
+				type : 'POST',
+				dataType : 'text',
+				success : function(result) {
+					showReplyList();
+				},
+				error : function(error) {
+					console.log("에러:" + error);
+				}
+			});
+		}
+		
 	}
 </script>
 <body>

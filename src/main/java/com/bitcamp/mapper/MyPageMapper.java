@@ -11,6 +11,12 @@ import com.bitcamp.DTO.productdetail.QABoardDTO;
 
 public interface MyPageMapper {
 
+	String findList_title(int list_no);
+
+	Map<String, Object> findOption(int order_no);
+
+	String findOption_name(int option_no);
+
 	void withdraw(String user_id);
 
 	void insertCQA(Map<String, Object> parameters);
@@ -20,12 +26,6 @@ public interface MyPageMapper {
 	void updateUserPassword(Map<String, Object> parameters);
 
 	List<OrderDTO> buyList(int member_no);
-
-	String findList_title(int list_no);
-
-	Map<String, Object> buyListOption(int order_no);
-
-	String buyListOption_name(int option_no);
 
 	List<CustomerQABoardDTO> cQAList(int member_no);
 

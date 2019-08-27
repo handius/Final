@@ -131,10 +131,10 @@
 						<a href="#">◀</a>
 					</c:if>
 					<c:forEach var="i" begin="${paging.startblock }" end="${paging.endblock }">
-						<c:if test="${i == currpage }">
-							<c:out value="${i }"></c:out>
+						<c:if test="${i == paging.currpage }">
+							<button class="btn"><c:out value="${i }"></c:out></button>
 						</c:if>
-						<c:if test="${i != currpage }">
+						<c:if test="${i != paging.currpage }">
 							<input type="submit" class="btn btn-default" name="curr" value="${i }">
 						</c:if>
 					</c:forEach>

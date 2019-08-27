@@ -6,23 +6,22 @@
 
 	<select id="getData"
 		resultType="com.bitcamp.DTO.freeboard.FreeboardRepDTO">
-		select rep_no, freeboard_no, rep_content, rep_regidate,
-		rep_parent_no, rep_status, user_nick
-		from freeboard_rep left outer join
-		member on member.member_no = freeboard_rep.member_no
-		where freeboard_no
-		=
-		#{freeboard_no}
-		order
-		by rep_regidate desc
+		select freeboard_rep.*, user_nick
+		from freeboard_rep
+		left
+		outer join member on member.member_no = freeboard_rep.member_no
+		where
+		freeboard_no = #{freeboard_no} and rep_status = 1
+		start with rep_parent_no is null
+		connect
+		by prior rep_no = rep_parent_no
 	</select>
 
 	<insert id="insertData"
 		parameterType="com.bitcamp.DTO.freeboard.FreeboardRepDTO">
-		insert into freeboard_rep(rep_no, member_no,
-		freeboard_no, rep_content, rep_regidate, rep_parent_no)
+		insert into freeboard_rep
 		values(freeboard_rep_seq.nextval, #{member_no}, #{freeboard_no},
-		#{rep_content}, to_char(sysdate,'YY.MM.DD HH.MI'), 0)
+		#{rep_content}, to_char(sysdate,'MM.DD HH:MI:SS'), null , 1)
 	</insert>
 
 	<update id="updateData"
@@ -32,7 +31,7 @@
 		rep_no=#{rep_no}
 	</update>
 
-	<update id="deleteReply" parameterType="int">
+	<update id="deleteData" parameterType="int">
 		update freeboard_rep set
 		rep_status = 0 where rep_no = #{rep_no}
 	</update>
@@ -51,4 +50,12 @@
 		=
 		#{freeboard_no} and rep_status = 1
 	</select>
+
+	<insert id="insertRepRepData"
+		parameterType="com.bitcamp.DTO.freeboard.FreeboardRepDTO">
+		insert into freeboard_rep
+		values(freeboard_rep_seq.nextval, #{member_no}, #{freeboard_no},
+		#{rep_content}, to_char(sysdate,'MM.DD HH:MI:SS'), #{rep_parent_no} ,
+		1)
+	</insert>
 </mapper>

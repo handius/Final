@@ -102,12 +102,13 @@
                         <option value="12">12월</option>
                     </select>
                 </div>
-                <label class="col-sm-1 control-label" for="tempROLE">회원 구분</label>
+                <label class="col-sm-1 control-label" for="user_authority">회원 구분</label>
                 <div class="col-sm-4">
-                    <select class="form-control" name="tempROLE" id="tempROLE">
+                    <select class="form-control" name="user_authority" id="user_authority">
                         <option>ROLE</option>
-                        <option value="custmor">일반</option>
-                        <option value="artist">작가</option>
+                        <option value="ROLE_USER">인증필요</option>
+                        <option value="ROLE_MEMBER">회원</option>
+                        <option value="ROLE_SELLER">작가</option>
                     </select>
                 </div>
               </div>
@@ -136,7 +137,7 @@
                   <tr>
                       <td><c:out value="${status.count }"/></td>
                       <td><c:out value="수정필요"/></td>
-                      <td><c:out value="${i.user_name }"/> :: <c:out value="${i.user_status }"/></td>
+                      <td><c:out value="${i.user_name }"/> :: <c:out value="${i.user_authority }"/></td>
                       <td><c:out value="${i.user_id }"/></td>
                       <td><c:out value="${i.user_regidate }"/></td>
                       <td><button class="btn btn-default btn-xs gomemberdetail" value="${i.member_no }">관리</button></td>
@@ -163,7 +164,7 @@
 				</c:if>
 				<c:forEach var="i" begin="${paging.startblock }" end="${paging.endblock }">
 					<c:if test="${i == paging.currpage }">
-						<c:out value="${i }"></c:out>
+						<button class="btn"><c:out value="${i }"></c:out></button>
 					</c:if>
 					<c:if test="${i != paging.currpage }">
 						<input type="submit" class="btn btn-default" name="curr" value="${i }">
