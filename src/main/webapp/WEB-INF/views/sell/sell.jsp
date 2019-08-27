@@ -16,6 +16,9 @@
 <!-- Latest compiled and minified JavaScript -->
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 <style>
+	body{
+		background-color: #F0E5DE !important;
+	}
 	.jumbotron{
 		margin-top:0px;
 		margin-bottom:0px !important;
@@ -31,6 +34,7 @@
 	.order h2{
 		margin-bottom: 50px;
 		font-weight: 550;
+		color: #7C7877;
 	}
 	#orderMade{
 		display: inline-block;
