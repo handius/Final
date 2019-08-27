@@ -3,12 +3,10 @@ package com.bitcamp.mapper;
 import java.util.HashMap;
 import java.util.List;
 
-<<<<<<< HEAD
+
 import org.apache.ibatis.annotations.Mapper;
 
-=======
 import com.bitcamp.DTO.Product.ListDTO;
->>>>>>> branch 'master' of https://github.com/handius/Final.git
 import com.bitcamp.DTO.artist.ArtistBoardDTO;
 import com.bitcamp.DTO.artist.ArtistRepDTO;
 import com.bitcamp.DTO.member.MemberDTO;
