@@ -15,8 +15,8 @@
 	<http entry-point-ref="InterceptFailure">
 		<intercept-url pattern="/**" access="permitAll" />
 		<csrf disabled="true" />
-		<form-login login-page="/login/loginform"
-			default-target-url="/login/loginResult"
+		<form-login username-parameter="username"
+			login-page="/login/loginform" default-target-url="/login/loginResult"
 			authentication-failure-handler-ref="loginFailureHandler" />
 		<logout logout-success-url="/logout" />
 		<access-denied-handler
@@ -36,8 +36,10 @@
 		class="com.bitcamp.DAO.LoginFailureHandler">
 		<beans:property name="defaultFailureUrl"
 			value="/login?error"></beans:property>
-			<beans:property name="errormsg" value="errormsg"></beans:property>
+		<beans:property name="username" value="username"></beans:property>
+		<beans:property name="errormsg" value="errormsg"></beans:property>
 	</beans:bean>
+
 	<beans:bean id="InterceptFailure"
 		class="com.bitcamp.DAO.InterceptFailureHandler"></beans:bean>
 </beans:beans>

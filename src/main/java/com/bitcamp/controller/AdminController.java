@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -30,39 +31,11 @@ import com.bitcamp.VO.admin.NewMemberVO;
 import com.bitcamp.service.AdminService;
 
 @Controller
+//@PreAuthorize("hasRole('ROLE_ADMIN')")
 public class AdminController {
 	@Autowired
 	private AdminService adservice;
 	
-	@RequestMapping("/")
-	public String main(Model model) {
-		
-		List<MainViewDTO> mainview = adservice.getMainViewList();
-		List<MainImageDTO> mainimg = adservice.getMainImageList();
-		List<MainProductVO> product1 = new ArrayList<>();
-		List<MainProductVO> product2 = new ArrayList<>();
-		List<MainProductVO> product3 = new ArrayList<>();
-		String[] template2 = mainview.get(1).getMain_view_product().split(",");
-		String[] template4 = mainview.get(3).getMain_view_product().split(",");
-		String[] template5 = mainview.get(4).getMain_view_product().split(",");
-		
-		for(int i = 0; i < template2.length; i++) {
-			MainProductVO vo1 = adservice.getMainProduct(template2[i]);
-			MainProductVO vo2 = adservice.getMainProduct(template4[i]);
-			MainProductVO vo3 = adservice.getMainProduct(template5[i]);
-			product1.add(vo1);
-			product2.add(vo2);
-			product3.add(vo3);
-		}
-		
-		model.addAttribute("product1", product1);
-		model.addAttribute("product2", product2);
-		model.addAttribute("product3", product3);
-		model.addAttribute("mainviewlist", mainview);
-		model.addAttribute("mainimglist", mainimg);
-		model.addAttribute("ifpagemain", 1);
-		return "main.mall";
-	}
 	@RequestMapping("/admin")
 	public String adminmain(@RequestParam(required=false) String curr,
 							 @RequestParam(required=false) String user_name,
@@ -131,9 +104,12 @@ public class AdminController {
 	public String memberupdate(@RequestParam int member_no,
 								@RequestParam String user_authority) {
 		
+		// 쿼리 돌릴 파라미터
 		HashMap<String, Object> update_map = new HashMap<>();
 		update_map.put("no", member_no);
 		update_map.put("auth", user_authority);
+		
+		// 권한 업데이트 및 추가
 		adservice.updateMemberRole(update_map);
 		adservice.insertRealAuthority(update_map);
 		
