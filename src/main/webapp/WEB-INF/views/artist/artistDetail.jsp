@@ -364,7 +364,7 @@
     	let count = Math.round(starScoreNum);
     	
     	if(starScoreNum == 0) {
-    		result = "별점이 없습니다."
+    		result = "0"
     	}
     	else {
     		for(let i=1; i<=count; i++) {
