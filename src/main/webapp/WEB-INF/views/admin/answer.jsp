@@ -74,7 +74,7 @@
                       <td class="td_one">제목</td>
                       <td class="td_two"><c:out value="${dto.question_title }"/></td>
                       <td class="td_one">작성자</td>
-                      <td class="td_two"><c:out value="${dto.user_name }"/></td>
+                      <td class="td_two"><a href="/admin/memberdetail/${dto.member_no}"><c:out value="${dto.user_name }"/></a></td>
                   </tr>
                   <tr>
                       <td class="td_one">작성일</td>
@@ -103,7 +103,7 @@
                         <button class="btn btn-default btn-block answerpadding delete_question_btn" value="${dto.question_no }">문의삭제</button>
                     </div>
                     <div class="col-sm-2">
-                      	<input type="submit" class="btn btn-default btn-block answerpadding" value="답변등록">
+                      	<input type="submit" class="btn btn-default btn-block answerpadding ifnoanswer" value="답변등록">
                     </div>
                 </div>
                 </form>
@@ -141,9 +141,8 @@
 	$('.ifnoanswer').click(function() {
 		if ($('#summernote').val() == '') {
 			alert('내용을 입력해주세요');
+			event.preventDefault();
 		}
-		event.de
-		return false;
 	});
 
 	// '답변수정' 버튼
