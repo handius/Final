@@ -15,4 +15,5 @@ public class ArtistBoardDTO {
 	private int artist_score;
 	private int artist_board_status;
 	private String user_id;
+	private String user_name;
 }

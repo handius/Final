@@ -1,3 +1,4 @@
+<%@page import="com.bitcamp.DTO.member.MemberDTO"%>
 <%@page import="com.bitcamp.DTO.order.OrderDTO"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -24,6 +25,7 @@
 		<tbody>
 			<%
 				List<OrderDTO> sellList = (List<OrderDTO>) request.getAttribute("sellList");
+				List<MemberDTO> buyerList = (List<MemberDTO>) request.getAttribute("buyerList");
 				for (int i = 0; i < sellList.size(); i++) {
 			%>
 			<tr>
@@ -41,6 +43,11 @@
 					%></td>
 				<td><%=sellList.get(i).getOrder_price()%></td>
 				<td><%=sellList.get(i).getOrder_status()%></td>
+				<td><%=buyerList.get(i).getUser_id() %>
+				<%=buyerList.get(i).getUser_name() %>
+				<%=buyerList.get(i).getUser_call() %>
+				<%=buyerList.get(i).getUser_address() %>
+				</td>
 			</tr>
 			<%
 				}

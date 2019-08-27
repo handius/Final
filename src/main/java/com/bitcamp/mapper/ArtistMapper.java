@@ -3,8 +3,12 @@ package com.bitcamp.mapper;
 import java.util.HashMap;
 import java.util.List;
 
+<<<<<<< HEAD
 import org.apache.ibatis.annotations.Mapper;
 
+=======
+import com.bitcamp.DTO.Product.ListDTO;
+>>>>>>> branch 'master' of https://github.com/handius/Final.git
 import com.bitcamp.DTO.artist.ArtistBoardDTO;
 import com.bitcamp.DTO.artist.ArtistRepDTO;
 import com.bitcamp.DTO.member.MemberDTO;
@@ -38,5 +42,6 @@ public interface ArtistMapper {
 	//작가 리스트 시작
 	public int artistListMaxCount(String user_authority);
 	public List<ArtistBoardDTO> artistListGet(HashMap<String, Object> hashmap);
-	public List<String> artistListImgGet(String user_id);
+	public List<Integer> artistListListNoGet(String list_artist);
+	public List<String> artistListImgGet(int list_no);
 }

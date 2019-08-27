@@ -13,7 +13,6 @@ import lombok.Setter;
 @Service("memberService")
 public class MemberService {
 
-	@Autowired
 	private MemberMapper mem;
 
 	@Setter(onMethod_ = @Autowired)

@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bitcamp.DTO.Product.ListDTO;
 import com.bitcamp.DTO.artist.ArtistBoardDTO;
 import com.bitcamp.DTO.artist.ArtistBoardProductListDTO;
+import com.bitcamp.DTO.artist.ArtistListDTO;
 import com.bitcamp.DTO.artist.ArtistRepDTO;
 import com.bitcamp.DTO.member.MemberDTO;
 import com.bitcamp.DTO.productdetail.BuyReviewDTO;
@@ -65,8 +67,7 @@ public class ArtistService {
 		int currentPage = (int) map.get("currentProductInput");
 		
 		MemberDTO memberdto = mapper.artistBoardDetailArtistInfo(artist_no);
-//		String user_name = memberdto.getUser_name();
-		String user_name = "Min"; //임시 유저 이름
+		String user_name = memberdto.getUser_name();
 		int maxCount = mapper.artistBoardDetailProductListMaxCount(user_name);
 		ScrollCalculation scroll = new ScrollCalculation(currentPage, 8, maxCount);
 		
@@ -151,8 +152,8 @@ public class ArtistService {
 		mapper.artistBoardDetailModify(dto);
 	}
 	
-	public List<Object> artistList(Map<String, Object> map) {
-		List<Object> artistList = new ArrayList<>();
+	public List<ArtistListDTO> artistList(Map<String, Object> map) {
+		List<ArtistListDTO> artistList = new ArrayList<>();
 		
 		//스크롤 기능
 		int currentPage = Integer.parseInt(map.get("currentArtistList").toString());
@@ -172,11 +173,20 @@ public class ArtistService {
 
 			List<ArtistBoardDTO> artistBoardList = mapper.artistListGet(hashmap);
 			for(int i=0; i<artistBoardList.size(); i++) {
-				HashMap<String, Object> tmpHashmap = new HashMap<>();
-				List<String> imgLocList = mapper.artistListImgGet(artistBoardList.get(i).getUser_id());
-				tmpHashmap.put("productImgList", imgLocList);
-				tmpHashmap.put("artistBoardInfo", artistBoardList.get(i));
-				artistList.add(tmpHashmap);
+				ArtistListDTO artistListdto = new ArtistListDTO();
+				artistListdto.setArtistBoarddto(artistBoardList.get(i));
+				
+				List<Integer> listNo = mapper.artistListListNoGet(artistBoardList.get(i).getUser_id());
+				if(listNo != null) {
+					List<String> listImg = new ArrayList<>();
+					for(int j=0; j<listNo.size(); j++) {
+						List<String> tmpListImg = mapper.artistListImgGet(listNo.get(j));
+						listImg.add(tmpListImg.get(0));
+					}
+					artistListdto.setListImg(listImg);
+					artistListdto.setListNo(listNo);
+				}
+				artistList.add(artistListdto);
 			}
 		}
 		

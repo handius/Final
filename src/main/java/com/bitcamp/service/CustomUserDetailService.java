@@ -14,7 +14,7 @@ import lombok.Setter;
 
 @Service("userService")
 public class CustomUserDetailService implements UserDetailsService {
-
+	
 	@Setter(onMethod_ = { @Autowired })
 	private MemberMapper mapper;
 

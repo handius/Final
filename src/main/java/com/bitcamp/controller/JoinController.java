@@ -25,17 +25,17 @@ public class JoinController {
 	
 	@RequestMapping("/join")
 	public String join() {
-		return "join/terms.mall";
+		return "join/terms";
 	}
 
 	@RequestMapping("join/terms")
 	private String terms() {
-		return "join/terms.mall";
+		return "join/terms";
 	}
 
 	@RequestMapping("join/joinform")
 	public String joinform() {
-		return "join/joinform.mall";
+		return "join/joinform";
 	}
 
 	@RequestMapping(value = "/user/idCheck", method = RequestMethod.POST)

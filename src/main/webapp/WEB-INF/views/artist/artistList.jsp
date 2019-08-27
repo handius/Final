@@ -75,14 +75,14 @@
             text-align: right;
         }
         
-        #artistListNavSearchText {
+        .artistListNavSearchText {
             width: 50%;
             height: 40px;
             border: 0;
             border: 2px solid #ABD0CE;
         }
         
-        #artistListNavSearchButton {
+        .artistListNavSearchButton {
             width: 10%;
             height: 40px;
             border: 2px solid #ABD0CE;
@@ -94,14 +94,11 @@
         /*작가 리스트*/
         
         #artistListUl li {
-            border-top: 1px solid #3333;
-            border-bottom: 1px solid #3333;
-            background-color: white;
             margin: 20px 0;
         }
         .artistListTitleImgBox, .artistListImgBox {
             height: 190px;
-            padding: 0;
+            padding: 0 !important;
         }
         
         .artistListTitleImgBox img, .artistListImgBox img {
@@ -111,6 +108,7 @@
         }
         
         .artistListDetailBox {
+        	background-color: white;
             padding: 0;
         }
         
@@ -152,11 +150,11 @@
                 display: none;
             }
             
-            #artistListNavSearchText {
+            .artistListNavSearchText {
                 width: 80%;
             }
             
-            #artistListNavSearchButton {
+            .artistListNavSearchButton {
                 width: 20%;
             }
         }
@@ -171,15 +169,19 @@
                 border-bottom: 1px solid silver;
             }
             
+            .row {
+            	background-color: white;
+            }
+            
             .dropdown {
                 width: 100%;
             }
             
-            #artistListNavSearchText {
+            .artistListNavSearchText {
                 width: 80%;
             }
             
-            #artistListNavSearchButton {
+            .artistListNavSearchButton {
                 width: 20%;
             }
             
@@ -215,54 +217,144 @@
     </style>
     <script>
     
+    $(window).scroll(function() {
+    	scrollArtistList();
+    });
+    
     $(document).ready(artistList);
     
     $(document).ready(function(){
     	$('.artistListNavTypeBlock').on('click',artistList);
     	$('.drowdownList').on('click', artistList);
+    	$('.artistListNavSearchButton').on('click',search);
     });
     	
     
-    function artistList() {
+    let saveListType = '인기순';
+    function artistList(searchText) {
     	let listType = $(this).children('a').text();
     	let currentArtistList = $('#currentArtistList').val();
+    	//정렬값이 지정이 안되있다면
     	if(!listType) {
     		listType = '인기순';
     	}
-    	
+    	else {
+    		//이전 정렬값과 다르다면 초기화
+    		if(listType != saveListType) {
+    			console.log('정렬초기화 작동');
+    			$('#artistListUl').empty();
+    			$('#currentArtistList').val(0);
+    			currentArtistList = 1;
+    			saveListType = listType;
+    		}
+    		//검색값이 변경됨
+    		else if(searchChangeTokken == 1) {
+    			console.log('검색초기화 작동');
+    			$('#artistListUl').empty();
+    			$('#currentArtistList').val(0);
+    			currentArtistList = 1;
+    			searchChangeTokken = 0;
+    		}
+    		//이전 정렬값과 같으나 스크롤에서 호출한게 아니라면
+    		else if(delayScrollTokken == 0) {
+    			return;
+    		}
+    	}
     	$.ajax({
     		url: "/ajaxArtistList"
     		,contentType: "application/json; charseet=utf-8"
-    		,data: JSON.stringify({listType:listType, currentArtistList:currentArtistList})
+    		,data: JSON.stringify({listType:listType, currentArtistList:currentArtistList, searchText:searchText})
     		,type: "POST"
+    		,dataType: "json"
     		,success: function(data) {
     			console.log('작가 리스트 성공');
-    			console.log(data);
-    			console.log(data.length);
-    			let result = '';
+    			let result = "";
     			for(let i=0; i<data.length; i++) {
-    				result = '<li>';
-    				result = '<div class="row">';
-    				result = '<div class="col-md-2 col-sm-3 artistListTitleImgBox"><img src="./slide1.jpg" alt="artist_no"></div>';
-    				result = '<div class="col-md-4 col-sm-9 artistListDetailBox">';
-    				result = '<div class="col-xs-12 artistListTitleName"><a href="#">작가 이름</a></div>';
-    				result = '<div class="col-xs-8 artistListStarScore">★★★★★</div>';
-    				result = '<div class="col-xs-4 artistListNumScore">3.56</div>';
-    				result = '<div class="col-xs-12 artistListDetailTitle">작가페이지 타이틀 제목 작가페이지 타이틀 제목 작가페이지 타이틀 제목 작가페이지 타이틀 제목 작가페이지 타이틀 제목 작가페이지 타이틀 제목 작가페이지 타이틀 제목 작가페이지 타이틀 제목작가페이지 타이틀 제목작가페이지 타이틀 제목작가페이지 타이틀 제목작가페이지 타이틀 제목작가페이지 타이틀 제목작가페이지 타이틀 제목작가페이지 타이틀 제목작가페이지 타이틀 제목 </div>';
-    				result = '</div>';
-    				result = '<div class="col-md-2 artistListImgBox"><img src="./slide1.jpg" alt="list_no"></div>';
-    				result = '<div class="col-md-2 artistListImgBox"><img src="./slide1.jpg" alt="list_no"></div>';
-    				result = '<div class="col-md-2 artistListImgBox"><img src="./slide1.jpg" alt="list_no"></div>';
-    				result = '</div>';
-    				result = '</li>';
+    				let artistBoarddto = data[i].artistBoarddto;
+    				let listNo = data[i].listNo;
+    				let listImg = data[i].listImg;
+    				result += '<li>';
+    				result += 	'<div class="row">';
+    				result += 		'<div class="col-md-2 col-sm-3 artistListTitleImgBox"><a href="/artistDetail/'+artistBoarddto.artist_no+'"><img src="'+artistBoarddto.artist_main_img+'" alt="타이틀 이미지"></a></div>';
+    				result += 		'<div class="col-md-4 col-sm-9 artistListDetailBox">';
+    				result += 			'<div class="col-xs-12 artistListTitleName"><a href="/artistDetail/'+artistBoarddto.artist_no+'">'+artistBoarddto.user_name+'</a></div>';
+    				result += 			'<div class="col-xs-8 artistListStarScore">'+starScoreCel(artistBoarddto.artist_score)+'</div>';
+    				result += 			'<div class="col-xs-4 artistListNumScore">'+artistBoarddto.artist_score+'</div>';
+    				result += 			'<div class="col-xs-12 artistListDetailTitle">'+artistBoarddto.artist_board_title+'</div>';
+    				result += 		'</div>';
+    				for(let j=0; j<listNo.length; j++) {
+    					if(j<3) {
+    						result += '<div class="col-md-2 artistListImgBox"><a href="/productDetail/'+listNo[j]+'"><img src="'+listImg[j]+'" alt="제품 이미지"></a></div>'
+    					}
+    					else {
+    						break;
+    					}
+    				}
+    				result += 	'</div>';
+    				result += '</li>';
     			}
-    			$('.artistListUl').append(result);
+    			$('#artistListUl').append(result);
+    			$('#currentArtistList').val(Number(currentArtistList)+1);
     		}
     		,error:function(data) {
     			console.log('작가 리스트 실패');
     		}
-    	})
+    	});
     }
+    
+    let delayScrollTokken = 0;
+    function scrollArtistList() {
+    	let windowHeight = window.innerHeight;
+    	let scrollWindowBottom = $(window).scrollTop() + $(window).height();
+    	let endBlockTop = $('#footer').offset().top;
+    	if(scrollWindowBottom > endBlockTop && delayScrollTokken == 0) {
+    		delayScrollTokken = 1;
+    		artistList();
+    		
+    		setTimeout(() => {
+    			delayScrollTokken = 0;
+			}, 500);
+    	}
+    }
+    
+    function starScoreCel(ScoreNum) {
+    	let starScoreNum = ScoreNum;
+    	let result = "";
+    	let count = Math.round(starScoreNum);
+    	
+    	if(starScoreNum == 0) {
+    		result = "0"
+    	}
+    	else {
+    		for(let i=1; i<=count; i++) {
+    			if( i == count && count > starScoreNum) {
+    				result += "☆";
+    			}
+    			else {
+    				result += "★";
+    			}
+    		}
+    	}
+    	return result;
+    }
+    
+    let searchChangeTokken = 0;
+    function SearchChangeTokken() {
+    	console.log('체인지 작동됨!');
+    	searchChangeTokken = 1;
+	}
+    
+    function search() {
+    	let searchText = $(this).prev().val();
+    	$(this).prev().val("");
+    	if(!searchText) {
+    		alert("검색어를 입력하세요");
+    	}
+    	else {
+    		artistList(searchText);
+    	}
+    }
+    
     </script>
 </head>
 <body>
@@ -277,8 +369,8 @@
                     <div class="col-sm-2 artistListNavTypeBlock"><a href="#">평점순</a></div>
                     <div class="col-sm-2 artistListNavTypeBlock"><a href="#">최신순</a></div>
                     <div class="col-sm-6" id="artistListNavSearchBox">
-                        <input type="text" id="artistListNavSearchText">
-                        <input type="button" id="artistListNavSearchButton" value="검색">
+                        <input type="text" class="artistListNavSearchText" onchange=" SearchChangeTokken()">
+                        <input type="button" class="artistListNavSearchButton" value="검색">
                     </div>
                 </div>
            </div>
@@ -306,8 +398,8 @@
                    </div>
                    <div class="col-xs-8">
                         <div id="artistListNavSearchBox">
-                            <input type="text" id="artistListNavSearchText">
-                            <input type="button" id="artistListNavSearchButton" value="검색">
+                            <input type="text" class="artistListNavSearchText" onchange=" SearchChangeTokken()">
+                            <input type="button" class="artistListNavSearchButton" value="검색">
                         </div>
                    </div>
                </div>
@@ -317,48 +409,6 @@
     <section>
         <div class="container">
             <ul id="artistListUl">
-                <!-- <li>
-                    <div class="row">
-                        <div class="col-md-2 col-sm-3 artistListTitleImgBox"><img src="./slide1.jpg" alt="artist_no"></div>
-                        <div class="col-md-4 col-sm-9 artistListDetailBox">
-                            <div class="col-xs-12 artistListTitleName"><a href="#">작가 이름</a></div>
-                            <div class="col-xs-8 artistListStarScore">★★★★★</div>
-                            <div class="col-xs-4 artistListNumScore">3.56</div>
-                            <div class="col-xs-12 artistListDetailTitle">작가페이지 타이틀 제목 작가페이지 타이틀 제목 작가페이지 타이틀 제목 작가페이지 타이틀 제목 작가페이지 타이틀 제목 작가페이지 타이틀 제목 작가페이지 타이틀 제목 작가페이지 타이틀 제목작가페이지 타이틀 제목작가페이지 타이틀 제목작가페이지 타이틀 제목작가페이지 타이틀 제목작가페이지 타이틀 제목작가페이지 타이틀 제목작가페이지 타이틀 제목작가페이지 타이틀 제목 </div>
-                        </div>
-                        <div class="col-md-2 artistListImgBox"><img src="./slide1.jpg" alt="list_no"></div>
-                        <div class="col-md-2 artistListImgBox"><img src="./slide1.jpg" alt="list_no"></div>
-                        <div class="col-md-2 artistListImgBox"><img src="./slide1.jpg" alt="list_no"></div>
-                    </div>
-                </li>
-                <li>
-                    <div class="row">
-                        <div class="col-md-2 col-sm-3 artistListTitleImgBox"><img src="./slide1.jpg" alt="artist_no"></div>
-                        <div class="col-md-4 col-sm-9 artistListDetailBox">
-                            <div class="col-xs-12 artistListTitleName"><a href="#">작가 이름</a></div>
-                            <div class="col-xs-8 artistListStarScore">★★★★★</div>
-                            <div class="col-xs-4 artistListNumScore">3.56</div>
-                            <div class="col-xs-12 artistListDetailTitle">작가페이지 타이틀 제목 작가페이지 타이틀 제목 작가페이지 타이틀 제목 작가페이지 타이틀 제목 작가페이지 타이틀 제목 작가페이지 타이틀 제목 작가페이지 타이틀 제목 작가페이지 타이틀 제목작가페이지 타이틀 제목작가페이지 타이틀 제목작가페이지 타이틀 제목작가페이지 타이틀 제목작가페이지 타이틀 제목작가페이지 타이틀 제목작가페이지 타이틀 제목작가페이지 타이틀 제목 </div>
-                        </div>
-                        <div class="col-md-2 artistListImgBox"><img src="./slide1.jpg" alt="list_no"></div>
-                        <div class="col-md-2 artistListImgBox"><img src="./slide1.jpg" alt="list_no"></div>
-                        <div class="col-md-2 artistListImgBox"><img src="./slide1.jpg" alt="list_no"></div>
-                    </div>
-                </li>
-                <li>
-                    <div class="row">
-                        <div class="col-md-2 col-sm-3 artistListTitleImgBox"><img src="./slide1.jpg" alt="artist_no"></div>
-                        <div class="col-md-4 col-sm-9 artistListDetailBox">
-                            <div class="col-xs-12 artistListTitleName"><a href="#">작가 이름</a></div>
-                            <div class="col-xs-8 artistListStarScore">★★★★★</div>
-                            <div class="col-xs-4 artistListNumScore">3.56</div>
-                            <div class="col-xs-12 artistListDetailTitle">작가페이지 타이틀 제목 작가페이지 타이틀 제목 작가페이지 타이틀 제목 작가페이지 타이틀 제목 작가페이지 타이틀 제목 작가페이지 타이틀 제목 작가페이지 타이틀 제목 작가페이지 타이틀 제목작가페이지 타이틀 제목작가페이지 타이틀 제목작가페이지 타이틀 제목작가페이지 타이틀 제목작가페이지 타이틀 제목작가페이지 타이틀 제목작가페이지 타이틀 제목작가페이지 타이틀 제목 </div>
-                        </div>
-                        <div class="col-md-2 artistListImgBox"><img src="./slide1.jpg" alt="list_no"></div>
-                        <div class="col-md-2 artistListImgBox"><img src="./slide1.jpg" alt="list_no"></div>
-                        <div class="col-md-2 artistListImgBox"><img src="./slide1.jpg" alt="list_no"></div>
-                    </div>
-                </li> -->
             </ul>
         </div>
     </section>

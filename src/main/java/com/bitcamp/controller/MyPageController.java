@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.bitcamp.DAO.CustomUser;
+import com.bitcamp.DTO.Product.ListDTO;
 import com.bitcamp.DTO.customerqaboard.CustomerQABoardDTO;
 import com.bitcamp.DTO.member.MemberDTO;
 import com.bitcamp.DTO.order.OrderDTO;
@@ -171,16 +172,26 @@ public class MyPageController {
 		return "mypage/buyerReviewList";
 	}
 
+	@RequestMapping("registerList")
+	public String registerList(Principal prin, HttpSession session, Model model) {
+		CustomUser user = (CustomUser) userService.loadUserByUsername(prin.getName());
+		MemberDTO memberDTO = user.getMember();
+		List<ListDTO> registerList = service.registerList(memberDTO.getUser_id());
+		model.addAttribute("registerList", registerList);
+		return "mypage/registerList";
+	}
+
 	@RequestMapping("sellList")
 	public String sellList(Principal prin, HttpSession session, Model model) {
 		// MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
 		CustomUser user = (CustomUser) userService.loadUserByUsername(prin.getName());
 		MemberDTO memberDTO = user.getMember();
-		List<OrderDTO> sellList = service.sellList(memberDTO.getUser_id());
-		System.out.println(memberDTO.getUser_id());
+		Map<String, Object> parameters = service.sellList(memberDTO.getUser_id());
+		List<OrderDTO> sellList = (List<OrderDTO>) parameters.get("sellList");
+		List<MemberDTO> buyerList = (List<MemberDTO>) parameters.get("buyerList");
 		model.addAttribute("sellList", sellList);
-		System.out.println(sellList);
-		return "mypage/sellList.mall";
+		model.addAttribute("buyerList", buyerList);
+		return "mypage/sellList";
 	}
 
 	@RequestMapping("sellerPQAList")
@@ -188,8 +199,11 @@ public class MyPageController {
 		// MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
 		CustomUser user = (CustomUser) userService.loadUserByUsername(prin.getName());
 		MemberDTO memberDTO = user.getMember();
-		List<QABoardDTO> sellerPQAList = service.sellerPQAList(memberDTO.getUser_id());
+		Map<String, Object> parameters = service.sellerPQAList(memberDTO.getUser_id());
+		List<QABoardDTO> sellerPQAList = (List<QABoardDTO>) parameters.get("sellerPQAList");
+		List<String> list_title_list = (List<String>) parameters.get("list_title_list");
 		model.addAttribute("sellerPQAList", sellerPQAList);
+		model.addAttribute("list_title_list", list_title_list);
 		return "mypage/sellerPQAList";
 	}
 
@@ -198,8 +212,12 @@ public class MyPageController {
 		// MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
 		CustomUser user = (CustomUser) userService.loadUserByUsername(prin.getName());
 		MemberDTO memberDTO = user.getMember();
-		List<BuyReviewDTO> sellerReviewList = service.sellerReviewList(memberDTO.getUser_id());
+		Map<String, Object> parameters = service.sellerReviewList(memberDTO.getUser_id());
+		List<BuyReviewDTO> sellerReviewList = (List<BuyReviewDTO>) parameters.get("sellerReviewList");
+		List<String> list_title_list = (List<String>) parameters.get("list_title_list");
 		model.addAttribute("sellerReviewList", sellerReviewList);
+		model.addAttribute("list_title_list", list_title_list);
 		return "mypage/sellerReviewList";
 	}
+
 }

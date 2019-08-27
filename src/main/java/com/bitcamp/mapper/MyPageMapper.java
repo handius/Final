@@ -3,6 +3,7 @@ package com.bitcamp.mapper;
 import java.util.List;
 import java.util.Map;
 
+import com.bitcamp.DTO.Product.ListDTO;
 import com.bitcamp.DTO.customerqaboard.CustomerQABoardDTO;
 import com.bitcamp.DTO.member.MemberDTO;
 import com.bitcamp.DTO.order.OrderDTO;
@@ -38,5 +39,9 @@ public interface MyPageMapper {
 	List<QABoardDTO> sellerPQAList(String user_id);
 
 	List<BuyReviewDTO> sellerReviewList(String user_id);
+
+	MemberDTO findBuyer(int member_no);
+
+	List<ListDTO> registerList(String user_id);
 
 }
