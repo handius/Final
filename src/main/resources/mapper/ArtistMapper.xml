@@ -119,9 +119,14 @@
     	  from (select artist_no, artist_board_title, artist_main_img, artist_score, artist_board_status, user_id, user_name
                 from artist_board inner join member
                 on artist_board.member_no = member.member_no
-                <if test="!user_authority.equals('ROLL_ADMIN')">
-                	where artist_board_status = 1
-                </if>
+                <where>
+                	<if test="!searchText != null || searchText.equals('')">
+                	and user_name like '%' || #{searchText} || '%'
+                	</if>
+                	<if test="!user_authority.equals('ROLL_ADMIN')">
+                	and artist_board_status = 1
+                	</if>
+                </where>
                 <if test="listType.equals('인기순')">
                 	order by artist_count desc
                 </if>

@@ -167,6 +167,7 @@ public class ArtistService {
 		if(scroll.isActive()) {
 			HashMap<String, Object> hashmap = new HashMap<>();
 			hashmap.put("user_authority", map.get("user_authority").toString());
+			hashmap.put("searchText", map.get("searchText"));
 			hashmap.put("listType", map.get("listType"));
 			hashmap.put("endSql", endSql);
 			hashmap.put("startSql", startSql);

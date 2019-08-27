@@ -20,7 +20,7 @@
         a:active,
         a:link {
             color: black;
-            text-decoration: none;
+            text-decoration: none !important;
         }
         
         a:hover {
@@ -221,45 +221,94 @@
     	scrollArtistList();
     });
     
-    $(document).ready(artistList);
+    $(document).ready(artistList());
     
     $(document).ready(function(){
-    	$('.artistListNavTypeBlock').on('click',artistList);
-    	$('.drowdownList').on('click', artistList);
+    	$('.artistListNavTypeBlock').on('click',listTypeReplace);
+    	$('.drowdownList').on('click', listTypeReplace);
     	$('.artistListNavSearchButton').on('click',search);
     });
-    	
-    
-    let saveListType = '인기순';
-    function artistList(searchText) {
+    /* .css('background-color','#ABD0CE'); */
+    //정렬선택에 의한 재정렬
+    let listTypeSave = "인기순"; //선택 저장값
+    function listTypeReplace() {
     	let listType = $(this).children('a').text();
-    	let currentArtistList = $('#currentArtistList').val();
-    	//정렬값이 지정이 안되있다면
-    	if(!listType) {
-    		listType = '인기순';
+    	$('.artistListNavTypeBlock').css('background-color','white');
+    	$('.drowdownList').css('background-color','white');
+    	let selectValue = $(this).children('a').attr('href');
+    	$('[href="'+selectValue+'"]').parent().css('background-color','#ABD0CE');
+    	$('#dropdownResultBox').text(listType);
+    	
+    	//선택한 값이 이전값과 같다면 함수작동을 멈춤
+    	if(listType == listTypeSave) {
+    		return;
+    	}
+    	
+    	//선택한 값이 이전과 다르다면
+    	else {
+    		console.log('정렬초기화 작동');
+    		$('#artistListUl').empty();
+    		$('#currentArtistList').val(1);
+    		listTypeSave = listType;
+    	}
+    	
+    	artistList(listType, searchTextSave);
+    }
+    
+    //검색에 의한 재정렬
+    let searchTextSave = ""; //검색 저장값
+    function search() {
+    	let searchText = $(this).prev().val();
+
+    	if(!searchText) {
+    		alert("검색어를 입력하세요");
     	}
     	else {
-    		//이전 정렬값과 다르다면 초기화
-    		if(listType != saveListType) {
-    			console.log('정렬초기화 작동');
-    			$('#artistListUl').empty();
-    			$('#currentArtistList').val(0);
-    			currentArtistList = 1;
-    			saveListType = listType;
-    		}
-    		//검색값이 변경됨
-    		else if(searchChangeTokken == 1) {
-    			console.log('검색초기화 작동');
-    			$('#artistListUl').empty();
-    			$('#currentArtistList').val(0);
-    			currentArtistList = 1;
-    			searchChangeTokken = 0;
-    		}
-    		//이전 정렬값과 같으나 스크롤에서 호출한게 아니라면
-    		else if(delayScrollTokken == 0) {
-    			return;
-    		}
+    		console.log('검색초기화 작동');
+    		$('#artistListUl').empty();
+    		$('#currentArtistList').val(1);
+    		searchTextSave = searchText;
+    		artistList(listTypeSave , searchText);
     	}
+    }
+    
+    let delayScrollTokken = 0;
+    function scrollArtistList() {
+    	let windowHeight = window.innerHeight;
+    	let scrollWindowBottom = $(window).scrollTop() + $(window).height();
+    	let endBlockTop = $('#footer').offset().top;
+    	if(scrollWindowBottom > endBlockTop && delayScrollTokken == 0) {
+    		delayScrollTokken = 1;
+    		artistList(listTypeSave, searchTextSave);
+    		
+    		setTimeout(function() {
+    			delayScrollTokken = 0;
+			}, 500);
+    	}
+    }
+    
+    function artistList(inputListType, inputSearchText) {
+    	
+    	let currentArtistList = $('#currentArtistList').val();
+    	//만약 현재페이지 값이 없다면 1로 초기화함
+    	if(!currentArtistList) {
+    		currentArtistList = 1;
+    	}
+    	
+    	let listType = "인가순";
+    	//만약 정렬값이 있다면 정렬값 변경
+    	if(inputListType) {
+    		console.log("정렬값 변경");
+    		listType = inputListType;
+    	}
+    	
+    	//만약 검색값이 있다면 검색값으로 변경
+    	let searchText = "";
+    	if(inputSearchText) {
+    		console.log("검색값 변경")
+    		searchText = inputSearchText;
+    	}
+    	
     	$.ajax({
     		url: "/ajaxArtistList"
     		,contentType: "application/json; charseet=utf-8"
@@ -302,21 +351,6 @@
     	});
     }
     
-    let delayScrollTokken = 0;
-    function scrollArtistList() {
-    	let windowHeight = window.innerHeight;
-    	let scrollWindowBottom = $(window).scrollTop() + $(window).height();
-    	let endBlockTop = $('#footer').offset().top;
-    	if(scrollWindowBottom > endBlockTop && delayScrollTokken == 0) {
-    		delayScrollTokken = 1;
-    		artistList();
-    		
-    		setTimeout(() => {
-    			delayScrollTokken = 0;
-			}, 500);
-    	}
-    }
-    
     function starScoreCel(ScoreNum) {
     	let starScoreNum = ScoreNum;
     	let result = "";
@@ -338,23 +372,6 @@
     	return result;
     }
     
-    let searchChangeTokken = 0;
-    function SearchChangeTokken() {
-    	console.log('체인지 작동됨!');
-    	searchChangeTokken = 1;
-	}
-    
-    function search() {
-    	let searchText = $(this).prev().val();
-    	$(this).prev().val("");
-    	if(!searchText) {
-    		alert("검색어를 입력하세요");
-    	}
-    	else {
-    		artistList(searchText);
-    	}
-    }
-    
     </script>
 </head>
 <body>
@@ -365,9 +382,9 @@
         <div id="artistListNaxBox">
            <div class="container">
                 <div class="row">
-                    <div class="col-sm-2 artistListNavTypeBlock"><a href="#">인기순</a></div>
-                    <div class="col-sm-2 artistListNavTypeBlock"><a href="#">평점순</a></div>
-                    <div class="col-sm-2 artistListNavTypeBlock"><a href="#">최신순</a></div>
+                    <div class="col-sm-2 artistListNavTypeBlock"><a href="#1">인기순</a></div>
+                    <div class="col-sm-2 artistListNavTypeBlock"><a href="#2">평점순</a></div>
+                    <div class="col-sm-2 artistListNavTypeBlock"><a href="#3">최신순</a></div>
                     <div class="col-sm-6" id="artistListNavSearchBox">
                         <input type="text" class="artistListNavSearchText" onchange=" SearchChangeTokken()">
                         <input type="button" class="artistListNavSearchButton" value="검색">
@@ -381,17 +398,17 @@
                    <div class="col-xs-4">
                         <div class="dropdown">
                             <button class="dropdown-toggle" id="dropdownButton" data-toggle="dropdown">
-                                                               조회순<span class="caret"></span>
+                                                               <div id="dropdownResultBox">인기순</div><span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu" role="menu">
                                 <li role="presentation" class="drowdownList">
-                                    <a href="#">조회순</a>
+                                    <a href="#1">인기순</a>
                                 </li>
                                 <li role="presentation" class="drowdownList">
-                                    <a href="#">평점순</a>
+                                    <a href="#2">평점순</a>
                                 </li>
                                 <li role="presentation" class="drowdownList">
-                                    <a href="#">최신순</a>
+                                    <a href="#3">최신순</a>
                                 </li>
                             </ul>
                         </div>
