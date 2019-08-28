@@ -65,6 +65,18 @@ public class ProductDetailService {
 		map.put("productDetailArtistBoardNo", artist_no);
 		return map;
 	}
+	
+	public String productDelete(HashMap<String, Object> hashmap) {
+		String resultMessage = "삭제 실패";
+		mapper.productDelete(hashmap);
+		int list_no = Integer.parseInt(hashmap.get("list_no").toString());
+		int deleteResult = mapper.productDeleteCheck(list_no);
+		
+		if(deleteResult == 0) {
+			resultMessage = "삭제 성공";
+		}
+		return resultMessage;
+	}
 
 	@Transactional
 	public int productDetailQandAInsertService(QABoardDTO qaboarddto) {

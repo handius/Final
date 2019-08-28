@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.bitcamp.DTO.Product.ListDTO;
 import com.bitcamp.DTO.customerqaboard.CustomerQABoardDTO;
@@ -221,4 +222,5 @@ public class MyPageService {
 		// TODO Auto-generated method stub
 		mapper.cor(order_no);
 	}
+
 }

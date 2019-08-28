@@ -34,7 +34,7 @@
         
         ul {
             list-style: none;
-            padding: 0;
+            padding: 0 !important;
         }
         
         .row {
@@ -184,6 +184,10 @@
                 width: 100%;
             }
             
+            .drowdownList {
+            	background-color: #d9d4cf;
+            }
+            
             .artistListNavSearchText {
                 width: 80%;
             }
@@ -229,20 +233,24 @@
     	scrollArtistList();
     });
     
-    $(document).ready(artistList());
+    $(document).ready(artistList("인기순",""));
     
     $(document).ready(function(){
     	$('.artistListNavTypeBlock').on('click',listTypeReplace);
     	$('.drowdownList').on('click', listTypeReplace);
     	$('.artistListNavSearchButton').on('click',search);
     });
-    /* .css('background-color','#ABD0CE'); */
+
     //정렬선택에 의한 재정렬
+    let DelaylistTypeTokken = 0;
     let listTypeSave = "인기순"; //선택 저장값
     function listTypeReplace() {
     	let listType = $(this).children('a').text();
     	$('.artistListNavTypeBlock').css('background-color','#d9d4cf');
     	$('.drowdownList').css('background-color','#d9d4cf');
+    	$('.artistListNavTypeBlock').children('a').css('color','rgba(93,93,93)');
+    	$('.drowdownList').children('a').css('color','rgba(93,93,93)');
+    	
     	let selectValue = $(this).children('a').attr('href');
     	$('[href="'+selectValue+'"]').parent().css('background-color','#7C7877');
     	$('[href="'+selectValue+'"]').css('color','white');
@@ -261,7 +269,13 @@
     		listTypeSave = listType;
     	}
     	
-    	artistList(listType, searchTextSave);
+    	if(DelaylistTypeTokken == 0) {
+    		artistList(listType, searchTextSave);
+    		
+    		setTimeout(function() {
+    			DelaylistTypeTokken = 0;
+			}, 500);
+    	}
     }
     
     //검색에 의한 재정렬

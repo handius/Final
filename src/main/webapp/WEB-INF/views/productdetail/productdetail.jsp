@@ -625,6 +625,7 @@
             $('#productDetailBuyReviewMoreButton').on('click',buyReviewList);
             $('.asideBasket').on('click',cookieInsert);
             $('#artistDetailPageMove').on('click', artistDetailPageMove);
+            $('#productRemove').on('click',productRemove);
         });
         
         function mobileViewConverter() {
@@ -958,6 +959,31 @@
         	let productRemoveDecision = $('#productRemoveDecision').val();
         	if(productRemoveDecision == 'true') {
         		$('#productRemove').show();
+        	}
+        }
+        
+        function productRemove() {
+        	let listNo = $('#list_no').val();
+        	if(confirm("상품을 삭제하시겠습니까?")) {
+        		$.ajax({
+        			url:"/productDetail/ajaxProductDelete"
+        			,contentType: "application/json; charset=utf-8"
+        			,data: JSON.stringify({list_no:listNo})
+        			,dataType: "text"
+        			,type: "POST"
+        			,success: function(data) {
+        				alert(data);
+        				if(data == "삭제 성공") {
+        					location.href="/";
+        				}
+        				else if(data == "로그인부터 하세요") {
+        					location.href="/login";
+        				}
+        			}
+        			,error: function(data) {
+        				alert("알수없는 오류");
+        			}
+        		});
         	}
         }
 
