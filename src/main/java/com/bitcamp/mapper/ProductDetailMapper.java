@@ -1,5 +1,6 @@
 package com.bitcamp.mapper;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.bitcamp.DTO.Product.ListDTO;
@@ -16,6 +17,9 @@ public interface ProductDetailMapper {
 	public List<ProductDetailOptionListDTO> productDetailOptionGet(int list_no);
 	public MemberDTO productDetailArtistGet(String user_id);
 	public Integer productDetailArtistBoardGet(int member_no);
+	//
+	public void productDelete(HashMap<String, Object> hashmap);
+	public int productDeleteCheck(int list_no);
 	//
 	public int productDetailQandAInsertSeq();
 	public int productDetailQandAInsert(QABoardDTO qaboarddto);
