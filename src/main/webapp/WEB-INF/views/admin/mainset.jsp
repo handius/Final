@@ -46,6 +46,7 @@
         border: 1px solid #D9D4CF;
         border-radius: 5px;
     }
+
 </style>
 </head>
 <body>
@@ -61,9 +62,9 @@
             
               <!-- 첫번째 사진 -->
               <div class="form-group">
-                <label class="col-sm-1 control-label" for="img1">사진 1</label>
+                <label class="col-sm-1 control-label" for="ex_filename">사진 1</label>
                 <div class="col-sm-3">
-                    <input type="file" name="imagefile" id="img1" class="img_upload" required="required"
+                    <input type="file" name="imagefile" id="ex_filename" required="required"
                            nncheck="true" nnname="사진1을 업로드해주세요">
                 </div>
                 <label class="col-sm-1 control-label" for="img1Link">링크</label>
@@ -77,8 +78,8 @@
               <div class="form-group">
                 <label class="col-sm-1 control-label" for="img2">사진 2</label>
                 <div class="col-sm-3">
-                    <input type="file" name="imagefile" id="img2" class="img_upload" required="required"
-                           nncheck="true" nnname="사진2를 업로드해주세요">
+                    <input type="file" name="imagefile" id="ex_filename" required="required"
+                           nncheck="true" nnname="사진2을 업로드해주세요">
                 </div>
                 <label class="col-sm-1 control-label" for="img2Link">링크</label>
                 <div class="col-sm-5">
@@ -91,7 +92,7 @@
               <div class="form-group">
                 <label class="col-sm-1 control-label" for="img3">사진 3</label>
                 <div class="col-sm-3">
-                    <input type="file" name="imagefile" id="img3" class="img_upload" required="required"
+                    <input type="file" name="imagefile" id="ex_filename"required="required"
                            nncheck="true" nnname="사진3을 업로드해주세요">
                 </div>
                 <label class="col-sm-1 control-label" for="img3Link">링크</label>
@@ -105,8 +106,8 @@
               <div class="form-group">
                 <label class="col-sm-1 control-label" for="img4">사진 4</label>
                 <div class="col-sm-3">
-                    <input type="file" name="imagefile" id="img4" class="img_upload" required="required"
-                           nncheck="true" nnname="사진3을 업로드해주세요">
+                    <input type="file" name="imagefile" id="ex_filename" required="required"
+                           nncheck="true" nnname="사진4을 업로드해주세요">
                 </div>
                 <label class="col-sm-1 control-label" for="img4Link">링크</label>
                 <div class="col-sm-5">
@@ -180,7 +181,7 @@
               <div class="form-group">
                 <label class="col-sm-1 control-label" for="img">사진 1</label>
                 <div class="col-sm-3">
-                    <input type="file" name="imagefile" id="img" class="img_upload" required="required"
+                    <input type="file" name="imagefile" id="ex_filename" required="required"
                            nncheck="true" nnname="사진을 업로드해주세요">
                 </div>
                 <label class="col-sm-1 control-label" for="imgLink">링크</label>
@@ -298,7 +299,9 @@
           <h4 class="modal-title">Product Search</h4>
         </div>
         <!-- ajax -->
-		<div id="productsearch_append"></div>
+		<div id="productsearch_append"> 
+		
+		</div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
         </div>
@@ -307,6 +310,7 @@
   </div>
   
 <script>
+	
 	$('.productsubmitbutton').click(function() {
 		alert("템플릿 설정이 완료되었습니다.");
 	});
