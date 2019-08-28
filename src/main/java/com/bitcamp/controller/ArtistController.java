@@ -56,12 +56,6 @@ public class ArtistController {
 		return "artist/artistDetail.mall";
 	}
 	
-	@RequestMapping("/artistInsert/{member_no}")
-	public String artistInsert(@PathVariable int member_no) {
-		String insertResultMessage = service.artistBoardInsertService(member_no);
-		System.out.println(insertResultMessage);
-		return "redirect:/login";
-	}
 	
 	@ResponseBody
 	@RequestMapping("/ajaxArtistBoardDetailProductList")
