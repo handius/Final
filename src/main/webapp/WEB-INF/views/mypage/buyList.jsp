@@ -55,8 +55,11 @@
 								value="수취완료">
 							<span style="display: none;">${list.order_no }</span>
 						</c:if> <c:if test="${list.order_status == '배송완료' }">
-							<button class="btn btn-default" name="rw" id="rw"
-								data-toggle="modal" data-target="#myModal">리뷰쓰기</button>
+							<!-- <button class="btn btn-default" name="rw" id="rw"
+								data-toggle="modal" data-target="#myModal">리뷰쓰기</button> -->
+							<input type="button" class="btn btn-default rw" name="rw"
+								value="리뷰쓰기" data-toggle="modal" data-target="#myModal">
+							<span style="display: none;">${list.order_no }</span>
 						</c:if></td>
 				</tr>
 			</c:forEach>
@@ -90,7 +93,8 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header"></div>
-				<div class="modal-body">Hello! Webisfree.com</div>
+				<div class="modal-body" id="insertBuyReview">Hello!
+					Webisfree.com</div>
 				<div class="modal-footer"></div>
 			</div>
 		</div>
@@ -105,6 +109,24 @@
 				} else {
 					alert("수취확인을 취소하였습니다.");
 				}
+			});
+		});
+		$(document).ready(function() {
+			$("input[name=rw]").click(function() {
+				var d = $(this).next().text();
+				$.ajax({
+					url : "/rw",
+					type : "GET",
+					data : "order_no=" + d,
+					dataType : "html",
+					success : function(data) {
+						$('#insertBuyReview').empty();
+						$('#insertBuyReview').append(data);
+					},
+					error : function(data) {
+						alert("error");
+					}
+				});
 			});
 		});
 	</script>

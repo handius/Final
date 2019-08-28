@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bitcamp.mapper.ProductDetailMapper">
 <select id="productDetailGet" parameterType="int" resultType="com.bitcamp.DTO.Product.ListDTO">
-	select list_no, list_artist, list_title, list_product, list_content
+	select list_no, list_artist, list_title, list_product, list_content, list_status
 	, list_base_price, list_date, isordered, ordered_content
 	from list_board 
 	where list_no = #{list_no}
@@ -28,6 +28,16 @@
 	select artist_no
 	from artist_board
 	where member_no = #{member_no}
+</select>
+<update id="productDelete" parameterType="HashMap">
+	update list_board set
+	list_status = 0
+	where list_no = #{list_no} and list_artist = #{user_id}
+</update>
+<select id="productDeleteCheck" parameterType="int" resultType="int">
+	select list_status
+	from list_board
+	where list_no = #{list_no}
 </select>
 <select id="productDetailQandAInsertSeq" resultType="int">
 	select qa_board_seq.nextval from dual

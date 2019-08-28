@@ -1,8 +1,11 @@
 package com.bitcamp.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
@@ -15,7 +18,10 @@ import org.springframework.ui.Model;
 import org.springframework.util.AlternativeJdkIdGenerator;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.bitcamp.DAO.CustomUser;
 import com.bitcamp.DTO.Product.ListDTO;
@@ -24,6 +30,7 @@ import com.bitcamp.DTO.member.MemberDTO;
 import com.bitcamp.DTO.order.OrderDTO;
 import com.bitcamp.DTO.productdetail.BuyReviewDTO;
 import com.bitcamp.DTO.productdetail.QABoardDTO;
+import com.bitcamp.VO.file.FileVO;
 import com.bitcamp.service.CustomUserDetailService;
 import com.bitcamp.service.MyPageService;
 
@@ -230,5 +237,62 @@ public class MyPageController {
 		service.cor(order_no);
 		return "redirect:/buyList";
 	}
+
+	// Review writing
+	@RequestMapping("rw")
+	public String rw(Principal prin, HttpSession session, @RequestParam int order_no, Model model) {
+		// MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
+		CustomUser user = (CustomUser) userService.loadUserByUsername(prin.getName());
+		MemberDTO memberDTO = user.getMember();
+		System.out.println("order_no="+order_no);
+		model.addAttribute("order_no", order_no);
+		return "mypage/insertBuyReview";
+	}
+	
+	@RequestMapping("a")
+	public String a() {
+		return "mypage/insertBuyReview";
+	}
+
+//	@RequestMapping(value = "/ajaxBuyReviewImgUpload", method = { RequestMethod.POST })
+//	@ResponseBody
+//	public FileVO ajaxBuyReviewImgUpload(HttpSession session, MultipartFile[] uploadFile) {
+//		FileVO filevo = new FileVO();
+//
+//		if (uploadFile.length != 0) {
+//			String buyReviewImgFolder = session.getServletContext().getRealPath("/resources/image/buyReviewImg");
+//			UUID uuid = UUID.randomUUID();
+//			String fileName = uuid.toString() + "-" + uploadFile[0].getOriginalFilename();
+//			filevo.setFileName(fileName);
+//			filevo.setUploadPath(buyReviewImgFolder);
+//			filevo.setUuid(uuid.toString());
+//			try {
+//				File file = new File(buyReviewImgFolder, fileName);
+//				uploadFile[0].transferTo(file);
+//			} catch (IOException e) {
+//				System.out.println(e);
+//			}
+//		}
+//		return filevo;
+//	}
+//
+//	@RequestMapping("/buyReviewResult")
+//	public String buyReviewResult(@RequestParam int BuyReviewScore, @RequestParam String BuyReviewContent,
+//			@RequestParam String BuyReviewImg) {
+//		BuyReviewDTO buyreviewdto = new BuyReviewDTO();
+//		buyreviewdto.setOrder_no(30); // 임의 주문번호
+//		buyreviewdto.setBuy_review_content(BuyReviewContent);
+//		buyreviewdto.setBuy_review_score(BuyReviewScore);
+//		if (BuyReviewImg != null) {
+//			buyreviewdto.setBuy_review_image_loc(BuyReviewImg);
+//		}
+//		int insertResult = service.buyReviewInsertService(buyreviewdto);
+//		if (insertResult == 1) {
+//			System.out.println("등록에 성공했습니다.");
+//		} else {
+//			System.out.println("등록에 실패했습니다.");
+//		}
+//		return "redirect:/login";
+//	}
 
 }

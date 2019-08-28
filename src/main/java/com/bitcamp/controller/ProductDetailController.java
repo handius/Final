@@ -3,6 +3,7 @@ package com.bitcamp.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.bitcamp.DTO.Product.ListDTO;
 import com.bitcamp.DTO.member.MemberDTO;
 import com.bitcamp.DTO.order.OrderDTO;
 import com.bitcamp.DTO.productdetail.BuyReviewDTO;
@@ -37,8 +39,27 @@ public class ProductDetailController {
 
 	@RequestMapping("/productDetail/{list_no}")
 	public String productDetail(@PathVariable int list_no ,HttpSession session ,Model model) {
-		System.out.println(list_no); //테스트
+
 		Map<String, Object> map = service.productDetailService(list_no);
+		
+		//만약 상품이 내려졋다면
+		ListDTO listdto = (ListDTO) map.get("productDetail");
+		if(listdto.getList_status() == 0) {
+			Object objdto = session.getAttribute("member");
+			
+			//로그인이 안되어 있다면
+			if(objdto != null) {
+				MemberDTO memberdto = (MemberDTO) objdto;
+				System.out.println("계정 권한 : "+memberdto.getUser_authority()); //
+				//관리자 계정이 아니라면
+				if(memberdto.getUser_authority().equals("ROLE_ADMIN") && memberdto.getUser_authority().equals("ROLE_SELLER")) {
+					return "redirect:/";				
+				}
+			}
+			else {
+				return "redirect:/";
+			}
+		}
 		
 		Object tmp_list_order_member_no = session.getAttribute("list_order_member_no");
 		
@@ -65,11 +86,7 @@ public class ProductDetailController {
 		}
 		
 		int artist_no = (int) map.get("productDetailArtistBoardNo");
-		/*if(artist_no == 0) {
-			model.addAttribute("error", "판매자 정보가 없습니다.");
-			return "productdetail/error";
-		}*/
-		
+	
 		model.addAttribute("listDTO", map.get("productDetail"));
 		model.addAttribute("imgList", map.get("productDetailImg"));
 		model.addAttribute("optionList", map.get("productDetailOption"));
@@ -80,6 +97,21 @@ public class ProductDetailController {
 		model.addAttribute("QACurrentPage", 1);
 		model.addAttribute("buyReviewCurrentPage", 1);
 		return "productdetail/productdetail.mall";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/productDetail/ajaxProductDelete", produces="application/text; charset=utf-8")
+	public String ajaxProductDelete(@RequestBody HashMap<String, Object> hashmap, HttpSession session) {
+		String resultMessage = "로그인부터 하세요";
+		Object objdto = session.getAttribute("member");
+		
+		if(objdto != null) {
+			MemberDTO memberdto = (MemberDTO) objdto;
+			String user_id = memberdto.getUser_id();
+			hashmap.put("user_id", user_id);
+			resultMessage = service.productDelete(hashmap);
+		}
+		return resultMessage;
 	}
 	
 	
@@ -127,7 +159,9 @@ public class ProductDetailController {
 		return service.productDetailQandAListService(dto);
 	}
 	
-	@RequestMapping("/tmpReview")
+	//구매후기 임시 시작
+	
+	/*@RequestMapping("/tmpReview")
 	public String BuyReviewInsertForm() {
 		return "productdetail/TmpInsertBuyReview";
 	}
@@ -173,7 +207,9 @@ public class ProductDetailController {
 			System.out.println("등록에 실패했습니다.");
 		}
 		return "redirect:/login";
-	}
+	}*/
+	
+	//구매후기 임시 끝
 	
 	@RequestMapping(value="/ajaxBuyReviewList", method= {RequestMethod.POST})
 	public @ResponseBody List<BuyReviewDTO> ajaxBuyReviewList(@RequestBody Map<String, String> map) {
