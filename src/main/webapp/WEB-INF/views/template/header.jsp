@@ -23,7 +23,7 @@
         width: 100%;
         position: fixed;
     }
-    .menu-wrap a {
+    .menu-wrap a, .menu-wrap a.loginInfo {
         color: white;
     }
     .mainlogo > a {
@@ -35,7 +35,7 @@
     .menu-wrap-row a {
         color: #333333;
     }
-    .menu-wrap-row a.categoryfontcolor {
+    .menu-wrap-row a.categoryfontcolor, a.loginInfo {
         color: #7C7877;
     }
     .menu-wrap-row {
@@ -141,7 +141,7 @@
 				<a class="categoryfontcolor" href="/join">회원가입</a>
 			</sec:authorize>
 			<sec:authorize access="isAuthenticated()">
-				<span class="categoryfontcolor loginInfo"><sec:authentication property="principal.member.user_id"/>님, 환영합니다!♥</span>
+				<a class="loginInfo"><sec:authentication property="principal.member.user_id"/>님, 환영합니다.</a>
 				<a class="categoryfontcolor" href="/myPage">마이페이지</a>
 				<a class="categoryfontcolor" href="/login/logout">로그아웃</a>
 				<a class="categoryfontcolor" href="/sell">판매하기</a>
