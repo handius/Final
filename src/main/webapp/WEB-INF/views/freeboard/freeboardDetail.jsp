@@ -42,6 +42,13 @@
 .btnMod {
 	float: right;
 }
+.title{
+	font-weight: 700;
+}
+
+.nickname{
+	font-weight: 600;
+}
 </style>
 <script>
 	$(document).ready(function() {
@@ -53,7 +60,7 @@
 		$.each(result, function(index, item) {
 			html += "<tr id='tr"+item.rep_no+"' align='center'>";
 			html += "<td id='rep_no"+item.rep_no+"'>" + (index + 1) + "</td>";
-			html += "<td>" + item.user_nick + "</td>";
+			html += "<td class='nickname'>" + item.user_nick + "</td>";
 			html += "<td class= 'commentContent"+item.rep_no+"' align='left'>"
 					+ item.rep_content + "</td>";
 			html += "<td>" + item.rep_regiDate;
@@ -235,11 +242,11 @@
 			<tbody>
 				<tr>
 					<td>제목</td>
-					<td colspan="6">${board.freeboard_title }</td>
+					<td class="title" colspan="6">${board.freeboard_title }</td>
 				</tr>
 				<tr>
 					<td>닉네임</td>
-					<td>${board.user_nick}</td>
+					<td class="nickname">${board.user_nick}</td>
 					<td>작성일</td>
 					<td>${board.freeboard_regiTime }</td>
 					<td>조회수</td>

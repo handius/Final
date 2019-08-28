@@ -149,14 +149,22 @@ if(detail_auth == '작가') {
 
 $('.submitblock').click(function(event) {
 	var memberrole = $('#user_authority option:selected').val();
-	if(detail_auth == '회원' && memberrole == 'ROLE_MEMBER') {
+	if(detail_auth == '인증필요' && memberrole == 'ROLE_MEMBER') {
+		if(confirm("이메일 인증없이 회원 권한을 주시겠습니까?")) {
+			alert("권한이 변경되었습니다.");
+		} else {
+			event.preventDefault();
+		}
+	} else if(detail_auth == '회원' && memberrole == 'ROLE_MEMBER') {
 		alert("이미 인증된 회원입니다.");
 		event.preventDefault();
-	}
-	if(detail_auth == '작가' && memberrole == 'ROLE_SELLER') {
+	} else if(detail_auth == '작가' && memberrole == 'ROLE_SELLER') {
 		alert("이미 작가입니다.");
 		event.preventDefault();
+	} else {
+		alert("권한이 변경되었습니다.");
 	}
+	console.log(detail_auth);
 	console.log(memberrole);
 })
 

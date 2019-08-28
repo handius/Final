@@ -79,14 +79,14 @@
               <div class="form-group">
                 <label class="col-sm-1 control-label" for="search_date">가입일</label>
                 <div class="col-sm-2">
-                    <select class="form-control" name="search_date_year" id="search_date">
+                    <select class="form-control search_date_year" name="search_date_year" id="search_date">
                         <option value="0">Year</option>
                         <option value="2019">2019년</option>
                         <option value="2018">2018년</option>
                     </select>
                 </div>
                 <div class="col-sm-2">
-                    <select class="form-control" name="search_date_month" id="search_date">
+                    <select class="form-control search_date_month" name="search_date_month" id="search_date">
                         <option value="0">Month</option>
                         <option value="01">01월</option>
                         <option value="02">02월</option>
@@ -114,7 +114,7 @@
               </div>
               <div class="form-group member_search_btn">
                  <div class="col-sm-1 col-sm-offset-1">
-                   <input class="btn btn-default btn-block" type="submit" value="검색">
+                   <input class="btn btn-default btn-block anal_search_btn" type="submit" value="검색">
                  </div>
               </div>
             </form>
@@ -178,6 +178,17 @@
 		  </div>
         </div>
 <script>
+
+$('.anal_search_btn').click(function() {
+	if ($('.search_date_year').val() != 0 && $('.search_date_month').val() == 0) {
+		alert('검색할 달을 선택해주세요.');
+		$('.search_date_year').val(0);
+	}
+	if ($('.search_date_month').val() != 0 && $('.search_date_year').val() == 0) {
+		alert('검색할 연도를 선택해주세요');
+		$('.search_date_month').val(0);
+	}
+});
 	$('.gomemberdetail').on('click', function() {
 		location.href="/admin/memberdetail/" + $(this).val();
 	});
