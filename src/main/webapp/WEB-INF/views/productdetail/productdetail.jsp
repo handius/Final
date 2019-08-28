@@ -264,6 +264,7 @@
             display: inline-block;
             position: fixed;
             padding: 0;
+            padding-bottom: 150px;
             overflow: auto;
         }
 
@@ -306,7 +307,7 @@
         .productDetailAsideOptionResultBox {
             width: 100%;
             height: 90px;
-            border-bottom: 1px solid black;
+            border-bottom: 1px solid #7C7877;
             border-left: 1px solid silver;
             border-right: 1px solid silver;
             background-color: #eeeeee;
@@ -389,29 +390,41 @@
 
         .customerOrderBox {
             width: 100%;
-            height: 100px;
-            border-top: 1px solid silver;
+            height: 200px;
+            padding 0 !important;
             margin-top: 20px;
             margin-bottom: 20px;
         }
 
         .customerOrderTitle {
-            height: 19px;
+            line-height: 35px;
+            border: 1px solid #7C7877;
+            background-color: #d9d4cf;
             text-align: center;
-            font-size: 15px;
+            font-size: 20px;
             font-weight: bold;
             padding: 0;
         }
 
         .customerOrderValue {
-            height: 80px;
-            padding: 0;
+            height: 165px;
+            border-right: 1px solid silver;
+            border-left: 1px solid silver;
+            border-bottom: 1px solid #7C7877;
             text-align: center;
             font-size: 25px;
+            padding: 0 !important;
         }
 
         .customerOrderValue img {
-            height: 80px;
+        	width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .customerOrderColorBox {
+            	width: 100%;
+            	height: 100%;
         }
 
         #totalOptionPriceBox {
@@ -442,7 +455,7 @@
             width: 100%;
             height: 35px;
             background-color: white;
-            border: 1px solid silver;
+            border: 1px solid #7C7877;
             text-align: left;
             font-size: 15px;
             padding: 5px 10px 5px 20px;
@@ -456,10 +469,10 @@
         .asideBasket {
             width: 100%;
             height: 56px;
-            background-color: white;
-            border: 2px solid black;
+            background-color: #ABD0CE;
+            border: 2px solid #ABD0CE;
             margin-top: 10px;
-            color: black;
+            color: white;
             font-size: 25px;
             font-weight: bold;
         }
@@ -1089,6 +1102,9 @@
                         <div id="ResultBox"></div>
                     </div>
                     <c:if test="${orderList != null }">
+                    	<div class="productDetailLine">
+                        	<hr>
+                    	</div>
                     	<c:forEach var="orderList" items="${orderList }"  varStatus="i">
                     		<div class="customerOrderBox productDetailAsideBlock">
                         		<div class="col-xs-12 customerOrderTitle"><c:out value="${orderList.order_name }"></c:out></div>
@@ -1097,8 +1113,9 @@
                         				<img src="${orderList.order_value }" alt="주문사진">
                         			</c:if>
                         			<c:if test="${orderList.order_option eq 'color' }">
-                        				<c:out value="색상 : ${orderList.order_value }"></c:out>
-                        				<div id="customerOrderColorBox"></div>
+                        				<div class="customerOrderColorBox" style="background-color: ${orderList.order_value}">
+                        					<c:out value="색상 : ${orderList.order_value }"></c:out>
+                        				</div>
                         			</c:if>
                         			<c:if test="${orderList.order_option eq 'text' }">
                         				<c:out value="${orderList.order_value }"></c:out>
