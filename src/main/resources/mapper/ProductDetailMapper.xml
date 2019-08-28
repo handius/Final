@@ -52,6 +52,11 @@
 	select count(*) from qa_board
 	where qa_board_no = #{qa_board_no}
 </select>
+<select id="productDetailQandAListMaxCount" parameterType="int" resultType="int">
+	select count(*)
+	from qa_board
+	where list_no = #{list_no}
+</select>
 <select id="productDetailQandAList" parameterType="com.bitcamp.DTO.productdetail.QABoardDTO" resultType="com.bitcamp.DTO.productdetail.QABoardDTO">
  	 select num, e.*
  	 from (select rownum as num,qa_board_no, list_no, qa_board.member_no, qa_board_date, qa_board_content, qa_board_secret, qa_board_status
@@ -74,6 +79,7 @@
 		</foreach>
 	</where>
 </select>
+<!-- 임시 시작 -->
 <select id="buyReviewInsertSeq" resultType="int">
 	select buy_review_seq.nextval from dual
 </select>
@@ -84,6 +90,13 @@
 <select id="buyReviewInsertCheck" parameterType="int" resultType="int">
 	select count(*) from buy_review
 	where buy_review_no = #{buy_review_no}
+</select>
+<!-- 임시 끝 -->
+<select id="productDetailBuyReviewListMaxCount" parameterType="int" resultType="int">
+	select count(*)
+	from buy_review inner join order_board
+	on buy_review.order_no = order_board.order_no
+	where list_no = #{list_no}
 </select>
 <select id="productDetailBuyReviewList" parameterType="com.bitcamp.DTO.productdetail.BuyReviewDTO" resultType="com.bitcamp.DTO.productdetail.BuyReviewDTO">
 	select num, e.*
