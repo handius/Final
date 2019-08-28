@@ -27,10 +27,20 @@
 	font-family: 'Comfortaa', '맑은 고딕', cursive;
 }
 
-#wrap{
-	margin : 0 auto;
+#wrap {
+	margin: 0 auto;
 	padding: 30px 50px;
 	width: 1000px;
+}
+
+#btnRepWrite {
+	background-color: #ABD0CE;
+	color: white;
+	float: right;
+}
+
+.btnMod {
+	float: right;
 }
 </style>
 <script>
@@ -216,31 +226,30 @@
 </script>
 <body>
 	<div id="wrap">
-		<table>
-			<tr>
-				<td>카테고리</td>
-				<td>${board.freeboard_category }</td>
-			</tr>
-			<tr>
-				<td>닉네임</td>
-				<td>${board.user_nick}</td>
-			</tr>
-			<tr>
-				<td>작성일</td>
-				<td>${board.freeboard_regiTime }</td>
-			</tr>
-			<tr>
-				<td>조회수</td>
-				<td>${board.freeboard_hits }</td>
-			</tr>
-			<tr>
-				<td>제목</td>
-				<td>${board.freeboard_title }</td>
-			</tr>
-			<tr>
-				<td>내용</td>
-				<td>${board.freeboard_content }</td>
-			</tr>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>${board.freeboard_category }</th>
+				</tr>
+			<thead>
+			<tbody>
+				<tr>
+					<td>제목</td>
+					<td colspan="6">${board.freeboard_title }</td>
+				</tr>
+				<tr>
+					<td>닉네임</td>
+					<td>${board.user_nick}</td>
+					<td>작성일</td>
+					<td>${board.freeboard_regiTime }</td>
+					<td>조회수</td>
+					<td>${board.freeboard_hits }</td>
+				</tr>
+				<tr>
+					<td>내용</td>
+					<td colspan="6">${board.freeboard_content }</td>
+				</tr>
+			</tbody>
 		</table>
 
 		<div>
@@ -250,21 +259,21 @@
 					<input id="member_no" type="hidden"
 						value="${sessionScope.member.member_no}"> <input
 						id="board_no" type="hidden" value="${board.freeboard_no}">
-					<table>
-						<tr>
-							<td>${sessionScope.member.user_nick }</td>
-							<td><textarea class="form-control" id="replyText" name="replyText" rows="2"
-									cols="50" placeholder="댓글을 입력해주세요"></textarea></td>
-							<td><a onclick="writeReply()">댓글작성</a></td>
-						</tr>
-					</table>
+					<div class="form-group">
+						<label for="replyText">${sessionScope.member.user_nick }</label>
+						<textarea class="form-control" id="replyText" name="replyText"
+							placeholder="댓글을 입력해주세요"></textarea>
+					</div>
+					<button id="btnRepWrite" class="btn" onclick="writeReply()">댓글등록</button>
 				</form>
 			</div>
 			<div id="repList"></div>
 		</div>
 		<button class="btn" onclick="location='../freeboard'">목록으로</button>
-		<button class="btn" onclick="location='boardModify?no=${board.freeboard_no}'">수정</button>
-		<button class="btn" onclick="location='boardDelete?no=${board.freeboard_no}'">삭제</button>
+		<button class="btn btnMod"
+			onclick="location='boardModify?no=${board.freeboard_no}'">수정</button>
+		<button class="btn btnMod"
+			onclick="location='boardDelete?no=${board.freeboard_no}'">삭제</button>
 	</div>
 </body>
 </html>
