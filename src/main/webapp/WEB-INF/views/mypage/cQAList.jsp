@@ -49,13 +49,16 @@
 	display: none;
 	overflow: hidden;
 }
+
+th, td {
+	border: 1px solid black;
+}
 </style>
 </head>
 <body>
 	<table>
 		<thead>
 			<tr>
-				<th>번호</th>
 				<th>문의유형</th>
 				<th>제목</th>
 				<th>문의일자</th>
@@ -65,16 +68,22 @@
 		<tbody>
 			<c:forEach var="item" items="${cQAList }">
 				<tr class="accordion">
-					<td><c:out value="${item.question_no }"></c:out></td>
+					<%-- <td><c:out value="${item.question_no }"></c:out></td> --%>
 					<td><c:out value="${item.question_type }"></c:out></td>
 					<td><c:out value="${item.question_title }"></c:out></td>
 					<td><c:out value="${item.question_date }"></c:out></td>
 					<td><c:out value="${item.answer_status }"></c:out></td>
 				</tr>
 				<tr class="panel">
-					<td colspan="5"><c:out value="${item.question_content }"></c:out>
-					</td>
+					<td>문의</td>
+					<td colspan="3"><c:out value="${item.question_content }"></c:out></td>
 				</tr>
+				<c:if test="${item.answer_status == '완료' }">
+					<tr class="panel">
+						<td>답변</td>
+						<td colspan="3"><c:out value="${item.answer_content }"></c:out></td>
+					</tr>
+				</c:if>
 			</c:forEach>
 		</tbody>
 	</table>
@@ -90,11 +99,13 @@
 				this.classList.toggle("active");
 
 				/* Toggle between hiding and showing the active panel */
-				var panel = this.nextElementSibling;
-				if (panel.style.display === "block") {
-					panel.style.display = "none";
-				} else {
-					panel.style.display = "block";
+				var panel = $(this).nextUntil('.accordion', 'tr');
+				for (var i = 0; i < panel.length; i++) {
+					if (panel[i].style.display === "table-row") {
+						panel[i].style.display = "none";
+					} else {
+						panel[i].style.display = "table-row";
+					}
 				}
 			});
 		}
