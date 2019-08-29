@@ -24,11 +24,11 @@ public interface ProductDetailMapper {
 	public int productDetailQandAInsertSeq();
 	public int productDetailQandAInsert(QABoardDTO qaboarddto);
 	public int productDetailQandAInsertCheck(int qa_board_no);
+	public int productDetailQandAListMaxCount(int list_no);
 	public List<QABoardDTO> productDetailQandAList(QABoardDTO dto);
 	//
 	public List<OrderResultDTO> productDetailOrderResultList(List<Integer> list_order_member_no);
-	public int buyReviewInsertSeq();
-	public void buyReviewInsert(BuyReviewDTO buyreviewdto);
-	public int buyReviewInsertCheck(int buy_review_no);
+	//
+	public int productDetailBuyReviewListMaxCount(int list_no);
 	public List<BuyReviewDTO> productDetailBuyReviewList(BuyReviewDTO buyreviewdto);
 }
