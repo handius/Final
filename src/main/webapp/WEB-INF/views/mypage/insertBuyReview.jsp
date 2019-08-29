@@ -19,7 +19,6 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 
 <script>
-	z
 	$(document).ready(function() {
 		$('#imgUploadButton').on('click', imgUpload);
 		$('.starButton').on('click', startScore);
@@ -93,19 +92,18 @@
 			<div>
 				<form method="post" action="/buyReviewResult">
 					<ul>
-						<li><input type="text" value="옵션내용입니다."
-							name="BuyReviewOption" readonly="readonly"></li>
-						<li><input type="number" value="1" id="startScoreInput"
-							name="BuyReviewScore" required="required" readonly="readonly">
+						<li style="display: none;"><input type="number" value="1"
+							id="startScoreInput" name="BuyReviewScore" required="required">
 						</li>
 						<li><input type="text" value="구매후기" name="BuyReviewContent"
 							required="required"></li>
-						<li><input type="text" value="" name="BuyReviewImg"
-							id="BuyReviewImg"></li>
+						<li style="display: none;"><input type="text" value=""
+							name="BuyReviewImg" id="BuyReviewImg"></li>
 						<li><input type="file" id="imgUpload"></li>
 						<li><input type="button" class="btn" id="imgUploadButton"
 							value="업로드"></li>
 						<li><img src="" alt="이미지를 등록해주세요" id="imgUploadTag"></li>
+						<li><input type="hidden" value="${order_no }" name="order_no"></li>
 						<li><input type="submit" value="전송"></li>
 					</ul>
 				</form>
