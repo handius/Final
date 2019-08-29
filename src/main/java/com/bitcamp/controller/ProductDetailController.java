@@ -50,8 +50,7 @@ public class ProductDetailController {
 			//로그인이 안되어 있다면
 			if(objdto != null) {
 				MemberDTO memberdto = (MemberDTO) objdto;
-				System.out.println("계정 권한 : "+memberdto.getUser_authority()); //
-				//관리자 계정이 아니라면
+				//관리자 계정이나 판매자계정이 아니라면
 				if(memberdto.getUser_authority().equals("ROLE_ADMIN") && memberdto.getUser_authority().equals("ROLE_SELLER")) {
 					return "redirect:/";				
 				}
@@ -143,20 +142,14 @@ public class ProductDetailController {
 	}
 	
 	@RequestMapping(value="/ajaxqaboardList", method= {RequestMethod.POST})
-	public @ResponseBody List<QABoardDTO> ajaxqaboardList(@RequestBody Map<String, String> map) {
+	public @ResponseBody Map<String, Object> ajaxqaboardList(@RequestBody Map<String, Object> map, HttpSession session) {
+		Object objdto = session.getAttribute("member");
+		if(objdto != null) {
+			MemberDTO memberdto = (MemberDTO) objdto;
+			map.put("member_no", memberdto.getMember_no());
+		}
 		
-		int list_no = Integer.parseInt(map.get("list_no"));
-		int qaCurrentPage = Integer.parseInt(map.get("currentpage"));
-		int sqlSize = 5;
-		int start_sql = (qaCurrentPage-1) * sqlSize + 1;
-		int end_sql = start_sql + sqlSize -1;
-		
-		QABoardDTO dto = new QABoardDTO();
-		dto.setList_no(list_no);
-		dto.setStart_sql(start_sql);
-		dto.setEnd_sql(end_sql);
-		
-		return service.productDetailQandAListService(dto);
+		return service.productDetailQandAListService(map);
 	}
 	
 	//구매후기 임시 시작
@@ -212,21 +205,8 @@ public class ProductDetailController {
 	//구매후기 임시 끝
 	
 	@RequestMapping(value="/ajaxBuyReviewList", method= {RequestMethod.POST})
-	public @ResponseBody List<BuyReviewDTO> ajaxBuyReviewList(@RequestBody Map<String, String> map) {
-		
-		int list_no = Integer.parseInt(map.get("list_no"));
-		int qaCurrentPage = Integer.parseInt(map.get("currentpage"));
-		int sqlSize = 5;
-		int start_sql = (qaCurrentPage-1) * sqlSize + 1;
-		int end_sql = start_sql + sqlSize -1;
-		
-		
-		BuyReviewDTO dto = new BuyReviewDTO();
-		dto.setList_no(list_no);
-		dto.setStart_sql(start_sql);
-		dto.setEnd_sql(end_sql);
-		
-		return service.productDetailBuyReviewListService(dto);
+	public @ResponseBody Map<String, Object> ajaxBuyReviewList(@RequestBody Map<String, Object> map) {
+		return service.productDetailBuyReviewListService(map);
 	}
 	
 	@RequestMapping("/productDetailResult")

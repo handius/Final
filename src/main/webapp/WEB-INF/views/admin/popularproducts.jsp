@@ -84,7 +84,7 @@
             </div>
               <div class="form-group member_search_btn">
                  <div class="col-sm-1 col-sm-offset-1">
-                   <input class="btn btn-default btn-block" type="submit" value="검색">
+                   <input class="btn btn-default btn-block anal_search_btn" type="submit" value="검색">
                  </div>
               </div>
             </form>
@@ -150,7 +150,17 @@
 
         </div>
 <script>
-    
+
+$('.anal_search_btn').click(function() {
+	if ($('.search_date_year').val() != 0 && $('.search_date_month').val() == 0) {
+		alert('검색할 달을 선택해주세요.');
+		$('.search_date_year').val(0);
+	}
+	if ($('.search_date_month').val() != 0 && $('.search_date_year').val() == 0) {
+		alert('검색할 연도를 선택해주세요');
+		$('.search_date_month').val(0);
+	}
+});
 </script>
 </body>
 </html>

@@ -15,6 +15,7 @@ import com.bitcamp.DTO.productdetail.BuyReviewDTO;
 import com.bitcamp.DTO.productdetail.OrderResultDTO;
 import com.bitcamp.DTO.productdetail.ProductDetailOptionListDTO;
 import com.bitcamp.DTO.productdetail.QABoardDTO;
+import com.bitcamp.comm.ScrollCalculation;
 import com.bitcamp.mapper.ProductDetailMapper;
 
 @Service("productDetailService")
@@ -86,17 +87,42 @@ public class ProductDetailService {
 		return mapper.productDetailQandAInsertCheck(qa_board_no);
 	}
 
-	public List<QABoardDTO> productDetailQandAListService(QABoardDTO qaboarddto) {
-		List<QABoardDTO> qalist = mapper.productDetailQandAList(qaboarddto);
+	public Map<String, Object> productDetailQandAListService(Map<String, Object> map) {
+		int list_no = Integer.parseInt(map.get("list_no").toString());
+		int currentPage = Integer.parseInt(map.get("currentpage").toString());
+		int sizeSql = 5;
+		int maxSql = mapper.productDetailQandAListMaxCount(list_no);
+		
+		ScrollCalculation scroll = new ScrollCalculation(currentPage, sizeSql, maxSql);
+		
+		QABoardDTO dto = new QABoardDTO();
+		dto.setList_no(list_no);
+		dto.setStart_sql(scroll.startSql);
+		dto.setEnd_sql(scroll.endSql);
+		map.put("QABoardDTO", dto);
+		
+		List<QABoardDTO> qalist = mapper.productDetailQandAList(dto);
+		
+		Object objMemberNo = map.get("member_no");
+		int member_no = -1;
+		if(objMemberNo != null) {
+			member_no = Integer.parseInt(objMemberNo.toString());
+		}
 
 		// 비밀글 항목이1 일때 내용만 비밀글 처리
 		for (int i = 0; i < qalist.size(); i++) {
-			if (qalist.get(i).getQa_board_secret() == 1) {
+			
+			//비밀글이지만 로그인한 회원이 쓴글은 비밀글 처리를 하지 않음
+			if (qalist.get(i).getQa_board_secret() == 1 && qalist.get(i).getMember_no() != member_no) {
 				qalist.get(i).setQa_board_content("비밀글 입니다.");
 			}
 		}
+		
+		map.put("qalist", qalist);
+		map.put("maxSql", maxSql);
+		map.put("endSql", scroll.endSql);
 
-		return qalist;
+		return map;
 	}
 	
 	public List<OrderResultDTO> productDetailOrderService(List<Integer> list_order_member_no) {
@@ -111,7 +137,24 @@ public class ProductDetailService {
 		return mapper.buyReviewInsertCheck(buy_review_no);
 	}
 	
-	public List<BuyReviewDTO> productDetailBuyReviewListService(BuyReviewDTO buyreviewdto) {
-		return mapper.productDetailBuyReviewList(buyreviewdto);
+	public Map<String, Object> productDetailBuyReviewListService(Map<String, Object> map) {
+		int list_no = Integer.parseInt(map.get("list_no").toString());
+		int currentPage = Integer.parseInt(map.get("currentpage").toString());
+		int sqlSize = 3;
+		int maxSql = mapper.productDetailBuyReviewListMaxCount(list_no);
+		
+		ScrollCalculation scroll = new ScrollCalculation(currentPage, sqlSize, maxSql);
+		
+		BuyReviewDTO dto = new BuyReviewDTO();
+		dto.setList_no(list_no);
+		dto.setStart_sql(scroll.getStartSql());
+		dto.setEnd_sql(scroll.getEndSql());		
+		List<BuyReviewDTO> listBuyReview = mapper.productDetailBuyReviewList(dto);
+		
+		map.put("listBuyReview", listBuyReview);
+		map.put("endSql", scroll.endSql);
+		map.put("maxSql", maxSql);
+		
+		return map;
 	}
 }

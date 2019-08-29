@@ -32,18 +32,24 @@
         }
 
         .productDetailLine {
+        	line-height: 40px;
+            background-color: #d9d4cf;
             margin-top: 20px;
-            background-color: rgb(201, 194, 180);
         }
 
         .productDetailLine div {
-            font-size: 20px;
+            font-size: 18px;
         }
 
         .productDetailLine hr {
             border: 0.5px solid silver;
             padding: 0;
             margin-top: 0;
+        }
+        
+        .productDetailLine span{
+        	vertical-align: middle;
+        	font-size: 25px;
         }
 
 
@@ -165,27 +171,29 @@
             width: 15px;
             height: 15px;
         }
+        
 
         #productDetailQandAInput {
-            width: 85%;
+        	width: 85%;
             height: 70px;
+            border: 2px solid #7C7877;
         }
 
         #productDetailQandAInputButton {
-            width: 14%;
+        	width: 14%;
             height: 70px;
-            background-color: rgb(201, 194, 180);
+            background-color: #7C7877;
             border: 0;
             color: white;
             font-size: 18px;
             font-weight: bold;
+            margin-left: 0px;
         }
 
         .productDetailBuyReview {
             max-width: 780px;
             border-bottom: 1px solid silver;
-            margin: 0;
-            margin-bottom: 20px;
+            margin: 0 -4px 20px 0;
             padding: 0 0 20px 0;
         }
 
@@ -256,6 +264,7 @@
             display: inline-block;
             position: fixed;
             padding: 0;
+            padding-bottom: 150px;
             overflow: auto;
         }
 
@@ -298,7 +307,7 @@
         .productDetailAsideOptionResultBox {
             width: 100%;
             height: 90px;
-            border-bottom: 1px solid black;
+            border-bottom: 1px solid #7C7877;
             border-left: 1px solid silver;
             border-right: 1px solid silver;
             background-color: #eeeeee;
@@ -381,29 +390,41 @@
 
         .customerOrderBox {
             width: 100%;
-            height: 100px;
-            border-top: 1px solid silver;
+            height: 200px;
+            padding 0 !important;
             margin-top: 20px;
             margin-bottom: 20px;
         }
 
         .customerOrderTitle {
-            height: 19px;
+            line-height: 35px;
+            border: 1px solid #7C7877;
+            background-color: #d9d4cf;
             text-align: center;
-            font-size: 15px;
+            font-size: 20px;
             font-weight: bold;
             padding: 0;
         }
 
         .customerOrderValue {
-            height: 80px;
-            padding: 0;
+            height: 165px;
+            border-right: 1px solid silver;
+            border-left: 1px solid silver;
+            border-bottom: 1px solid #7C7877;
             text-align: center;
             font-size: 25px;
+            padding: 0 !important;
         }
 
         .customerOrderValue img {
-            height: 80px;
+        	width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .customerOrderColorBox {
+            	width: 100%;
+            	height: 100%;
         }
 
         #totalOptionPriceBox {
@@ -434,7 +455,7 @@
             width: 100%;
             height: 35px;
             background-color: white;
-            border: 1px solid silver;
+            border: 1px solid #7C7877;
             text-align: left;
             font-size: 15px;
             padding: 5px 10px 5px 20px;
@@ -448,10 +469,10 @@
         .asideBasket {
             width: 100%;
             height: 56px;
-            background-color: white;
-            border: 2px solid black;
+            background-color: #ABD0CE;
+            border: 2px solid #ABD0CE;
             margin-top: 10px;
-            color: black;
+            color: white;
             font-size: 25px;
             font-weight: bold;
         }
@@ -460,9 +481,9 @@
         .MobileBuyLinkButton {
             width: 100%;
             height: 56px;
-            border: 2px solid #0000CD;
-            background-color: white;
-            color: #0000CD;
+            border: 2px solid #7C7877;
+            background-color: #7C7877;
+            color: white;
             font-size: 25px;
             font-weight: bold;
             margin-top: 10px;
@@ -800,6 +821,7 @@
     				if(data == '1') {
     					$('#productDetailQandAInput').val('');
     					$('#productDetailQandAAjaxResult').empty();
+    					$('#productDetailQandAMoreButton').show();
     					$('#qa_current_page').val(1);
     					qaBoardList();
     					alert('등록 되었습니다.');
@@ -830,7 +852,8 @@
     			,success:function(data){
     				console.log('Q & A 성공');
     				var result = '';
-     				if(data.length == 0) {
+    				let qalist = data.qalist;
+     				if(qalist.length == 0) {
     					result += '<div class="row productDetailQandA">';
 						result += '<div class="col-xs-2 "></div>';
     					result += '<div class="col-xs-5 productDetailQandAWriter"></div>';
@@ -840,24 +863,27 @@
     					$('#productDetailQandAMoreButton').hide();
     				}
      				else {
-    					for(let i=0; i<data.length; i++) {
+    					for(let i=0; i<qalist.length; i++) {
     						//해당 작가가 아니라면
-    						if(data[i].level == 1) {
+    						if(qalist[i].level == 1) {
     							result += '<div class="row productDetailQandA">';
-    							result += '<div class="col-xs-2 productDetailQandAStatus">'+data[i].qa_board_status+'</div>';
-        						result += '<div class="col-xs-5 productDetailQandAWriter">'+data[i].user_name+'</div>';
-        						result += '<div class="col-xs-5 productDetailQandAWriterDate">'+jsonDateConverter(data[i].qa_board_date)+'</div>';
-        						result += '<div class="col-xs-10 productDetailQandAContent">'+data[i].qa_board_content+'</div>';
+    							result += '<div class="col-xs-2 productDetailQandAStatus">'+qalist[i].qa_board_status+'</div>';
+        						result += '<div class="col-xs-5 productDetailQandAWriter">'+qalist[i].user_name+'</div>';
+        						result += '<div class="col-xs-5 productDetailQandAWriterDate">'+jsonDateConverter(qalist[i].qa_board_date)+'</div>';
+        						result += '<div class="col-xs-10 productDetailQandAContent">'+qalist[i].qa_board_content+'</div>';
         						result += '</div>';
     						}
     						else {
     							result += '<div class="row productDetailQandAResponse">';
     							result += '<div class="col-xs-2 productDetailQandAStatus">답변</div>';
-        						result += '<div class="col-xs-5 productDetailQandAWriter">'+data[i].user_name+'</div>';
-        						result += '<div class="col-xs-5 productDetailQandAWriterDate">'+jsonDateConverter(data[i].qa_board_date)+'</div>';
-        						result += '<div class="col-xs-10 productDetailQandAContent">'+data[i].qa_board_content+'</div>';
+        						result += '<div class="col-xs-5 productDetailQandAWriter">'+qalist[i].user_name+'</div>';
+        						result += '<div class="col-xs-5 productDetailQandAWriterDate">'+jsonDateConverter(qalist[i].qa_board_date)+'</div>';
+        						result += '<div class="col-xs-10 productDetailQandAContent">'+qalist[i].qa_board_content+'</div>';
         						result += '</div>';
     						}
+    					}
+    					if(data.endSql == data.maxSql) {
+    						$('#productDetailQandAMoreButton').hide();
     					}
      				}
      				$('#productDetailQandAAjaxResult').val(0);
@@ -882,29 +908,33 @@
     			,success:function(data){
     				console.log('구매후기 성공');
     				var result = '';
-     				if(data.length == 0) {
+    				let listBuyReview = data.listBuyReview
+     				if(listBuyReview.length == 0) {
     					result += '<div class="row productDetailBuyReview">구매후기가 없습니다.';
 						result += '</div>';
     					$('#productDetailBuyReviewMoreButton').hide();
     				} 
      				else {
-    					for(let i=0; i<data.length; i++) {
+    					for(let i=0; i<listBuyReview.length; i++) {
     						result += '<div class="row productDetailBuyReview">';
 							result += '<div class="col-xs-12 col-sm-12 col-md-3 productDetailBuyReviewImg">';
-							if(data[i].buy_review_image_loc != null) {
-								result += '<img src="'+data[i].buy_review_image_loc+'" alt="구매후기 이미지">';
+							if(listBuyReview[i].buy_review_image_loc != null) {
+								result += '<img src="'+listBuyReview[i].buy_review_image_loc+'" alt="구매후기 이미지">';
 							}
 							result += '</div>';
-							result += '<div class="col-xs-12 col-sm-12 col-md-9 productDetailBuyReviewOption">'+data[i].order_add_option+'</div>';
-							result += '<div class="col-xs-12 col-sm-12 col-md-9 productDetailBuyReviewContent">'+data[i].buy_review_content+'</div>';
+							result += '<div class="col-xs-12 col-sm-12 col-md-9 productDetailBuyReviewOption">'+listBuyReview[i].order_add_option+'</div>';
+							result += '<div class="col-xs-12 col-sm-12 col-md-9 productDetailBuyReviewContent">'+listBuyReview[i].buy_review_content+'</div>';
 							result += '<div class="col-xs-4 col-sm-4 col-md-3 productDetailBuyReviewScore">';
-							for(let j=1; j<=data[i].buy_review_score; j++) {
+							for(let j=1; j<=listBuyReview[i].buy_review_score; j++) {
 								result += '★';
 							}
 							result += '</div>';
-							result += '<div class="col-xs-4 col-sm-4 col-md-3 productDetailBuyReviewWriter">'+data[i].user_name+'</div>';
-							result += '<div class="col-xs-4 col-sm-4 col-md-3 productDetailBuyReviewWriteDate">'+jsonDateConverter(data[i].buy_review_date)+'</div>';
+							result += '<div class="col-xs-4 col-sm-4 col-md-3 productDetailBuyReviewWriter">'+listBuyReview[i].user_name+'</div>';
+							result += '<div class="col-xs-4 col-sm-4 col-md-3 productDetailBuyReviewWriteDate">'+jsonDateConverter(listBuyReview[i].buy_review_date)+'</div>';
 							result += '</div>';
+    					}
+    					if(data.endSql == data.maxSql) {
+    						$('#productDetailBuyReviewMoreButton').hide();
     					}
      				}
      				
@@ -1072,6 +1102,9 @@
                         <div id="ResultBox"></div>
                     </div>
                     <c:if test="${orderList != null }">
+                    	<div class="productDetailLine">
+                        	<hr>
+                    	</div>
                     	<c:forEach var="orderList" items="${orderList }"  varStatus="i">
                     		<div class="customerOrderBox productDetailAsideBlock">
                         		<div class="col-xs-12 customerOrderTitle"><c:out value="${orderList.order_name }"></c:out></div>
@@ -1080,8 +1113,9 @@
                         				<img src="${orderList.order_value }" alt="주문사진">
                         			</c:if>
                         			<c:if test="${orderList.order_option eq 'color' }">
-                        				<c:out value="색상 : ${orderList.order_value }"></c:out>
-                        				<div id="customerOrderColorBox"></div>
+                        				<div class="customerOrderColorBox" style="background-color: ${orderList.order_value}">
+                        					<c:out value="색상 : ${orderList.order_value }"></c:out>
+                        				</div>
                         			</c:if>
                         			<c:if test="${orderList.order_option eq 'text' }">
                         				<c:out value="${orderList.order_value }"></c:out>
@@ -1136,8 +1170,8 @@
                                     	<input type="checkbox" id="productDetailQandASecretCheckBox">
                                 	</div>
                                 	<div class="col-xs-12 ">
-                                    	<input type="text" id="productDetailQandAInput">
-                                    	<button type="button" id="productDetailQandAInputButton">등록</button>
+                                		<input type="text" id="productDetailQandAInput">
+                                		<button type="button" id="productDetailQandAInputButton">등록</button>
                                		</div>
                                	</form>
                             </div>

@@ -73,7 +73,8 @@
 
 			        var options = {
 			          title: "갱신 시간 : " + renewal_time + " 검색된 데이터 : " + nowText,
-			          legend: { position: 'right' }
+			          legend: { position: 'right' },
+			          width: 1000,
 			        };
 
 			        var chart = new google.visualization.LineChart(document.getElementById('data_chart'));
@@ -93,35 +94,41 @@
 </script>
 <title>Insert title here</title>
 <style>
-	body{
-		background-color: #F0E5DE;
-	}
-	h2{
-		display: inline;
-	}
+    body {
+        background-color: #F0E5DE;
+    }
+    .admin_content {
+        margin: 10px 0 50px;
+        border-top: 1px solid #D9D4CF;
+        border-bottom: 1px solid #D9D4CF;
+        padding: 30px 15px;
+    }
+    .margin0 {
+    	margin: 0;
+    }
+    #text {
+    	width: 300px;
+    }
 </style>
 </head>
 <body>
-	<div class="container-fluid">
-		<div class="row">
-			<div class="col-md-6">
-				<h2>검색어 분석</h2>
-				<span>등록된 검색어 : </span><span id="value"></span>
-			</div>
-			<div class="col-md-offset-3 col-md-3">
-				<form class="form-inline" role="form" method="post">
-					<div class="form-group">
-						<input type="text" name="search" class="form-control" id="search" placeholder="검색어 등록">
-						<input type="button" id="provSearcher" class="btn btn-default" value="등록">
-					</div>
-				</form>
-			</div>
-		</div>
-		<hr>
-		<div class="row">
+	<h2>Search Analysis</h2>
+    	<div class="admin_content">
+    	  <div class="row">
+    	  <div class="col-sm-4">
+			<h3 class="margin0">Search</h3>
+			<p>( <span>등록된 검색어 : </span><span id="value"></span> )</p>
+		  </div>
+    	  <div class="col-sm-4 col-sm-offset-4">
+			<form class="form-inline" role="form" method="post">
+				<input type="text" name="search" class="form-control" id="text" placeholder="검색어 등록">
+				<input type="button" id="provSearcher" class="btn btn-default" value="등록">
+			</form>
+		  </div>
+		  </div>
+		<div>
 			<div id="data_chart" style="width: 1200px; height: 500px"></div>
 		</div>
-		<div class="row">
 			<table class="table table-hover">
 				<thead>
 					<tr>
@@ -178,7 +185,6 @@
 				</tbody>
 			</table>
 			<p>※위 데이터는 3주간 검색량을 비교하여 가장 큰 값을 100으로 산정하여 나타낸 상댓값을 표시합니다.</p>
-		</div>
 	</div>
 </body>
 </html>
