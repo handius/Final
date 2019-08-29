@@ -194,7 +194,7 @@
 		SET MAIN_IMAGE_PATH = #{main_image_path},
 			MAIN_IMAGE_LINK = #{main_image_link},
 			MAIN_IMAGE_DATE = SYSDATE
-		WHERE MAIN_IMAGE_NO = 5
+		WHERE MAIN_IMAGE_NO = #{main_image_no}
 	</update>
 	<select id="getProductCount" parameterType="Object" resultType="int">
 		SELECT COUNT(*)
@@ -238,17 +238,19 @@
 		</trim>
 		WHERE MAIN_VIEW_NO = #{main_view_no}
 	</update>
+	
+	<!-- main -->
 	<select id="getMainViewList" resultType="com.bitcamp.DTO.admin.MainViewDTO">
 		SELECT MAIN_VIEW_NO, MAIN_VIEW_NAME,
 			   MAIN_VIEW_USE, MAIN_VIEW_PRODUCT
 		FROM MAIN_VIEW
+		ORDER BY MAIN_VIEW_NO
 	</select>
-	
-	<!-- main -->
 	<select id="getMainImageList" resultType="com.bitcamp.DTO.admin.MainImageDTO">
 		SELECT MAIN_IMAGE_NO, MAIN_IMAGE_PATH, MAIN_IMAGE_DATE,
 			   MAIN_IMAGE_LINK, MAIN_VIEW_NO
 		FROM MAIN_IMAGE
+		ORDER BY MAIN_IMAGE_NO
 	</select>
 	<select id="getMainProduct" parameterType="String" resultType="com.bitcamp.VO.admin.MainProductVO">
 		SELECT P.LIST_NO, LIST_TITLE, LIST_BASE_PRICE, LIST_IMAGE_LOC

@@ -223,4 +223,17 @@ public class MyPageService {
 		mapper.cor(order_no);
 	}
 
+	@Transactional
+	public int buyReviewInsertService(BuyReviewDTO buyreviewdto) {
+		int buy_review_no = mapper.buyReviewInsertSeq();
+		buyreviewdto.setBuy_review_no(buy_review_no);
+		mapper.buyReviewInsert(buyreviewdto);
+		mapper.pc(buyreviewdto.getOrder_no());
+		return mapper.buyReviewInsertCheck(buy_review_no);
+	}
+
+	public OrderDTO findOrderDTO(int order_no) {
+		return mapper.findOrderDTO(order_no);
+	}
+
 }

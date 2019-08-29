@@ -56,22 +56,25 @@
 	<select id="cQAList" parameterType="int"
 		resultType="com.bitcamp.DTO.customerqaboard.CustomerQABoardDTO">
 		select * from customer_qa_board where
-		member_no=#{member_no}
+		member_no=#{member_no} order by question_date desc
 	</select>
 	<select id="buyerPQList" parameterType="int"
 		resultType="com.bitcamp.DTO.productdetail.QABoardDTO">
-		select * from qa_board where member_no=#{member_no}
+		select * from qa_board where member_no=#{member_no} order
+		by
+		qa_board_date desc
 	</select>
 
 	<select id="buyerReviewList" parameterType="int"
 		resultType="com.bitcamp.DTO.productdetail.BuyReviewDTO">
 		select * from order_board ob inner join buy_review br on
-		ob.order_no=br.order_no where member_no=#{member_no}
+		ob.order_no=br.order_no where member_no=#{member_no} order by
+		buy_review_date desc
 	</select>
 	<select id="registerList" parameterType="String"
 		resultType="com.bitcamp.DTO.Product.ListDTO">
 		select * from list_board where
-		upper(list_artist)=upper(#{user_id})
+		upper(list_artist)=upper(#{user_id}) order by list_date desc
 	</select>
 	<select id="sellList" parameterType="String"
 		resultType="com.bitcamp.DTO.order.OrderDTO">
@@ -79,25 +82,61 @@
 		ob.list_no=lb.list_no inner join member m on
 		upper(lb.list_artist)=upper(m.user_id)
 		where
-		upper(lb.list_artist)=upper(#{user_id})
+		upper(lb.list_artist)=upper(#{user_id}) order by order_date desc
 	</select>
 	<select id="sellerPQAList" parameterType="String"
 		resultType="com.bitcamp.DTO.productdetail.QABoardDTO">
 		select * from qa_board qb inner join list_board lb on
-		qb.list_no=lb.list_no where upper(list_artist)=upper(#{user_id})
+		qb.list_no=lb.list_no where upper(list_artist)=upper(#{user_id}) order
+		by
+		qa_board_date desc
 	</select>
 	<select id="sellerReviewList" parameterType="String"
 		resultType="com.bitcamp.DTO.productdetail.BuyReviewDTO">
 		select * from list_board lb inner join order_board ob on
 		lb.list_no=ob.list_no inner join buy_review br on
 		ob.order_no=br.order_no where upper(list_artist)=upper(#{user_id})
+		order by
+		buy_review_date desc
 	</select>
 	<select id="findBuyer" parameterType="int"
 		resultType="com.bitcamp.DTO.member.MemberDTO">
 		select * from member where member_no=#{member_no}
 	</select>
+	<!-- Completion of receipt -->
 	<update id="cor" parameterType="int">
 		update order_board set
 		order_status='배송완료' where order_no=#{order_no}
 	</update>
+	<!-- Review writing -->
+	<select id="buyReviewInsertSeq" resultType="int">
+		select
+		buy_review_seq.nextval from dual
+	</select>
+	<insert id="buyReviewInsert"
+		parameterType="com.bitcamp.DTO.productdetail.BuyReviewDTO">
+		insert into buy_review(buy_review_no, order_no,
+		buy_review_date,
+		buy_review_content, buy_review_image_loc,
+		buy_review_score,
+		buy_review_status)
+		values(#{buy_review_no},
+		#{order_no}, sysdate, #{buy_review_content}, #{buy_review_image_loc},
+		#{buy_review_score}, 1)
+	</insert>
+	<select id="buyReviewInsertCheck" parameterType="int"
+		resultType="int">
+		select count(*) from buy_review
+		where buy_review_no =
+		#{buy_review_no}
+	</select>
+	<!-- Purchase completion -->
+	<update id="pc" parameterType="int">
+		update order_board set
+		order_status='구매완료' where order_no=#{order_no}
+	</update>
+	<select id="findOrderDTO" parameterType="int"
+		resultType="com.bitcamp.DTO.order.OrderDTO">
+		select * from order_board where order_no=#{order_no}
+	</select>
 </mapper>

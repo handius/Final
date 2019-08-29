@@ -15,7 +15,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 <link href="https://fonts.googleapis.com/css?family=Comfortaa&display=swap" rel="stylesheet">
 <style>
-    .item > .maintopslide {
+    .item > a > img {
         max-width: none !important;
         height: 620px !important;
     }
@@ -67,6 +67,11 @@
     .showmoreproduct > h4 > a {
     	color: #7C7877;
     }
+    #myCarousel {
+    	height: 600px;
+    	background-color: #7C7877;
+    }
+    
 </style>
 </head>
 <body>
@@ -104,7 +109,7 @@
       <div class="maintemplatetitle">${i.main_view_name }</div>
 	    <div class="row">
           <c:forEach var="i" items="${product1 }">
-	         <div class="col-md-4">
+	         <div class="col-xs-4">
 	          <a href="/productDetail/${i.list_no }"><img class="mainproductslide" src="${i.list_image_loc }" alt="${i }"></a>
 	          <div class="mainproductname"><h4>${i.list_title }</h4></div>
 	          <div class="mainproductname">${i.list_base_price }￦</div>
@@ -113,23 +118,27 @@
 	    </div>
     </c:if>
   </c:forEach>
-  <div class="showmoreproduct"><h4><a href="/orderList?order=0">More + </a></h4></div>
 </div>
 
 <div class="mainimgtemplate">
   <c:forEach var="i" items="${mainimglist }">
     <c:if test="${i.main_view_no == 3}">
-      <img src="${i.main_image_path }" alt="2">
+      <div class="row">
+      	<div class="col-xs-12">
+      	  <img src="${i.main_image_path }" alt="2">
+      	</div>
+      </div>
     </c:if>
   </c:forEach>
 </div>
+
 <div class="mainsettemplate">
   <c:forEach var="i" items="${mainviewlist }">
     <c:if test="${i.main_view_no == 4 && i.main_view_use == 1 }">
       <div class="maintemplatetitle">${i.main_view_name }</div>
 	    <div class="row">
           <c:forEach var="i" items="${product2 }">
-	         <div class="col-md-4">
+	         <div class="col-xs-4">
 	          <a href="/productDetail/${i.list_no }"><img class="mainproductslide" src="${i.list_image_loc }" alt="${i }"></a>
 	          <div class="mainproductname"><h4>${i.list_title }</h4></div>
 	          <div class="mainproductname">${i.list_base_price }￦</div>
@@ -138,7 +147,6 @@
 	    </div>
     </c:if>
   </c:forEach>
-  <div class="showmoreproduct"><h4><a href="/orderList?order=0">More + </a></h4></div>
 </div>
 <div class="mainsettemplate">
   <c:forEach var="i" items="${mainviewlist }">
@@ -146,7 +154,7 @@
       <div class="maintemplatetitle">${i.main_view_name }</div>
 	    <div class="row">
           <c:forEach var="i" items="${product3 }">
-	         <div class="col-md-4">
+	         <div class="col-xs-4">
 	          <a href="/productDetail/${i.list_no }"><img class="mainproductslide" src="${i.list_image_loc }" alt="${i }"></a>
 	          <div class="mainproductname"><h4>${i.list_title }</h4></div>
 	          <div class="mainproductname">${i.list_base_price }￦</div>
@@ -155,7 +163,6 @@
 	    </div>
     </c:if>
   </c:forEach>
-  <div class="showmoreproduct"><h4><a href="/orderList?order=0">More + </a></h4></div>
 </div>
     <div class="gotopicon">
         <span class="glyphicon glyphicon-chevron-up"></span>
@@ -163,7 +170,14 @@
 <script>
     $('.gotopicon').on('click', function() {
         $(window).scrollTop(0);
-    })
+    });
+var mobileKeyWords = new Array('iPhone', 'iPod', 'BlackBerry', 'Android', 'Windows CE', 'Windows CE;', 'LG', 'MOT', 'SAMSUNG', 'SonyEricsson', 'Mobile', 'Symbian', 'Opera Mobi', 'Opera Mini', 'IEmobile');
+for (var word in mobileKeyWords) {
+	if (navigator.userAgent.match(mobileKeyWords[word]) != null) {
+		window.location.href = "/mobile";
+		break;
+	}
+}
 </script>
 </body>
 </html>

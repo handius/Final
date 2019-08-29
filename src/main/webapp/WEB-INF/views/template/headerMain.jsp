@@ -56,17 +56,17 @@
 	border-bottom: 1px solid #D9D4CF;
 }
 /**/
-.mainlogo>a:hover {
+.mainlogo > a:hover {
 	text-decoration: none;
 	color: #333333;
 }
 
-#mainmenu>div {
+#mainmenu > div {
 	height: 100px;
 	padding: 10px;
 }
 
-#mainmenu1>a {
+#mainmenu1 > a {
 	font-size: 16px;
 	margin: 0 20px;
 }
@@ -77,7 +77,7 @@
 	margin-right: 20px;
 }
 
-#mainmenu2>a {
+#mainmenu2 > a {
 	font-size: 1em;
 	margin: 0 5px;
 }
@@ -162,7 +162,7 @@ color: #7C7877;
 				<a class="categoryfontcolor" href="/join">회원가입</a>
 			</sec:authorize>
 			<sec:authorize access="isAuthenticated()">
-				<span class="categoryfontcolor loginInfo"><sec:authentication property="principal.member.user_id"/>님, 환영합니다!♥</span>
+				<span class="loginInfo"><sec:authentication property="principal.member.user_id"/>님, 환영합니다.</span>
 				<a class="categoryfontcolor" href="/myPage">마이페이지</a>
 				<a class="categoryfontcolor" href="/login/logout">로그아웃</a>
 				<a class="categoryfontcolor" href="/sell">판매하기</a>

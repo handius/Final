@@ -31,5 +31,11 @@
 			<li><input type="submit" value="전송"></li>
 		</ul>
 	</form>
+	<script>
+		var msg = '${msg}';
+		if (msg != "" && msg != null) {
+			alert(msg);
+		}
+	</script>
 </body>
 </html>

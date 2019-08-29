@@ -23,6 +23,32 @@
 * {
 	font-family: 'Comfortaa', '맑은 고딕', cursive;
 }
+
+/* Style the buttons that are used to open and close the accordion panel */
+.accordion {
+	background-color: #eee;
+	color: #444;
+	cursor: pointer;
+	padding: 18px;
+	width: 100%;
+	text-align: left;
+	border: none;
+	outline: none;
+	transition: 0.4s;
+}
+
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+.active, .accordion:hover {
+	background-color: #ccc;
+}
+
+/* Style the accordion panel. Note: hidden by default */
+.panel {
+	padding: 0 18px;
+	background-color: white;
+	display: none;
+	overflow: hidden;
+}
 </style>
 </head>
 <body>
@@ -30,24 +56,48 @@
 		<thead>
 			<tr>
 				<th>번호</th>
-				<th>제목</th>
 				<th>문의유형</th>
+				<th>제목</th>
 				<th>문의일자</th>
 				<th>답변유무</th>
 			</tr>
 		</thead>
 		<tbody>
 			<c:forEach var="item" items="${cQAList }">
-				<tr>
+				<tr class="accordion">
 					<td><c:out value="${item.question_no }"></c:out></td>
 					<td><c:out value="${item.question_type }"></c:out></td>
 					<td><c:out value="${item.question_title }"></c:out></td>
 					<td><c:out value="${item.question_date }"></c:out></td>
 					<td><c:out value="${item.answer_status }"></c:out></td>
 				</tr>
+				<tr class="panel">
+					<td colspan="5"><c:out value="${item.question_content }"></c:out>
+					</td>
+				</tr>
 			</c:forEach>
 		</tbody>
 	</table>
 	<a href="customerQA">1:1 문의하기</a>
+	<script>
+		var acc = document.getElementsByClassName("accordion");
+		var i;
+
+		for (i = 0; i < acc.length; i++) {
+			acc[i].addEventListener("click", function() {
+				/* Toggle between adding and removing the "active" class,
+				to highlight the button that controls the panel */
+				this.classList.toggle("active");
+
+				/* Toggle between hiding and showing the active panel */
+				var panel = this.nextElementSibling;
+				if (panel.style.display === "block") {
+					panel.style.display = "none";
+				} else {
+					panel.style.display = "block";
+				}
+			});
+		}
+	</script>
 </body>
 </html>

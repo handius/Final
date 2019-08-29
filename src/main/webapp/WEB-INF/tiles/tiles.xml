@@ -33,5 +33,21 @@
  
      <definition name="*/*.admin" extends="adminBase">
          <put-attribute name="body" value="/WEB-INF/views/{1}/{2}.jsp" />
-     </definition>    
+     </definition>   
+      
+    <!-- 쇼핑몰 페이지 -->
+    
+    <definition name="mobileBase" template="/WEB-INF/views/mobile/mobileMainTemplate.jsp">
+        <put-attribute name="mobileHeader" value="/WEB-INF/views/mobile/mobileHeader.jsp" />
+        <put-attribute name="mobileFooter" value="/WEB-INF/views/mobile/mobileFooter.jsp" />
+    </definition>
+ 
+    <definition name="*.m" extends="mobileBase">
+        <put-attribute name="main" value="/WEB-INF/views/{1}.jsp" />
+    </definition>
+ 
+     <definition name="*/*.m" extends="mobileBase">
+         <put-attribute name="main" value="/WEB-INF/views/{1}/{2}.jsp" />
+     </definition>   
+       
 </tiles-definitions>

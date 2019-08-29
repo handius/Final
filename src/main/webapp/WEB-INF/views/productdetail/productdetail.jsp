@@ -15,10 +15,12 @@
 
     <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Comfortaa&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
+            font-family: 'Comfortaa', '맑은 고딕', cursive;
         }
         
         .row {
@@ -32,21 +34,36 @@
         }
 
         .productDetailLine {
-            margin-top: 20px;
-            background-color: rgb(201, 194, 180);
+        	line-height: 40px;
+            margin-top: 50px;
         }
 
         .productDetailLine div {
-            font-size: 20px;
+            font-size: 18px;
         }
 
         .productDetailLine hr {
-            border: 0.5px solid silver;
+            border: 2px solid #7C7877;
+            padding: 0;
+            margin-top: 0;
+        }
+        
+        .productDetailLine span{
+        	vertical-align: middle;
+        	font-size: 25px;
+        }
+        
+        .asideProductDetailLine {
+        	margin-top: 20px;
+        }
+        
+        .asideProductDetailLine hr {
+        	border: 0.5px solid silver;
             padding: 0;
             margin-top: 0;
         }
 
-
+		/* 메인시작 */
         .productDetailMain {
             height: 100%;
             border-right: 1px solid silver;
@@ -84,11 +101,11 @@
         #productDetailContent {
             width: 100%;
             height: 100%;
-            border-top: 1px solid silver;
+            border-top: 4px solid #7C7877;
             font-size: 20px;
             padding-top: 20px;
             padding-bottom: 30px;
-            margin-top: 20px;
+            margin-top: 50px;
         }
 
         #productDetailTabBox {
@@ -116,17 +133,18 @@
         }
         
         .productDetailQandAResponse .productDetailQandAStatus{
-        	background-color: red;
+        	background-color: #ABD0CE;
+        	color: white;
         }
 
         .productDetailQandAStatus {
             height: 100px;
-            background-color: rgb(201, 194, 180);
-            color: white;
+            background-color: #D9D4CF;
+            color: #7C7877;
             text-align: center;
             font-size: 20px;
             padding: 5% 0;
-            border-bottom: 1px solid silver;
+            border-bottom: 1px solid #7C7877;
         }
 
         .productDetailQandAWriter {
@@ -165,40 +183,45 @@
             width: 15px;
             height: 15px;
         }
+        
 
         #productDetailQandAInput {
-            width: 85%;
+        	width: 85%;
             height: 70px;
+            border: 2px solid #7C7877;
         }
 
         #productDetailQandAInputButton {
-            width: 14%;
+        	width: 14%;
             height: 70px;
-            background-color: rgb(201, 194, 180);
+            background-color: #7C7877;
             border: 0;
             color: white;
             font-size: 18px;
             font-weight: bold;
+            margin-left: 0px;
         }
 
         .productDetailBuyReview {
             max-width: 780px;
-            border-bottom: 1px solid silver;
-            margin: 0;
-            margin-bottom: 20px;
-            padding: 0 0 20px 0;
+            border-bottom: 1px solid #7C7877;
+            padding: 0;
         }
 
         .productDetailBuyReviewImg {
             max-width: 180px;
+            line-height: 150px;
             height: 150px;
+            background-color: #D9D4CF;
+            text-align: center;
             padding: 0 !important;
         }
 
         .productDetailBuyReviewImg img {
             max-width: 180px;
             width: 100%;
-            height: 150px;
+            height: 100%;
+            object-fit: cover;
         }
 
         .productDetailBuyReviewOption {
@@ -209,23 +232,21 @@
         .productDetailBuyReviewContent {
             height: 100px;
             font-size: 15px;
-            border-top: 1px solid silver;
+            padding-top: 10px;
         }
 
         .productDetailBuyReviewScore,
         .productDetailBuyReviewWriter,
         .productDetailBuyReviewWriteDate {
-            height: 30px;
-            padding-top: 10px;
+            line-height: 30px;
             font-size: 15px;
             vertical-align: text-bottom;
         }
 
         .productDetailBuyReviewScore {
             color: #FFBE0A;
-            font-size: 25px;
-            text-align: center;
-            padding: 0;
+            font-size: 20px;
+            text-align: right;
         }
 
         .productDetailBuyReviewWriteDate {
@@ -256,6 +277,7 @@
             display: inline-block;
             position: fixed;
             padding: 0;
+            padding-bottom: 150px;
             overflow: auto;
         }
 
@@ -298,7 +320,7 @@
         .productDetailAsideOptionResultBox {
             width: 100%;
             height: 90px;
-            border-bottom: 1px solid black;
+            border-bottom: 1px solid #7C7877;
             border-left: 1px solid silver;
             border-right: 1px solid silver;
             background-color: #eeeeee;
@@ -354,7 +376,7 @@
             height: 25px;
             width: 50px;
             margin-right: -4px;
-            padding-top: 1px;
+            padding-top: 2px;
             padding-left: 20px;
             border: 0px;
         }
@@ -379,31 +401,65 @@
             margin-right: -15px;
         }
 
-        .customerOrderBox {
+        .customerOrderValueImgBox, .customerOrderValueColorBox, .customerOrderValueTextBox {
             width: 100%;
-            height: 100px;
-            border-top: 1px solid silver;
+            padding 0 !important;
             margin-top: 20px;
             margin-bottom: 20px;
         }
+        
+        .customerOrderValueImgBox {
+        	height: 200px;
+        }
+        
+        .customerOrderValueColorBox {
+        	height: 70px;
+        }
+        
+        .customerOrderValueTextBox {
+        	height: 105px;
+        	overflow: hidden;
+        	text-overflow: ellipsis;
+        }
 
         .customerOrderTitle {
-            height: 19px;
-            text-align: center;
+            height: 35px;
+            border: 1px solid #7C7877;
+            background-color: white;
             font-size: 15px;
-            font-weight: bold;
-            padding: 0;
+            padding: 5px 10px 5px 20px;
         }
 
-        .customerOrderValue {
-            height: 80px;
-            padding: 0;
+        .customerOrderValueImg, .customerOrderValueColor, .customerOrderValueText {
+            border-right: 1px solid silver;
+            border-left: 1px solid silver;
+            border-bottom: 1px solid #7C7877;
             text-align: center;
-            font-size: 25px;
+            font-size: 20px;
+            padding: 0 !important;
+        }
+        
+        .customerOrderValueImg {
+        	height: 165px;
         }
 
-        .customerOrderValue img {
-            height: 80px;
+        .customerOrderValueImg img {
+        	width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .customerOrderValueColor {
+        	line-height: 35px;
+        }
+        
+        .customerOrderValueText {
+        	height: 68px;
+        	text-align: left;
+        	overflow: hidden;
+        	text-overflow: ellipsis;
+        	background-color: #eeeeee;
+        	padding: 5px 15px !important;
         }
 
         #totalOptionPriceBox {
@@ -434,7 +490,7 @@
             width: 100%;
             height: 35px;
             background-color: white;
-            border: 1px solid silver;
+            border: 1px solid #7C7877;
             text-align: left;
             font-size: 15px;
             padding: 5px 10px 5px 20px;
@@ -448,10 +504,10 @@
         .asideBasket {
             width: 100%;
             height: 56px;
-            background-color: white;
-            border: 2px solid black;
+            background-color: #ABD0CE;
+            border: 2px solid #ABD0CE;
             margin-top: 10px;
-            color: black;
+            color: white;
             font-size: 25px;
             font-weight: bold;
         }
@@ -460,9 +516,9 @@
         .MobileBuyLinkButton {
             width: 100%;
             height: 56px;
-            border: 2px solid #0000CD;
-            background-color: white;
-            color: #0000CD;
+            border: 2px solid #7C7877;
+            background-color: #7C7877;
+            color: white;
             font-size: 25px;
             font-weight: bold;
             margin-top: 10px;
@@ -472,7 +528,7 @@
             width: 100%;
             height: 35px;
             border: 0;
-            background-color: rgb(201, 194, 180);
+            background-color: #7C7877;
             color: white;
             font-size: 20px;
             font-weight: bold;
@@ -486,6 +542,7 @@
             position: fixed;
             top: 93.5%;
             background-color: white;
+            border-top: 1px solid silver;
             z-index: 10;
         }
 
@@ -500,6 +557,7 @@
             .container {
                 width: 100%;
                 max-width: 100%;
+                padding: 0 !important;
                 margin: 0;
             }
             
@@ -536,6 +594,7 @@
             .productDetailBuyReviewImg {
                 max-width: 100%;
                 width: 100%;
+                line-height: 100%;
                 height: 100%;
             }
 
@@ -544,28 +603,20 @@
                 width: 100%;
                 height: 100%;
             }
+        
+        	.customerOrderValueImgBox {
+        	height: 400px;
+        	}
+        
+        	.customerOrderValueImg {
+        		height: 365px;
+        	}
 
-            .customerOrderBox {
-                width: 100%;
-                height: 100%;
-                border: 0;
-            }
-
-            .customerOrderTitle {
-                width: 100%;
-            }
-
-            .customerOrderValue {
-                width: 100%;
-                height: 100%;
-                padding: 0;
-                margin-bottom: 20px;
-            }
-
-            .customerOrderValue img {
-                width: 100%;
-                height: 100%;
-            }
+        	.customerOrderValueImg img {
+        		width: 100%;
+            	height: 100%;
+            	object-fit: cover;
+        	}
 
             .productDetailMain {
                 padding: 0;
@@ -593,8 +644,21 @@
         	mobileViewConverter();
         };
         
-        function hi() {
-			
+        //새로고침 했을때 이전사이트로 이동 (82 : r키, 116 : f5)
+        document.onkeydown = function(event) {
+        	if(event.keyCode == 116 || event.ctrlKey == true && event.keyCode == 82) {
+        		event.preventDefault();
+        		let orderList = $('#order_List').val();
+        		let list_no = $('#list_no').val();
+        		
+        		if(orderList) {
+        			alert("이전으로 돌아갑니다.");
+        			window.location.href="/checkIsOrdered?no="+list_no;
+        		}
+        		else {
+        			window.location.href="/productDetail/"+list_no;
+        		}
+        	}
 		}
         
         //스크롤이 푸터영역에 다다르면 사이드창을 고정시킴
@@ -628,15 +692,32 @@
             $('#productRemove').on('click',productRemove);
         });
         
+        //반응형 사이드 변환함수
+        let mobileViewConverterToggle = 0;
+        let mobileViewConverterfirstStart = 0;
         function mobileViewConverter() {
         	let windowWidth = window.innerWidth;
-            if (windowWidth > 991) {
+        	
+        	//처음 함수 시작시 초기화 함수
+        	if(mobileViewConverterfirstStart == 0) {
+        		//첫 시작 화면이 모바일 화면이라면 모바일로 사이드 셋팅
+        		if(windowWidth <= 991) {
+        			mobileViewConverterToggle = 1;
+        		}
+        		mobileViewConverterfirstStart = 1;
+        	}
+        	
+            if (windowWidth > 991 && mobileViewConverterToggle == 0) {
                 $('#productDetailAside').show();
                 $('#productDetailAside').css('display', 'inline-block');
+                $('#productDetailAside').css('top', '13%').css('position','fixed');
+                $('#MobileBuyCloseButtonBox').hide();
+                mobileViewConverterToggle = 1;
             }
 
-            if (windowWidth <= 991 ) {
-                $('#productDetailAside').hide();
+            if (windowWidth <= 991 && mobileViewConverterToggle == 1) {
+            	mobilAsideHide();
+                mobileViewConverterToggle = 0;
             }
         }
         
@@ -771,6 +852,7 @@
             $('.totalOptionPriceResult').val(basePrice+totalPrice);
         }
 
+        //모바일에서 사이드창 보여주기 함수
         function mobileAsideShow() {
             $('#productDetailAside').show();
             $('#productDetailAside').css('top', '50%').css('position','fixed');
@@ -778,6 +860,7 @@
             $('#MobileBuyLinkButtonBox').hide();
         }
 
+        //모바일에서 사이드창 내리기 함수
         function mobilAsideHide() {
             $('#productDetailAside').hide();
             $('#productDetailAside').css('top', '0px').css('position','fixed');
@@ -800,6 +883,7 @@
     				if(data == '1') {
     					$('#productDetailQandAInput').val('');
     					$('#productDetailQandAAjaxResult').empty();
+    					$('#productDetailQandAMoreButton').show();
     					$('#qa_current_page').val(1);
     					qaBoardList();
     					alert('등록 되었습니다.');
@@ -830,7 +914,9 @@
     			,success:function(data){
     				console.log('Q & A 성공');
     				var result = '';
-     				if(data.length == 0) {
+    				let qalist = data.qalist;
+    				
+     				if(qalist.length == 0) {
     					result += '<div class="row productDetailQandA">';
 						result += '<div class="col-xs-2 "></div>';
     					result += '<div class="col-xs-5 productDetailQandAWriter"></div>';
@@ -840,29 +926,32 @@
     					$('#productDetailQandAMoreButton').hide();
     				}
      				else {
-    					for(let i=0; i<data.length; i++) {
+    					for(let i=0; i<qalist.length; i++) {
     						//해당 작가가 아니라면
-    						if(data[i].level == 1) {
+    						if(qalist[i].level == 1) {
     							result += '<div class="row productDetailQandA">';
-    							result += '<div class="col-xs-2 productDetailQandAStatus">'+data[i].qa_board_status+'</div>';
-        						result += '<div class="col-xs-5 productDetailQandAWriter">'+data[i].user_name+'</div>';
-        						result += '<div class="col-xs-5 productDetailQandAWriterDate">'+jsonDateConverter(data[i].qa_board_date)+'</div>';
-        						result += '<div class="col-xs-10 productDetailQandAContent">'+data[i].qa_board_content+'</div>';
+    							result += '<div class="col-xs-2 productDetailQandAStatus">'+qalist[i].qa_board_status+'</div>';
+        						result += '<div class="col-xs-5 productDetailQandAWriter">'+qalist[i].user_name+'</div>';
+        						result += '<div class="col-xs-5 productDetailQandAWriterDate">'+jsonDateConverter(qalist[i].qa_board_date)+'</div>';
+        						result += '<div class="col-xs-10 productDetailQandAContent">'+qalist[i].qa_board_content+'</div>';
         						result += '</div>';
     						}
     						else {
     							result += '<div class="row productDetailQandAResponse">';
     							result += '<div class="col-xs-2 productDetailQandAStatus">답변</div>';
-        						result += '<div class="col-xs-5 productDetailQandAWriter">'+data[i].user_name+'</div>';
-        						result += '<div class="col-xs-5 productDetailQandAWriterDate">'+jsonDateConverter(data[i].qa_board_date)+'</div>';
-        						result += '<div class="col-xs-10 productDetailQandAContent">'+data[i].qa_board_content+'</div>';
+        						result += '<div class="col-xs-5 productDetailQandAWriter">'+qalist[i].user_name+'</div>';
+        						result += '<div class="col-xs-5 productDetailQandAWriterDate">'+jsonDateConverter(qalist[i].qa_board_date)+'</div>';
+        						result += '<div class="col-xs-10 productDetailQandAContent">'+qalist[i].qa_board_content+'</div>';
         						result += '</div>';
     						}
+    					}
+    					if(data.endSql == data.maxSql) {
+    						$('#productDetailQandAMoreButton').hide();
     					}
      				}
      				$('#productDetailQandAAjaxResult').val(0);
     				$('#productDetailQandAAjaxResult').append(result);
-    				$('#qa_current_page').val(Number(qaCurrent)+3);
+    				$('#qa_current_page').val(Number(qaCurrent)+1);
     			}
     			,error:function(data){
     				console.log('Q & A 실패');
@@ -882,29 +971,37 @@
     			,success:function(data){
     				console.log('구매후기 성공');
     				var result = '';
-     				if(data.length == 0) {
-    					result += '<div class="row productDetailBuyReview">구매후기가 없습니다.';
+    				let listBuyReview = data.listBuyReview
+     				if(listBuyReview.length == 0) {
+    					result += '<div class="row productDetailBuyReview">';
+    					result += '<div class="col-xs-12 col-sm-12 col-md-9 productDetailBuyReviewContent">구매후기가 없습니다.</div>'
 						result += '</div>';
     					$('#productDetailBuyReviewMoreButton').hide();
     				} 
      				else {
-    					for(let i=0; i<data.length; i++) {
+    					for(let i=0; i<listBuyReview.length; i++) {
     						result += '<div class="row productDetailBuyReview">';
 							result += '<div class="col-xs-12 col-sm-12 col-md-3 productDetailBuyReviewImg">';
-							if(data[i].buy_review_image_loc != null) {
-								result += '<img src="'+data[i].buy_review_image_loc+'" alt="구매후기 이미지">';
+							if(listBuyReview[i].buy_review_image_loc != null) {
+								result += '<img src="'+listBuyReview[i].buy_review_image_loc+'" alt="구매후기 이미지">';
+							}
+							else {
+								result += '이미지 없음';
 							}
 							result += '</div>';
-							result += '<div class="col-xs-12 col-sm-12 col-md-9 productDetailBuyReviewOption">'+data[i].order_add_option+'</div>';
-							result += '<div class="col-xs-12 col-sm-12 col-md-9 productDetailBuyReviewContent">'+data[i].buy_review_content+'</div>';
+							result += '<div class="col-xs-12 col-sm-12 col-md-9 productDetailBuyReviewOption">'+listBuyReview[i].order_add_option+'</div>';
+							result += '<div class="col-xs-12 col-sm-12 col-md-9 productDetailBuyReviewContent">'+listBuyReview[i].buy_review_content+'</div>';
 							result += '<div class="col-xs-4 col-sm-4 col-md-3 productDetailBuyReviewScore">';
-							for(let j=1; j<=data[i].buy_review_score; j++) {
+							for(let j=1; j<=listBuyReview[i].buy_review_score; j++) {
 								result += '★';
 							}
 							result += '</div>';
-							result += '<div class="col-xs-4 col-sm-4 col-md-3 productDetailBuyReviewWriter">'+data[i].user_name+'</div>';
-							result += '<div class="col-xs-4 col-sm-4 col-md-3 productDetailBuyReviewWriteDate">'+jsonDateConverter(data[i].buy_review_date)+'</div>';
+							result += '<div class="col-xs-4 col-sm-4 col-md-3 productDetailBuyReviewWriter">'+listBuyReview[i].user_name+'</div>';
+							result += '<div class="col-xs-4 col-sm-4 col-md-3 productDetailBuyReviewWriteDate">'+jsonDateConverter(listBuyReview[i].buy_review_date)+'</div>';
 							result += '</div>';
+    					}
+    					if(data.endSql == data.maxSql) {
+    						$('#productDetailBuyReviewMoreButton').hide();
     					}
      				}
      				
@@ -986,7 +1083,7 @@
         		});
         	}
         }
-
+         
     </script>
 </head>
 
@@ -997,6 +1094,7 @@
 <input type="hidden" value="${listDTO.list_base_price }" id="base_price" readonly="readonly">
 <input type="hidden" value="${artistBoardNo}" id="artist_no" readonly="readonly">
 <input type="hidden" value="${productRemoveDecision }" id="productRemoveDecision" readonly="readonly">
+<input type="hidden" value="${orderList }" id="order_List" readonly="readonly">
     <div class="container">
         <div class="row">
             <div class="col-md-8 productDetailMain">
@@ -1072,25 +1170,38 @@
                         <div id="ResultBox"></div>
                     </div>
                     <c:if test="${orderList != null }">
+                    	<div class="asideProductDetailLine">
+                        	<hr>
+                    	</div>
                     	<c:forEach var="orderList" items="${orderList }"  varStatus="i">
-                    		<div class="customerOrderBox productDetailAsideBlock">
-                        		<div class="col-xs-12 customerOrderTitle"><c:out value="${orderList.order_name }"></c:out></div>
-                        		<div class="col-xs-12 customerOrderValue">
-                        			<c:if test="${orderList.order_option eq 'picture' }">
+                    		<input type="hidden" name="list_order_member_no" value="${orderList.list_order_member_no }" readonly="readonly">
+                        	<c:if test="${orderList.order_option eq 'picture' }">
+                    			<div class="customerOrderValueImgBox productDetailAsideBlock">
+                        			<div class="col-xs-12 customerOrderTitle">주문옵션${i.index+1} : <c:out value="${orderList.order_name }"></c:out></div>
+                        			<div class="col-xs-12 customerOrderValueImg">
                         				<img src="${orderList.order_value }" alt="주문사진">
-                        			</c:if>
-                        			<c:if test="${orderList.order_option eq 'color' }">
-                        				<c:out value="색상 : ${orderList.order_value }"></c:out>
-                        				<div id="customerOrderColorBox"></div>
-                        			</c:if>
-                        			<c:if test="${orderList.order_option eq 'text' }">
-                        				<c:out value="${orderList.order_value }"></c:out>
-                        			</c:if>
+                        			</div>
                         		</div>
-                    		</div>
+                        	</c:if>
+                        	<c:if test="${orderList.order_option eq 'color' }">
+                        		<div class="customerOrderValueColorBox productDetailAsideBlock">
+                        			<div class="col-xs-12 customerOrderTitle">주문옵션${i.index+1} : <c:out value="${orderList.order_name }"></c:out></div>
+                        			<div class="col-xs-12 customerOrderValueColor" style="background-color: ${orderList.order_value}">
+                        				<c:out value="색상 : ${orderList.order_value }"></c:out>
+                        			</div>
+                        		</div>
+                        	</c:if>
+                        	<c:if test="${orderList.order_option eq 'text' }">
+                        		<div class="customerOrderValueTextBox productDetailAsideBlock">
+                        			<div class="col-xs-12 customerOrderTitle">주문옵션${i.index+1} : <c:out value="${orderList.order_name }"></c:out></div>
+                        			<div class="col-xs-12 customerOrderValueText">
+                        				<c:out value="${orderList.order_value }"></c:out>
+                        			</div>
+                        		</div>
+                        	</c:if>
                    	 	</c:forEach>
                     </c:if>
-                    <div class="productDetailLine">
+                    <div class="asideProductDetailLine">
                         <hr>
                     </div>
 
@@ -1136,8 +1247,8 @@
                                     	<input type="checkbox" id="productDetailQandASecretCheckBox">
                                 	</div>
                                 	<div class="col-xs-12 ">
-                                    	<input type="text" id="productDetailQandAInput">
-                                    	<button type="button" id="productDetailQandAInputButton">등록</button>
+                                		<input type="text" id="productDetailQandAInput">
+                                		<button type="button" id="productDetailQandAInputButton">등록</button>
                                		</div>
                                	</form>
                             </div>
