@@ -129,14 +129,6 @@ public class ProductDetailService {
 		return mapper.productDetailOrderResultList(list_order_member_no);
 	}
 	
-	@Transactional
-	public int buyReviewInsertService(BuyReviewDTO buyreviewdto) {
-		int buy_review_no = mapper.buyReviewInsertSeq();
-		buyreviewdto.setBuy_review_no(buy_review_no);
-		mapper.buyReviewInsert(buyreviewdto);
-		return mapper.buyReviewInsertCheck(buy_review_no);
-	}
-	
 	public Map<String, Object> productDetailBuyReviewListService(Map<String, Object> map) {
 		int list_no = Integer.parseInt(map.get("list_no").toString());
 		int currentPage = Integer.parseInt(map.get("currentpage").toString());

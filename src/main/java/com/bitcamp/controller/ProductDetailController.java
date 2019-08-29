@@ -1,12 +1,9 @@
 package com.bitcamp.controller;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
@@ -20,15 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.bitcamp.DTO.Product.ListDTO;
 import com.bitcamp.DTO.member.MemberDTO;
 import com.bitcamp.DTO.order.OrderDTO;
-import com.bitcamp.DTO.productdetail.BuyReviewDTO;
 import com.bitcamp.DTO.productdetail.OrderResultDTO;
 import com.bitcamp.DTO.productdetail.QABoardDTO;
-import com.bitcamp.VO.file.FileVO;
 import com.bitcamp.service.ProductDetailService;
 
 @Controller
@@ -64,6 +58,7 @@ public class ProductDetailController {
 		
 		//고객 주문리스트가 있다면
 		if(tmp_list_order_member_no != null) {
+			session.removeAttribute("list_order_member_no");
 			List<Integer> list_order_member_no = (List<Integer>)tmp_list_order_member_no;
 			model.addAttribute("orderList", service.productDetailOrderService(list_order_member_no));
 		}
@@ -152,58 +147,6 @@ public class ProductDetailController {
 		return service.productDetailQandAListService(map);
 	}
 	
-	//구매후기 임시 시작
-	
-	/*@RequestMapping("/tmpReview")
-	public String BuyReviewInsertForm() {
-		return "productdetail/TmpInsertBuyReview";
-	}
-	
-	@RequestMapping(value="/ajaxBuyReviewImgUpload", method= {RequestMethod.POST})
-	@ResponseBody
-	public FileVO ajaxBuyReviewImgUpload(HttpSession session, MultipartFile[] uploadFile) {
-		FileVO filevo = new FileVO();
-		
-		if(uploadFile.length != 0) {
-			String buyReviewImgFolder = session.getServletContext().getRealPath("/resources/image/buyReviewImg");
-			UUID uuid = UUID.randomUUID();
-			String fileName = uuid.toString() + "-" + uploadFile[0].getOriginalFilename();
-			filevo.setFileName(fileName);
-			filevo.setUploadPath(buyReviewImgFolder);
-			filevo.setUuid(uuid.toString());
-			try {
-				File file = new File(buyReviewImgFolder, fileName);
-				uploadFile[0].transferTo(file);
-			}
-			catch(IOException e) {
-				System.out.println(e);
-			}
-		}
-		return filevo;
-	}
-	
-	@RequestMapping("/buyReviewResult")
-	public String buyReviewResult(@RequestParam int BuyReviewScore, @RequestParam String BuyReviewContent
-			, @RequestParam String BuyReviewImg ) {
-		BuyReviewDTO buyreviewdto = new BuyReviewDTO();
-		buyreviewdto.setOrder_no(30); //임의  주문번호
-		buyreviewdto.setBuy_review_content(BuyReviewContent);
-		buyreviewdto.setBuy_review_score(BuyReviewScore);
-		if(BuyReviewImg != null) {
-			buyreviewdto.setBuy_review_image_loc(BuyReviewImg);
-		}
-		int insertResult = service.buyReviewInsertService(buyreviewdto);
-		if(insertResult == 1) {
-			System.out.println("등록에 성공했습니다.");
-		}
-		else {
-			System.out.println("등록에 실패했습니다.");
-		}
-		return "redirect:/login";
-	}*/
-	
-	//구매후기 임시 끝
-	
 	@RequestMapping(value="/ajaxBuyReviewList", method= {RequestMethod.POST})
 	public @ResponseBody Map<String, Object> ajaxBuyReviewList(@RequestBody Map<String, Object> map) {
 		return service.productDetailBuyReviewListService(map);
@@ -212,7 +155,7 @@ public class ProductDetailController {
 	@RequestMapping("/productDetailResult")
 	public String productDetailResult(@RequestParam int list_no, @RequestParam int order_price, @RequestParam(defaultValue="0") List<Integer> order_add_option
 			, @RequestParam(defaultValue="") List<String> option_name, @RequestParam(defaultValue="") List<Integer> order_amount, @RequestParam(defaultValue="") List<Integer> option_price
-			, @RequestParam String list_title, HttpSession session) {
+			, @RequestParam String list_title, @RequestParam(defaultValue="") List<Integer> list_order_member_no, HttpSession session) {
 		OrderDTO orderdto = new OrderDTO();
 		
 		System.out.println("리스트 번호 : "+list_no);
@@ -253,17 +196,12 @@ public class ProductDetailController {
 		orderdto.setOrder_price(order_price);
 		orderdto.setList_title(list_title);
 		
-		List<Integer> ordermade_no = null;
 		List<Integer> list_order_no = new ArrayList<Integer>();
 		List<String> order_value = new ArrayList<String>();
-		
-		Object tmp_list_order_member_no = session.getAttribute("list_order_member_no");
-		session.removeAttribute("list_order_member_no");
-		
+				
 		//고객 주문리스트가 있다면
-		if(tmp_list_order_member_no != null) {
-			ordermade_no = (List<Integer>)tmp_list_order_member_no;
-			List<OrderResultDTO> orderresultdto = service.productDetailOrderService(ordermade_no);
+		if(list_order_member_no.size() != 0) {
+			List<OrderResultDTO> orderresultdto = service.productDetailOrderService(list_order_member_no);
 			for(int i=0; i<orderresultdto.size(); i++) {
 				list_order_no.add(orderresultdto.get(i).getList_order_no());
 				order_value.add(orderresultdto.get(i).getOrder_value());
@@ -271,8 +209,8 @@ public class ProductDetailController {
 			
 			System.out.println();
 			System.out.print("고객주문 번호 : ");
-			for(int i=0; i<ordermade_no.size(); i++) {
-				System.out.print(ordermade_no.get(i)+"/");
+			for(int i=0; i<list_order_member_no.size(); i++) {
+				System.out.print(list_order_member_no.get(i)+"/");
 			}
 			System.out.println();
 			System.out.print("고객값 번호 : ");
@@ -286,7 +224,7 @@ public class ProductDetailController {
 			}
 			
 			//orderdto 3차 대입
-			orderdto.setOrdermade_no(ordermade_no);
+			orderdto.setOrdermade_no(list_order_member_no);
 			orderdto.setList_order_no(list_order_no);
 			orderdto.setOrder_value(order_value);
 		}

@@ -57,7 +57,10 @@
 						LEFT OUTER JOIN member on
 						freeboard.freeboard_member_no =
 						member.member_no
-					where freeboard_status = 1
+					<where>
+						freeboard_status = 1
+						<include refid="search_category"></include>
+					</where>
 					order by freeboard_no desc
 					) A
 					<![CDATA[

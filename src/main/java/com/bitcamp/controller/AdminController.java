@@ -220,7 +220,7 @@ public class AdminController {
 		return "admin/popularproducts.admin";
 	}
 	
-	// 메인
+	// 피씨 메인
 	@RequestMapping("/admin/mainset")
 	public String mainset(Model model) {
 		
@@ -229,6 +229,14 @@ public class AdminController {
 		model.addAttribute("list", list);
 		model.addAttribute("admin_category", "mainset");
 		return "admin/mainset.admin";
+	}
+
+	// 모바일 메인
+	@RequestMapping("/admin/mobilemainset")
+	public String mobilemainset(Model model) {
+		
+		model.addAttribute("admin_category", "mainset");
+		return "admin/mobilemainset.admin";
 	}
 	
 	private String path = "C:\\bitcamp\\final\\finalProject\\src\\main\\webapp\\resources\\image";
@@ -265,6 +273,15 @@ public class AdminController {
 							adservice.updateMainImage(upload_map);
 						}
 						if(main_view_no == 3) {
+							upload_map.put("main_image_no", 5);
+							adservice.updateMainImage2(upload_map);
+						}
+						if(main_view_no == 23) {
+							upload_map.put("main_image_no", i + 1 + 25);
+							adservice.updateMainImage(upload_map);
+						}
+						if(main_view_no == 24) {
+							upload_map.put("main_image_no", 30);
 							adservice.updateMainImage2(upload_map);
 						}
 					}

@@ -29,7 +29,6 @@
 #wrap {
 	margin: 0 auto;
 	width: 1000px;
-	padding-top: 30px;
 }
 
 .nav {
@@ -64,27 +63,32 @@ table {
 thead {
 	background-color: #F0E5DE;
 }
-/* 
-th:nth-child(1) {
-	width: 50px;
-}
 
-th:nth-child(5) {
-	width: 70px;
-} */
-
-.formSearch{
+.formSearch {
 	padding: 10px 270px;
 }
 
-#searchKeyword{
-	width : 300px;
+#searchKeyword {
+	width: 300px;
 }
 
-.formPage{
-	margin:0px auto 0px auto;
+.formPage {
+	margin: 0px auto 0px auto;
 }
 
+.jumbotron {
+	width: 100%;
+	height: 400px;
+	background-image: url("/resources/image/freeboard/community.jpg");
+	background-size: cover;
+	background-position: 0 45%;
+	padding: 0;
+	margin-bottom: 0 !important;
+}
+
+.divPage{
+	padding : 10px 100px;
+}
 </style>
 <script>
 	function search() {
@@ -96,6 +100,7 @@ th:nth-child(5) {
 	}
 </script>
 <body>
+	<div class="jumbotron"></div>
 	<div id="wrap">
 		<div class="nav">
 			<a href="freeboard">전체</a> | <a href="freeboard?category=정보">정보</a> |
@@ -129,24 +134,26 @@ th:nth-child(5) {
 		</div>
 		<button class="btn btnWrite" onclick="location='freeboard/write'">글쓰기</button>
 		<br>
-		<form class="formPage" action="/freeboard" method="post">
-			<c:if test="${paging.startblock > 1 }">
-				<a href="#">◀</a>
-			</c:if>
-			<c:forEach var="i" begin="${paging.startblock }"
-				end="${paging.endblock }">
-				<c:if test="${i == currpage }">
-					<c:out value="${i }"></c:out>
+		<div id="divPage">
+			<form class="formPage" action="/freeboard" method="post">
+				<c:if test="${paging.startblock > 1 }">
+					<a href="#">◀</a>
 				</c:if>
-				<c:if test="${i != currpage }">
-					<input type="submit" class="btn btn-default" name="curr"
-						value="${i }">
+				<c:forEach var="i" begin="${paging.startblock }"
+					end="${paging.endblock }">
+					<c:if test="${i == currpage }">
+						<c:out value="${i }"></c:out>
+					</c:if>
+					<c:if test="${i != currpage }">
+						<input type="submit" class="btn btn-default" name="curr"
+							value="${i }">
+					</c:if>
+				</c:forEach>
+				<c:if test="${paging.endblock < paging.totalpage }">
+					<a href="#">▶</a>
 				</c:if>
-			</c:forEach>
-			<c:if test="${paging.endblock < paging.totalpage }">
-				<a href="#">▶</a>
-			</c:if>
-		</form>
+			</form>
+		</div>
 		<div class="form-group form-inline formSearch">
 			<select id="searchType" class="form-control">
 				<option value="제목">제목</option>

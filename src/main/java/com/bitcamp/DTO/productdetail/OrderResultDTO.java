@@ -10,5 +10,6 @@ public class OrderResultDTO {
 	private int list_order_no;
 	private String order_name;
 	private String order_option;
+	private int list_order_member_no;
 	private String order_value;
 }
