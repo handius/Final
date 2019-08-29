@@ -34,10 +34,6 @@
 	padding-bottom: 50px;
 }
 
-.btnResult {
-	
-}
-
 #btnSubmit {
 	background-color: #ABD0CE;
 	color: white;
@@ -65,14 +61,14 @@
 			<div class="form-group">
 				<label for="title" class="col-sm-2 control-label">제목</label>
 				<div class="col-sm-10">
-					<input type="text" class="form-control" name="title"
+					<input type="text" class="form-control" id="title" name="title"
 						required="required" placeholder="제목을 입력해주세요.">
 				</div>
 			</div>
 			<div class="form-group">
 				<label for="writer" class="col-sm-2 control-label">닉네임</label>
 				<div class="col-sm-10">
-					<input type="text" class="form-control" name="writer"
+					<input type="text" class="form-control" name="writer" id="writer"
 						value="<sec:authentication property="principal.member.user_nick" />"
 						readonly="readonly">
 				</div>
@@ -80,8 +76,8 @@
 			<div class="form-group">
 				<label for="content" class="col-sm-2 control-label">내용</label>
 				<div class="col-sm-10">
-					<textarea rows="30" cols="50" class="form-control" name="content"
-						required="required"></textarea>
+					<textarea rows="30" cols="50" class="form-control" id="content"
+						name="content" required="required"></textarea>
 				</div>
 			</div>
 			<div class="btnResult">

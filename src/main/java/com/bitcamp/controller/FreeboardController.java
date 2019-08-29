@@ -71,7 +71,6 @@ public class FreeboardController {
 		FreeboardDTO dto = fbservice.detailService(freeboard_no);
 		int countRep = replySerivce.countReplyService(freeboard_no);
 		fbservice.updateHitsService(freeboard_no);
-
 		model.addAttribute("board", dto);
 		model.addAttribute("countRep", countRep);
 

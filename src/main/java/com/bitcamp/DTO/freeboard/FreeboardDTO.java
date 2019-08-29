@@ -1,9 +1,5 @@
 package com.bitcamp.DTO.freeboard;
 
-import java.util.List;
-
-import com.bitcamp.DTO.member.MemberDTO;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -20,4 +16,5 @@ public class FreeboardDTO {
 	private String freeboard_category;
 	private int freeboard_member_no;
 	private String user_nick;
+	private int freeboard_rep_count;
 }

@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bitcamp.DAO.CustomUser;
@@ -68,6 +69,9 @@ public class LoginContoller {
 	@RequestMapping(value = "/searchIDResult", method = RequestMethod.POST, produces = "application/text; charset=utf8")
 	@ResponseBody
 	public String SearchIDResult(@ModelAttribute MemberDTO dto) {
+		System.out.println("dddddd");
+		System.out.println(dto.getUser_name());
+		System.out.println(dto.getUser_email());
 		String data = memberService.searchID(dto);
 		return data;
 	}
@@ -83,7 +87,7 @@ public class LoginContoller {
 	@RequestMapping(value = "/changePasswordResult", method = RequestMethod.POST)
 	public String changePasswordChangeResult(@ModelAttribute MemberDTO dto) {
 		memberService.changePassword(dto);
-		return "";
+		return "redirect:/";
 	}
 
 	@RequestMapping("login/loginFail")

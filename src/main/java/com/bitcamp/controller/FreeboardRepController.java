@@ -28,6 +28,7 @@ public class FreeboardRepController {
 	public List<FreeboardRepDTO> getReplyList(@RequestParam("freeboard_no") int freeboard_no, Model model) {
 
 		List<FreeboardRepDTO> result = replySerivce.getReplyService(freeboard_no);
+		
 		System.out.println(result);
 
 		return result;
@@ -39,9 +40,7 @@ public class FreeboardRepController {
 		Map<String, Object> result = new HashMap<>();
 
 		try {
-			System.out.println(repDTO.getMember_no());
 			replySerivce.saveReplyService(repDTO);
-
 			result.put("status", "OK");
 
 		} catch (Exception e) {
