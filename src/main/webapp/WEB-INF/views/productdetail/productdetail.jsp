@@ -15,10 +15,12 @@
 
     <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Comfortaa&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
+            font-family: 'Comfortaa', '맑은 고딕', cursive;
         }
         
         .row {
@@ -33,8 +35,7 @@
 
         .productDetailLine {
         	line-height: 40px;
-            background-color: #d9d4cf;
-            margin-top: 20px;
+            margin-top: 50px;
         }
 
         .productDetailLine div {
@@ -42,7 +43,7 @@
         }
 
         .productDetailLine hr {
-            border: 0.5px solid silver;
+            border: 2px solid #7C7877;
             padding: 0;
             margin-top: 0;
         }
@@ -50,6 +51,16 @@
         .productDetailLine span{
         	vertical-align: middle;
         	font-size: 25px;
+        }
+        
+        .asideProductDetailLine {
+        	margin-top: 20px;
+        }
+        
+        .asideProductDetailLine hr {
+        	border: 0.5px solid silver;
+            padding: 0;
+            margin-top: 0;
         }
 
 
@@ -90,11 +101,11 @@
         #productDetailContent {
             width: 100%;
             height: 100%;
-            border-top: 1px solid silver;
+            border-top: 4px solid #7C7877;
             font-size: 20px;
             padding-top: 20px;
             padding-bottom: 30px;
-            margin-top: 20px;
+            margin-top: 50px;
         }
 
         #productDetailTabBox {
@@ -193,21 +204,24 @@
 
         .productDetailBuyReview {
             max-width: 780px;
-            border-bottom: 1px solid silver;
-            margin: 0 -4px 20px 0;
-            padding: 0 0 20px 0;
+            border-bottom: 1px solid #7C7877;
+            padding: 0;
         }
 
         .productDetailBuyReviewImg {
             max-width: 180px;
+            line-height: 150px;
             height: 150px;
+            background-color: #D9D4CF;
+            text-align: center;
             padding: 0 !important;
         }
 
         .productDetailBuyReviewImg img {
             max-width: 180px;
             width: 100%;
-            height: 150px;
+            height: 100%;
+            object-fit: cover;
         }
 
         .productDetailBuyReviewOption {
@@ -218,23 +232,21 @@
         .productDetailBuyReviewContent {
             height: 100px;
             font-size: 15px;
-            border-top: 1px solid silver;
+            padding-top: 10px;
         }
 
         .productDetailBuyReviewScore,
         .productDetailBuyReviewWriter,
         .productDetailBuyReviewWriteDate {
-            height: 30px;
-            padding-top: 10px;
+            line-height: 30px;
             font-size: 15px;
             vertical-align: text-bottom;
         }
 
         .productDetailBuyReviewScore {
             color: #FFBE0A;
-            font-size: 25px;
-            text-align: center;
-            padding: 0;
+            font-size: 20px;
+            text-align: right;
         }
 
         .productDetailBuyReviewWriteDate {
@@ -406,6 +418,8 @@
         
         .customerOrderValueTextBox {
         	height: 105px;
+        	overflow: hidden;
+        	text-overflow: ellipsis;
         }
 
         .customerOrderTitle {
@@ -442,7 +456,7 @@
         }
         
         .customerOrderValueText {
-        	height: 70px;
+        	height: 68px;
         	text-align: left;
         	overflow: hidden;
         	text-overflow: ellipsis;
@@ -579,6 +593,7 @@
             .productDetailBuyReviewImg {
                 max-width: 100%;
                 width: 100%;
+                line-height: 100%;
                 height: 100%;
             }
 
@@ -899,6 +914,7 @@
     				console.log('Q & A 성공');
     				var result = '';
     				let qalist = data.qalist;
+    				
      				if(qalist.length == 0) {
     					result += '<div class="row productDetailQandA">';
 						result += '<div class="col-xs-2 "></div>';
@@ -934,7 +950,7 @@
      				}
      				$('#productDetailQandAAjaxResult').val(0);
     				$('#productDetailQandAAjaxResult').append(result);
-    				$('#qa_current_page').val(Number(qaCurrent)+3);
+    				$('#qa_current_page').val(Number(qaCurrent)+1);
     			}
     			,error:function(data){
     				console.log('Q & A 실패');
@@ -956,7 +972,8 @@
     				var result = '';
     				let listBuyReview = data.listBuyReview
      				if(listBuyReview.length == 0) {
-    					result += '<div class="row productDetailBuyReview">구매후기가 없습니다.';
+    					result += '<div class="row productDetailBuyReview">';
+    					result += '<div class="col-xs-12 col-sm-12 col-md-9 productDetailBuyReviewContent">구매후기가 없습니다.</div>'
 						result += '</div>';
     					$('#productDetailBuyReviewMoreButton').hide();
     				} 
@@ -966,6 +983,9 @@
 							result += '<div class="col-xs-12 col-sm-12 col-md-3 productDetailBuyReviewImg">';
 							if(listBuyReview[i].buy_review_image_loc != null) {
 								result += '<img src="'+listBuyReview[i].buy_review_image_loc+'" alt="구매후기 이미지">';
+							}
+							else {
+								result += '이미지 없음';
 							}
 							result += '</div>';
 							result += '<div class="col-xs-12 col-sm-12 col-md-9 productDetailBuyReviewOption">'+listBuyReview[i].order_add_option+'</div>';
@@ -1149,7 +1169,7 @@
                         <div id="ResultBox"></div>
                     </div>
                     <c:if test="${orderList != null }">
-                    	<div class="productDetailLine">
+                    	<div class="asideProductDetailLine">
                         	<hr>
                     	</div>
                     	<c:forEach var="orderList" items="${orderList }"  varStatus="i">
@@ -1180,7 +1200,7 @@
                         	</c:if>
                    	 	</c:forEach>
                     </c:if>
-                    <div class="productDetailLine">
+                    <div class="asideProductDetailLine">
                         <hr>
                     </div>
 
