@@ -118,7 +118,6 @@
 	    </div>
     </c:if>
   </c:forEach>
-  <div class="showmoreproduct"><h4><a href="/orderList?order=0">More + </a></h4></div>
 </div>
 
 <div class="mainimgtemplate">
@@ -132,6 +131,7 @@
     </c:if>
   </c:forEach>
 </div>
+
 <div class="mainsettemplate">
   <c:forEach var="i" items="${mainviewlist }">
     <c:if test="${i.main_view_no == 4 && i.main_view_use == 1 }">
@@ -147,7 +147,6 @@
 	    </div>
     </c:if>
   </c:forEach>
-  <div class="showmoreproduct"><h4><a href="/orderList?order=0">More + </a></h4></div>
 </div>
 <div class="mainsettemplate">
   <c:forEach var="i" items="${mainviewlist }">
@@ -164,7 +163,6 @@
 	    </div>
     </c:if>
   </c:forEach>
-  <div class="showmoreproduct"><h4><a href="/orderList?order=0">More + </a></h4></div>
 </div>
     <div class="gotopicon">
         <span class="glyphicon glyphicon-chevron-up"></span>

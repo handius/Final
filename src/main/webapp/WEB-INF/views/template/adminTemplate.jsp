@@ -138,7 +138,8 @@
             <div class="admin_category_parent pcateg3">메인
             </div>
                 <div class="admin_category_child categ3">
-                    <p><a href="/admin/mainset">메인페이지 관리</a></p>
+                    <p><a href="/admin/mainset">메인페이지 관리 (PC)</a></p>
+                    <p><a href="/admin/mobilemainset">메인페이지 관리 (Mobile)</a></p>
                 </div>
                 
             <div class="admin_category_parent pcateg4">운영
