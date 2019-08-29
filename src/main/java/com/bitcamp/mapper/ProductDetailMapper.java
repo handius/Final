@@ -28,11 +28,7 @@ public interface ProductDetailMapper {
 	public List<QABoardDTO> productDetailQandAList(QABoardDTO dto);
 	//
 	public List<OrderResultDTO> productDetailOrderResultList(List<Integer> list_order_member_no);
-	//임시 시작
-	public int buyReviewInsertSeq();
-	public void buyReviewInsert(BuyReviewDTO buyreviewdto);
-	public int buyReviewInsertCheck(int buy_review_no);
-	//임시 끝
+	//
 	public int productDetailBuyReviewListMaxCount(int list_no);
 	public List<BuyReviewDTO> productDetailBuyReviewList(BuyReviewDTO buyreviewdto);
 }

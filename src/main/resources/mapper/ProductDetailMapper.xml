@@ -70,7 +70,7 @@
 	where num <![CDATA[>]]>= #{start_sql} and qa_board_delete_status = 1
 </select>
 <select id="productDetailOrderResultList" resultType="com.bitcamp.DTO.productdetail.OrderResultDTO">
-	select list_order_board.list_order_no ,order_name, order_option, order_value
+	select list_order_board.list_order_no ,order_name, order_option, order_value, list_order_member_no
 	from list_order_member_board inner join list_order_board
 	on list_order_member_board.list_order_no = list_order_board.list_order_no
 	<where>
@@ -79,19 +79,6 @@
 		</foreach>
 	</where>
 </select>
-<!-- 임시 시작 -->
-<select id="buyReviewInsertSeq" resultType="int">
-	select buy_review_seq.nextval from dual
-</select>
-<insert id="buyReviewInsert" parameterType="com.bitcamp.DTO.productdetail.BuyReviewDTO" >
-	insert into buy_review(buy_review_no, order_no, buy_review_date, buy_review_content, buy_review_image_loc, buy_review_score, buy_review_status)
-	values(#{buy_review_no}, #{order_no}, sysdate, #{buy_review_content}, #{buy_review_image_loc}, #{buy_review_score}, 1)
-</insert>
-<select id="buyReviewInsertCheck" parameterType="int" resultType="int">
-	select count(*) from buy_review
-	where buy_review_no = #{buy_review_no}
-</select>
-<!-- 임시 끝 -->
 <select id="productDetailBuyReviewListMaxCount" parameterType="int" resultType="int">
 	select count(*)
 	from buy_review inner join order_board
