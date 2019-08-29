@@ -46,4 +46,14 @@ public interface MyPageMapper {
 
 	void cor(int order_no);
 
+	public int buyReviewInsertSeq();
+
+	public void buyReviewInsert(BuyReviewDTO buyreviewdto);
+
+	public int buyReviewInsertCheck(int buy_review_no);
+
+	void pc(int order_no);
+
+	OrderDTO findOrderDTO(int order_no);
+
 }

@@ -36,8 +36,14 @@
 				name="question_title" id="question_title"></li>
 			<li><label for="question_content">내용</label> <textarea
 					name="question_content" id="question_content" rows="5" cols="30"></textarea></li>
-			<li><input type="submit" value="문의하기"></li>
+			<li><input type="submit" value="문의하기" ></li>
 		</ul>
 	</form>
+	<script>
+	jQuery('form').submit(
+			function(){
+				alert('문의가 완료되었습니다.');
+			});
+	</script>
 </body>
 </html>
