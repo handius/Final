@@ -63,7 +63,7 @@
             margin-top: 0;
         }
 
-
+		/* 메인시작 */
         .productDetailMain {
             height: 100%;
             border-right: 1px solid silver;
@@ -376,7 +376,7 @@
             height: 25px;
             width: 50px;
             margin-right: -4px;
-            padding-top: 1px;
+            padding-top: 2px;
             padding-left: 20px;
             border: 0px;
         }
@@ -423,13 +423,11 @@
         }
 
         .customerOrderTitle {
-            line-height: 35px;
+            height: 35px;
             border: 1px solid #7C7877;
-            background-color: #d9d4cf;
-            text-align: center;
-            font-size: 20px;
-            font-weight: bold;
-            padding: 0;
+            background-color: white;
+            font-size: 15px;
+            padding: 5px 10px 5px 20px;
         }
 
         .customerOrderValueImg, .customerOrderValueColor, .customerOrderValueText {
@@ -460,6 +458,8 @@
         	text-align: left;
         	overflow: hidden;
         	text-overflow: ellipsis;
+        	background-color: #eeeeee;
+        	padding: 5px 15px !important;
         }
 
         #totalOptionPriceBox {
@@ -542,6 +542,7 @@
             position: fixed;
             top: 93.5%;
             background-color: white;
+            border-top: 1px solid silver;
             z-index: 10;
         }
 
@@ -1176,7 +1177,7 @@
                     		<input type="hidden" name="list_order_member_no" value="${orderList.list_order_member_no }" readonly="readonly">
                         	<c:if test="${orderList.order_option eq 'picture' }">
                     			<div class="customerOrderValueImgBox productDetailAsideBlock">
-                        			<div class="col-xs-12 customerOrderTitle"><c:out value="${orderList.order_name }"></c:out></div>
+                        			<div class="col-xs-12 customerOrderTitle">주문옵션${i.index+1} : <c:out value="${orderList.order_name }"></c:out></div>
                         			<div class="col-xs-12 customerOrderValueImg">
                         				<img src="${orderList.order_value }" alt="주문사진">
                         			</div>
@@ -1184,7 +1185,7 @@
                         	</c:if>
                         	<c:if test="${orderList.order_option eq 'color' }">
                         		<div class="customerOrderValueColorBox productDetailAsideBlock">
-                        			<div class="col-xs-12 customerOrderTitle"><c:out value="${orderList.order_name }"></c:out></div>
+                        			<div class="col-xs-12 customerOrderTitle">주문옵션${i.index+1} : <c:out value="${orderList.order_name }"></c:out></div>
                         			<div class="col-xs-12 customerOrderValueColor" style="background-color: ${orderList.order_value}">
                         				<c:out value="색상 : ${orderList.order_value }"></c:out>
                         			</div>
@@ -1192,7 +1193,7 @@
                         	</c:if>
                         	<c:if test="${orderList.order_option eq 'text' }">
                         		<div class="customerOrderValueTextBox productDetailAsideBlock">
-                        			<div class="col-xs-12 customerOrderTitle"><c:out value="${orderList.order_name }"></c:out></div>
+                        			<div class="col-xs-12 customerOrderTitle">주문옵션${i.index+1} : <c:out value="${orderList.order_name }"></c:out></div>
                         			<div class="col-xs-12 customerOrderValueText">
                         				<c:out value="${orderList.order_value }"></c:out>
                         			</div>
