@@ -18,6 +18,8 @@ public interface MyPageMapper {
 
 	String findOption_name(int option_no);
 
+	int findOption_price(int option_no);
+
 	void withdraw(String user_id);
 
 	void insertCQA(Map<String, Object> parameters);
@@ -55,5 +57,7 @@ public interface MyPageMapper {
 	void pc(int order_no);
 
 	OrderDTO findOrderDTO(int order_no);
+
+	String findPA(int qa_board_no);
 
 }

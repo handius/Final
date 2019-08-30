@@ -43,11 +43,15 @@
 				<tr>
 					<td>${list.order_date }</td>
 					<td><a href="/productDetail/${list.list_no }">${list.list_title }</a><br>
-						<c:forEach var="item" items="${list.option_name }"
-							varStatus="status">
-				옵션 : ${item }<br>
-				수량 : ${list.order_amount[status.index] }<br>
-						</c:forEach></td>
+						<table>
+							<tr>
+								<td>옵션:</td>
+								<td><c:forEach var="item" items="${list.option_name }"
+										varStatus="status">
+							${item }/${list.order_amount[status.index] }개(+${list.order_amount[status.index]*list.option_price[status.index] }원)<br>
+									</c:forEach></td>
+							<tr>
+						</table></td>
 					<td>${list.order_price }</td>
 					<td>${list.order_status }</td>
 					<td><c:if test="${list.order_status == '배송대기' }">
@@ -55,8 +59,6 @@
 								value="수취완료">
 							<span style="display: none;">${list.order_no }</span>
 						</c:if> <c:if test="${list.order_status == '배송완료' }">
-							<!-- <button class="btn btn-default" name="rw" id="rw"
-								data-toggle="modal" data-target="#myModal">리뷰쓰기</button> -->
 							<input type="button" class="btn btn-default rw" name="rw"
 								value="리뷰쓰기" data-toggle="modal" data-target="#myModal">
 							<span style="display: none;">${list.order_no }</span>
@@ -64,30 +66,6 @@
 				</tr>
 			</c:forEach>
 		</tbody>
-		<%-- <tbody>
-			<%
-				List<OrderDTO> buyList = (List<OrderDTO>) request.getAttribute("buyList");
-				for (int i = 0; i < buyList.size(); i++) {
-			%>
-			<tr>
-				<td><%=buyList.get(i).getOrder_date()%></td>
-				<td><%=buyList.get(i).getList_title()%>
-				<%List<String> option_name = buyList.get(i).getOption_name();
-				List<Integer> order_amount = buyList.get(i).getOrder_amount();
-				if (option_name != null) {
-					for (int j = 0; j < option_name.size(); j++) {%>
-					<%=option_name.get(j)%> <%=order_amount.get(j)%>
-					<%
-					}
-					}
-					%></td>
-				<td><%=buyList.get(i).getOrder_price()%></td>
-				<td><%=buyList.get(i).getOrder_status()%></td>
-			</tr>
-			<%
-				}
-			%>
-		</tbody> --%>
 	</table>
 	<div class="modal fade" id="myModal">
 		<div class="modal-dialog">

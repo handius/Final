@@ -64,20 +64,14 @@ public class MyPageService {
 			List<Integer> order_amount_list = new ArrayList<>();
 			List<Integer> ordermade_no_list = new ArrayList<>();
 			List<String> option_name_list = new ArrayList<>();
+			List<Integer> option_price_list = new ArrayList<>();
 			if (order_add_option.contains("/")) {
 				String[] order_add_option_array = order_add_option.split("/");
 				String[] order_amount_array = order_amount.split("/");
-				System.out.println("---1---");
 				for (int j = 0; j < order_add_option_array.length; j++) {
-					System.out.println(order_add_option_array[j]);
-					System.out.println(order_amount_array[j]);
 					order_add_option_list.add(Integer.parseInt(order_add_option_array[j]));
 					order_amount_list.add(Integer.parseInt(order_amount_array[j]));
 				}
-				System.out.println("---2---");
-				System.out.println(order_add_option_list);
-				System.out.println(order_amount_list);
-				System.out.println("---3---");
 				buyList.get(i).setOrder_add_option(order_add_option_list);
 				buyList.get(i).setOrder_amount(order_amount_list);
 			}
@@ -92,9 +86,12 @@ public class MyPageService {
 			}
 			for (int j = 0; j < order_add_option_list.size(); j++) {
 				String option_name = mapper.findOption_name(order_add_option_list.get(j));
+				int option_price = mapper.findOption_price(order_add_option_list.get(j));
 				option_name_list.add(option_name);
+				option_price_list.add(option_price);
 			}
 			buyList.get(i).setOption_name(option_name_list);
+			buyList.get(i).setOption_price(option_price_list);
 		}
 		return buyList;
 	}
@@ -137,9 +134,6 @@ public class MyPageService {
 		Map<String, Object> parameters = new HashMap<>();
 		List<OrderDTO> sellList = mapper.sellList(user_id);
 		List<MemberDTO> buyerList = new ArrayList<>();
-		System.out.println("---sellList---");
-		System.out.println(sellList);
-		System.out.println("------");
 		for (int i = 0; i < sellList.size(); i++) {
 			MemberDTO buyer = mapper.findBuyer(sellList.get(i).getMember_no());
 			buyerList.add(buyer);
@@ -151,6 +145,7 @@ public class MyPageService {
 			List<Integer> order_amount_list = new ArrayList<>();
 			List<Integer> ordermade_no_list = new ArrayList<>();
 			List<String> option_name_list = new ArrayList<>();
+			List<Integer> option_price_list = new ArrayList<>();
 			if (order_add_option.contains("/")) {
 				String[] order_add_option_array = order_add_option.split("/");
 				String[] order_amount_array = order_amount.split("/");
@@ -172,9 +167,12 @@ public class MyPageService {
 			}
 			for (int j = 0; j < order_add_option_list.size(); j++) {
 				String option_name = mapper.findOption_name(order_add_option_list.get(j));
+				int option_price = mapper.findOption_price(order_add_option_list.get(j));
 				option_name_list.add(option_name);
+				option_price_list.add(option_price);
 			}
 			sellList.get(i).setOption_name(option_name_list);
+			sellList.get(i).setOption_price(option_price_list);
 		}
 		parameters.put("sellList", sellList);
 		parameters.put("buyerList", buyerList);
@@ -234,6 +232,11 @@ public class MyPageService {
 
 	public OrderDTO findOrderDTO(int order_no) {
 		return mapper.findOrderDTO(order_no);
+	}
+
+	public String findPA(int qa_board_no) {
+		// TODO Auto-generated method stub
+		return mapper.findPA(qa_board_no);
 	}
 
 }
