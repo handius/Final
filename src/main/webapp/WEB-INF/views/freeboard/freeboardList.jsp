@@ -49,7 +49,7 @@
 }
 
 .table a {
-	color: black;
+	color: #333333;
 }
 
 #btnSearch {
@@ -86,8 +86,8 @@ thead {
 	margin-bottom: 0 !important;
 }
 
-.divPage{
-	padding : 10px 100px;
+.divPage {
+	padding: 10px 100px;
 }
 </style>
 <script>
@@ -123,7 +123,7 @@ thead {
 						<tr>
 							<td><c:out value="${list.freeboard_no}"></c:out></td>
 							<td><a href="freeboard/detail?no=${list.freeboard_no}"><c:out
-										value="${list.freeboard_title}"></c:out></a></td>
+										value="${list.freeboard_title}"></c:out> [${list.freeboard_rep_count }]</a></td>
 							<td><c:out value="${list.user_nick}"></c:out></td>
 							<td><c:out value="${list.freeboard_regiTime}"></c:out></td>
 							<td><c:out value="${list.freeboard_hits}"></c:out></td>

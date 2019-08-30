@@ -9,7 +9,7 @@
 		insert into freeboard
 		values(freeboard_seq.nextval,
 		#{freeboard_title},
-		#{freeboard_content}, sysdate, 0, 1,
+		#{freeboard_content}, to_char(sysdate,'MM.DD HH:MI:SS'), 0, 1,
 		#{freeboard_category},
 		#{freeboard_member_no})
 	</insert>
@@ -51,12 +51,14 @@
 					select freeboard_no, freeboard_title,
 						freeboard_content,
 						freeboard_regitime, freeboard_hits,
-						freeboard_member_no, user_nick
+						freeboard_member_no, user_nick,
+						(select count(*) from freeboard_rep
+								where freeboard_no = f.freeboard_no and rep_status=1) as freeboard_rep_count
 					from
-						freeboard
-						LEFT OUTER JOIN member on
-						freeboard.freeboard_member_no =
-						member.member_no
+						freeboard f
+						LEFT OUTER JOIN member m on
+						f.freeboard_member_no =
+						m.member_no
 					<where>
 						freeboard_status = 1
 						<include refid="search_category"></include>

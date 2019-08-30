@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!DOCTYPE html">
 <html>
 <head>
@@ -58,11 +59,35 @@
 #divReply {
 	padding-bottom: 50px;
 }
+
+.tdHead {
+	text-align: center;
+	background-color: #f9f9f9;
+	font-weight: bold;
+}
 </style>
 <script>
 	$(document).ready(function() {
 		showReplyList();
 	});
+
+	var entityMap = {
+		'&' : '&amp;',
+		'<': '&lt;', '>' : '&gt;',
+		'"' : '&quot;',
+		"'" : '&#39;',
+		'/' : '&#x2F;',
+		'`' : '&#x60;',
+		'=' : '&#x3D;'
+	};
+
+	function escapeHtml(string) {
+		console.log('이스케이프');
+		console.log(string);
+		return String(string).replace(/[&<>"'`=\/]/g, function(s) {
+			return entityMap[s];
+		});
+	}
 
 	function showHtml(result) {
 		let html = "<table class='table table-striped table-bordered' style='margin-top: 10px;'><tbody id='rep_tbody'>";
@@ -86,7 +111,7 @@
 									+ item.rep_content
 									+ '\')" style="padding-right:5px">수정</a>';
 							html += "<a onclick='deleteReply(" + item.rep_no
-									+ ")'> 삭제 </a>";
+									+ ")'>삭제 </a>";
 							html += "</td>";
 							html += "</tr>";
 						});
@@ -107,7 +132,7 @@
 		var a = '<tr><td></td><td class="nickname" align="center">${sessionScope.member.user_nick }</td>';
 		a += '<td colspan="2"><textarea id="repContent" class="form-control"></textarea><a onclick="writeRepRep('
 				+ rep_no
-				+ ')">답글달기</a><a onclick="showReplyList()">취소</a></td>';
+				+ ') " style="padding-right:5px">답글달기</a><a onclick="showReplyList()">취소</a></td>';
 		a += '</tr>';
 
 		var trHtml = $("tr[id=tr" + rep_no + "]:last");
@@ -119,7 +144,8 @@
 		var a = '';
 
 		a += '<div>';
-		a += '<input type="text" class="form-control" name="content_'+rep_no+'" value="'+rep_content+'"/>';
+		a += '<input type="text" class="form-control" name="content_' + rep_no
+				+ '" value="' + rep_content + '"/>';
 		a += '<a onclick="commentUpdateProc(' + rep_no
 				+ ')">수정</a> <a onclick="showReplyList()">취소</a> </span>';
 		a += ''
@@ -253,27 +279,23 @@
 </script>
 <body>
 	<div id="wrap">
-		<table class="table">
-			<thead>
-				<tr>
-					<th>${board.freeboard_category }</th>
-				</tr>
-			<thead>
+		<table class="table table-bordered table-condensed">
 			<tbody>
 				<tr>
-					<td>제목</td>
-					<td class="title" colspan="6">${board.freeboard_title }</td>
+					<td class="tdHead">제목</td>
+					<td class="title" colspan="6">[${board.freeboard_category}]
+						${board.freeboard_title }</td>
 				</tr>
 				<tr>
-					<td>닉네임</td>
-					<td class="nickname">${board.user_nick}</td>
-					<td>작성일</td>
+					<td class="tdHead">닉네임</td>
+					<td>${board.user_nick}</td>
+					<td class="tdHead">작성일</td>
 					<td>${board.freeboard_regiTime }</td>
-					<td>조회수</td>
+					<td class="tdHead">조회수</td>
 					<td>${board.freeboard_hits }</td>
 				</tr>
 				<tr>
-					<td>내용</td>
+					<td class="tdHead">내용</td>
 					<td colspan="6">${board.freeboard_content }</td>
 				</tr>
 			</tbody>

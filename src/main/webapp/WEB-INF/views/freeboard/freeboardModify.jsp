@@ -19,6 +19,11 @@
 <link
 	href="https://fonts.googleapis.com/css?family=Comfortaa&display=swap"
 	rel="stylesheet">
+<link
+	href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.css"
+	rel="stylesheet">
+<script
+	src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.js"></script>
 <style>
 * {
 	font-family: 'Comfortaa', '맑은 고딕', cursive;
@@ -26,7 +31,7 @@
 
 #wrap {
 	margin: 0 auto;
-	width: 800px;
+	width: 1000px;
 	padding-top: 50px;
 	padding-bottom: 50px;
 }
@@ -82,5 +87,36 @@
 			<button type="submit" class="btn" id="btnSubmit">작성완료</button>
 		</form>
 	</div>
+		<script>
+		// 섬머노트
+		$('#content').summernote({
+			lang : 'ko-KR',
+			height : 500,
+			callbacks : {
+				onImageUpload : function(files, editor, welEditable) {
+					for (var i = files.length - 1; i >= 0; i--) {
+						sendFile(files[i], this);
+					}
+				}
+			}
+		});
+
+		function sendFile(file, el) {
+			var form_data = new FormData();
+			form_data.append('file', file);
+			$.ajax({
+				data : form_data,
+				type : "POST",
+				url : '/나중에할랭..',
+				cache : false,
+				contentType : false,
+				enctype : 'multipart/form-data',
+				processData : false,
+				success : function(img_name) {
+					$(el).summernote('editor.insertImage', img_name);
+				}
+			});
+		}
+	</script>
 </body>
 </html>

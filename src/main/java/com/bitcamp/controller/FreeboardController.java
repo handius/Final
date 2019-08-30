@@ -89,7 +89,7 @@ public class FreeboardController {
 	@RequestMapping("freeboard/freeboardWriteResult")
 	public String freeboardWriteResult(@RequestParam("category") String freeboard_category,
 			@RequestParam("title") String freeboard_title, @RequestParam int member_no,
-			@RequestParam("content") String freeboard_content) {
+			@RequestParam("summernote") String freeboard_content) {
 
 		FreeboardDTO dto = new FreeboardDTO();
 		dto.setFreeboard_category(freeboard_category);
