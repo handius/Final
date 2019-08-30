@@ -51,6 +51,7 @@ public class ArtistController {
 		}
 		model.addAttribute("artistInfo", map.get("artistInfo"));
 		model.addAttribute("artistBoardDetail", map.get("artistBoardDetail"));
+		model.addAttribute("artistRepMaxCount", map.get("artistRepMaxCount"));
 		model.addAttribute("master", master);
 
 		return "artist/artistDetail.mall";
@@ -58,9 +59,9 @@ public class ArtistController {
 	
 	
 	@ResponseBody
-	@RequestMapping("/ajaxArtistBoardDetailProductList")
-	public Map<String, Object> ajaxArtistBoardDetailProductList(@RequestBody Map<String, Integer> map) {	
-		return service.artistBoardDetailProductListService(map);
+	@RequestMapping(value="/ajaxArtistBoardDetailProductList")
+	public HashMap<String, Object> ajaxArtistBoardDetailProductList(@RequestBody Map<String, Integer> map) {	
+		return service.artistBoardDetailProductListService(map); 
 	}
 	
 	@ResponseBody

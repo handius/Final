@@ -129,7 +129,7 @@
         
         .productDetailQandAResponse {
         	max-width: 90%;
-        	margin-left: 10%;
+        	margin-left: 10% !important;
         }
         
         .productDetailQandAResponse .productDetailQandAStatus{
@@ -213,6 +213,7 @@
             line-height: 150px;
             height: 150px;
             background-color: #D9D4CF;
+            font-size: 20px;
             text-align: center;
             padding: 0 !important;
         }
@@ -555,7 +556,7 @@
 
         @media (max-width: 991px) {
             .container {
-                width: 100%;
+                width: 100% !important;
                 max-width: 100%;
                 padding: 0 !important;
                 margin: 0;

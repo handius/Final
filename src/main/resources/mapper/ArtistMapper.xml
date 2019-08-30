@@ -15,7 +15,7 @@
 	values(#{artist_no}, #{member_no}, '안녕하세요 저희 페이지에 방문해주셔서 감사합니다.', '/resources/image/artistPageDefault.jpg', 0, 0, 1)
 </select>
 <select id="artistBoardDetailArtistInfo" parameterType="int" resultType="com.bitcamp.DTO.member.MemberDTO">
-	select member.member_no, user_name, user_nick, user_email, user_address
+	select member.member_no, user_name, user_nick, user_email, user_address, user_id
 	from member inner join artist_board
 	on member.member_no = artist_board.member_no
 	where artist_no = #{artist_no}
@@ -33,13 +33,13 @@
 <select id="artistBoardDetailProductListMaxCount" parameterType="String" resultType="int">
 	select count(*)
 	from list_board
-	where list_status = 1 and list_artist = #{value}
+	where list_status = 1 and list_artist like #{value}
 </select>
 <select id="artistBoardDetailProductListNo" parameterType="HashMap" resultType="int">
 	select list_no
     from (select rownum as num , list_no
         from list_board
-        where list_artist = #{user_name} and list_status = 1 and rownum <![CDATA[<]]>= #{end_sql}) 
+        where list_artist like #{user_id} and list_status = 1 and rownum <![CDATA[<]]>= #{end_sql}) 
     where num <![CDATA[>]]>= #{start_sql}
 </select>
 <select id="artistBoardDetailProductListImg" parameterType="int" resultType="String">
@@ -150,4 +150,36 @@
 	from list_board
 	where list_artist = #{value}
 </select>
+<!-- 작가 별점 계산 시작 -->
+<select id="artistScoreBuyReviewArtistId" parameterType="int" resultType="String">
+	select distinct list_artist
+	from order_board inner join buy_review
+	on order_board.order_no = buy_review.order_no
+	inner join list_board
+	on order_board.list_no = list_board.list_no
+	where buy_review.order_no = #{order_no};
+</select>
+<select id="artistScoreListNoList" parameterType="String" resultType="int">
+	select list_no
+	from list_board
+	where list_artist like #{value}
+</select>
+<select id="artistScoreBuyReviewScoreList" parameterType="int" resultType="int">
+	select buy_review_score 
+	from buy_review inner join order_board
+	on buy_review.order_no = order_board.order_no
+	where list_no = #{list_no}
+</select>
+<update id="artistScoreUpdate" parameterType="HashMap">
+	update 
+	(   select user_id, artist_score
+    	from member inner join artist_board
+    	on member.member_no = artist_board.member_no
+    	where user_id like #{user_id}
+	)
+	set 
+    artist_score = #{artist_score}
+
+select * from artist_board;
+</update>
 </mapper>

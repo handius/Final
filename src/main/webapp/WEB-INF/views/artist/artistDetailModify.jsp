@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <!-- 합쳐지고 최소화된 최신 CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 
@@ -15,8 +15,19 @@
 
     <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.css" rel="stylesheet">
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.js"></script>
     <style>
-    	 #artistDetailImgBox {
+    
+        .row {
+            margin: 0 !important;
+        }
+        
+        .col-xs-1, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9, .col-xs-10, .col-xs-11, .col-xs-12 {
+            padding: 0 !important;
+        }
+        
+        #artistDetailImgBox {
             height: 300px;
             background-color: azure;
             overflow: hidden;
@@ -30,36 +41,71 @@
         }
         
         #artistDetailTitleBox {
-            height: 200px;
+            height: 400px;
             font-size: 20px;
+            margin-top: 20px;
         }
         
-        #artistDetailTitleModify {
-        	width: 100%;
-        	height: 100%;
+        #ImgUploadButtonBox {
+            background-color: #7C7877;
+            height: 50px;
+            color: white;
+            font-size: 30px;
+            text-align: center;
+            padding-top: 7px !important;
+        }
+
+        #artistBoardDetailImgPath {
+            width: 100%;
+            height: 50px;
+            line-height: 50px;
+            border: 3px solid #7C7877;
+            font-size: 20px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            padding: 0 10px;
+            
         }
         
         #artistDetailImgModify {
-        	width: 30%;
-        	display: inline-block;
+            display: none;
         }
         
-        #artistBoardDetailImgPath {
-        	width: 69%;
-        	border: 0;
+        #submitButton {
+            width: 49.5%;
+            height: 50px;
+            display: inline-block;
+            color: white;
+            font-size: 20px;
+            border: 0;
+            background-color: #7C7877;
+            margin-bottom: 20px;
         }
         
-        .btn-default {
-        	width: 100%;
-        	height: 60px;
+        #resetButton {
+            width: 49.5%;
+            height: 50px;
+            display: inline-block;
+            color: #7C7877;
+            font-size: 20px;
+            border: 3px solid #7C7877;
+            background-color: white;
+            margin-bottom: 20px;
         }
+        
+        /*섬머노트 기능제한*/
+        div.note-insert {
+            display: none;
+        }
+        
+        @media (max-width: 767px) {
+        	.container {
+        		width:100%;
+        	}
+        }
+        
     </style>
     <script>
-    $(document).ready(function(){
-    	let artist_board_title = $("#artist_board_title").val();
-    	console.log(artist_board_title);
-    	$('#artistDetailTitleModify').text(artist_board_title);
-    });
     
     function artistDetailImgModifyChange() {
     	let formData = new FormData();
@@ -90,24 +136,44 @@
 			}
 		});
     }
+    
+    function resetButtonClick() {
+    	window.history.back();
+    }
     </script>
 </head>
 <body>
-<!-- 기본 활용 정보 -->
-<input type="hidden" value="${artistBoardDetail.artist_board_title }" id="artist_board_title" readonly="readonly">
 	<div class="container">
 		<div id="artistDetailImgBox">
 			<img src="${artistBoardDetail.artist_main_img }" alt="메인이미지" id="artistDetailTitleImg">
 		</div>
 		<form method="post" action="/artistDetail/artistDetailModifyResult">
 			<input type="hidden" value="${artistBoardDetail.artist_no }" name="artist_no" id="artist_no" readonly="readonly" required="required">
-			<input type="file" id="artistDetailImgModify" onchange=" artistDetailImgModifyChange() ">
-			<input type="text" value="${artistBoardDetail.artist_main_img }" name="artist_main_img" id="artistBoardDetailImgPath"readonly="readonly">
+           <div class="row">
+               <div class="col-xs-2" id="ImgUploadButtonBox">
+                    <label for="artistDetailImgModify">
+                        <span class="glyphicon glyphicon-picture" id="ImgUploadButton">업로드</span>
+                    </label>
+                    <input type="file" class="" id="artistDetailImgModify" onchange=" artistDetailImgModifyChange() ">
+               </div>
+               <div class="col-xs-10">
+                   <input type="text" value="${artistBoardDetail.artist_main_img }" name="artist_main_img" id="artistBoardDetailImgPath"readonly="readonly">
+               </div>
+           </div>
 			<div id="artistDetailTitleBox">
-        		<textarea name="artist_board_title" id="artistDetailTitleModify" maxlength="99" required="required"></textarea> 
+        		<textarea name="artist_board_title" id="summernote" maxlength="99" required="required">${artistBoardDetail.artist_board_title }</textarea> 
         	</div>
-        	<button type="submit" class="btn btn-default">수정완료</button>
+        	<button type="submit" id="submitButton">수정완료</button>
+        	<input type="reset" id="resetButton" onclick="resetButtonClick()" value="수정취소">
 		</form>
 	</div>
+	<script>
+    $('#summernote').summernote({
+  	    lang:'ko-KR',
+        height: 300,
+        minHeight: 100,             
+        maxHeight: 300,
+    });
+	</script>
 </body>
 </html>

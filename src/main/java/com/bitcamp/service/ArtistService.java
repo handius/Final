@@ -1,5 +1,7 @@
 package com.bitcamp.service;
 
+import static org.hamcrest.CoreMatchers.instanceOf;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,6 +32,7 @@ public class ArtistService {
 		Map<String, Object> map = new HashMap<>();
 		map.put("artistInfo", mapper.artistBoardDetailArtistInfo(artist_no));
 		map.put("artistBoardDetail", mapper.artistBoardDetailGet(artist_no));
+		map.put("artistRepMaxCount", mapper.artistRepListMaxCount(artist_no));
 		
 		mapper.artistBoardDetailCountUpdate(artist_no); //조회수 처리 생각해볼것
 		return map;
@@ -54,22 +57,21 @@ public class ArtistService {
 	}
 	
 	@Transactional
-	public Map<String, Object> artistBoardDetailProductListService(Map<String, Integer> map) {
+	public HashMap<String, Object> artistBoardDetailProductListService(Map<String, Integer> map) {
 		int artist_no = (int) map.get("artist_no");
 		int currentPage = (int) map.get("currentProductInput");
 		
 		MemberDTO memberdto = mapper.artistBoardDetailArtistInfo(artist_no);
-		String user_name = memberdto.getUser_name();
-		int maxCount = mapper.artistBoardDetailProductListMaxCount(user_name);
+		String user_id = memberdto.getUser_id();
+		int maxCount = mapper.artistBoardDetailProductListMaxCount(user_id);
 		ScrollCalculation scroll = new ScrollCalculation(currentPage, 8, maxCount);
 		
 		HashMap<String, Object> productList = new HashMap<>();
-		productList.put("user_name", user_name);
+		productList.put("user_id", user_id);
 		productList.put("start_sql", scroll.getStartSql());
 		productList.put("end_sql", scroll.getEndSql());
 		productList.put("max_sql", maxCount);
 		List<ArtistBoardProductListDTO> artistProductList = new ArrayList<>();
-		
 		if(scroll.isActive()) {
 			List<Integer> listNum = mapper.artistBoardDetailProductListNo(productList);
 			for(int i=0; i<listNum.size(); i++) {
@@ -81,8 +83,7 @@ public class ArtistService {
 			}
 		}
 		
-		productList.put("productList", artistProductList);
-		
+		productList.put("artistProductList", artistProductList);
 		return productList;
 	}
 	
@@ -117,6 +118,7 @@ public class ArtistService {
 		return mapper.artistRepInsertCheck(artist_rep_no); 
 	}
 	
+	@Transactional
 	public Map<String, Object> artistBoardDetailRepListService(Map<String, Integer> map) {
 		int artist_no = map.get("artist_no");
 		int currentPage = map.get("currentRepInput");
@@ -144,6 +146,7 @@ public class ArtistService {
 		mapper.artistBoardDetailModify(dto);
 	}
 	
+	@Transactional
 	public List<ArtistListDTO> artistList(Map<String, Object> map) {
 		List<ArtistListDTO> artistList = new ArrayList<>();
 		
@@ -174,7 +177,9 @@ public class ArtistService {
 					List<String> listImg = new ArrayList<>();
 					for(int j=0; j<listNo.size(); j++) {
 						List<String> tmpListImg = mapper.artistListImgGet(listNo.get(j));
-						listImg.add(tmpListImg.get(0));
+						if(tmpListImg.size() != 0) {
+							listImg.add(tmpListImg.get(0));
+						}
 					}
 					artistListdto.setListImg(listImg);
 					artistListdto.setListNo(listNo);
@@ -184,6 +189,35 @@ public class ArtistService {
 		}
 		
 		return artistList;
+	}
+	
+	//작가 페이지 별점 계산
+	public void artistScoreCalculation(int order_no, int buy_review_score) {
+		//주문번호의 상품 작가id를 가져온다.
+		String user_id = mapper.artistScoreBuyReviewArtistId(order_no);
+		if(user_id != null) {
+			//해당 작가의 작품리스트를 가져온다.
+			List<Integer> listNoList = mapper.artistScoreListNoList(user_id);
+			
+			int scoreSum = 0;
+			int sumCount = 0;
+			for(int i=0; i<listNoList.size(); i++) {
+				int list_no = listNoList.get(i);
+				
+				//해당작품의 구매후기 점수를 가져온다.
+				List<Integer> scoreList = mapper.artistScoreBuyReviewScoreList(list_no);
+				for(int j=0; j<scoreList.size(); j++) {
+					scoreSum += scoreList.get(j);
+					sumCount++;
+				}
+			}
+			float artist_score = (float)(scoreSum + buy_review_score)/(sumCount + 1);
+			HashMap<String, Object> hashmap = new HashMap<>();
+			hashmap.put("artist_score", artist_score);
+			hashmap.put("user_id", user_id);
+			//해당 작가 페이지에 업데이트를 한다.
+			mapper.artistScoreUpdate(hashmap);
+		}
 	}
 	
 }
