@@ -17,4 +17,5 @@ public interface MemberMapper {
 	public void insertAuth(AuthorityDTO dto);
 	
 	public void deleteAuth(AuthorityDTO dto);
+
 }

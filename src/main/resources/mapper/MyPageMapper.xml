@@ -18,6 +18,11 @@
 		select option_name from list_option_board where
 		option_no=#{option_no}
 	</select>
+	<select id="findOption_price" parameterType="int"
+		resultType="int">
+		select option_price from list_option_board where
+		option_no=#{option_no}
+	</select>
 	<update id="updateUserInfo"
 		parameterType="com.bitcamp.DTO.member.MemberDTO">
 		update member set
@@ -41,7 +46,7 @@
 		question_content, question_date, answer_status,
 		question_delete_status, question_type)
 		values(customer_qa_board_seq.nextval, #{member_no}, #{question_title},
-		#{question_content}, sysdate, '답변대기', 1, #{question_type})
+		#{question_content}, sysdate, '대기', 1, #{question_type})
 	</insert>
 	<update id="withdraw" parameterType="String">
 		update member set
@@ -138,5 +143,10 @@
 	<select id="findOrderDTO" parameterType="int"
 		resultType="com.bitcamp.DTO.order.OrderDTO">
 		select * from order_board where order_no=#{order_no}
+	</select>
+	<select id="findPA" parameterType="int" resultType="String">
+		select
+		qa_board_content from qa_board where
+		qa_board_parent_no=#{qa_board_no}
 	</select>
 </mapper>

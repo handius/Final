@@ -294,4 +294,13 @@ public class MyPageController {
 		return "redirect:/buyList";
 	}
 
+	@RequestMapping(value = "/findPA", produces = "application/text; charset=utf8")
+	@ResponseBody
+	public String findPA(Principal prin, HttpSession session, @RequestParam int qa_board_no, Model model) {
+		// MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
+		CustomUser user = (CustomUser) userService.loadUserByUsername(prin.getName());
+		MemberDTO memberDTO = user.getMember();
+		return service.findPA(qa_board_no);
+	}
+
 }

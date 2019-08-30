@@ -13,6 +13,7 @@ import lombok.Setter;
 @Service("memberService")
 public class MemberService {
 
+	@Autowired
 	private MemberMapper mem;
 
 	@Setter(onMethod_ = @Autowired)
@@ -23,12 +24,18 @@ public class MemberService {
 	}
 
 	public String searchID(MemberDTO dto) {
+		System.out.println("서비스");
+		System.out.println(dto.getUser_name());
+		System.out.println(dto.getUser_email());
+		
 		String id = mem.searchID(dto);
-
+		System.out.println(id);
+		
 		if (id == null) {
 			id = "일치하는 정보가 없습니다.";
 			System.out.println(id);
 			return id;
+			
 		} else {
 			StringBuilder newID = new StringBuilder(id);
 			newID.setCharAt(4, '*');

@@ -2,6 +2,7 @@
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -37,21 +38,14 @@
 			</tr>
 		</thead>
 		<tbody>
-			<%
-				List<BuyReviewDTO> sellerReviewList = (List<BuyReviewDTO>) request.getAttribute("sellerReviewList");
-				List<String> list_title_list = (List<String>) request.getAttribute("list_title_list");
-				for (int i = 0; i < sellerReviewList.size(); i++) {
-			%>
-			<tr>
-				<td><%=sellerReviewList.get(i).getBuy_review_no()%></td>
-				<td><a
-					href="productDetail/<%=sellerReviewList.get(i).getList_no()%>"><%=list_title_list.get(i)%></a></td>
-				<td><%=sellerReviewList.get(i).getBuy_review_content()%></td>
-				<td><%=sellerReviewList.get(i).getBuy_review_date()%></td>
-			</tr>
-			<%
-				}
-			%>
+			<c:forEach var="list" items="${sellerReviewList }" varStatus="status">
+				<tr>
+					<td>${list.buy_review_no }</td>
+					<td><a href="productDetail/${list.list_no }">${list_title_list[status.index] }</a></td>
+					<td>${list.buy_review_content }</td>
+					<td>${list.buy_review_date }</td>
+				</tr>
+			</c:forEach>
 		</tbody>
 	</table>
 </body>

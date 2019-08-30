@@ -3,6 +3,7 @@
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -41,35 +42,23 @@
 			</tr>
 		</thead>
 		<tbody>
-			<%
-				List<OrderDTO> sellList = (List<OrderDTO>) request.getAttribute("sellList");
-				List<MemberDTO> buyerList = (List<MemberDTO>) request.getAttribute("buyerList");
-				for (int i = 0; i < sellList.size(); i++) {
-			%>
-			<tr>
-				<td><%=sellList.get(i).getOrder_no()%></td>
-				<td><%=sellList.get(i).getOrder_date()%></td>
-				<td><%=sellList.get(i).getList_title()%></td>
-				<td><%List<String> option_name = sellList.get(i).getOption_name();
-				List<Integer> order_amount = sellList.get(i).getOrder_amount();
-				if (option_name != null) {
-					for (int j = 0; j < option_name.size(); j++) {%>
-					<%=option_name.get(j)%> <%=order_amount.get(j)%>
-					<%
-					}
-					}
-					%></td>
-				<td><%=sellList.get(i).getOrder_price()%></td>
-				<td><%=sellList.get(i).getOrder_status()%></td>
-				<td><%=buyerList.get(i).getUser_id() %>
-				<%=buyerList.get(i).getUser_name() %>
-				<%=buyerList.get(i).getUser_call() %>
-				<%=buyerList.get(i).getUser_address() %>
-				</td>
-			</tr>
-			<%
-				}
-			%>
+			<c:forEach var="list" items="${sellList }" varStatus="status">
+				<tr>
+					<td>${list.order_no }</td>
+					<td>${list.order_date }</td>
+					<td><a href="/productDetail/${list.list_no }">${list.list_title }</a></td>
+					<td><c:forEach var="item" items="${list.option_name }"
+							varStatus="status">
+					${item }/${list.order_amount[status.index] }개(+${list.order_amount[status.index]*list.option_price[status.index] }원)<br>
+						</c:forEach></td>
+					<td>${list.order_price }</td>
+					<td>${list.order_status }</td>
+					<td>${buyerList[status.index].user_id }
+						${buyerList[status.index].user_name }
+						${buyerList[status.index].user_call }
+						${buyerList[status.index].user_address }</td>
+				</tr>
+			</c:forEach>
 		</tbody>
 	</table>
 </body>
