@@ -109,7 +109,7 @@
 <select id="artistListMaxCount" parameterType="String" resultType="int">
 	select count(*) 
 	from artist_board
-	<if test="!_parameter.equals('ROLL_ADMIN')">
+	<if test="!_parameter.equals('ROLE_SELLER')">
 			where artist_board_status = 1
 	</if>
 </select>
@@ -123,7 +123,7 @@
                 	<if test="!searchText != null || searchText.equals('')">
                 	and user_name like '%' || #{searchText} || '%'
                 	</if>
-                	<if test="!user_authority.equals('ROLL_ADMIN')">
+                	<if test="!user_authority.equals('ROLE_SELLER')">
                 	and artist_board_status = 1
                 	</if>
                 </where>
@@ -182,4 +182,22 @@
 
 select * from artist_board;
 </update>
+<!-- 페이지 활성 여부 -->
+<update id="artistDetailPageActiveToggle" parameterType="HashMap">
+	update artist_board set 
+	<choose>
+		<when test="activeType==1">
+			artist_board_status = 1
+		</when>
+		<otherwise>
+			artist_board_status = 0
+		</otherwise>
+	</choose>
+	where artist_no = #{artist_no}
+</update>
+<select id="artistDetailPageStatusCheck" parameterType="int" resultType="int">
+	select artist_board_status
+	from artist_board
+	where artist_no = #{artist_no}
+</select>
 </mapper>

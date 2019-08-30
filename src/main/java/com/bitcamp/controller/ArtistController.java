@@ -163,6 +163,12 @@ public class ArtistController {
 		}	
 		map.put("user_authority", user_authority);
 		
-		return service.artistList(map);
+		return service.artistListService(map);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/ajaxArtistDetailPageActiveToggle", produces="application/text; charset=utf-8")
+	public String ajaxArtistDetailPageActiveToggle(@RequestBody Map<String, Object> map) {
+		return service.artistDetailPageActiveToggleService(map);
 	}
 }

@@ -291,10 +291,11 @@
             font-size: 20px;
         }
         
-        #artistDetailModifyPage {
-        	width: 80%;
+        #artistDetailModifyPage, button.artistDetailActiveToggle {
+        	width: 45%;
+        	height: 35px;
         	display: none;
-        	margin-top: 20px;
+        	margin-top: 5px;
         }
         
         /* 모달창 */
@@ -379,34 +380,44 @@
         }
         
     </style>
-    <script>
-    
-    $(document).ready(starScoreCel);
-    $(document).ready(artistDetailBuyReviewList);
-    $(document).ready(artistDetailProductList);
-    $(document).ready(artistDetailRepList);
-    $(document).ready(function(){
-    	let currentHeight = $("#artistAsideRepContentBox")[0].scrollHeight;
-    	$('#artistAsideRepContentBox').animate({scrollTop : currentHeight}, 400);
-    });
+    <script> 
     
     $(document).ready(function(){
-    	let master = $("#master").val();
-    	
-    	// 해당 작가페이지의 주인이라면 수정버튼을 보여주고 이름을 숨김
-    	if(master == 'true') {
-    		$('#artistDetailModifyPage').show();
-    		$('#artistAsideArtistInfoArtistName').hide();
-    	}
-    });
-    
-    $(document).ready(function(){
+    	pageControllButtonDecisionInit();
+    	repScrollDownInit();
+    	starScoreCel();
+    	artistDetailBuyReviewList();
+    	artistDetailProductList();
+    	artistDetailRepList();
     	$('#artistDetailBuyReviewCollectionButton').on('click', artistDetailBuyReviewList);
     	$('#artistDetailProductCollectionButton').on('click', artistDetailProductList);
     	$('#artistAsideRepButton').on('click', artistDetailRepInsert);
     	$('#artistDetailUrlCoppy').on('click', artistDetailUrlCoppy);
     	$('#artistDetailModifyPage').on('click', artistDetailModifyPage);
+    	$('.artistDetailActiveToggle').on('click',artistDetailPageActiveToggle);
     });
+    
+    function pageControllButtonDecisionInit() {
+		let master = $("#master").val();
+    	let artist_board_status = Number($('#artist_board_status').val());
+    	// 해당 작가페이지의 주인이라면 수정버튼을 보여주고 이름을 숨김
+    	if(master == 'true') {
+    		$('#artistDetailModifyPage').show();
+    		$('#artistAsideArtistInfoArtistName').hide();
+    		
+    		if(artist_board_status == 1) {
+    			$('#pageNonActive').show();
+    		}
+    		else {
+    			$('#pageActive').show();
+    		}
+    	}
+    }
+    
+    function repScrollDownInit() {
+    	let currentHeight = $("#artistAsideRepContentBox")[0].scrollHeight;
+    	$('#artistAsideRepContentBox').animate({scrollTop : currentHeight}, 400);
+    }
     
     function starScoreCel() {
     	let starScoreNum = Number($('#artistAsideArtistInfoNumScore').text());
@@ -641,12 +652,34 @@
     	let artist_no = $('#artist_no').val();
 		location.href = "/artistDetail/artistDetailModify/"+artist_no;
 	}
+    
+    function artistDetailPageActiveToggle() {
+    	let activeType = $(this).text();
+    	let artist_no = $('#artist_no').val();
+    	$.ajax({
+    		url:'/ajaxArtistDetailPageActiveToggle'
+    		,contentType: "application/json; charset=utf-8"
+    		,data: JSON.stringify({activeType : activeType, artist_no : artist_no})
+    		,type: "POST"
+    		,dataType: "text"
+    		,success: function(data) {
+    			console.log('성공');
+    			alert(data);
+    			location.href="/artistDetail/"+artist_no;
+    		}
+    		,error: function(data) {
+    			console.log('실패');
+    			console.log(data);
+    		}
+    	});
+    }
 
     </script>
 </head>
 <body>
 <!-- 기본 활용 정보 -->
 <input type="hidden" value="${artistBoardDetail.artist_no }" id="artist_no" readonly="readonly">
+<input type="hidden" value="${artistBoardDetail.artist_board_status }" id="artist_board_status" readonly="readonly">
 <input type="hidden" value="${master }" id="master" readonly="readonly">
 <input type="hidden" value="1" id="currentBuyReview" readonly="readonly">
 <input type="hidden" value="1" id="currentProduct" readonly="readonly">
@@ -657,7 +690,9 @@
                 <img src="${artistBoardDetail.artist_main_img }" alt="메인이미지" id="artistDetailTitleImg">
            </div>
            <div class="col-md-3" id="artistAsideArtistInfoBox">
-           	   <button class="btn btn-default" id="artistDetailModifyPage">작가페이지 관리</button>
+           	   <button class="btn btn-default" id="artistDetailModifyPage">페이지 관리</button>
+           	   <button class="btn btn-default artistDetailActiveToggle" id="pageNonActive">페이지 비활성</button>
+           	   <button class="btn btn-default artistDetailActiveToggle" id="pageActive">페이지 활성</button>
                <div id="artistAsideArtistInfoArtistName">
                    	<c:out value="${artistInfo.user_name }"></c:out>
                </div>

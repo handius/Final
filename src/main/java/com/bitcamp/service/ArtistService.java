@@ -147,7 +147,7 @@ public class ArtistService {
 	}
 	
 	@Transactional
-	public List<ArtistListDTO> artistList(Map<String, Object> map) {
+	public List<ArtistListDTO> artistListService(Map<String, Object> map) {
 		List<ArtistListDTO> artistList = new ArrayList<>();
 		
 		//스크롤 기능
@@ -192,6 +192,7 @@ public class ArtistService {
 	}
 	
 	//작가 페이지 별점 계산
+	@Transactional
 	public void artistScoreCalculation(int order_no, int buy_review_score) {
 		//주문번호의 상품 작가id를 가져온다.
 		String user_id = mapper.artistScoreBuyReviewArtistId(order_no);
@@ -218,6 +219,27 @@ public class ArtistService {
 			//해당 작가 페이지에 업데이트를 한다.
 			mapper.artistScoreUpdate(hashmap);
 		}
+	}
+	
+	@Transactional
+	public String artistDetailPageActiveToggleService(Map<String, Object> map) {
+		int artist_no = Integer.parseInt(map.get("artist_no").toString());
+		int activeType = 0;
+		String resultMessage = "실패했습니다.";
+		
+		if(map.get("activeType").toString().equals("페이지 활성")) {
+			activeType = 1;
+		}
+		HashMap<String, Object> hashmap = new HashMap<>();
+		hashmap.put("artist_no", artist_no);
+		hashmap.put("activeType", activeType);
+		mapper.artistDetailPageActiveToggle(hashmap);
+		int statusCheck = mapper.artistDetailPageStatusCheck(artist_no);
+		if(statusCheck == activeType) {
+			resultMessage = "성공했습니다.";
+		}
+		
+		return resultMessage;
 	}
 	
 }
