@@ -2,6 +2,7 @@
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,28 +34,36 @@
 				<th>상품번호</th>
 				<th>상품명</th>
 				<th>등록일자</th>
-				<th>상태</th>
 				<th>기본가</th>
 				<th>주문수량</th>
 			</tr>
 		</thead>
 		<tbody>
-			<%
-				List<ListDTO> registerList = (List<ListDTO>) request.getAttribute("registerList");
-				for (int i = 0; i < registerList.size(); i++) {
-			%>
-			<tr>
-				<td><%=registerList.get(i).getList_no()%></td>
-				<td><%=registerList.get(i).getList_title()%></td>
-				<td><%=registerList.get(i).getList_date()%></td>
-				<td><%=registerList.get(i).getList_status()%></td>
-				<td><%=registerList.get(i).getList_base_price()%></td>
-				<td><%=registerList.get(i).getBuy_count()%></td>
-			</tr>
-			<%
-				}
-			%>
+			<c:forEach var="list" items="${registerList }">
+				<tr>
+					<td>${list.list_no }</td>
+					<td>${list.list_title }</td>
+					<td>${list.list_date }</td>
+					<td>${list.list_base_price }</td>
+					<td>${list.buy_count }</td>
+					<td><button
+							class="btn btn-default btn-block answerpadding delete_question_btn"
+							value="${list.list_no }">삭제</button></td>
+				</tr>
+			</c:forEach>
 		</tbody>
 	</table>
+	<script>
+		// '삭제' 버튼
+		$('.delete_question_btn').click(function() {
+			if (confirm('정말로 삭제하시겠습니까?')) {
+				alert("삭제가 완료되었습니다.");
+				location.href = "/updateList_status/" + $(this).val();
+			} else {
+				alert("삭제를 취소하였습니다.");
+			}
+			return false;
+		});
+	</script>
 </body>
 </html>

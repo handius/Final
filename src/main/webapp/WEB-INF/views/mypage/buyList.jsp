@@ -54,7 +54,7 @@
 						</table></td>
 					<td>${list.order_price }</td>
 					<td>${list.order_status }</td>
-					<td><c:if test="${list.order_status == '배송대기' }">
+					<td><c:if test="${list.order_status == '배송중' }">
 							<input type="button" class="btn btn-default cor" name="cor"
 								value="수취완료">
 							<span style="display: none;">${list.order_no }</span>
@@ -71,8 +71,7 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header"></div>
-				<div class="modal-body" id="insertBuyReview">Hello!
-					Webisfree.com</div>
+				<div class="modal-body" id="insertBuyReview"></div>
 				<div class="modal-footer"></div>
 			</div>
 		</div>
@@ -87,6 +86,7 @@
 				} else {
 					alert("수취확인을 취소하였습니다.");
 				}
+				return false;
 			});
 		});
 		$(document).ready(function() {

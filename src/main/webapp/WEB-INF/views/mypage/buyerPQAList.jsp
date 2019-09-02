@@ -53,11 +53,6 @@
 }
 </style>
 </head>
-<script>
-	function answer_load() {
-		$('#')
-	}
-</script>
 <body>
 	<table>
 		<thead>
@@ -77,17 +72,39 @@
 					<td>${list.qa_board_content }</td>
 					<td>${list.qa_board_date }</td>
 					<td>${list.qa_board_status }</td>
+					<td><c:if test="${list.qa_board_status == '미답변' }">
+							<button
+								class="btn btn-default btn-block answerpadding ifanswered"
+								value="${list.qa_board_no }" data-toggle="modal"
+								data-target="#myModal">수정</button>
+						</c:if></td>
+					<td><c:if test="${list.qa_board_status == '미답변' }">
+							<button
+								class="btn btn-default btn-block answerpadding delete_question_btn"
+								value="${list.qa_board_no }">삭제</button>
+						</c:if></td>
 				</tr>
 				<c:if test="${list.qa_board_status == '답변' }">
 					<tr class="panel">
 						<td colspan="4" id="answer${list.qa_board_no }"></td>
 					</tr>
 				</c:if>
-
-
 			</c:forEach>
 		</tbody>
 	</table>
+	<div class="modal fade" id="myModal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">수정하기</h4>
+				</div>
+				<div class="modal-body" id="updateQa_board_content"></div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+				</div>
+			</div>
+		</div>
+	</div>
 	<script>
 		var acc = document.getElementsByClassName("accordion");
 		var i;
@@ -138,16 +155,15 @@
 			});
 		}
 
-		/* // '수정' 버튼
+		// '수정' 버튼
 		$('.ifanswered').click(function() {
-			$('.hide_button').hide();
-			$('.answer_content_div').hide();
 			$.ajax({
-				url : "/admin/updateanswercontent/" + $(this).val(),
+				url : "/updateQa_board_content/" + $(this).val(),
 				type : "GET",
 				dataType : "html",
 				success : function(data) {
-					$('#ajaxtest').append(data);
+					$('#updateQa_board_content').empty();
+					$('#updateQa_board_content').append(data);
 				},
 				error : function(data) {
 					alert("error");
@@ -156,44 +172,17 @@
 		});
 
 		// '삭제' 버튼
-		$('.delete_question_btn').click(function() {
-			var result = confirm('정말 삭제하시겠습니까?');
-			if (result) {
-				location.href = "/admin/deletequestion/" + $(this).val();
-			} else {
-
-			}
-			return false;
-		});
-
-		// 섬머노트
-		$('#summernote').summernote({
-			lang : 'ko-KR',
-			height : 300,
-			callbacks : {
-				onImageUpload : function(files, editor, welEditable) {
-					for (var i = files.length - 1; i >= 0; i--) {
-						sendFile(files[i], this);
+		$('.delete_question_btn').click(
+				function() {
+					if (confirm('정말로 삭제하시겠습니까?')) {
+						alert("삭제가 완료되었습니다.");
+						location.href = "/updateQa_board_delete_status/"
+								+ $(this).val();
+					} else {
+						alert("삭제를 취소하였습니다.");
 					}
-				}
-			}
-		});
-		function sendFile(file, el) {
-			var form_data = new FormData();
-			form_data.append('file', file);
-			$.ajax({
-				data : form_data,
-				type : "POST",
-				url : '/나중에',
-				cache : false,
-				contentType : false,
-				enctype : 'multipart/form-data',
-				processData : false,
-				success : function(img_name) {
-					$(el).summernote('editor.insertImage', img_name);
-				}
-			});
-		} */
+					return false;
+				});
 	</script>
 </body>
 </html>

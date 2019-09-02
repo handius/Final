@@ -68,7 +68,6 @@ th, td {
 		<tbody>
 			<c:forEach var="item" items="${cQAList }">
 				<tr class="accordion">
-					<%-- <td><c:out value="${item.question_no }"></c:out></td> --%>
 					<td><c:out value="${item.question_type }"></c:out></td>
 					<td><c:out value="${item.question_title }"></c:out></td>
 					<td><c:out value="${item.question_date }"></c:out></td>
@@ -87,6 +86,26 @@ th, td {
 			</c:forEach>
 		</tbody>
 	</table>
+	<div id="divPage">
+		<form class="formPage" action="/cQAList" method="post">
+			<c:if test="${paging.startblock > 1 }">
+				<a href="#">◀</a>
+			</c:if>
+			<c:forEach var="i" begin="${paging.startblock }"
+				end="${paging.endblock }">
+				<c:if test="${i == currpage }">
+					<c:out value="${i }"></c:out>
+				</c:if>
+				<c:if test="${i != currpage }">
+					<input type="submit" class="btn btn-default" name="curr"
+						value="${i }">
+				</c:if>
+			</c:forEach>
+			<c:if test="${paging.endblock < paging.totalpage }">
+				<a href="#">▶</a>
+			</c:if>
+		</form>
+	</div>
 	<a href="customerQA">1:1 문의하기</a>
 	<script>
 		var acc = document.getElementsByClassName("accordion");

@@ -42,24 +42,44 @@
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach var="list" items="${sellList }" varStatus="status">
+			<c:forEach var="list" items="${sellList }" varStatus="status1">
 				<tr>
 					<td>${list.order_no }</td>
 					<td>${list.order_date }</td>
 					<td><a href="/productDetail/${list.list_no }">${list.list_title }</a></td>
 					<td><c:forEach var="item" items="${list.option_name }"
-							varStatus="status">
-					${item }/${list.order_amount[status.index] }개(+${list.order_amount[status.index]*list.option_price[status.index] }원)<br>
+							varStatus="status2">
+					${item }/${list.order_amount[status2.index] }개(+${list.order_amount[status2.index]*list.option_price[status2.index] }원)<br>
 						</c:forEach></td>
 					<td>${list.order_price }</td>
 					<td>${list.order_status }</td>
-					<td>${buyerList[status.index].user_id }
-						${buyerList[status.index].user_name }
-						${buyerList[status.index].user_call }
-						${buyerList[status.index].user_address }</td>
+					<td>${buyerList[status1.index].user_id }<br>
+						${buyerList[status1.index].user_name }<br>
+						${buyerList[status1.index].user_call }<br>
+						${buyerList[status1.index].user_address }<br>
+					</td>
+					<td><c:if test="${list.order_status == '배송대기' }">
+							<input type="button" class="btn btn-default sp" name="sp"
+								value="발송처리">
+							<span style="display: none;">${list.order_no }</span>
+						</c:if></td>
 				</tr>
 			</c:forEach>
 		</tbody>
 	</table>
+	<script>
+		$(document).ready(function() {
+			$("input[name=sp]").click(function() {
+				var d = $(this).next().text();
+				if (confirm("정말로 발송처리하시겠습니까?")) {
+					alert("발송처리가 완료되었습니다.");
+					location.href = "sp/" + d;
+				} else {
+					alert("발송처리를 취소하였습니다.");
+				}
+				return false;
+			});
+		});
+	</script>
 </body>
 </html>
