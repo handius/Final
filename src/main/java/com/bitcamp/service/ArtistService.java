@@ -1,17 +1,20 @@
 package com.bitcamp.service;
 
-import static org.hamcrest.CoreMatchers.instanceOf;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.poi.ss.usermodel.DataFormat;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bitcamp.DTO.Product.ListDTO;
 import com.bitcamp.DTO.artist.ArtistBoardDTO;
 import com.bitcamp.DTO.artist.ArtistBoardProductListDTO;
 import com.bitcamp.DTO.artist.ArtistListDTO;
@@ -33,9 +36,28 @@ public class ArtistService {
 		map.put("artistInfo", mapper.artistBoardDetailArtistInfo(artist_no));
 		map.put("artistBoardDetail", mapper.artistBoardDetailGet(artist_no));
 		map.put("artistRepMaxCount", mapper.artistRepListMaxCount(artist_no));
-		
-		mapper.artistBoardDetailCountUpdate(artist_no); //조회수 처리 생각해볼것
 		return map;
+	}
+	
+	public void artistBoardDetailCountService(HttpServletRequest request, HttpServletResponse response, int artist_no) {
+		//쿠키에서 작가페이지의 출입 확인
+		boolean cookieFind = false;
+		Cookie[] reqCookie = request.getCookies();
+		if(reqCookie != null) {
+			for(Cookie cookie : reqCookie) {
+				if(cookie.getName().equals("artistCount"+artist_no)) {
+					cookieFind = true;							
+				}
+			}
+		}
+				
+		//만약 쿠키에서 해당 접속을 확인못햇다면
+		if(!cookieFind) {
+			mapper.artistBoardDetailCountUpdate(artist_no); //조회수 증가
+			Cookie resCookie = new Cookie("artistCount"+artist_no, Integer.toString(artist_no));
+			resCookie.setMaxAge(60*60*24);
+			response.addCookie(resCookie);
+		}
 	}
 	
 	//AdminController에서 사용
@@ -77,9 +99,11 @@ public class ArtistService {
 			for(int i=0; i<listNum.size(); i++) {
 				ArtistBoardProductListDTO listDto = new ArtistBoardProductListDTO();
 				List<String> listImg = mapper.artistBoardDetailProductListImg(listNum.get(i));
-				listDto.setList_no(listNum.get(i));
-				listDto.setList_image_loc(listImg.get(0));
-				artistProductList.add(listDto);
+				if(listImg.size() != 0) {
+					listDto.setList_no(listNum.get(i));
+					listDto.setList_image_loc(listImg.get(0));
+					artistProductList.add(listDto);
+				}
 			}
 		}
 		
@@ -149,19 +173,20 @@ public class ArtistService {
 	@Transactional
 	public List<ArtistListDTO> artistListService(Map<String, Object> map) {
 		List<ArtistListDTO> artistList = new ArrayList<>();
+		HashMap<String, Object> hashmap = new HashMap<>();
+		hashmap.put("user_authority", map.get("user_authority").toString());
+		hashmap.put("member_no", map.get("member_no").toString());
 		
 		//스크롤 기능
 		int currentPage = Integer.parseInt(map.get("currentArtistList").toString());
 		int sizeSql = 5;
-		int maxSql = mapper.artistListMaxCount(map.get("user_authority").toString());
+		int maxSql = mapper.artistListMaxCount(hashmap);
 		ScrollCalculation scroll = new ScrollCalculation(currentPage, sizeSql, maxSql);
 		int startSql = scroll.getStartSql();
 		int endSql = scroll.getEndSql();
 		
 		//함수 작동 여부를 확인
 		if(scroll.isActive()) {
-			HashMap<String, Object> hashmap = new HashMap<>();
-			hashmap.put("user_authority", map.get("user_authority").toString());
 			hashmap.put("searchText", map.get("searchText"));
 			hashmap.put("listType", map.get("listType"));
 			hashmap.put("endSql", endSql);

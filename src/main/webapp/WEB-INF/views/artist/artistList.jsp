@@ -102,7 +102,8 @@
         /*작가 리스트*/
         
         #artistListUl li {
-            margin: 20px 0;
+            margin: 0;
+            margin-bottom: 30px;
         }
         .artistListTitleImgBox, .artistListImgBox {
             height: 190px;
@@ -236,10 +237,16 @@
     $(document).ready(artistList("인기순",""));
     
     $(document).ready(function(){
+    	listTypeColorInit();
     	$('.artistListNavTypeBlock').on('click',listTypeReplace);
     	$('.drowdownList').on('click', listTypeReplace);
     	$('.artistListNavSearchButton').on('click',search);
     });
+    
+    function listTypeColorInit() {    	
+    	$('[href="#1"]').parent().css('background-color','#7C7877');
+    	$('[href="#1"]').css('color','white');
+    }
 
     //정렬선택에 의한 재정렬
     let DelaylistTypeTokken = 0;
@@ -380,7 +387,7 @@
     	let count = Math.round(starScoreNum);
     	
     	if(starScoreNum == 0) {
-    		result = "0"
+    		result = "-"
     	}
     	else {
     		for(let i=1; i<=count; i++) {

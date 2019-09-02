@@ -7,9 +7,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,24 +38,37 @@ public class ArtistController {
 	private ArtistService service;
 	
 	@RequestMapping("/artistDetail/{artist_no}")
-	public String artistBoard(@PathVariable int artist_no, Model model, HttpSession session) {
+	public String artistBoard(@PathVariable int artist_no, Model model, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
 		Map<String, Object> map = service.artistBoardDetailService(artist_no);
+		ArtistBoardDTO artistdto = (ArtistBoardDTO) map.get("artistBoardDetail");
 		boolean master = false;
 		
-		Object obj = session.getAttribute("member");
-		if(obj != null) {
-			MemberDTO mdto = (MemberDTO) obj;
-			int loginMemberNo = mdto.getMember_no();
-			ArtistBoardDTO artistdto = (ArtistBoardDTO) map.get("artistBoardDetail");
-			int atistmemberNo = artistdto.getMember_no();
-			if(loginMemberNo == atistmemberNo) {
+		int artist_board_status = artistdto.getArtist_board_status();
+		//상품 페이지가 비활성 상태라면
+		Object objmember = session.getAttribute("member");
+		if(artist_board_status == 0) {
+			//로그인이 안되어 있다면
+			if(objmember == null) {
+				return "redirect:/login"; 
+			}
+		}
+		
+		//로그인이 되어있다면
+		if(objmember != null) {
+			MemberDTO mdto = (MemberDTO) objmember;
+			String user_authority = mdto.getUser_authority();				
+			//관리자나 작가 권한이거나 해당 주인이면
+			if(user_authority.equals("ROLE_ADMIN") || artistdto.getMember_no() == mdto.getMember_no()) {
 				master = true;
 			}
 		}
+		
 		model.addAttribute("artistInfo", map.get("artistInfo"));
-		model.addAttribute("artistBoardDetail", map.get("artistBoardDetail"));
+		model.addAttribute("artistBoardDetail", artistdto);
 		model.addAttribute("artistRepMaxCount", map.get("artistRepMaxCount"));
 		model.addAttribute("master", master);
+		
+		service.artistBoardDetailCountService(request, response, artist_no);
 
 		return "artist/artistDetail.mall";
 	}
@@ -156,13 +172,15 @@ public class ArtistController {
 		
 		//회원 권한을 얻기
 		String user_authority = "ROLE_USER";
+		int member_no = -1;
 		Object objmember = session.getAttribute("member");
 		if(objmember != null) {
 			MemberDTO memberdto = (MemberDTO) objmember;
 			user_authority = memberdto.getUser_authority();
+			member_no = memberdto.getMember_no();
 		}	
 		map.put("user_authority", user_authority);
-		
+		map.put("member_no", member_no);
 		return service.artistListService(map);
 	}
 	

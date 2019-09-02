@@ -231,8 +231,14 @@
         
         #artistDetailProductCollectionButton, #artistDetailBuyReviewCollectionButton {
             width: 50%;
-            margin: auto;
+            height: 40px;
+            border:  0;
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            background-color: #7C7877;
             margin-top: 20px;
+            margin-left: 25%;
         }
         
         #artistDetailBuyReviewCollectionBox {
@@ -246,21 +252,23 @@
         
         .artistDetailBuyReview {
             height: 200PX;
-            margin: 0;
             padding: 0 0 10px 0;
             border: 1px solid silver;
+            border-radius: 0 10px 10px 0;
             background-color: #a2a2a214;
-            margin-bottom: 10px;
+            margin: 20px 0;
         }
         
         .artistDetailBuyReviewImgBox {
             height: 200px;
-            padding: 0 !important;
+            padding: 1px !important;
         }
         
         .artistDetailBuyReviewImgBox img {
             width: 100%;
             height: 200px;
+            padding-bottom: 4px;
+            object-fit: cover;
         }
         
         .artistDetailBuyReviewProductTitle {
@@ -352,7 +360,7 @@
 			background-color: white;
 		}
         
-        @media (max-width: 1091px) {
+        @media (max-width: 991px) {
         	.container {
         		width: 100% !important;
         		margin: 0 !important;
@@ -376,6 +384,11 @@
             .artistDetailBuyReviewImgBox img {
             	min-height: 200px;
             	height: 100%;
+            }
+            
+            #artistDetailProductCollectionButton, #artistDetailBuyReviewCollectionButton {
+            	margin-left: 25%;
+            	margin-top: 20px;
             }
         }
         
@@ -506,7 +519,7 @@
         				result += '<div class="col-md-9 artistDetailBuyReviewProductTitle"></div>';
         				result += '<div class="col-md-9 artistDetailBuyReviewProductOption"></div>';
         				result += '<div class="col-md-9 artistDetailBuyReviewContent">구매후기가 없습니다.</div>';
-        				result += '<div class="col-md-4 col-sm-6 col-xs-6 artistDetailBuyReviewStarScore"></div>';
+        				result += '<div class="col-md-4 col-xs-6 artistDetailBuyReviewStarScore"></div>';
         				result += '<div class="col-md-5 artistDetailBuyReviewUserName"></div>';
         				result += '</div>';
     				}
@@ -517,13 +530,13 @@
     					result += '<div class="artistDetailBuyReview">';
         				result += '<div class="col-md-3 artistDetailBuyReviewImgBox">';
         				if(list[i].buy_review_image_loc != null) {
-							result += '<img src="'+list[i].buy_review_image_loc+'" alt="구매후기 이미지">';
+							result += '<a href="../productDetail/'+list[i].list_no+'"><img src="'+list[i].buy_review_image_loc+'" alt="구매후기 이미지"></a>';
 						}
         				result += '</div>';
         				result += '<div class="col-md-9 artistDetailBuyReviewProductTitle"><a href="../productDetail/'+list[i].list_no+'">'+list[i].list_title+'</a></div>';
         				result += '<div class="col-md-9 artistDetailBuyReviewProductOption">'+list[i].order_add_option+'</div>';
         				result += '<div class="col-md-9 artistDetailBuyReviewContent">'+list[i].buy_review_content+'</div>';
-        				result += '<div class="col-md-4 col-sm-6 col-xs-6 artistDetailBuyReviewStarScore">';
+        				result += '<div class="col-md-4 col-xs-6 artistDetailBuyReviewStarScore">';
         				for(let j=1; j<=list[i].buy_review_score; j++) {
 							result += '★';
 						}
@@ -719,14 +732,14 @@
                 </div>
                 <div id="artistDetailProductCollectionBox">
                    <div class="row" id="artistDetailProductCollection"></div>
-                   <button class="btn btn-default btn-lg btn-block" id="artistDetailProductCollectionButton">더보기</button>
+                   <button id="artistDetailProductCollectionButton">더보기</button>
                 </div>
                 <div class="artistDetailLine">
                      	구매후기
                 </div>
                 <div id="artistDetailBuyReviewCollectionBox">
                     <div id="artistDetailBuyReviewCollection"></div>
-                    <button class="btn btn-default btn-lg btn-block" id="artistDetailBuyReviewCollectionButton">더보기</button>
+                    <button id="artistDetailBuyReviewCollectionButton">더보기</button>
                 </div>
             </div>
             <div class="col-md-3" id="artistAsideRepBox">

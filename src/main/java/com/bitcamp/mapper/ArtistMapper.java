@@ -38,7 +38,7 @@ public interface ArtistMapper {
 	public void artistBoardDetailModify(ArtistBoardDTO dto);
 	//
 	//작가 리스트 시작
-	public int artistListMaxCount(String user_authority);
+	public int artistListMaxCount(HashMap<String, Object> hashmap);
 	public List<ArtistBoardDTO> artistListGet(HashMap<String, Object> hashmap);
 	public List<Integer> artistListListNoGet(String list_artist);
 	public List<String> artistListImgGet(int list_no);
