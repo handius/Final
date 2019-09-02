@@ -104,6 +104,12 @@
         border-top: 1px solid #D9D4CF;
         margin-top: 70px;
     }
+    #searchsubmitbutton {
+        border: 0px;
+        background-color: white;
+        width: 50px;
+        height: 80px;
+    }
 </style>
 </head>
 <body>
@@ -117,13 +123,16 @@
       </div>
 </nav>
 <div class="menuhoversearch">
-  <form action="" method="post">
+  <form action="/orderList" method="post">
     <div class="form-group">
       <div class="col-xs-9 col-xs-offset-1">
-        <input type="text" class="searchtextinput" name="search" placeholder="검색어를 입력하세요." autocomplete=off>
+        <input type="hidden" name="searchType" value="title">
+        <input type="text" class="searchtextinput" name="searchData" placeholder="검색어를 입력하세요." autocomplete=off>
       </div>    
       <div class="col-xs-1">
-          <img class="searchsubmit" alt="searchicon" src="/resources/image/mobilesearch.png">
+          <button type="submit" id="searchsubmitbutton">
+          	<img class="searchsubmit" alt="searchicon" src="/resources/image/mobilesearch.png">
+          </button>
       </div> 
     </div>
   </form>
@@ -171,10 +180,12 @@
 <script>
     $('.menuhoversearch').hide();
     $('.searchicon').click(function() {
+        $('.clickmenuicon').hide();
         $('.menuhoversearch').slideToggle();
     });
     $('.clickmenuicon').hide();
     $('.menuicon').click(function() {
+        $('.menuhoversearch').hide();
         $('.clickmenuicon').slideToggle();
     });
 </script>

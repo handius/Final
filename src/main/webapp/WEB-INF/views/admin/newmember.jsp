@@ -120,12 +120,18 @@
             </table>
                                 
           <!-- Paging Block -->
+		<c:if test="${paging.totalcount == 0 }">
+          <div class="pagination_block">
+          	<p>"${tochar }"의</p>
+			<p>검색결과가 없습니다.</p>          
+          </div>
+        </c:if>
           <div class="pagination_block">
 			  <form action="/admin/analnewmember" method="post">
-			  	  <c:if test="${list != null }">
-			  	  
-					<!-- 검색 값 -->
-			 		<input type="hidden" name="tochar" value="${tochar }">
+			  	  <c:if test="${paging.totalcount != 0 }">
+			  	  <!-- 검색 값 -->
+			 		<input type="hidden" name="search_date_year" value="${date.date1 }">
+			 		<input type="hidden" name="search_date_month" value="${date.date2 }">
 							
 					<c:if test="${paging.startblock > 1 }">
 						<a href="#">◀</a>

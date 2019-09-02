@@ -143,6 +143,9 @@
       -webkit-align-items: center;
       align-items: center;
     }
+.swiper-slide a {
+	width: 100%;
+}
 </style>
 </head>
 <body>
@@ -152,7 +155,9 @@
   	  <c:forEach var="i" items="${mainimglist }" varStatus="status">
     	<c:if test="${i.main_view_no == 23 }">
     	  <div class="swiper-slide">
-    	 	<img class="mainimgsize" src="${i.main_image_path }" alt="${status.count }"/>
+    	    <a href="${i.main_image_link }">
+    	 	  <img class="mainimgsize" src="${i.main_image_path }" alt="${status.count }"/>
+    	 	</a>
     	  </div>
     	</c:if>
       </c:forEach>
@@ -191,7 +196,9 @@
   <c:forEach var="i" items="${mainimglist }">
     <c:if test="${i.main_view_no == 24}">
       <div class="swiper-slide">
-      <img class="mainimgsize" src="/resources/image/mobile5.jpg" alt="5"/>
+    	<a href="${i.main_image_link }">
+      	  <img class="mainimgsize" src="${i.main_image_path }" alt="5"/>
+        </a>
       </div>
     </c:if>
   </c:forEach>
@@ -254,6 +261,8 @@
     </div>
     
 <script>
+	
+
     var swiper = new Swiper('.swiper-container', {
       spaceBetween: 30,
       centeredSlides: true,
