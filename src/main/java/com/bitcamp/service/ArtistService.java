@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.poi.ss.usermodel.DataFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -262,9 +263,10 @@ public class ArtistService {
 		int statusCheck = mapper.artistDetailPageStatusCheck(artist_no);
 		if(statusCheck == activeType) {
 			resultMessage = "성공했습니다.";
-		}
+		}	
 		
 		return resultMessage;
+		
 	}
 	
 }

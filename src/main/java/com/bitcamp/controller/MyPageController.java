@@ -35,6 +35,7 @@ import com.bitcamp.DTO.order.OrderDTO;
 import com.bitcamp.DTO.productdetail.BuyReviewDTO;
 import com.bitcamp.DTO.productdetail.QABoardDTO;
 import com.bitcamp.VO.file.FileVO;
+import com.bitcamp.service.ArtistService;
 import com.bitcamp.service.CustomUserDetailService;
 import com.bitcamp.service.MyPageService;
 
@@ -47,6 +48,9 @@ public class MyPageController {
 
 	@Resource
 	private CustomUserDetailService userService;
+	
+	@Autowired
+	private ArtistService artistService;
 
 	@Setter(onMethod_ = @Autowired)
 	private PasswordEncoder pwdEncoder;
@@ -313,6 +317,7 @@ public class MyPageController {
 		int insertResult = service.buyReviewInsertService(buyreviewdto);
 		if (insertResult == 1) {
 			System.out.println("등록에 성공했습니다.");
+			artistService.artistScoreCalculation(order_noInt, BuyReviewScore); //등록성공시 작가페이지 별점계산
 		} else {
 			System.out.println("등록에 실패했습니다.");
 		}
