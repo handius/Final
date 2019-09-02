@@ -128,7 +128,7 @@
           
         <!-- TEMPLATE 3 -->
         <h4>Main Page Image</h4>
-        <p>(최대 1장, 권장 사이즈 500*800)</p>
+        <p>(최대 1장, 권장 사이즈 700*800)</p>
         <div class="admin_content mainsettemplate">
             <form class="form-horizontal" action="/admin/template1" method="post"
                   enctype="multipart/form-data" name="template3">
@@ -154,29 +154,7 @@
               </div>
             </form>
           </div>
-
-        
-  <!-- Modal -->
-  <div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog">
-    
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">×</button>
-          <h4 class="modal-title">Product Search</h4>
-        </div>
-        <!-- ajax -->
-		<div id="productsearch_append"> 
-		
-		</div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  
+	</div>
 <script>
 	
 	$('.productsubmitbutton').click(function() {

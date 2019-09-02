@@ -9,9 +9,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.poi.ss.usermodel.DataFormat;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -267,6 +266,13 @@ public class ArtistService {
 		
 		return resultMessage;
 		
+	}
+	
+	@Scheduled(cron="* /1 * * * *") //1분마다 실행
+	public void ArtistScoreScheduler() {
+		int i=0;
+		System.out.println("스케줄 작동 확인 완료 : "+ i);
+		i++;
 	}
 	
 }

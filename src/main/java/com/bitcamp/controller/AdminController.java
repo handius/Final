@@ -144,8 +144,11 @@ public class AdminController {
 		String date1 = search_date.getSearch_date_year();
 		String date2 = search_date.getSearch_date_month();
 		if(date1 != null || date2 != null) tochar = date1 + "-" + date2;
-		if(tochar.equals("0-0")) tochar = sysdate;
+		if(tochar.equals("0-0") || tochar.equals("-")) tochar = sysdate;
 		search_map.put("tochar", tochar);
+		HashMap<String, Object> paging = new HashMap<>();
+		paging.put("date1", date1);
+		paging.put("date2", date2);
 		
 		// 페이징
 		int currpage = 1;
@@ -178,6 +181,7 @@ public class AdminController {
 		model.addAttribute("admin_category", "anal");
 		model.addAttribute("chart", test.toString());
 		model.addAttribute("tochar", tochar);
+		model.addAttribute("date", paging);
 		model.addAttribute("paging", page);
 		return "admin/newmember.admin";
 	}
@@ -196,8 +200,11 @@ public class AdminController {
 		String date1 = search_date.getSearch_date_year();
 		String date2 = search_date.getSearch_date_month();
 		if(date1 != null || date2 != null) tochar = date1 + "-" + date2;
-		if(tochar.equals("0-0")) tochar = sysdate;
+		if(tochar.equals("0-0") || tochar.equals("-")) tochar = sysdate;
 		search_map.put("tochar", tochar);
+		HashMap<String, Object> paging = new HashMap<>();
+		paging.put("date1", date1);
+		paging.put("date2", date2);
 
 		// 페이징
 		int currpage = 1;
@@ -213,9 +220,13 @@ public class AdminController {
 		
 		List<ListDTO> list = adservice.getPopularProductList(search_map);
 		
+		System.out.println(totalCount);
+		System.out.println(tochar);
+		
 		model.addAttribute("list", list);
 		model.addAttribute("paging", page);
 		model.addAttribute("tochar", tochar);
+		model.addAttribute("date", paging);
 		model.addAttribute("admin_category", "anal");
 		return "admin/popularproducts.admin";
 	}

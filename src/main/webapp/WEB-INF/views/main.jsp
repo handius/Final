@@ -75,6 +75,7 @@
 </style>
 </head>
 <body>
+
 <div id="myCarousel" class="carousel slide" data-ride="carousel">
   <!-- Indicators -->
   <ol class="carousel-indicators">
@@ -83,14 +84,14 @@
     <li data-target="#myCarousel" data-slide-to="2"></li>
     <li data-target="#myCarousel" data-slide-to="3"></li>
   </ol>
-
+  
   <!-- Wrapper for slides -->
   <div class="carousel-inner" role="listbox">
   <c:forEach var="i" items="${mainimglist }" varStatus="status">
     <c:if test="${i.main_view_no == 1 }">
       <c:if test="${status.count == 1 }">
       	<div class="item active">
-      	  <a href="${i.main_image_link }"><img src="${i.main_image_path }" alt="${status.count }"></a>
+      	  <a href="${i.main_image_link }"><img src="${i.main_image_path }" alt="${i.main_image_path }"></a>
     	</div>
       </c:if>
       <c:if test="${status.count != 1 }">

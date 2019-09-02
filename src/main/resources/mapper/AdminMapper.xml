@@ -158,6 +158,7 @@
 	<!-- popular product -->
 	<select id="getPopularProductCount" parameterType="String" resultType="int">
 		SELECT COUNT(*) FROM LIST_BOARD
+		WHERE TO_CHAR(LIST_DATE, 'YYYY-MM') = #{tochar}
 	</select>
 	<select id="getPopularProductList" parameterType="Object" resultType="com.bitcamp.DTO.Product.ListDTO">
 		SELECT A.*, A.RNUM

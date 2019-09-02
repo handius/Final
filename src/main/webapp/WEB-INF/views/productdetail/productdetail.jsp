@@ -223,6 +223,7 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+            margin-bottom: 1px;
         }
 
         .productDetailBuyReviewOption {
