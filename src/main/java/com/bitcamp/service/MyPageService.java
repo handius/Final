@@ -51,9 +51,14 @@ public class MyPageService {
 		mapper.withdraw(user_id);
 	}
 
-	public List<OrderDTO> buyList(int member_no) {
+	public int getBuyCount(Map<String, Object> listMap) {
 		// TODO Auto-generated method stub
-		List<OrderDTO> buyList = mapper.buyList(member_no);
+		return mapper.getBuyCount(listMap);
+	}
+
+	public List<OrderDTO> getBuyList(Map<String, Object> listMap) {
+		// TODO Auto-generated method stub
+		List<OrderDTO> buyList = mapper.getBuyList(listMap);
 		for (int i = 0; i < buyList.size(); i++) {
 			String list_title = mapper.findList_title(buyList.get(i).getList_no());
 			buyList.get(i).setList_title(list_title);
@@ -95,11 +100,6 @@ public class MyPageService {
 			buyList.get(i).setOption_price(option_price_list);
 		}
 		return buyList;
-	}
-
-	public List<CustomerQABoardDTO> cQAList(int member_no) {
-		// TODO Auto-generated method stub
-		return mapper.cQAList(member_no);
 	}
 
 	public Map<String, Object> buyerPQList(int member_no) {
@@ -291,14 +291,14 @@ public class MyPageService {
 		mapper.updateQa_board_statusU(qa_board_no);
 	}
 
-	public int getListCountService(Map<String, Object> listMap) {
+	public int getCQACount(Map<String, Object> listMap) {
 		// TODO Auto-generated method stub
-		return mapper.getListCount(listMap);
+		return mapper.getCQACount(listMap);
 	}
 
-	public List<CustomerQABoardDTO> listService(Map<String, Object> listMap) {
+	public List<CustomerQABoardDTO> getCQAList(Map<String, Object> listMap) {
 		// TODO Auto-generated method stub
-		return mapper.getSearchList(listMap);
+		return mapper.getCQAList(listMap);
 	}
 
 	@Transactional

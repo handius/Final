@@ -52,17 +52,29 @@
 		update member set
 		user_status=0 where user_id=#{user_id}
 	</update>
-	<select id="buyList" parameterType="int"
-		resultType="com.bitcamp.DTO.order.OrderDTO">
+	<!-- -->
+	<select id="getBuyCount" parameterType="Object" resultType="int">
+		select count(*) from order_board where
+		member_no=#{member_no}
+	</select>
+	<select id="getBuyList"
+		resultType="com.bitcamp.DTO.order.OrderDTO" parameterType="Object">
+		select * from (
+		select rownum as rnum, A.*
+		from (
 		select * from
 		order_board where member_no=#{member_no} order
 		by order_date desc
+		) A
+				<![CDATA[
+					where rownum <= #{endrow} 
+				]]>
+		)B 
+			<![CDATA[
+			WHERE rnum >= #{startrow} 
+			]]>
 	</select>
-	<select id="cQAList" parameterType="int"
-		resultType="com.bitcamp.DTO.customerqaboard.CustomerQABoardDTO">
-		select * from customer_qa_board where
-		member_no=#{member_no} order by question_date desc
-	</select>
+	<!-- -->
 	<select id="buyerPQList" parameterType="int"
 		resultType="com.bitcamp.DTO.productdetail.QABoardDTO">
 		select * from qa_board where member_no=#{member_no} and
@@ -198,7 +210,12 @@
 		order_status='배송중' where order_no=#{order_no}
 	</update>
 	<!-- -->
-	<select id="getSearchList"
+	<!-- -->
+	<select id="getCQACount" parameterType="Object" resultType="int">
+		select count(*) from customer_qa_board where
+		member_no=#{member_no}
+	</select>
+	<select id="getCQAList"
 		resultType="com.bitcamp.DTO.customerqaboard.CustomerQABoardDTO"
 		parameterType="Object">
 		select * from (
@@ -217,11 +234,14 @@
 				WHERE rnum >= #{startrow} 
 				]]>
 	</select>
-	<select id="getListCount" parameterType="Object"
-		resultType="int">
-		select count(*) from customer_qa_board where
-		member_no=#{member_no}
+	<!-- -->
+	<select id="cQAList" parameterType="int"
+		resultType="com.bitcamp.DTO.customerqaboard.CustomerQABoardDTO">
+		select * from customer_qa_board where
+		member_no=#{member_no} order by question_date desc
 	</select>
+	<!-- -->
+	<!-- -->
 	<insert id="insertPQA"
 		parameterType="com.bitcamp.DTO.productdetail.QABoardDTO">
 		insert into qa_board values(qa_board_seq.nextval,

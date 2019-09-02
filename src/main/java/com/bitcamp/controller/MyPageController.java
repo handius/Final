@@ -48,7 +48,7 @@ public class MyPageController {
 
 	@Resource
 	private CustomUserDetailService userService;
-	
+
 	@Autowired
 	private ArtistService artistService;
 
@@ -145,27 +145,16 @@ public class MyPageController {
 	}
 
 	@RequestMapping("buyList")
-	public String buyList(Principal prin, HttpSession session, Model model) {
-		// MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
-		CustomUser user = (CustomUser) userService.loadUserByUsername(prin.getName());
-		MemberDTO memberDTO = user.getMember();
-		List<OrderDTO> buyList = service.buyList(memberDTO.getMember_no());
-		model.addAttribute("buyList", buyList);
-		return "mypage/buyList.mall";
-	}
-
-	@RequestMapping("cQAList")
-	public String cQAList(Principal prin, HttpSession session, Model model,
+	public String buyList(Principal prin, HttpSession session, Model model,
 			@RequestParam(required = false) String curr) {
 		// MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
 		CustomUser user = (CustomUser) userService.loadUserByUsername(prin.getName());
 		MemberDTO memberDTO = user.getMember();
-		// List<CustomerQABoardDTO> cQAList = service.cQAList(memberDTO.getMember_no());
 
 		Map<String, Object> listMap = new HashMap<>();
 		listMap.put("member_no", memberDTO.getMember_no());
 		// 페이징
-		int totalCount = service.getListCountService(listMap);
+		int totalCount = service.getBuyCount(listMap);
 		int currpage = 1;
 		if (curr != null)
 			currpage = Integer.parseInt(curr);
@@ -176,12 +165,40 @@ public class MyPageController {
 		listMap.put("startrow", page.getStartrow());
 		listMap.put("endrow", page.getEndrow());
 
-		List<CustomerQABoardDTO> list = service.listService(listMap);
+		List<OrderDTO> buyList = service.getBuyList(listMap);
 		//
 
-		model.addAttribute("cQAList", list);
+		model.addAttribute("buyList", buyList);
 		model.addAttribute("paging", page);
+		return "mypage/buyList.mall";
+	}
 
+	@RequestMapping("cQAList")
+	public String cQAList(Principal prin, HttpSession session, Model model,
+			@RequestParam(required = false) String curr) {
+		// MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
+		CustomUser user = (CustomUser) userService.loadUserByUsername(prin.getName());
+		MemberDTO memberDTO = user.getMember();
+
+		Map<String, Object> listMap = new HashMap<>();
+		listMap.put("member_no", memberDTO.getMember_no());
+		// 페이징
+		int totalCount = service.getBuyCount(listMap);
+		int currpage = 1;
+		if (curr != null)
+			currpage = Integer.parseInt(curr);
+		int pagepercount = 10;
+		int blockSize = 10;
+
+		PageDTO page = new PageDTO(currpage, totalCount, pagepercount, blockSize);
+		listMap.put("startrow", page.getStartrow());
+		listMap.put("endrow", page.getEndrow());
+
+		List<CustomerQABoardDTO> cQAList = service.getCQAList(listMap);
+		//
+
+		model.addAttribute("cQAList", cQAList);
+		model.addAttribute("paging", page);
 		return "mypage/cQAList.mall";
 	}
 
@@ -317,7 +334,7 @@ public class MyPageController {
 		int insertResult = service.buyReviewInsertService(buyreviewdto);
 		if (insertResult == 1) {
 			System.out.println("등록에 성공했습니다.");
-			artistService.artistScoreCalculation(order_noInt, BuyReviewScore); //등록성공시 작가페이지 별점계산
+			artistService.artistScoreCalculation(order_noInt, BuyReviewScore); // 등록성공시 작가페이지 별점계산
 		} else {
 			System.out.println("등록에 실패했습니다.");
 		}

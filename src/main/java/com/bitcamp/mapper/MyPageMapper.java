@@ -29,10 +29,6 @@ public interface MyPageMapper {
 
 	void updateUser_password(Map<String, Object> parameters);
 
-	List<OrderDTO> buyList(int member_no);
-
-	List<CustomerQABoardDTO> cQAList(int member_no);
-
 	List<QABoardDTO> buyerPQList(int member_no);
 
 	List<BuyReviewDTO> buyerReviewList(int member_no);
@@ -77,9 +73,13 @@ public interface MyPageMapper {
 
 	void sp(int order_no);
 
-	int getListCount(Map<String, Object> listMap);
+	int getBuyCount(Map<String, Object> listMap);
 
-	List<CustomerQABoardDTO> getSearchList(Map<String, Object> listMap);
+	List<OrderDTO> getBuyList(Map<String, Object> listMap);
+
+	int getCQACount(Map<String, Object> listMap);
+
+	List<CustomerQABoardDTO> getCQAList(Map<String, Object> listMap);
 
 	void insertPQA(QABoardDTO qABoardDTO);
 
