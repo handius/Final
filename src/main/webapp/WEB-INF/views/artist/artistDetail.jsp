@@ -25,18 +25,15 @@
             color: black;
         }
         
-        .artistLeft {
-            float: left;
-        }
-        
-        .artistRight {
-            float: right;
+        .container {
+        	width: 100%;
         }
         
         .artistDetailLine {
             font-size: 20px;
             font-weight: bold;
-            border-bottom: 1px solid silver;
+            border-bottom: 4px solid #7C7877;
+            padding-left: 10px;
             margin-top: 40px;
             margin-bottom: 20px;
         }
@@ -55,10 +52,6 @@
         }
         
         /*작가 정보 시작*/
-        
-        #artistDetailModifyPage {
-        	display: none;
-        }
         
         #artistAsideArtistInfoBox {
             height: 300px;
@@ -89,28 +82,49 @@
         
         #artistAsideArtistInfoVisitCount {
             height: 90px;
+            text-align: left;
             font-size: 15px;
-            padding: 20px;
-            border-top: 1px solid silver;
+            padding: 5px;
+            margin: 0 20px;
         }
         
         #artistAsideArtistInfoButton {
             padding: 0 20px;
         }
         
+        #artistDetailUrlCoppy, #artistDetailDonation {
+        	width: 100%;
+        	height: 45px;
+        	border: 0;   	
+        	font-size: 20px;
+        	margin-bottom: 10px;
+        }
+        
+        #artistDetailUrlCoppy {
+        	color: white;
+        	background-color: #ABD0CE;
+        }
+        
+		#artistDetailDonation {
+			color: white;
+        	background-color: #7C7877;
+		}
+        
         /*댓글 시작*/
         
         #artistAsideRepBox {
             height: 700px;
-            border-top: 1px solid silver;
             background-color: #a2a2a214;
             padding: 0;
         }
         
         #artistAsideRepTitle {
-            line-height: 60px;
+            height: 50px;
+            border-bottom: 2px solid #7C7877;
             font-size: 20px;
             text-align: center;
+            padding-top: 20px;
+            margin: 0 20px 10px 20px;
         }
         
         #artistAsideRepContentBox {
@@ -162,10 +176,28 @@
             display: inline-block;
         }
         
+        #artistAsideRepInputInnerRow {
+        	padding: 0 5px;
+        }
+        
+        .artistAsideRepInputInnerBox {
+        	padding: 0 !important;
+        }
+        
+        #artistAsideRepInput {
+        	width: 100%;
+        	height: 35px;
+        	line-height: 35px;
+        	border: 1px solid #7C7877;
+        	padding-left: 10px;
+        }
+        
         #artistAsideRepButton {
-            width: 20%;
+            width: 100%;
             height: 35px;
-            margin-top: -1px;
+            border: 0;
+            color: white;
+            background-color: #7C7877;
         }
         
         /*작가 페이지 메인 시작*/
@@ -199,8 +231,14 @@
         
         #artistDetailProductCollectionButton, #artistDetailBuyReviewCollectionButton {
             width: 50%;
-            margin: auto;
+            height: 40px;
+            border:  0;
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            background-color: #7C7877;
             margin-top: 20px;
+            margin-left: 25%;
         }
         
         #artistDetailBuyReviewCollectionBox {
@@ -214,21 +252,23 @@
         
         .artistDetailBuyReview {
             height: 200PX;
-            margin: 0;
             padding: 0 0 10px 0;
             border: 1px solid silver;
+            border-radius: 0 10px 10px 0;
             background-color: #a2a2a214;
-            margin-bottom: 10px;
+            margin: 20px 0;
         }
         
         .artistDetailBuyReviewImgBox {
             height: 200px;
-            padding: 0 !important;
+            padding: 1px !important;
         }
         
         .artistDetailBuyReviewImgBox img {
             width: 100%;
             height: 200px;
+            padding-bottom: 4px;
+            object-fit: cover;
         }
         
         .artistDetailBuyReviewProductTitle {
@@ -259,9 +299,11 @@
             font-size: 20px;
         }
         
-        #artistDetailModifyPage {
-        	width: 80%;
-        	margin-top: 20px;
+        #artistDetailModifyPage, button.artistDetailActiveToggle {
+        	width: 45%;
+        	height: 35px;
+        	display: none;
+        	margin-top: 5px;
         }
         
         /* 모달창 */
@@ -304,59 +346,91 @@
         
         .donationButton {
             width: 49%;
+            height: 45px;
             display: inline-block;
+            border: 0;
+            color: white;
+            font-size: 20px;
+            background-color: #7C7877;
         }
         
-        @media (max-width: 1091px) {
+        .donationButton:last-child {
+        	border: 2px solid #7C7877;
+        	color: #7C7877;
+			background-color: white;
+		}
+        
+        @media (max-width: 991px) {
+        	.container {
+        		width: 100% !important;
+        		margin: 0 !important;
+        	}
+        	
             #artistDetailBox {
                 padding: 30px 0;
                 margin-bottom: 60px;
             }
             
             .artistDetailBuyReview {
-            min-height:200px;
-            height: 100%;
+            	min-height:200px;
+            	height: 100%;
         	}
             
             .artistDetailBuyReviewImgBox {
-            min-height: 200px;
-            height: 100%;
+            	min-height: 200px;
+            	height: 100%;
             }
             
             .artistDetailBuyReviewImgBox img {
-            min-height: 200px;
-            height: 100%;
+            	min-height: 200px;
+            	height: 100%;
+            }
+            
+            #artistDetailProductCollectionButton, #artistDetailBuyReviewCollectionButton {
+            	margin-left: 25%;
+            	margin-top: 20px;
             }
         }
+        
     </style>
-    <script>
-    
-    $(document).ready(starScoreCel);
-    $(document).ready(artistDetailBuyReviewList);
-    $(document).ready(artistDetailProductList);
-    $(document).ready(artistDetailRepList);
-    $(document).ready(function(){
-    	let currentHeight = $("#artistAsideRepContentBox")[0].scrollHeight;
-    	$('#artistAsideRepContentBox').animate({scrollTop : currentHeight}, 400);
-    });
+    <script> 
     
     $(document).ready(function(){
-    	let master = $("#master").val();
-    	
-    	// 해당 작가페이지의 주인이라면 수정버튼을 보여주고 이름을 숨김
-    	if(master == 'true') {
-    		$('#artistDetailModifyPage').show();
-    		$('#artistAsideArtistInfoArtistName').hide();
-    	}
-    });
-    
-    $(document).ready(function(){
+    	pageControllButtonDecisionInit();
+    	repScrollDownInit();
+    	starScoreCel();
+    	artistDetailBuyReviewList();
+    	artistDetailProductList();
+    	artistDetailRepList();
     	$('#artistDetailBuyReviewCollectionButton').on('click', artistDetailBuyReviewList);
     	$('#artistDetailProductCollectionButton').on('click', artistDetailProductList);
     	$('#artistAsideRepButton').on('click', artistDetailRepInsert);
     	$('#artistDetailUrlCoppy').on('click', artistDetailUrlCoppy);
     	$('#artistDetailModifyPage').on('click', artistDetailModifyPage);
+    	$('.artistDetailActiveToggle').on('click',artistDetailPageActiveToggle);
     });
+    
+    function pageControllButtonDecisionInit() {
+		let master = $("#master").val();
+    	let artist_board_status = Number($('#artist_board_status').val());
+    	// 해당 작가페이지의 주인이라면 수정버튼을 보여주고 이름을 숨김
+    	if(master == 'true') {
+    		$('#artistDetailModifyPage').show();
+    		$('#artistAsideArtistInfoArtistName').hide();
+    		
+    		if(artist_board_status == 1) {
+    			$('#pageNonActive').show();
+    		}
+    		else {
+    			$('#pageActive').show();
+    		}
+    	}
+    }
+    
+    function repScrollDownInit() {
+    	let currentHeight = $("#artistAsideRepContentBox")[0].scrollHeight;
+    	$('#artistAsideRepContentBox').animate({scrollTop : currentHeight}, 400);
+    }
     
     function starScoreCel() {
     	let starScoreNum = Number($('#artistAsideArtistInfoNumScore').text());
@@ -364,7 +438,7 @@
     	let count = Math.round(starScoreNum);
     	
     	if(starScoreNum == 0) {
-    		result = "0"
+    		result = "-"
     	}
     	else {
     		for(let i=1; i<=count; i++) {
@@ -385,14 +459,14 @@
     	
     	$.ajax({
     		url: "/ajaxArtistBoardDetailProductList"
-    		,contentType: "application/json; charset=utf-8"
+        	,contentType: "application/json; charset=utf-8"
     		,data: JSON.stringify({artist_no : artistNo, currentProductInput : currentProduct})
     		,type: "POST"
     		,dataType: "json"
     		,success: function(data) {
     			console.log('성공');
     			let result = "";
-    			let productList = data.productList;
+    			let artistProductList = data.artistProductList;
     			let max_sql = data.max_sql;
     			let end_sql = data.end_sql;
     			if(data.length == 0) {
@@ -404,9 +478,9 @@
     				$('#artistDetailProductCollectionButton').hide();
     			}
     			else {
-    				for(let i=0; i<productList.length; i++) {
+    				for(let i=0; i<artistProductList.length; i++) {
     					result += '<div class="col-md-3 col-sm-4 col-xs-6 artistDetailProductCollectionImgBox">';
-    					result += '<a href="../productDetail/'+productList[i].list_no+'"><img src="'+productList[i].list_image_loc+'" alt="리스트 이미지"></a>';
+    					result += '<a href="../productDetail/'+artistProductList[i].list_no+'"><img src="'+artistProductList[i].list_image_loc+'" alt="리스트 이미지"></a>';
     					result += '</div>';
     				}
     				if(end_sql >= max_sql) {
@@ -445,7 +519,7 @@
         				result += '<div class="col-md-9 artistDetailBuyReviewProductTitle"></div>';
         				result += '<div class="col-md-9 artistDetailBuyReviewProductOption"></div>';
         				result += '<div class="col-md-9 artistDetailBuyReviewContent">구매후기가 없습니다.</div>';
-        				result += '<div class="col-md-4 col-sm-6 col-xs-6 artistDetailBuyReviewStarScore"></div>';
+        				result += '<div class="col-md-4 col-xs-6 artistDetailBuyReviewStarScore"></div>';
         				result += '<div class="col-md-5 artistDetailBuyReviewUserName"></div>';
         				result += '</div>';
     				}
@@ -456,13 +530,13 @@
     					result += '<div class="artistDetailBuyReview">';
         				result += '<div class="col-md-3 artistDetailBuyReviewImgBox">';
         				if(list[i].buy_review_image_loc != null) {
-							result += '<img src="'+list[i].buy_review_image_loc+'" alt="구매후기 이미지">';
+							result += '<a href="../productDetail/'+list[i].list_no+'"><img src="'+list[i].buy_review_image_loc+'" alt="구매후기 이미지"></a>';
 						}
         				result += '</div>';
         				result += '<div class="col-md-9 artistDetailBuyReviewProductTitle"><a href="../productDetail/'+list[i].list_no+'">'+list[i].list_title+'</a></div>';
         				result += '<div class="col-md-9 artistDetailBuyReviewProductOption">'+list[i].order_add_option+'</div>';
         				result += '<div class="col-md-9 artistDetailBuyReviewContent">'+list[i].buy_review_content+'</div>';
-        				result += '<div class="col-md-4 col-sm-6 col-xs-6 artistDetailBuyReviewStarScore">';
+        				result += '<div class="col-md-4 col-xs-6 artistDetailBuyReviewStarScore">';
         				for(let j=1; j<=list[i].buy_review_score; j++) {
 							result += '★';
 						}
@@ -591,12 +665,34 @@
     	let artist_no = $('#artist_no').val();
 		location.href = "/artistDetail/artistDetailModify/"+artist_no;
 	}
+    
+    function artistDetailPageActiveToggle() {
+    	let activeType = $(this).text();
+    	let artist_no = $('#artist_no').val();
+    	$.ajax({
+    		url:'/ajaxArtistDetailPageActiveToggle'
+    		,contentType: "application/json; charset=utf-8"
+    		,data: JSON.stringify({activeType : activeType, artist_no : artist_no})
+    		,type: "POST"
+    		,dataType: "text"
+    		,success: function(data) {
+    			console.log('성공');
+    			alert(data);
+    			location.href="/artistDetail/"+artist_no;
+    		}
+    		,error: function(data) {
+    			console.log('실패');
+    			console.log(data);
+    		}
+    	});
+    }
 
     </script>
 </head>
 <body>
 <!-- 기본 활용 정보 -->
 <input type="hidden" value="${artistBoardDetail.artist_no }" id="artist_no" readonly="readonly">
+<input type="hidden" value="${artistBoardDetail.artist_board_status }" id="artist_board_status" readonly="readonly">
 <input type="hidden" value="${master }" id="master" readonly="readonly">
 <input type="hidden" value="1" id="currentBuyReview" readonly="readonly">
 <input type="hidden" value="1" id="currentProduct" readonly="readonly">
@@ -607,40 +703,43 @@
                 <img src="${artistBoardDetail.artist_main_img }" alt="메인이미지" id="artistDetailTitleImg">
            </div>
            <div class="col-md-3" id="artistAsideArtistInfoBox">
-           	   <button class="btn btn-default" id="artistDetailModifyPage">작가페이지 수정</button>
+           	   <button class="btn btn-default" id="artistDetailModifyPage">페이지 관리</button>
+           	   <button class="btn btn-default artistDetailActiveToggle" id="pageNonActive">페이지 비활성</button>
+           	   <button class="btn btn-default artistDetailActiveToggle" id="pageActive">페이지 활성</button>
                <div id="artistAsideArtistInfoArtistName">
                    	<c:out value="${artistInfo.user_name }"></c:out>
                </div>
                <div id="artistAsideArtistInfoScore">
                     <span id="artistAsideArtistInfoStarScore"></span><span id="artistAsideArtistInfoNumScore">${artistBoardDetail.artist_score }</span>
                </div>
-               <div id="artistAsideArtistInfoVisitCount">
-                    <span class="artistLeft">총 방문자 수 : </span><span class="artistRight"><c:out value="${artistBoardDetail.artist_count }"></c:out></span>
+               <div class="row" id="artistAsideArtistInfoVisitCount">
+               		<div class="col-xs-9">총 조회수 : </div><div class="col-xs-3">${artistBoardDetail.artist_count }</div>
+               		<div class="col-xs-9">총 댓글수 : </div><div class="col-xs-3">${artistRepMaxCount }</div>
                </div>
                <div id="artistAsideArtistInfoButton">
-                    <button class="btn btn-warning btn-lg btn-block" id="artistDetailUrlCoppy">공유하기</button>
-                    <button class="btn btn-info btn-lg btn-block" data-toggle="modal" data-target="#myModal">후원하기</button>
+                    <button id="artistDetailUrlCoppy">공유하기</button>
+                    <button id="artistDetailDonation" data-toggle="modal" data-target="#myModal">후원하기</button>
                </div>
            </div>
         </div>
         <div class="row">
             <div class="col-md-9" id="artistDetailBox">
                 <div id="artistDetailTitleBox">
-                	<c:out value="${artistBoardDetail.artist_board_title }"></c:out> 
+                	${artistBoardDetail.artist_board_title }
                 </div>
                 <div class="artistDetailLine">
                      	판매중인 작품
                 </div>
                 <div id="artistDetailProductCollectionBox">
                    <div class="row" id="artistDetailProductCollection"></div>
-                   <button class="btn btn-default btn-lg btn-block" id="artistDetailProductCollectionButton">더보기</button>
+                   <button id="artistDetailProductCollectionButton">더보기</button>
                 </div>
                 <div class="artistDetailLine">
                      	구매후기
                 </div>
                 <div id="artistDetailBuyReviewCollectionBox">
                     <div id="artistDetailBuyReviewCollection"></div>
-                    <button class="btn btn-default btn-lg btn-block" id="artistDetailBuyReviewCollectionButton">더보기</button>
+                    <button id="artistDetailBuyReviewCollectionButton">더보기</button>
                 </div>
             </div>
             <div class="col-md-3" id="artistAsideRepBox">
@@ -649,8 +748,14 @@
                 	<ul id="artistAsideRepContent"></ul>
                 </div>
                 <div id="artistAsideRepInputBox">
-                    <input type="text" class="form-control" id="artistAsideRepInput" maxlength="30" required="required">
-                    <button class="btn btn-default" id="artistAsideRepButton">전송</button>
+                	<div class="row" id="artistAsideRepInputInnerRow">
+                		<div class="col-xs-10 artistAsideRepInputInnerBox">
+                			<input type="text" id="artistAsideRepInput" maxlength="30" required="required">
+                		</div>
+                		<div class="col-xs-2 artistAsideRepInputInnerBox" >
+                			<button id="artistAsideRepButton">전송</button>
+                		</div>
+                	</div>
                 </div>
             </div>
         </div>
@@ -683,8 +788,8 @@
                      				<span class="donationPrice">20000원</span>
                  				</li>
              				</ul>
-             				<input type="submit" value="후원" class="btn btn-info donationButton">
-             				<input type="reset" value="닫기" class="btn btn-default donationButton" data-dismiss="modal">
+             				<input type="submit" value="후원" class="donationButton">
+             				<input type="reset" value="닫기" class="donationButton" data-dismiss="modal">
           				</form>
       				</div>
       				<div class="modal-footer">

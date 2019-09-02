@@ -5,11 +5,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.poi.ss.usermodel.DataFormat;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bitcamp.DTO.Product.ListDTO;
 import com.bitcamp.DTO.artist.ArtistBoardDTO;
 import com.bitcamp.DTO.artist.ArtistBoardProductListDTO;
 import com.bitcamp.DTO.artist.ArtistListDTO;
@@ -30,9 +35,29 @@ public class ArtistService {
 		Map<String, Object> map = new HashMap<>();
 		map.put("artistInfo", mapper.artistBoardDetailArtistInfo(artist_no));
 		map.put("artistBoardDetail", mapper.artistBoardDetailGet(artist_no));
-		
-		mapper.artistBoardDetailCountUpdate(artist_no); //조회수 처리 생각해볼것
+		map.put("artistRepMaxCount", mapper.artistRepListMaxCount(artist_no));
 		return map;
+	}
+	
+	public void artistBoardDetailCountService(HttpServletRequest request, HttpServletResponse response, int artist_no) {
+		//쿠키에서 작가페이지의 출입 확인
+		boolean cookieFind = false;
+		Cookie[] reqCookie = request.getCookies();
+		if(reqCookie != null) {
+			for(Cookie cookie : reqCookie) {
+				if(cookie.getName().equals("artistCount"+artist_no)) {
+					cookieFind = true;							
+				}
+			}
+		}
+				
+		//만약 쿠키에서 해당 접속을 확인못햇다면
+		if(!cookieFind) {
+			mapper.artistBoardDetailCountUpdate(artist_no); //조회수 증가
+			Cookie resCookie = new Cookie("artistCount"+artist_no, Integer.toString(artist_no));
+			resCookie.setMaxAge(60*60*24);
+			response.addCookie(resCookie);
+		}
 	}
 	
 	//AdminController에서 사용
@@ -54,35 +79,35 @@ public class ArtistService {
 	}
 	
 	@Transactional
-	public Map<String, Object> artistBoardDetailProductListService(Map<String, Integer> map) {
+	public HashMap<String, Object> artistBoardDetailProductListService(Map<String, Integer> map) {
 		int artist_no = (int) map.get("artist_no");
 		int currentPage = (int) map.get("currentProductInput");
 		
 		MemberDTO memberdto = mapper.artistBoardDetailArtistInfo(artist_no);
-		String user_name = memberdto.getUser_name();
-		int maxCount = mapper.artistBoardDetailProductListMaxCount(user_name);
+		String user_id = memberdto.getUser_id();
+		int maxCount = mapper.artistBoardDetailProductListMaxCount(user_id);
 		ScrollCalculation scroll = new ScrollCalculation(currentPage, 8, maxCount);
 		
 		HashMap<String, Object> productList = new HashMap<>();
-		productList.put("user_name", user_name);
+		productList.put("user_id", user_id);
 		productList.put("start_sql", scroll.getStartSql());
 		productList.put("end_sql", scroll.getEndSql());
 		productList.put("max_sql", maxCount);
 		List<ArtistBoardProductListDTO> artistProductList = new ArrayList<>();
-		
 		if(scroll.isActive()) {
 			List<Integer> listNum = mapper.artistBoardDetailProductListNo(productList);
 			for(int i=0; i<listNum.size(); i++) {
 				ArtistBoardProductListDTO listDto = new ArtistBoardProductListDTO();
 				List<String> listImg = mapper.artistBoardDetailProductListImg(listNum.get(i));
-				listDto.setList_no(listNum.get(i));
-				listDto.setList_image_loc(listImg.get(0));
-				artistProductList.add(listDto);
+				if(listImg.size() != 0) {
+					listDto.setList_no(listNum.get(i));
+					listDto.setList_image_loc(listImg.get(0));
+					artistProductList.add(listDto);
+				}
 			}
 		}
 		
-		productList.put("productList", artistProductList);
-		
+		productList.put("artistProductList", artistProductList);
 		return productList;
 	}
 	
@@ -117,6 +142,7 @@ public class ArtistService {
 		return mapper.artistRepInsertCheck(artist_rep_no); 
 	}
 	
+	@Transactional
 	public Map<String, Object> artistBoardDetailRepListService(Map<String, Integer> map) {
 		int artist_no = map.get("artist_no");
 		int currentPage = map.get("currentRepInput");
@@ -144,21 +170,23 @@ public class ArtistService {
 		mapper.artistBoardDetailModify(dto);
 	}
 	
-	public List<ArtistListDTO> artistList(Map<String, Object> map) {
+	@Transactional
+	public List<ArtistListDTO> artistListService(Map<String, Object> map) {
 		List<ArtistListDTO> artistList = new ArrayList<>();
+		HashMap<String, Object> hashmap = new HashMap<>();
+		hashmap.put("user_authority", map.get("user_authority").toString());
+		hashmap.put("member_no", map.get("member_no").toString());
 		
 		//스크롤 기능
 		int currentPage = Integer.parseInt(map.get("currentArtistList").toString());
 		int sizeSql = 5;
-		int maxSql = mapper.artistListMaxCount(map.get("user_authority").toString());
+		int maxSql = mapper.artistListMaxCount(hashmap);
 		ScrollCalculation scroll = new ScrollCalculation(currentPage, sizeSql, maxSql);
 		int startSql = scroll.getStartSql();
 		int endSql = scroll.getEndSql();
 		
 		//함수 작동 여부를 확인
 		if(scroll.isActive()) {
-			HashMap<String, Object> hashmap = new HashMap<>();
-			hashmap.put("user_authority", map.get("user_authority").toString());
 			hashmap.put("searchText", map.get("searchText"));
 			hashmap.put("listType", map.get("listType"));
 			hashmap.put("endSql", endSql);
@@ -174,7 +202,9 @@ public class ArtistService {
 					List<String> listImg = new ArrayList<>();
 					for(int j=0; j<listNo.size(); j++) {
 						List<String> tmpListImg = mapper.artistListImgGet(listNo.get(j));
-						listImg.add(tmpListImg.get(0));
+						if(tmpListImg.size() != 0) {
+							listImg.add(tmpListImg.get(0));
+						}
 					}
 					artistListdto.setListImg(listImg);
 					artistListdto.setListNo(listNo);
@@ -184,6 +214,57 @@ public class ArtistService {
 		}
 		
 		return artistList;
+	}
+	
+	//작가 페이지 별점 계산
+	@Transactional
+	public void artistScoreCalculation(int order_no, int buy_review_score) {
+		//주문번호의 상품 작가id를 가져온다.
+		String user_id = mapper.artistScoreBuyReviewArtistId(order_no);
+		if(user_id != null) {
+			//해당 작가의 작품리스트를 가져온다.
+			List<Integer> listNoList = mapper.artistScoreListNoList(user_id);
+			
+			int scoreSum = 0;
+			int sumCount = 0;
+			for(int i=0; i<listNoList.size(); i++) {
+				int list_no = listNoList.get(i);
+				
+				//해당작품의 구매후기 점수를 가져온다.
+				List<Integer> scoreList = mapper.artistScoreBuyReviewScoreList(list_no);
+				for(int j=0; j<scoreList.size(); j++) {
+					scoreSum += scoreList.get(j);
+					sumCount++;
+				}
+			}
+			float artist_score = (float)(scoreSum + buy_review_score)/(sumCount + 1);
+			HashMap<String, Object> hashmap = new HashMap<>();
+			hashmap.put("artist_score", artist_score);
+			hashmap.put("user_id", user_id);
+			//해당 작가 페이지에 업데이트를 한다.
+			mapper.artistScoreUpdate(hashmap);
+		}
+	}
+	
+	@Transactional
+	public String artistDetailPageActiveToggleService(Map<String, Object> map) {
+		int artist_no = Integer.parseInt(map.get("artist_no").toString());
+		int activeType = 0;
+		String resultMessage = "실패했습니다.";
+		
+		if(map.get("activeType").toString().equals("페이지 활성")) {
+			activeType = 1;
+		}
+		HashMap<String, Object> hashmap = new HashMap<>();
+		hashmap.put("artist_no", artist_no);
+		hashmap.put("activeType", activeType);
+		mapper.artistDetailPageActiveToggle(hashmap);
+		int statusCheck = mapper.artistDetailPageStatusCheck(artist_no);
+		if(statusCheck == activeType) {
+			resultMessage = "성공했습니다.";
+		}
+		
+		return resultMessage;
 	}
 	
 }
