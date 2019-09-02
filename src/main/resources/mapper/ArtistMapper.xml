@@ -167,7 +167,7 @@
 	on order_board.order_no = buy_review.order_no
 	inner join list_board
 	on order_board.list_no = list_board.list_no
-	where buy_review.order_no = #{order_no};
+	where buy_review.order_no = #{order_no}
 </select>
 <select id="artistScoreListNoList" parameterType="String" resultType="int">
 	select list_no
@@ -189,8 +189,6 @@
 	)
 	set 
     artist_score = #{artist_score}
-
-select * from artist_board;
 </update>
 <!-- 페이지 활성 여부 -->
 <update id="artistDetailPageActiveToggle" parameterType="HashMap">
