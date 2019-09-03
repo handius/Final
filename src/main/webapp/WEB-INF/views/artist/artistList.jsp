@@ -15,6 +15,9 @@
     <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
     <style>
+    	* {
+    		font-family: 'Comfortaa', '맑은 고딕', cursive;
+    	}
         
         a:visited,
         a:active,

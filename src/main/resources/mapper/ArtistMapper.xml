@@ -190,6 +190,23 @@
 	set 
     artist_score = #{artist_score}
 </update>
+<!-- 작가 자동 별점 계산 시작 -->
+<select id="artistScoreSchedulerArtistList" resultType="String">
+	select user_id
+	from artist_board inner join member
+	on artist_board.member_no = member.member_no
+</select>
+<select id="artistScoreSchedulerListNoList" parameterType="String" resultType="Integer">
+	select list_no 
+	from list_board
+	where list_artist = #{value}
+</select>
+<select id="artistScoreSchedulerBuyReviewScoreList" parameterType="int" resultType="Integer">
+	select buy_review_score
+	from buy_review inner join order_board
+	on buy_review.order_no = order_board.order_no
+	where list_no = #{list_no}
+</select>
 <!-- 페이지 활성 여부 -->
 <update id="artistDetailPageActiveToggle" parameterType="HashMap">
 	update artist_board set 
