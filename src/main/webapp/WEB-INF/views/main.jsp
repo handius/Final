@@ -22,7 +22,7 @@
     .mainsettemplate {
         font-family: 'Comfortaa', '맑은 고딕', cursive;
         color: #7C7877;
-        height: 720px;
+        height: 620px;
         width: 1140px;
         margin: auto;
         margin-top: 20px;
