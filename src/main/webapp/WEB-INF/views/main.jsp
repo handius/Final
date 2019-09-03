@@ -17,12 +17,12 @@
 <style>
     .item > a > img {
         max-width: none !important;
-        height: 620px !important;
+        height: 720px !important;
     }
     .mainsettemplate {
         font-family: 'Comfortaa', '맑은 고딕', cursive;
         color: #7C7877;
-        height: 620px;
+        height: 720px;
         width: 1140px;
         margin: auto;
         margin-top: 20px;
@@ -68,7 +68,7 @@
     	color: #7C7877;
     }
     #myCarousel {
-    	height: 600px;
+    	height: 720px;
     	background-color: #7C7877;
     }
     
