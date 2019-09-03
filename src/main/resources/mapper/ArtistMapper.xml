@@ -15,7 +15,7 @@
 	values(#{artist_no}, #{member_no}, '안녕하세요 저희 페이지에 방문해주셔서 감사합니다.', '/resources/image/artistPageDefault.jpg', 0, 0, 1)
 </select>
 <select id="artistBoardDetailArtistInfo" parameterType="int" resultType="com.bitcamp.DTO.member.MemberDTO">
-	select member.member_no, user_name, user_nick, user_email, user_address
+	select member.member_no, user_name, user_nick, user_email, user_address, user_id
 	from member inner join artist_board
 	on member.member_no = artist_board.member_no
 	where artist_no = #{artist_no}
@@ -33,13 +33,13 @@
 <select id="artistBoardDetailProductListMaxCount" parameterType="String" resultType="int">
 	select count(*)
 	from list_board
-	where list_status = 1 and list_artist = #{value}
+	where list_status = 1 and list_artist like #{value}
 </select>
 <select id="artistBoardDetailProductListNo" parameterType="HashMap" resultType="int">
 	select list_no
     from (select rownum as num , list_no
         from list_board
-        where list_artist = #{user_name} and list_status = 1 and rownum <![CDATA[<]]>= #{end_sql}) 
+        where list_artist like #{user_id} and list_status = 1 and rownum <![CDATA[<]]>= #{end_sql}) 
     where num <![CDATA[>]]>= #{start_sql}
 </select>
 <select id="artistBoardDetailProductListImg" parameterType="int" resultType="String">
@@ -59,17 +59,19 @@
 </select>
 <select id="artistBoardDetailBuyReviewList" parameterType="HashMap" resultType="com.bitcamp.DTO.productdetail.BuyReviewDTO">
 	select num, e.*
-    from (select rownum as num ,buy_review_date, buy_review_content, buy_review_image_loc, buy_review_score, buy_review_status ,order_board.list_no, list_title ,order_add_option, user_name
-        from order_board inner join artist_board
-        on order_board.member_no = artist_board.member_no
-        inner join buy_review
-        on order_board.order_no = buy_review.order_no
-        inner join member
-        on order_board.member_no = member.member_no
-        inner join list_board
-        on order_board.list_no = list_board.list_no
-        where artist_no = #{artist_no} and buy_review_status = 1 and rownum <![CDATA[<]]>= #{end_sql}  
-        order by buy_review_date desc) e
+    from (select rownum as num, e1.*
+          from (select buy_review_date, buy_review_content, buy_review_image_loc, buy_review_score, buy_review_status ,order_board.list_no, list_title ,order_add_option, user_name
+        		from order_board inner join artist_board
+        		on order_board.member_no = artist_board.member_no
+        		inner join buy_review
+        		on order_board.order_no = buy_review.order_no
+        		inner join member
+        		on order_board.member_no = member.member_no
+        		inner join list_board
+        		on order_board.list_no = list_board.list_no
+        		where artist_no = #{artist_no} and buy_review_status = 1
+        		order by buy_review_date desc) e1
+          where rownum <![CDATA[<]]>= #{end_sql} ) e
     where num <![CDATA[>]]>= #{start_sql}
 </select>
 <select id="artistRepInsertSeq" resultType="int">
@@ -106,12 +108,17 @@
 		where artist_no = #{artist_no}
 </select>
 <!-- 작가 리스트 시작 -->
-<select id="artistListMaxCount" parameterType="String" resultType="int">
+<select id="artistListMaxCount" parameterType="HashMap" resultType="int">
 	select count(*) 
 	from artist_board
-	<if test="!_parameter.equals('ROLL_ADMIN')">
-			where artist_board_status = 1
-	</if>
+	<where>
+		<if test="!user_authority.equals('ROLE_ADMIN')">
+            and artist_board_status = 1
+            <if test="user_authority.equals('ROLE_SELLER')">
+            	or member_no = #{member_no}
+        	</if>
+        </if>
+	</where>
 </select>
 <select id="artistListGet" parameterType="HashMap" resultType="com.bitcamp.DTO.artist.ArtistBoardDTO">
 	select num, e1.*
@@ -121,10 +128,13 @@
                 on artist_board.member_no = member.member_no
                 <where>
                 	<if test="!searchText != null || searchText.equals('')">
-                	and user_name like '%' || #{searchText} || '%'
+                		and user_name like '%' || #{searchText} || '%'
                 	</if>
-                	<if test="!user_authority.equals('ROLL_ADMIN')">
-                	and artist_board_status = 1
+                	<if test="!user_authority.equals('ROLE_ADMIN')">
+                		and artist_board_status = 1
+                		<if test="user_authority.equals('ROLE_SELLER')">
+                			or artist_board.member_no = #{member_no}
+                		</if>
                 	</if>
                 </where>
                 <if test="listType.equals('인기순')">
@@ -149,5 +159,70 @@
 	select list_no
 	from list_board
 	where list_artist = #{value}
+</select>
+<!-- 작가 별점 계산 시작 -->
+<select id="artistScoreBuyReviewArtistId" parameterType="int" resultType="String">
+	select distinct list_artist
+	from order_board inner join buy_review
+	on order_board.order_no = buy_review.order_no
+	inner join list_board
+	on order_board.list_no = list_board.list_no
+	where buy_review.order_no = #{order_no}
+</select>
+<select id="artistScoreListNoList" parameterType="String" resultType="int">
+	select list_no
+	from list_board
+	where list_artist like #{value}
+</select>
+<select id="artistScoreBuyReviewScoreList" parameterType="int" resultType="int">
+	select buy_review_score 
+	from buy_review inner join order_board
+	on buy_review.order_no = order_board.order_no
+	where list_no = #{list_no}
+</select>
+<update id="artistScoreUpdate" parameterType="HashMap">
+	update 
+	(   select user_id, artist_score
+    	from member inner join artist_board
+    	on member.member_no = artist_board.member_no
+    	where user_id like #{user_id}
+	)
+	set 
+    artist_score = #{artist_score}
+</update>
+<!-- 작가 자동 별점 계산 시작 -->
+<select id="artistScoreSchedulerArtistList" resultType="String">
+	select user_id
+	from artist_board inner join member
+	on artist_board.member_no = member.member_no
+</select>
+<select id="artistScoreSchedulerListNoList" parameterType="String" resultType="Integer">
+	select list_no 
+	from list_board
+	where list_artist = #{value}
+</select>
+<select id="artistScoreSchedulerBuyReviewScoreList" parameterType="int" resultType="Integer">
+	select buy_review_score
+	from buy_review inner join order_board
+	on buy_review.order_no = order_board.order_no
+	where list_no = #{list_no}
+</select>
+<!-- 페이지 활성 여부 -->
+<update id="artistDetailPageActiveToggle" parameterType="HashMap">
+	update artist_board set 
+	<choose>
+		<when test="activeType==1">
+			artist_board_status = 1
+		</when>
+		<otherwise>
+			artist_board_status = 0
+		</otherwise>
+	</choose>
+	where artist_no = #{artist_no}
+</update>
+<select id="artistDetailPageStatusCheck" parameterType="int" resultType="int">
+	select artist_board_status
+	from artist_board
+	where artist_no = #{artist_no}
 </select>
 </mapper>

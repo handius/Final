@@ -2,7 +2,7 @@ package com.bitcamp.mapper;
 
 import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -21,8 +21,8 @@ public interface ArtistMapper {
 	public ArtistBoardDTO artistBoardDetailGet(int artist_no);
 	public void artistBoardDetailCountUpdate(int artist_no);
 	//
-	public int artistBoardDetailProductListMaxCount(String user_name);
-	public List<Integer> artistBoardDetailProductListNo(HashMap<String, Object> map);
+	public int artistBoardDetailProductListMaxCount(String user_id);
+	public List<Integer> artistBoardDetailProductListNo(HashMap<String, Object> hashmap);
 	public List<String> artistBoardDetailProductListImg(int list_no);
 	//
 	public int artistBoardDetailBuyReviewListMaxCount(int artist_no);
@@ -38,8 +38,20 @@ public interface ArtistMapper {
 	public void artistBoardDetailModify(ArtistBoardDTO dto);
 	//
 	//작가 리스트 시작
-	public int artistListMaxCount(String user_authority);
+	public int artistListMaxCount(HashMap<String, Object> hashmap);
 	public List<ArtistBoardDTO> artistListGet(HashMap<String, Object> hashmap);
 	public List<Integer> artistListListNoGet(String list_artist);
 	public List<String> artistListImgGet(int list_no);
+	//작가 별점 계산 시작
+	public String artistScoreBuyReviewArtistId(int order_no);
+	public List<Integer> artistScoreListNoList(String user_id);
+	public List<Integer> artistScoreBuyReviewScoreList(int list_no);
+	public void artistScoreUpdate(HashMap<String, Object> hashmap);
+	//작가 자동 별점 계산 시작
+	public List<String> artistScoreSchedulerArtistList();
+	public List<Integer> artistScoreSchedulerListNoList(String user_id);
+	public List<Integer> artistScoreSchedulerBuyReviewScoreList(int list_no);
+	//작가 페이지 활성 토글 시작
+	public void artistDetailPageActiveToggle(HashMap<String, Object> hashmap);
+	public int artistDetailPageStatusCheck(int artist_no);
 }

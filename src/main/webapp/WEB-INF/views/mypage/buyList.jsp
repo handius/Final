@@ -54,7 +54,7 @@
 						</table></td>
 					<td>${list.order_price }</td>
 					<td>${list.order_status }</td>
-					<td><c:if test="${list.order_status == '배송대기' }">
+					<td><c:if test="${list.order_status == '배송중' }">
 							<input type="button" class="btn btn-default cor" name="cor"
 								value="수취완료">
 							<span style="display: none;">${list.order_no }</span>
@@ -67,12 +67,31 @@
 			</c:forEach>
 		</tbody>
 	</table>
+	<div id="divPage">
+		<form class="formPage" action="/buyList" method="post">
+			<c:if test="${paging.startblock > 1 }">
+				<a href="#">◀</a>
+			</c:if>
+			<c:forEach var="i" begin="${paging.startblock }"
+				end="${paging.endblock }">
+				<c:if test="${i == currpage }">
+					<c:out value="${i }"></c:out>
+				</c:if>
+				<c:if test="${i != currpage }">
+					<input type="submit" class="btn btn-default" name="curr"
+						value="${i }">
+				</c:if>
+			</c:forEach>
+			<c:if test="${paging.endblock < paging.totalpage }">
+				<a href="#">▶</a>
+			</c:if>
+		</form>
+	</div>
 	<div class="modal fade" id="myModal">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header"></div>
-				<div class="modal-body" id="insertBuyReview">Hello!
-					Webisfree.com</div>
+				<div class="modal-body" id="insertBuyReview"></div>
 				<div class="modal-footer"></div>
 			</div>
 		</div>
@@ -87,6 +106,7 @@
 				} else {
 					alert("수취확인을 취소하였습니다.");
 				}
+				return false;
 			});
 		});
 		$(document).ready(function() {

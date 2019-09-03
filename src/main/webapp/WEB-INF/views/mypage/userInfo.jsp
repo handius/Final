@@ -28,6 +28,7 @@
 	$(document).ready(function() {
 		$("#customerQA").click(function() {
 			location.href = "customerQA";
+			return false;
 		});
 	});
 	$(document).ready(function() {
@@ -38,6 +39,7 @@
 			} else {
 				alert("탈퇴를 취소하였습니다.");
 			}
+			return false;
 		});
 	});
 	function checks() {

@@ -125,6 +125,10 @@
     .loginInfo{
     	color: #ffffff;
     }
+    .loginInfo:hover {
+    	text-decoration: none;
+    	color: #7C7877;
+    }
     
     @media(max-width: 1140px) {
     #mallmenu {

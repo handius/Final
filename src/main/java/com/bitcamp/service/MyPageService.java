@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bitcamp.DTO.Product.ListDTO;
 import com.bitcamp.DTO.customerqaboard.CustomerQABoardDTO;
+import com.bitcamp.DTO.freeboard.FreeboardDTO;
 import com.bitcamp.DTO.member.MemberDTO;
 import com.bitcamp.DTO.order.OrderDTO;
 import com.bitcamp.DTO.productdetail.BuyReviewDTO;
@@ -27,12 +28,12 @@ public class MyPageService {
 		mapper.updateUserInfo(memberDTO);
 	}
 
-	public void updateUserPassword(int member_no, String newPwd) {
+	public void updateUser_password(int member_no, String newPwd) {
 		// TODO Auto-generated method stub
 		Map<String, Object> parameters = new HashMap<>();
 		parameters.put("member_no", member_no);
 		parameters.put("newPwd", newPwd);
-		mapper.updateUserPassword(parameters);
+		mapper.updateUser_password(parameters);
 	}
 
 	public void insertCQA(int member_no, String question_type, String question_title, String question_content) {
@@ -50,9 +51,14 @@ public class MyPageService {
 		mapper.withdraw(user_id);
 	}
 
-	public List<OrderDTO> buyList(int member_no) {
+	public int getBuyCount(Map<String, Object> listMap) {
 		// TODO Auto-generated method stub
-		List<OrderDTO> buyList = mapper.buyList(member_no);
+		return mapper.getBuyCount(listMap);
+	}
+
+	public List<OrderDTO> getBuyList(Map<String, Object> listMap) {
+		// TODO Auto-generated method stub
+		List<OrderDTO> buyList = mapper.getBuyList(listMap);
 		for (int i = 0; i < buyList.size(); i++) {
 			String list_title = mapper.findList_title(buyList.get(i).getList_no());
 			buyList.get(i).setList_title(list_title);
@@ -94,11 +100,6 @@ public class MyPageService {
 			buyList.get(i).setOption_price(option_price_list);
 		}
 		return buyList;
-	}
-
-	public List<CustomerQABoardDTO> cQAList(int member_no) {
-		// TODO Auto-generated method stub
-		return mapper.cQAList(member_no);
 	}
 
 	public Map<String, Object> buyerPQList(int member_no) {
@@ -179,10 +180,10 @@ public class MyPageService {
 		return parameters;
 	}
 
-	public Map<String, Object> sellerPQAList(String user_id) {
+	public Map<String, Object> sellerPQAList(MemberDTO memberDTO) {
 		// TODO Auto-generated method stub
 		Map<String, Object> parameters = new HashMap<>();
-		List<QABoardDTO> sellerPQAList = mapper.sellerPQAList(user_id);
+		List<QABoardDTO> sellerPQAList = mapper.sellerPQAList(memberDTO);
 		List<String> list_title_list = new ArrayList<>();
 		for (int i = 0; i < sellerPQAList.size(); i++) {
 			String list_title = mapper.findList_title(sellerPQAList.get(i).getList_no());
@@ -234,9 +235,82 @@ public class MyPageService {
 		return mapper.findOrderDTO(order_no);
 	}
 
-	public String findPA(int qa_board_no) {
+	public QABoardDTO findPA(int qa_board_no) {
 		// TODO Auto-generated method stub
 		return mapper.findPA(qa_board_no);
+	}
+
+	public QABoardDTO findQABoardDTO(int qa_board_no) {
+		// TODO Auto-generated method stub
+		return mapper.findQABoardDTO(qa_board_no);
+	}
+
+	public void updateQa_board_content(int qa_board_no, String qa_board_content) {
+		// TODO Auto-generated method stub
+		Map<String, Object> parameters = new HashMap<>();
+		parameters.put("qa_board_no", qa_board_no);
+		parameters.put("qa_board_content", qa_board_content);
+		mapper.updateQa_board_content(parameters);
+	}
+
+	public void updateQa_board_delete_status(int qa_board_no) {
+		// TODO Auto-generated method stub
+		mapper.updateQa_board_delete_status(qa_board_no);
+	}
+
+	public BuyReviewDTO findBuyReviewDTO(int buy_review_no) {
+		// TODO Auto-generated method stub
+		return mapper.findBuyReviewDTO(buy_review_no);
+	}
+
+	public void updateBuy_review_content(int buy_review_no, String buy_review_content) {
+		// TODO Auto-generated method stub
+		Map<String, Object> parameters = new HashMap<>();
+		parameters.put("buy_review_no", buy_review_no);
+		parameters.put("buy_review_content", buy_review_content);
+		mapper.updateBuy_review_content(parameters);
+	}
+
+	public void updateBuy_review_status(int buy_review_no) {
+		// TODO Auto-generated method stub
+		mapper.updateBuy_review_status(buy_review_no);
+	}
+
+	public void updateList_status(int list_no) {
+		// TODO Auto-generated method stub
+		mapper.updateList_status(list_no);
+	}
+
+	public void sp(int order_no) {
+		// TODO Auto-generated method stub
+		mapper.sp(order_no);
+	}
+
+	public void updateQa_board_statusU(int qa_board_no) {
+		// TODO Auto-generated method stub
+		mapper.updateQa_board_statusU(qa_board_no);
+	}
+
+	public int getCQACount(Map<String, Object> listMap) {
+		// TODO Auto-generated method stub
+		return mapper.getCQACount(listMap);
+	}
+
+	public List<CustomerQABoardDTO> getCQAList(Map<String, Object> listMap) {
+		// TODO Auto-generated method stub
+		return mapper.getCQAList(listMap);
+	}
+
+	@Transactional
+	public void insertPQA(int list_no, int member_no, String qa_board_content, int qa_board_parent_no) {
+		// TODO Auto-generated method stub
+		QABoardDTO qABoardDTO = new QABoardDTO();
+		qABoardDTO.setList_no(list_no);
+		qABoardDTO.setMember_no(member_no);
+		qABoardDTO.setQa_board_content(qa_board_content);
+		qABoardDTO.setQa_board_parent_no(qa_board_parent_no);
+		mapper.insertPQA(qABoardDTO);
+		mapper.updateQa_board_statusA(qa_board_parent_no);
 	}
 
 }

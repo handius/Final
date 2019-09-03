@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.bitcamp.DTO.Product.ListDTO;
 import com.bitcamp.DTO.customerqaboard.CustomerQABoardDTO;
+import com.bitcamp.DTO.freeboard.FreeboardDTO;
 import com.bitcamp.DTO.member.MemberDTO;
 import com.bitcamp.DTO.order.OrderDTO;
 import com.bitcamp.DTO.productdetail.BuyReviewDTO;
@@ -26,11 +27,7 @@ public interface MyPageMapper {
 
 	void updateUserInfo(MemberDTO memberDTO);
 
-	void updateUserPassword(Map<String, Object> parameters);
-
-	List<OrderDTO> buyList(int member_no);
-
-	List<CustomerQABoardDTO> cQAList(int member_no);
+	void updateUser_password(Map<String, Object> parameters);
 
 	List<QABoardDTO> buyerPQList(int member_no);
 
@@ -38,7 +35,7 @@ public interface MyPageMapper {
 
 	List<OrderDTO> sellList(String user_id);
 
-	List<QABoardDTO> sellerPQAList(String user_id);
+	List<QABoardDTO> sellerPQAList(MemberDTO memberDTO);
 
 	List<BuyReviewDTO> sellerReviewList(String user_id);
 
@@ -58,6 +55,35 @@ public interface MyPageMapper {
 
 	OrderDTO findOrderDTO(int order_no);
 
-	String findPA(int qa_board_no);
+	QABoardDTO findPA(int qa_board_no);
 
+	QABoardDTO findQABoardDTO(int qa_board_no);
+
+	void updateQa_board_content(Map<String, Object> parameters);
+
+	void updateQa_board_delete_status(int qa_board_no);
+
+	BuyReviewDTO findBuyReviewDTO(int buy_review_no);
+
+	void updateBuy_review_content(Map<String, Object> parameters);
+
+	void updateBuy_review_status(int buy_review_no);
+
+	void updateList_status(int list_no);
+
+	void sp(int order_no);
+
+	int getBuyCount(Map<String, Object> listMap);
+
+	List<OrderDTO> getBuyList(Map<String, Object> listMap);
+
+	int getCQACount(Map<String, Object> listMap);
+
+	List<CustomerQABoardDTO> getCQAList(Map<String, Object> listMap);
+
+	void insertPQA(QABoardDTO qABoardDTO);
+
+	void updateQa_board_statusU(int qa_board_no);
+
+	void updateQa_board_statusA(int qa_board_no);
 }

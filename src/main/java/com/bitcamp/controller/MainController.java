@@ -64,9 +64,6 @@ public class MainController {
 			MainProductVO vo1 = adservice.getMainProduct(template2[i]);
 			MainProductVO vo2 = adservice.getMainProduct(template4[i]);
 			MainProductVO vo3 = adservice.getMainProduct(template5[i]);
-			System.out.println(vo1);
-			System.out.println(vo2);
-			System.out.println(vo3);
 			product1.add(vo1);
 			product2.add(vo2);
 			product3.add(vo3);

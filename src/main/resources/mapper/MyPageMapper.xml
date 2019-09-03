@@ -33,7 +33,7 @@
 		user_call=#{user_call} where
 		member_no=#{member_no}
 	</update>
-	<update id="updateUserPassword"
+	<update id="updateUser_password"
 		parameterType="java.util.HashMap">
 		update member set
 		user_password=#{newPwd}
@@ -52,34 +52,47 @@
 		update member set
 		user_status=0 where user_id=#{user_id}
 	</update>
-	<select id="buyList" parameterType="int"
-		resultType="com.bitcamp.DTO.order.OrderDTO">
+	<!-- -->
+	<select id="getBuyCount" parameterType="Object" resultType="int">
+		select count(*) from order_board where
+		member_no=#{member_no}
+	</select>
+	<select id="getBuyList"
+		resultType="com.bitcamp.DTO.order.OrderDTO" parameterType="Object">
+		select * from (
+		select rownum as rnum, A.*
+		from (
 		select * from
 		order_board where member_no=#{member_no} order
 		by order_date desc
+		) A
+				<![CDATA[
+					where rownum <= #{endrow} 
+				]]>
+		)B 
+			<![CDATA[
+			WHERE rnum >= #{startrow} 
+			]]>
 	</select>
-	<select id="cQAList" parameterType="int"
-		resultType="com.bitcamp.DTO.customerqaboard.CustomerQABoardDTO">
-		select * from customer_qa_board where
-		member_no=#{member_no} order by question_date desc
-	</select>
+	<!-- -->
 	<select id="buyerPQList" parameterType="int"
 		resultType="com.bitcamp.DTO.productdetail.QABoardDTO">
-		select * from qa_board where member_no=#{member_no} order
-		by
+		select * from qa_board where member_no=#{member_no} and
+		qa_board_parent_no is null and qa_board_delete_status=1 order by
 		qa_board_date desc
 	</select>
-
 	<select id="buyerReviewList" parameterType="int"
 		resultType="com.bitcamp.DTO.productdetail.BuyReviewDTO">
 		select * from order_board ob inner join buy_review br on
-		ob.order_no=br.order_no where member_no=#{member_no} order by
+		ob.order_no=br.order_no where member_no=#{member_no} and
+		buy_review_status=1 order by
 		buy_review_date desc
 	</select>
 	<select id="registerList" parameterType="String"
 		resultType="com.bitcamp.DTO.Product.ListDTO">
 		select * from list_board where
-		upper(list_artist)=upper(#{user_id}) order by list_date desc
+		upper(list_artist)=upper(#{user_id}) and list_status=1 order by
+		list_date desc
 	</select>
 	<select id="sellList" parameterType="String"
 		resultType="com.bitcamp.DTO.order.OrderDTO">
@@ -89,10 +102,13 @@
 		where
 		upper(lb.list_artist)=upper(#{user_id}) order by order_date desc
 	</select>
-	<select id="sellerPQAList" parameterType="String"
+	<select id="sellerPQAList"
+		parameterType="com.bitcamp.DTO.member.MemberDTO"
 		resultType="com.bitcamp.DTO.productdetail.QABoardDTO">
 		select * from qa_board qb inner join list_board lb on
-		qb.list_no=lb.list_no where upper(list_artist)=upper(#{user_id}) order
+		qb.list_no=lb.list_no where upper(list_artist)=upper(#{user_id}) and
+		member_no!=#{member_no} and
+		qa_board_delete_status=1 order
 		by
 		qa_board_date desc
 	</select>
@@ -144,9 +160,106 @@
 		resultType="com.bitcamp.DTO.order.OrderDTO">
 		select * from order_board where order_no=#{order_no}
 	</select>
-	<select id="findPA" parameterType="int" resultType="String">
+	<select id="findPA" parameterType="int"
+		resultType="com.bitcamp.DTO.productdetail.QABoardDTO">
 		select
+		qa_board_no,
 		qa_board_content from qa_board where
-		qa_board_parent_no=#{qa_board_no}
+		qa_board_parent_no=#{qa_board_no} and
+		qa_board_delete_status=1
 	</select>
+	<select id="findQABoardDTO" parameterType="int"
+		resultType="com.bitcamp.DTO.productdetail.QABoardDTO">
+		select * from qa_board where qa_board_no=#{qa_board_no}
+	</select>
+	<update id="updateQa_board_content"
+		parameterType="java.util.HashMap">
+		update qa_board set qa_board_content=#{qa_board_content}
+		where
+		qa_board_no=#{qa_board_no}
+	</update>
+	<update id="updateQa_board_delete_status" parameterType="int">
+		update
+		qa_board set qa_board_delete_status=0 where
+		qa_board_no=#{qa_board_no}
+	</update>
+	<select id="findBuyReviewDTO" parameterType="int"
+		resultType="com.bitcamp.DTO.productdetail.BuyReviewDTO">
+		select * from buy_review where
+		buy_review_no=#{buy_review_no}
+	</select>
+	<update id="updateBuy_review_content"
+		parameterType="java.util.HashMap">
+		update buy_review set
+		buy_review_content=#{buy_review_content}
+		where
+		buy_review_no=#{buy_review_no}
+	</update>
+	<update id="updateBuy_review_status" parameterType="int">
+		update
+		buy_review set buy_review_status=0 where
+		buy_review_no=#{buy_review_no}
+	</update>
+	<update id="updateList_status" parameterType="int">
+		update list_board
+		set list_status=0 where list_no=#{list_no}
+	</update>
+	<!-- Shipment processing -->
+	<update id="sp" parameterType="int">
+		update order_board set
+		order_status='배송중' where order_no=#{order_no}
+	</update>
+	<!-- -->
+	<!-- -->
+	<select id="getCQACount" parameterType="Object" resultType="int">
+		select count(*) from customer_qa_board where
+		member_no=#{member_no}
+	</select>
+	<select id="getCQAList"
+		resultType="com.bitcamp.DTO.customerqaboard.CustomerQABoardDTO"
+		parameterType="Object">
+		select * from (
+		select rownum as rnum, A.*
+		from (
+		select * from
+		customer_qa_board where
+		member_no=#{member_no} order by question_date
+		desc
+		) A
+					<![CDATA[
+						where rownum <= #{endrow} 
+					]]>
+		)B 
+				<![CDATA[
+				WHERE rnum >= #{startrow} 
+				]]>
+	</select>
+	<!-- -->
+	<select id="cQAList" parameterType="int"
+		resultType="com.bitcamp.DTO.customerqaboard.CustomerQABoardDTO">
+		select * from customer_qa_board where
+		member_no=#{member_no} order by question_date desc
+	</select>
+	<!-- -->
+	<!-- -->
+	<insert id="insertPQA"
+		parameterType="com.bitcamp.DTO.productdetail.QABoardDTO">
+		insert into qa_board values(qa_board_seq.nextval,
+		#{list_no}, #{member_no}, sysdate, #{qa_board_content}, 0, '답변', 1,
+		#{qa_board_parent_no})
+	</insert>
+	<!-- unanswered -->
+	<update id="updateQa_board_statusU" parameterType="int">
+		update
+		qa_board set
+		qa_board_status='미답변'
+		where
+		qa_board_no=#{qa_board_no}
+	</update>
+	<!-- answered -->
+	<update id="updateQa_board_statusA" parameterType="int">
+		update
+		qa_board
+		set qa_board_status='답변' where qa_board_no=#{qa_board_no}
+	</update>
 </mapper>

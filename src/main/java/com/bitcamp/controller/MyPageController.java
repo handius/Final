@@ -3,6 +3,7 @@ package com.bitcamp.controller;
 import java.io.File;
 import java.io.IOException;
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -26,12 +27,15 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.bitcamp.DAO.CustomUser;
 import com.bitcamp.DTO.Product.ListDTO;
+import com.bitcamp.DTO.comm.PageDTO;
 import com.bitcamp.DTO.customerqaboard.CustomerQABoardDTO;
+import com.bitcamp.DTO.freeboard.FreeboardDTO;
 import com.bitcamp.DTO.member.MemberDTO;
 import com.bitcamp.DTO.order.OrderDTO;
 import com.bitcamp.DTO.productdetail.BuyReviewDTO;
 import com.bitcamp.DTO.productdetail.QABoardDTO;
 import com.bitcamp.VO.file.FileVO;
+import com.bitcamp.service.ArtistService;
 import com.bitcamp.service.CustomUserDetailService;
 import com.bitcamp.service.MyPageService;
 
@@ -44,6 +48,9 @@ public class MyPageController {
 
 	@Resource
 	private CustomUserDetailService userService;
+
+	@Autowired
+	private ArtistService artistService;
 
 	@Setter(onMethod_ = @Autowired)
 	private PasswordEncoder pwdEncoder;
@@ -107,7 +114,7 @@ public class MyPageController {
 		if (password != "") {
 			String newPwd = pwdEncoder.encode(password);
 			System.out.println(newPwd);
-			service.updateUserPassword(memberDTO.getMember_no(), newPwd);
+			service.updateUser_password(memberDTO.getMember_no(), newPwd);
 		}
 		service.updateUserInfo(memberDTO);
 		return "redirect:/myPage";
@@ -138,22 +145,60 @@ public class MyPageController {
 	}
 
 	@RequestMapping("buyList")
-	public String buyList(Principal prin, HttpSession session, Model model) {
+	public String buyList(Principal prin, HttpSession session, Model model,
+			@RequestParam(required = false) String curr) {
 		// MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
 		CustomUser user = (CustomUser) userService.loadUserByUsername(prin.getName());
 		MemberDTO memberDTO = user.getMember();
-		List<OrderDTO> buyList = service.buyList(memberDTO.getMember_no());
+
+		Map<String, Object> listMap = new HashMap<>();
+		listMap.put("member_no", memberDTO.getMember_no());
+		// 페이징
+		int totalCount = service.getBuyCount(listMap);
+		int currpage = 1;
+		if (curr != null)
+			currpage = Integer.parseInt(curr);
+		int pagepercount = 10;
+		int blockSize = 10;
+
+		PageDTO page = new PageDTO(currpage, totalCount, pagepercount, blockSize);
+		listMap.put("startrow", page.getStartrow());
+		listMap.put("endrow", page.getEndrow());
+
+		List<OrderDTO> buyList = service.getBuyList(listMap);
+		//
+
 		model.addAttribute("buyList", buyList);
+		model.addAttribute("paging", page);
 		return "mypage/buyList.mall";
 	}
 
 	@RequestMapping("cQAList")
-	public String cQAList(Principal prin, HttpSession session, Model model) {
+	public String cQAList(Principal prin, HttpSession session, Model model,
+			@RequestParam(required = false) String curr) {
 		// MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
 		CustomUser user = (CustomUser) userService.loadUserByUsername(prin.getName());
 		MemberDTO memberDTO = user.getMember();
-		List<CustomerQABoardDTO> cQAList = service.cQAList(memberDTO.getMember_no());
+
+		Map<String, Object> listMap = new HashMap<>();
+		listMap.put("member_no", memberDTO.getMember_no());
+		// 페이징
+		int totalCount = service.getBuyCount(listMap);
+		int currpage = 1;
+		if (curr != null)
+			currpage = Integer.parseInt(curr);
+		int pagepercount = 10;
+		int blockSize = 10;
+
+		PageDTO page = new PageDTO(currpage, totalCount, pagepercount, blockSize);
+		listMap.put("startrow", page.getStartrow());
+		listMap.put("endrow", page.getEndrow());
+
+		List<CustomerQABoardDTO> cQAList = service.getCQAList(listMap);
+		//
+
 		model.addAttribute("cQAList", cQAList);
+		model.addAttribute("paging", page);
 		return "mypage/cQAList.mall";
 	}
 
@@ -185,6 +230,7 @@ public class MyPageController {
 
 	@RequestMapping("registerList")
 	public String registerList(Principal prin, HttpSession session, Model model) {
+		// MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
 		CustomUser user = (CustomUser) userService.loadUserByUsername(prin.getName());
 		MemberDTO memberDTO = user.getMember();
 		List<ListDTO> registerList = service.registerList(memberDTO.getUser_id());
@@ -210,7 +256,7 @@ public class MyPageController {
 		// MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
 		CustomUser user = (CustomUser) userService.loadUserByUsername(prin.getName());
 		MemberDTO memberDTO = user.getMember();
-		Map<String, Object> parameters = service.sellerPQAList(memberDTO.getUser_id());
+		Map<String, Object> parameters = service.sellerPQAList(memberDTO);
 		List<QABoardDTO> sellerPQAList = (List<QABoardDTO>) parameters.get("sellerPQAList");
 		List<String> list_title_list = (List<String>) parameters.get("list_title_list");
 		model.addAttribute("sellerPQAList", sellerPQAList);
@@ -277,9 +323,9 @@ public class MyPageController {
 	@RequestMapping("/buyReviewResult")
 	public String buyReviewResult(@RequestParam int BuyReviewScore, @RequestParam String BuyReviewContent,
 			@RequestParam String BuyReviewImg, @RequestParam String order_no) {
-		int order_no_int = Integer.parseInt(order_no);
+		int order_noInt = Integer.parseInt(order_no);
 		BuyReviewDTO buyreviewdto = new BuyReviewDTO();
-		buyreviewdto.setOrder_no(order_no_int);
+		buyreviewdto.setOrder_no(order_noInt);
 		buyreviewdto.setBuy_review_content(BuyReviewContent);
 		buyreviewdto.setBuy_review_score(BuyReviewScore);
 		if (BuyReviewImg != null) {
@@ -288,6 +334,7 @@ public class MyPageController {
 		int insertResult = service.buyReviewInsertService(buyreviewdto);
 		if (insertResult == 1) {
 			System.out.println("등록에 성공했습니다.");
+			artistService.artistScoreCalculation(order_noInt, BuyReviewScore); // 등록성공시 작가페이지 별점계산
 		} else {
 			System.out.println("등록에 실패했습니다.");
 		}
@@ -300,7 +347,124 @@ public class MyPageController {
 		// MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
 		CustomUser user = (CustomUser) userService.loadUserByUsername(prin.getName());
 		MemberDTO memberDTO = user.getMember();
-		return service.findPA(qa_board_no);
+		QABoardDTO qABoardDTO = service.findPA(qa_board_no);
+		String qa_board_content = qABoardDTO.getQa_board_content();
+		return qa_board_content;
+	}
+
+	// @RequestMapping(value = "/findPAN", produces = "application/text;
+	// charset=utf8")
+	// @ResponseBody
+	// public int findPAN(Principal prin, HttpSession session, @RequestParam int
+	// qa_board_no, Model model) {
+	// // MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
+	// CustomUser user = (CustomUser)
+	// userService.loadUserByUsername(prin.getName());
+	// MemberDTO memberDTO = user.getMember();
+	// QABoardDTO qABoardDTO = service.findPA(qa_board_no);
+	// int newQa_board_no = qABoardDTO.getQa_board_no();
+	// return newQa_board_no;
+	// }
+
+	@RequestMapping("/updateQa_board_content/{qa_board_no}")
+	public String updateQa_board_content(Principal prin, HttpSession session, @PathVariable int qa_board_no,
+			Model model) {
+		// MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
+		CustomUser user = (CustomUser) userService.loadUserByUsername(prin.getName());
+		MemberDTO memberDTO = user.getMember();
+		QABoardDTO qABoardDTO = service.findQABoardDTO(qa_board_no);
+		model.addAttribute("qABoardDTO", qABoardDTO);
+		return "mypage/updateQa_board_content";
+	}
+
+	@RequestMapping("updateQa_board_contentResult/{qa_board_no}")
+	public String updateQa_board_contentResult(Principal prin, HttpSession session, @PathVariable int qa_board_no,
+			@RequestParam String qa_board_content, Model model) {
+		// MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
+		CustomUser user = (CustomUser) userService.loadUserByUsername(prin.getName());
+		MemberDTO memberDTO = user.getMember();
+		service.updateQa_board_content(qa_board_no, qa_board_content);
+		return "redirect:/buyerPQAList";
+	}
+
+	@RequestMapping("/updateQa_board_delete_status/{qa_board_no}")
+	public String updateQa_board_delete_status(Principal prin, HttpSession session, @PathVariable int qa_board_no,
+			Model model) {
+		// MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
+		CustomUser user = (CustomUser) userService.loadUserByUsername(prin.getName());
+		MemberDTO memberDTO = user.getMember();
+		QABoardDTO qABoardDTO = service.findQABoardDTO(qa_board_no);
+		QABoardDTO ParentQABoardDTO = service.findPA(qa_board_no);
+		if (ParentQABoardDTO == null) {
+			service.updateQa_board_delete_status(qa_board_no);
+			return "redirect:/buyerPQAList";
+		} else {
+			service.updateQa_board_delete_status(ParentQABoardDTO.getQa_board_no());
+			service.updateQa_board_statusU(qa_board_no);
+			return "redirect:/sellerPQAList";
+		}
+	}
+
+	@RequestMapping("/updateBuy_review_content/{buy_review_no}")
+	public String updateBuy_review_content(Principal prin, HttpSession session, @PathVariable int buy_review_no,
+			Model model) {
+		// MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
+		CustomUser user = (CustomUser) userService.loadUserByUsername(prin.getName());
+		MemberDTO memberDTO = user.getMember();
+		BuyReviewDTO buyReviewDTO = service.findBuyReviewDTO(buy_review_no);
+		model.addAttribute("buyReviewDTO", buyReviewDTO);
+		return "mypage/updateBuy_review_content";
+	}
+
+	@RequestMapping("updateBuy_review_contentResult/{buy_review_no}")
+	public String updateBuy_review_contentResult(Principal prin, HttpSession session, @PathVariable int buy_review_no,
+			@RequestParam String buy_review_content, Model model) {
+		// MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
+		CustomUser user = (CustomUser) userService.loadUserByUsername(prin.getName());
+		MemberDTO memberDTO = user.getMember();
+		service.updateBuy_review_content(buy_review_no, buy_review_content);
+		return "redirect:/buyerReviewList";
+	}
+
+	@RequestMapping("/updateBuy_review_status/{buy_review_no}")
+	public String updateBuy_review_status(Principal prin, HttpSession session, @PathVariable int buy_review_no,
+			Model model) {
+		// MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
+		CustomUser user = (CustomUser) userService.loadUserByUsername(prin.getName());
+		MemberDTO memberDTO = user.getMember();
+		service.updateBuy_review_status(buy_review_no);
+		return "redirect:/buyerReviewList";
+	}
+
+	@RequestMapping("/updateList_status/{list_no}")
+	public String updateList_status(Principal prin, HttpSession session, @PathVariable int list_no, Model model) {
+		// MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
+		CustomUser user = (CustomUser) userService.loadUserByUsername(prin.getName());
+		MemberDTO memberDTO = user.getMember();
+		service.updateList_status(list_no);
+		return "redirect:/registerList";
+	}
+
+	// Shipment processing
+	@RequestMapping("sp/{order_no}")
+	public String sp(Principal prin, HttpSession session, @PathVariable int order_no) {
+		// MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
+		CustomUser user = (CustomUser) userService.loadUserByUsername(prin.getName());
+		MemberDTO memberDTO = user.getMember();
+		service.sp(order_no);
+		return "redirect:/sellList";
+	}
+
+	@RequestMapping("insertPQAResult")
+	public String insertPQAResult(Principal prin, HttpSession session, @RequestParam String list_no,
+			@RequestParam String qa_board_content, @RequestParam String qa_board_parent_no) {
+		// MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
+		CustomUser user = (CustomUser) userService.loadUserByUsername(prin.getName());
+		MemberDTO memberDTO = user.getMember();
+		int list_noInt = Integer.parseInt(list_no);
+		int qa_board_parent_noInt = Integer.parseInt(qa_board_parent_no);
+		service.insertPQA(list_noInt, memberDTO.getMember_no(), qa_board_content, qa_board_parent_noInt);
+		return "redirect:/sellerPQAList";
 	}
 
 }
