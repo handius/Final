@@ -150,11 +150,6 @@
           where rownum <![CDATA[<]]>= #{endSql} ) e1
     where num <![CDATA[>]]>= #{startSql}
 </select>
-<select id="artistListImgGet" parameterType="int" resultType="String">
-	select list_image_loc
-	from list_image_board
-	where list_no = #{list_no}
-</select>
 <select id="artistListListNoGet" parameterType="String" resultType="int">
 	select list_no
 	from list_board

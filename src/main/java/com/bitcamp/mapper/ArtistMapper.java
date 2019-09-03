@@ -41,7 +41,6 @@ public interface ArtistMapper {
 	public int artistListMaxCount(HashMap<String, Object> hashmap);
 	public List<ArtistBoardDTO> artistListGet(HashMap<String, Object> hashmap);
 	public List<Integer> artistListListNoGet(String list_artist);
-	public List<String> artistListImgGet(int list_no);
 	//작가 별점 계산 시작
 	public String artistScoreBuyReviewArtistId(int order_no);
 	public List<Integer> artistScoreListNoList(String user_id);

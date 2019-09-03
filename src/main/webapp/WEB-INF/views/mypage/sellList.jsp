@@ -34,6 +34,7 @@
 			<tr>
 				<th>주문번호</th>
 				<th>주문일자</th>
+				<th>상품번호</th>
 				<th>상품명</th>
 				<th>주문정보</th>
 				<th>총금액</th>
@@ -46,6 +47,7 @@
 				<tr>
 					<td>${list.order_no }</td>
 					<td>${list.order_date }</td>
+					<td>${list.list_no }</td>
 					<td><a href="/productDetail/${list.list_no }">${list.list_title }</a></td>
 					<td><c:forEach var="item" items="${list.option_name }"
 							varStatus="status2">
@@ -67,6 +69,26 @@
 			</c:forEach>
 		</tbody>
 	</table>
+	<div id="divPage">
+		<form class="formPage" action="/sellList" method="post">
+			<c:if test="${paging.startblock > 1 }">
+				<a href="#">◀</a>
+			</c:if>
+			<c:forEach var="i" begin="${paging.startblock }"
+				end="${paging.endblock }">
+				<c:if test="${i == currpage }">
+					<c:out value="${i }"></c:out>
+				</c:if>
+				<c:if test="${i != currpage }">
+					<input type="submit" class="btn btn-default" name="curr"
+						value="${i }">
+				</c:if>
+			</c:forEach>
+			<c:if test="${paging.endblock < paging.totalpage }">
+				<a href="#">▶</a>
+			</c:if>
+		</form>
+	</div>
 	<script>
 		$(document).ready(function() {
 			$("input[name=sp]").click(function() {

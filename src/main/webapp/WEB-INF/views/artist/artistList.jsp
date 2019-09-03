@@ -31,17 +31,13 @@
             color: dodgerblue;
         }
         
-        body {
-            background-color: #f0e5de !important;
-        }
-        
         ul {
             list-style: none;
             padding: 0 !important;
         }
         
         .row {
-            margin: 0;
+            margin: 0 !important;
         }
         
         .jumbotron {
@@ -104,19 +100,36 @@
         
         /*작가 리스트*/
         
-        #artistListUl li {
-            margin: 0;
-            margin-bottom: 30px;
+        artistListUl {
+        	text-align: center;
         }
-        .artistListTitleImgBox, .artistListImgBox {
+        
+        #artistListUl li {
+        	width: 31%;
+        	border: 1px solid silver;
+        	display: inline-block;
+        	margin: 20px 10px 0 10px;
+        }
+        .artistListTitleImgBox {
             height: 190px;
             padding: 0 !important;
         }
         
-        .artistListTitleImgBox img, .artistListImgBox img {
+        .artistListTitleImgBox img {
             width: 100%;
             height: 190px;
             object-fit: cover;
+            border-bottom: 1px solid silver;
+        }
+        
+        .artistListLank {
+        	width: 50px;
+        	line-height: 50px;
+        	color: white;
+        	text-align: center;
+        	font-size:  20px;
+        	background-color: #ABD0CE;
+        	position: absolute;
         }
         
         .artistListDetailBox {
@@ -125,10 +138,11 @@
         }
         
         .artistListTitleName {
-            line-height: 40px;
+            height: 40px;
             text-align: center;
             font-size: 20px;
             font-weight: bold;
+            padding-top: 15px;
         }
         
         .artistListStarScore {
@@ -155,12 +169,8 @@
             text-overflow: ellipsis;
             white-space: normal;
         }
-        
+
         @media (max-width: 991px) {
-            
-            .artistListImgBox {
-                display: none;
-            }
             
             .artistListNavSearchText {
                 width: 80%;
@@ -169,19 +179,22 @@
             .artistListNavSearchButton {
                 width: 20%;
             }
+            
+            #artistListUl li {
+            	width: 47%;
+            }
         }
         
         @media (max-width: 767px) {
+        	.container {
+        		padding: 0 !important;
+        	}
             #mobileArtistListNavBox {
                 display: contents;
             }
             
             #mobileArtistListNavBox .container {
                 border-bottom: 1px solid silver;
-            }
-            
-            .row {
-            	background-color: white;
             }
             
             .dropdown {
@@ -229,6 +242,12 @@
                 padding: 10px 0 !important;
                 
             }
+            
+            #artistListUl li {
+            	width: 100%;
+            	margin: 0;
+            	margin-top: 40px;
+            }
         }
     </style>
     <script>
@@ -237,10 +256,10 @@
     	scrollArtistList();
     });
     
-    $(document).ready(artistList("인기순",""));
-    
     $(document).ready(function(){
+    	artistList("인기순","");
     	listTypeColorInit();
+    	topLankInit();
     	$('.artistListNavTypeBlock').on('click',listTypeReplace);
     	$('.drowdownList').on('click', listTypeReplace);
     	$('.artistListNavSearchButton').on('click',search);
@@ -277,9 +296,11 @@
     		$('#artistListUl').empty();
     		$('#currentArtistList').val(1);
     		listTypeSave = listType;
+    		artistListLank = 1; //랭크 초기화
     	}
     	
     	if(DelaylistTypeTokken == 0) {
+    		DelaylistTypeTokken = 1;
     		artistList(listType, searchTextSave);
     		
     		setTimeout(function() {
@@ -289,6 +310,7 @@
     }
     
     //검색에 의한 재정렬
+    DelaysearchTextTokken = 0; //토큰값
     let searchTextSave = ""; //검색 저장값
     function search() {
     	let searchText = $(this).prev().val();
@@ -301,7 +323,16 @@
     		$('#artistListUl').empty();
     		$('#currentArtistList').val(1);
     		searchTextSave = searchText;
-    		artistList(listTypeSave , searchText);
+    		artistListLank = 1; //랭크 초기화
+    		
+    		if(DelaysearchTextTokken == 0) {
+    			DelaysearchTextTokken = 1;
+    			artistList(listTypeSave , searchText);
+    			
+    			setTimeout(function() {
+    				DelaysearchTextTokken = 0;
+    			}, 500);
+    		}
     	}
     }
     
@@ -320,6 +351,7 @@
     	}
     }
     
+    let artistListLank = 1;
     function artistList(inputListType, inputSearchText) {
     	
     	let currentArtistList = $('#currentArtistList').val();
@@ -356,24 +388,20 @@
     				let listNo = data[i].listNo;
     				let listImg = data[i].listImg;
     				result += '<li>';
-    				result += 	'<div class="row">';
-    				result += 		'<div class="col-md-2 col-sm-3 artistListTitleImgBox"><a href="/artistDetail/'+artistBoarddto.artist_no+'"><img src="'+artistBoarddto.artist_main_img+'" alt="타이틀 이미지"></a></div>';
-    				result += 		'<div class="col-md-4 col-sm-9 artistListDetailBox">';
-    				result += 			'<div class="col-xs-12 artistListTitleName"><a href="/artistDetail/'+artistBoarddto.artist_no+'">'+artistBoarddto.user_name+'</a></div>';
-    				result += 			'<div class="col-xs-8 artistListStarScore">'+starScoreCel(artistBoarddto.artist_score)+'</div>';
-    				result += 			'<div class="col-xs-4 artistListNumScore">'+artistBoarddto.artist_score+'</div>';
-    				result += 			'<div class="col-xs-12 artistListDetailTitle">'+artistBoarddto.artist_board_title+'</div>';
-    				result += 		'</div>';
-    				for(let j=0; j<listNo.length; j++) {
-    					if(j<3) {
-    						result += '<div class="col-md-2 artistListImgBox"><a href="/productDetail/'+listNo[j]+'"><img src="'+listImg[j]+'" alt="제품 이미지"></a></div>'
-    					}
-    					else {
-    						break;
-    					}
-    				}
-    				result += 	'</div>';
+    				result += 	 '<div class="artistListTitleImgBox">';
+    				result += 		'<div class="artistListLank">'+artistListLank+'</div>';
+    				result += 		'<a href="/artistDetail/'+artistBoarddto.artist_no+'">';
+    				result += 			'<img src="'+artistBoarddto.artist_main_img+'" alt="타이틀 이미지">';
+    				result += 		'</a>';
+    				result +=	 '</div>';
+    				result += 	 '<div class="row artistListDetailBox">';
+    				result += 		'<div class="col-xs-12 artistListTitleName"><a href="/artistDetail/'+artistBoarddto.artist_no+'">'+artistBoarddto.user_name+'</a></div>';
+    				result += 		'<div class="col-xs-8 artistListStarScore">'+starScoreCel(artistBoarddto.artist_score)+'</div>';
+    				result += 		'<div class="col-xs-4 artistListNumScore">'+artistBoarddto.artist_score+'</div>';
+    				result += 		'<div class="col-xs-12 artistListDetailTitle">'+artistBoarddto.artist_board_title+'</div>';
+    				result += 	 '</div>';
     				result += '</li>';
+    				artistListLank++; // 랭크증가
     			}
     			$('#artistListUl').append(result);
     			$('#currentArtistList').val(Number(currentArtistList)+1);
@@ -405,12 +433,90 @@
     	return result;
     }
     
+    function topLankInit() {
+        for(let i=0; i<3; i++) {  
+            setTimeout(function() {
+                $('.topLankList:eq('+i+')').fadeIn();
+                $('.topLankList:eq('+i+')').css('display', 'inline-block');
+            }, 500*i);
+        }
+    }
+    
     </script>
+    <style>
+    	#topLankBox {
+       		max-width: 1170px;
+        	height: 300px;
+        	margin: auto;
+        }
+        
+        #topLankBox ul {
+        	text-align: center;
+        }
+        
+        .topLankList {
+        	width: 29%;
+        	height: 240px;
+        	display: inline-block;
+        	display: none;
+        	background-color: #a2a2a162;
+        	margin: 20px 10px 0 10px;
+        }
+        
+        .topLankNum {
+        	width: 80%;
+        	height: 50px;
+        	line-height: 50px;
+        	color: black;
+        	font-size: 30px;
+        	text-align: center;
+        	font-weight: bold;
+        	border-bottom: 1px solid silver;
+        	margin: auto;
+        }
+    </style>
 </head>
 <body>
 <input type="hidden" value="1" id="currentArtistList" readonly="readonly">
     <section>
         <div class="jumbotron"> 
+        	<div id="topLankBox" class="container">
+        		<ul>
+        			<li class="topLankList">
+        				<div class="topLankNum">1</div>
+        				<div class="artistListTitleName">이름넣기</div>
+        				<div class="row">
+        					<div class="col-sm-8 col-xs-12 artistListStarScore">★★★★★</div>
+        					<div class="col-sm-4 col-xs-12 artistListNumScore">5</div>
+        				</div>
+        				<div class="artistListDetailTitle">
+        					내용내용내용내용
+        				</div>
+        			</li>
+        			<li class="topLankList">
+        				<div class="topLankNum">2</div>
+        				<div class="artistListTitleName">이름넣기</div>
+        				<div class="row">
+        					<div class="col-sm-8 col-xs-12 artistListStarScore">★★★★★</div>
+        					<div class="col-sm-4 col-xs-12 artistListNumScore">5</div>
+        				</div>
+        				<div class="artistListDetailTitle">
+        					내용내용내용내용
+        				</div>
+        			</li>
+        			<li class="topLankList">
+        				<div class="topLankNum">3</div>
+        				<div class="artistListTitleName">이름넣기</div>
+        				<div class="row">
+        					<div class="col-sm-8 col-xs-12 artistListStarScore">★★★★★</div>
+        					<div class="col-sm-4 col-xs-12 artistListNumScore">5</div>
+        				</div>
+        				<div class="artistListDetailTitle">
+        					내용내용내용내용내용
+        				</div>
+        			</li>
+        		</ul>
+        	</div>
         </div>
         <div id="artistListNaxBox">
            <div class="container">

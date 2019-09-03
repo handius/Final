@@ -102,24 +102,34 @@ public class MyPageService {
 		return buyList;
 	}
 
-	public Map<String, Object> buyerPQList(int member_no) {
+	public int getBuyerPQACount(Map<String, Object> listMap) {
+		// TODO Auto-generated method stub
+		return mapper.getBuyerPQACount(listMap);
+	}
+
+	public Map<String, Object> getBuyerPQAList(Map<String, Object> listMap) {
 		// TODO Auto-generated method stub
 		Map<String, Object> parameters = new HashMap<>();
-		List<QABoardDTO> buyerPQList = mapper.buyerPQList(member_no);
+		List<QABoardDTO> buyerPQAList = mapper.getBuyerPQAList(listMap);
 		List<String> list_title_list = new ArrayList<>();
-		for (int i = 0; i < buyerPQList.size(); i++) {
-			String list_title = mapper.findList_title(buyerPQList.get(i).getList_no());
+		for (int i = 0; i < buyerPQAList.size(); i++) {
+			String list_title = mapper.findList_title(buyerPQAList.get(i).getList_no());
 			list_title_list.add(list_title);
 		}
-		parameters.put("buyerPQList", buyerPQList);
+		parameters.put("buyerPQAList", buyerPQAList);
 		parameters.put("list_title_list", list_title_list);
 		return parameters;
 	}
 
-	public Map<String, Object> buyerReviewList(int member_no) {
+	public int getBuyerReviewCount(Map<String, Object> listMap) {
+		// TODO Auto-generated method stub
+		return mapper.getBuyerReviewCount(listMap);
+	}
+
+	public Map<String, Object> getBuyerReviewList(Map<String, Object> listMap) {
 		// TODO Auto-generated method stub
 		Map<String, Object> parameters = new HashMap<>();
-		List<BuyReviewDTO> buyerReviewList = mapper.buyerReviewList(member_no);
+		List<BuyReviewDTO> buyerReviewList = mapper.getBuyerReviewList(listMap);
 		List<String> list_title_list = new ArrayList<>();
 		for (int i = 0; i < buyerReviewList.size(); i++) {
 			String list_title = mapper.findList_title(buyerReviewList.get(i).getList_no());
@@ -130,10 +140,25 @@ public class MyPageService {
 		return parameters;
 	}
 
-	public Map<String, Object> sellList(String user_id) {
+	public int getRegisterCount(Map<String, Object> listMap) {
+		// TODO Auto-generated method stub
+		return mapper.getRegisterCount(listMap);
+	}
+
+	public List<ListDTO> getRegisterList(Map<String, Object> listMap) {
+		// TODO Auto-generated method stub
+		return mapper.getRegisterList(listMap);
+	}
+
+	public int getSellCount(Map<String, Object> listMap) {
+		// TODO Auto-generated method stub
+		return mapper.getSellCount(listMap);
+	}
+
+	public Map<String, Object> getSellList(Map<String, Object> listMap) {
 		// TODO Auto-generated method stub
 		Map<String, Object> parameters = new HashMap<>();
-		List<OrderDTO> sellList = mapper.sellList(user_id);
+		List<OrderDTO> sellList = mapper.getSellList(listMap);
 		List<MemberDTO> buyerList = new ArrayList<>();
 		for (int i = 0; i < sellList.size(); i++) {
 			MemberDTO buyer = mapper.findBuyer(sellList.get(i).getMember_no());
@@ -180,10 +205,15 @@ public class MyPageService {
 		return parameters;
 	}
 
-	public Map<String, Object> sellerPQAList(MemberDTO memberDTO) {
+	public int getSellerPQACount(Map<String, Object> listMap) {
+		// TODO Auto-generated method stub
+		return mapper.getSellerPQACount(listMap);
+	}
+
+	public Map<String, Object> getSellerPQAList(Map<String, Object> listMap) {
 		// TODO Auto-generated method stub
 		Map<String, Object> parameters = new HashMap<>();
-		List<QABoardDTO> sellerPQAList = mapper.sellerPQAList(memberDTO);
+		List<QABoardDTO> sellerPQAList = mapper.getSellerPQAList(listMap);
 		List<String> list_title_list = new ArrayList<>();
 		for (int i = 0; i < sellerPQAList.size(); i++) {
 			String list_title = mapper.findList_title(sellerPQAList.get(i).getList_no());
@@ -194,10 +224,15 @@ public class MyPageService {
 		return parameters;
 	}
 
-	public Map<String, Object> sellerReviewList(String user_id) {
+	public int getSellerReviewCount(Map<String, Object> listMap) {
+		// TODO Auto-generated method stub
+		return mapper.getSellerReviewCount(listMap);
+	}
+
+	public Map<String, Object> getSellerReviewList(Map<String, Object> listMap) {
 		// TODO Auto-generated method stub
 		Map<String, Object> parameters = new HashMap<>();
-		List<BuyReviewDTO> sellerReviewList = mapper.sellerReviewList(user_id);
+		List<BuyReviewDTO> sellerReviewList = mapper.getSellerReviewList(listMap);
 		List<String> list_title_list = new ArrayList<>();
 		for (int i = 0; i < sellerReviewList.size(); i++) {
 			String list_title = mapper.findList_title(sellerReviewList.get(i).getList_no());
@@ -210,11 +245,6 @@ public class MyPageService {
 
 	public MemberDTO findBuyer(int member_no) {
 		return mapper.findBuyer(member_no);
-	}
-
-	public List<ListDTO> registerList(String user_id) {
-		// TODO Auto-generated method stub
-		return mapper.registerList(user_id);
 	}
 
 	public void cor(int order_no) {

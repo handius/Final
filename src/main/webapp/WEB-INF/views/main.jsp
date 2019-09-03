@@ -14,13 +14,14 @@
 <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 <link href="https://fonts.googleapis.com/css?family=Comfortaa&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Poor+Story&display=swap" rel="stylesheet">
 <style>
     .item > a > img {
         max-width: none !important;
-        height: 620px !important;
+        height: 720px !important;
     }
     .mainsettemplate {
-        font-family: 'Comfortaa', '맑은 고딕', cursive;
+        font-family: 'Comfortaa', 'Poor Story', cursive;
         color: #7C7877;
         height: 620px;
         width: 1140px;
@@ -38,12 +39,13 @@
     }
     .mainproductslide {
         width: 100%;
+        height: 300px;
     }
     .mainsettemplate > .row {
         padding-top: 60px;
     }
     .mainproductname {
-        padding: 10px;
+    	margin-top: 30px;
         text-align: center;
     }
     .gotopicon {
@@ -68,7 +70,7 @@
     	color: #7C7877;
     }
     #myCarousel {
-    	height: 600px;
+    	height: 720px;
     	background-color: #7C7877;
     }
     
@@ -113,7 +115,7 @@
 	         <div class="col-xs-4">
 	          <a href="/productDetail/${i.list_no }"><img class="mainproductslide" src="${i.list_image_loc }" alt="${i }"></a>
 	          <div class="mainproductname"><h4>${i.list_title }</h4></div>
-	          <div class="mainproductname">${i.list_base_price }￦</div>
+	          <div class="mainproductname"><p>${i.list_base_price }￦</p></div>
 	         </div>
           </c:forEach>
 	    </div>
