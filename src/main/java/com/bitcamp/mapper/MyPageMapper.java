@@ -29,19 +29,7 @@ public interface MyPageMapper {
 
 	void updateUser_password(Map<String, Object> parameters);
 
-	List<QABoardDTO> buyerPQList(int member_no);
-
-	List<BuyReviewDTO> buyerReviewList(int member_no);
-
-	List<OrderDTO> sellList(String user_id);
-
-	List<QABoardDTO> sellerPQAList(MemberDTO memberDTO);
-
-	List<BuyReviewDTO> sellerReviewList(String user_id);
-
 	MemberDTO findBuyer(int member_no);
-
-	List<ListDTO> registerList(String user_id);
 
 	void cor(int order_no);
 
@@ -80,6 +68,30 @@ public interface MyPageMapper {
 	int getCQACount(Map<String, Object> listMap);
 
 	List<CustomerQABoardDTO> getCQAList(Map<String, Object> listMap);
+
+	int getBuyerPQACount(Map<String, Object> listMap);
+
+	List<QABoardDTO> getBuyerPQAList(Map<String, Object> listMap);
+
+	int getBuyerReviewCount(Map<String, Object> listMap);
+
+	List<BuyReviewDTO> getBuyerReviewList(Map<String, Object> listMap);
+
+	int getRegisterCount(Map<String, Object> listMap);
+
+	List<ListDTO> getRegisterList(Map<String, Object> listMap);
+
+	int getSellCount(Map<String, Object> listMap);
+
+	List<OrderDTO> getSellList(Map<String, Object> listMap);
+
+	int getSellerPQACount(Map<String, Object> listMap);
+
+	List<QABoardDTO> getSellerPQAList(Map<String, Object> listMap);
+
+	int getSellerReviewCount(Map<String, Object> listMap);
+
+	List<BuyReviewDTO> getSellerReviewList(Map<String, Object> listMap);
 
 	void insertPQA(QABoardDTO qABoardDTO);
 

@@ -203,77 +203,192 @@ public class MyPageController {
 	}
 
 	@RequestMapping("buyerPQAList")
-	public String buyerPQAList(Principal prin, HttpSession session, Model model) {
+	public String buyerPQAList(Principal prin, HttpSession session, Model model,
+			@RequestParam(required = false) String curr) {
 		// MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
 		CustomUser user = (CustomUser) userService.loadUserByUsername(prin.getName());
 		MemberDTO memberDTO = user.getMember();
-		Map<String, Object> parameters = service.buyerPQList(memberDTO.getMember_no());
-		List<QABoardDTO> buyerPQList = (List<QABoardDTO>) parameters.get("buyerPQList");
+
+		Map<String, Object> listMap = new HashMap<>();
+		listMap.put("member_no", memberDTO.getMember_no());
+		// 페이징
+		int totalCount = service.getBuyerPQACount(listMap);
+		int currpage = 1;
+		if (curr != null)
+			currpage = Integer.parseInt(curr);
+		int pagepercount = 10;
+		int blockSize = 10;
+
+		PageDTO page = new PageDTO(currpage, totalCount, pagepercount, blockSize);
+		listMap.put("startrow", page.getStartrow());
+		listMap.put("endrow", page.getEndrow());
+
+		Map<String, Object> parameters = service.getBuyerPQAList(listMap);
+		List<QABoardDTO> buyerPQAList = (List<QABoardDTO>) parameters.get("buyerPQAList");
 		List<String> list_title_list = (List<String>) parameters.get("list_title_list");
-		model.addAttribute("buyerPQList", buyerPQList);
+		//
+
+		model.addAttribute("buyerPQAList", buyerPQAList);
 		model.addAttribute("list_title_list", list_title_list);
+		model.addAttribute("paging", page);
 		return "mypage/buyerPQAList.mall";
 	}
 
 	@RequestMapping("buyerReviewList")
-	public String buyerReviewList(Principal prin, HttpSession session, Model model) {
+	public String buyerReviewList(Principal prin, HttpSession session, Model model,
+			@RequestParam(required = false) String curr) {
 		// MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
 		CustomUser user = (CustomUser) userService.loadUserByUsername(prin.getName());
 		MemberDTO memberDTO = user.getMember();
-		Map<String, Object> parameters = service.buyerReviewList(memberDTO.getMember_no());
+
+		Map<String, Object> listMap = new HashMap<>();
+		listMap.put("member_no", memberDTO.getMember_no());
+		// 페이징
+		int totalCount = service.getBuyerReviewCount(listMap);
+		int currpage = 1;
+		if (curr != null)
+			currpage = Integer.parseInt(curr);
+		int pagepercount = 10;
+		int blockSize = 10;
+
+		PageDTO page = new PageDTO(currpage, totalCount, pagepercount, blockSize);
+		listMap.put("startrow", page.getStartrow());
+		listMap.put("endrow", page.getEndrow());
+
+		Map<String, Object> parameters = service.getBuyerReviewList(listMap);
 		List<BuyReviewDTO> buyerReviewList = (List<BuyReviewDTO>) parameters.get("buyerReviewList");
 		List<String> list_title_list = (List<String>) parameters.get("list_title_list");
+		//
+
 		model.addAttribute("buyerReviewList", buyerReviewList);
 		model.addAttribute("list_title_list", list_title_list);
+		model.addAttribute("paging", page);
 		return "mypage/buyerReviewList.mall";
 	}
 
 	@RequestMapping("registerList")
-	public String registerList(Principal prin, HttpSession session, Model model) {
+	public String registerList(Principal prin, HttpSession session, Model model,
+			@RequestParam(required = false) String curr) {
 		// MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
 		CustomUser user = (CustomUser) userService.loadUserByUsername(prin.getName());
 		MemberDTO memberDTO = user.getMember();
-		List<ListDTO> registerList = service.registerList(memberDTO.getUser_id());
+
+		Map<String, Object> listMap = new HashMap<>();
+		listMap.put("user_id", memberDTO.getUser_id());
+		// 페이징
+		int totalCount = service.getRegisterCount(listMap);
+		int currpage = 1;
+		if (curr != null)
+			currpage = Integer.parseInt(curr);
+		int pagepercount = 10;
+		int blockSize = 10;
+
+		PageDTO page = new PageDTO(currpage, totalCount, pagepercount, blockSize);
+		listMap.put("startrow", page.getStartrow());
+		listMap.put("endrow", page.getEndrow());
+
+		List<ListDTO> registerList = service.getRegisterList(listMap);
+		//
+
 		model.addAttribute("registerList", registerList);
+		model.addAttribute("paging", page);
 		return "mypage/registerList.mall";
 	}
 
 	@RequestMapping("sellList")
-	public String sellList(Principal prin, HttpSession session, Model model) {
+	public String sellList(Principal prin, HttpSession session, Model model,
+			@RequestParam(required = false) String curr) {
 		// MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
 		CustomUser user = (CustomUser) userService.loadUserByUsername(prin.getName());
 		MemberDTO memberDTO = user.getMember();
-		Map<String, Object> parameters = service.sellList(memberDTO.getUser_id());
+
+		Map<String, Object> listMap = new HashMap<>();
+		listMap.put("user_id", memberDTO.getUser_id());
+		// 페이징
+		int totalCount = service.getSellCount(listMap);
+		int currpage = 1;
+		if (curr != null)
+			currpage = Integer.parseInt(curr);
+		int pagepercount = 10;
+		int blockSize = 10;
+
+		PageDTO page = new PageDTO(currpage, totalCount, pagepercount, blockSize);
+		listMap.put("startrow", page.getStartrow());
+		listMap.put("endrow", page.getEndrow());
+
+		Map<String, Object> parameters = service.getSellList(listMap);
 		List<OrderDTO> sellList = (List<OrderDTO>) parameters.get("sellList");
 		List<MemberDTO> buyerList = (List<MemberDTO>) parameters.get("buyerList");
+		//
+
 		model.addAttribute("sellList", sellList);
 		model.addAttribute("buyerList", buyerList);
+		model.addAttribute("paging", page);
 		return "mypage/sellList.mall";
 	}
 
 	@RequestMapping("sellerPQAList")
-	public String sellerPQAList(Principal prin, HttpSession session, Model model) {
+	public String sellerPQAList(Principal prin, HttpSession session, Model model,
+			@RequestParam(required = false) String curr) {
 		// MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
 		CustomUser user = (CustomUser) userService.loadUserByUsername(prin.getName());
 		MemberDTO memberDTO = user.getMember();
-		Map<String, Object> parameters = service.sellerPQAList(memberDTO);
+
+		Map<String, Object> listMap = new HashMap<>();
+		listMap.put("member_no", memberDTO.getMember_no());
+		listMap.put("user_id", memberDTO.getUser_id());
+		// 페이징
+		int totalCount = service.getSellerPQACount(listMap);
+		int currpage = 1;
+		if (curr != null)
+			currpage = Integer.parseInt(curr);
+		int pagepercount = 10;
+		int blockSize = 10;
+
+		PageDTO page = new PageDTO(currpage, totalCount, pagepercount, blockSize);
+		listMap.put("startrow", page.getStartrow());
+		listMap.put("endrow", page.getEndrow());
+
+		Map<String, Object> parameters = service.getSellerPQAList(listMap);
 		List<QABoardDTO> sellerPQAList = (List<QABoardDTO>) parameters.get("sellerPQAList");
 		List<String> list_title_list = (List<String>) parameters.get("list_title_list");
+		//
+
 		model.addAttribute("sellerPQAList", sellerPQAList);
 		model.addAttribute("list_title_list", list_title_list);
+		model.addAttribute("paging", page);
 		return "mypage/sellerPQAList.mall";
 	}
 
 	@RequestMapping("sellerReviewList")
-	public String sellerReviewList(Principal prin, HttpSession session, Model model) {
+	public String sellerReviewList(Principal prin, HttpSession session, Model model,
+			@RequestParam(required = false) String curr) {
 		// MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
 		CustomUser user = (CustomUser) userService.loadUserByUsername(prin.getName());
 		MemberDTO memberDTO = user.getMember();
-		Map<String, Object> parameters = service.sellerReviewList(memberDTO.getUser_id());
+
+		Map<String, Object> listMap = new HashMap<>();
+		listMap.put("user_id", memberDTO.getUser_id());
+		// 페이징
+		int totalCount = service.getSellerReviewCount(listMap);
+		int currpage = 1;
+		if (curr != null)
+			currpage = Integer.parseInt(curr);
+		int pagepercount = 10;
+		int blockSize = 10;
+
+		PageDTO page = new PageDTO(currpage, totalCount, pagepercount, blockSize);
+		listMap.put("startrow", page.getStartrow());
+		listMap.put("endrow", page.getEndrow());
+
+		Map<String, Object> parameters = service.getSellerReviewList(listMap);
 		List<BuyReviewDTO> sellerReviewList = (List<BuyReviewDTO>) parameters.get("sellerReviewList");
 		List<String> list_title_list = (List<String>) parameters.get("list_title_list");
+		//
+
 		model.addAttribute("sellerReviewList", sellerReviewList);
 		model.addAttribute("list_title_list", list_title_list);
+		model.addAttribute("paging", page);
 		return "mypage/sellerReviewList.mall";
 	}
 

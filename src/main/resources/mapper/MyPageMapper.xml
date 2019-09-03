@@ -75,51 +75,182 @@
 			]]>
 	</select>
 	<!-- -->
-	<select id="buyerPQList" parameterType="int"
-		resultType="com.bitcamp.DTO.productdetail.QABoardDTO">
-		select * from qa_board where member_no=#{member_no} and
-		qa_board_parent_no is null and qa_board_delete_status=1 order by
-		qa_board_date desc
+	<select id="getBuyerPQACount" parameterType="Object"
+		resultType="int">
+		select count(*) from qa_board where member_no=#{member_no}
+		and
+		qa_board_parent_no is null and qa_board_delete_status=1
 	</select>
-	<select id="buyerReviewList" parameterType="int"
-		resultType="com.bitcamp.DTO.productdetail.BuyReviewDTO">
-		select * from order_board ob inner join buy_review br on
+	<select id="getBuyerPQAList"
+		resultType="com.bitcamp.DTO.productdetail.QABoardDTO"
+		parameterType="Object">
+		select * from (
+		select rownum as rnum, A.*
+		from (
+		select * from qa_board
+		where member_no=#{member_no} and
+		qa_board_parent_no is null and
+		qa_board_delete_status=1 order by
+		qa_board_date desc
+		) A
+				<![CDATA[
+					where rownum <= #{endrow} 
+				]]>
+		)B 
+			<![CDATA[
+			WHERE rnum >= #{startrow} 
+			]]>
+	</select>
+	<!-- -->
+	<select id="getBuyerReviewCount" parameterType="Object"
+		resultType="int">
+		select count(*) from order_board ob inner join buy_review
+		br on
 		ob.order_no=br.order_no where member_no=#{member_no} and
+		buy_review_status=1
+	</select>
+	<select id="getBuyerReviewList"
+		resultType="com.bitcamp.DTO.productdetail.BuyReviewDTO"
+		parameterType="Object">
+		select * from (
+		select rownum as rnum, A.*
+		from (
+		select * from
+		order_board ob inner join buy_review br on
+		ob.order_no=br.order_no
+		where member_no=#{member_no} and
 		buy_review_status=1 order by
 		buy_review_date desc
+		) A
+				<![CDATA[
+					where rownum <= #{endrow} 
+				]]>
+		)B 
+			<![CDATA[
+			WHERE rnum >= #{startrow} 
+			]]>
 	</select>
-	<select id="registerList" parameterType="String"
-		resultType="com.bitcamp.DTO.Product.ListDTO">
-		select * from list_board where
-		upper(list_artist)=upper(#{user_id}) and list_status=1 order by
+	<!-- -->
+	<select id="getRegisterCount" parameterType="Object"
+		resultType="int">
+		select count(*) from list_board where
+		upper(list_artist)=upper(#{user_id}) and list_status=1
+	</select>
+	<select id="getRegisterList"
+		resultType="com.bitcamp.DTO.Product.ListDTO" parameterType="Object">
+		select * from (
+		select rownum as rnum, A.*
+		from (
+		select * from
+		list_board where
+		upper(list_artist)=upper(#{user_id}) and list_status=1
+		order by
 		list_date desc
+		) A
+				<![CDATA[
+					where rownum <= #{endrow} 
+				]]>
+		)B 
+			<![CDATA[
+			WHERE rnum >= #{startrow} 
+			]]>
 	</select>
-	<select id="sellList" parameterType="String"
-		resultType="com.bitcamp.DTO.order.OrderDTO">
-		select * from order_board ob inner join list_board lb on
+	<!-- -->
+	<select id="getSellCount" parameterType="Object"
+		resultType="int">
+		select count(*) from order_board ob inner join list_board
+		lb on
 		ob.list_no=lb.list_no inner join member m on
 		upper(lb.list_artist)=upper(m.user_id)
 		where
-		upper(lb.list_artist)=upper(#{user_id}) order by order_date desc
+		upper(lb.list_artist)=upper(#{user_id})
 	</select>
-	<select id="sellerPQAList"
-		parameterType="com.bitcamp.DTO.member.MemberDTO"
-		resultType="com.bitcamp.DTO.productdetail.QABoardDTO">
-		select * from qa_board qb inner join list_board lb on
+	<select id="getSellList"
+		resultType="com.bitcamp.DTO.order.OrderDTO" parameterType="Object">
+		select * from (
+		select rownum as rnum, A.*
+		from (
+		select * from
+		order_board ob inner join list_board lb on
+		ob.list_no=lb.list_no inner
+		join member m on
+		upper(lb.list_artist)=upper(m.user_id)
+		where
+		upper(lb.list_artist)=upper(#{user_id}) order by order_date desc
+		) A
+				<![CDATA[
+					where rownum <= #{endrow} 
+				]]>
+		)B 
+			<![CDATA[
+			WHERE rnum >= #{startrow} 
+			]]>
+	</select>
+	<!-- -->
+	<select id="getSellerPQACount" parameterType="Object"
+		resultType="int">
+		select count(*) from qa_board qb inner join list_board lb
+		on
 		qb.list_no=lb.list_no where upper(list_artist)=upper(#{user_id}) and
+		member_no!=#{member_no} and
+		qa_board_delete_status=1
+	</select>
+	<select id="getSellerPQAList"
+		resultType="com.bitcamp.DTO.productdetail.QABoardDTO"
+		parameterType="Object">
+		select * from (
+		select rownum as rnum, A.*
+		from (
+		select * from qa_board
+		qb inner join list_board lb on
+		qb.list_no=lb.list_no where
+		upper(list_artist)=upper(#{user_id}) and
 		member_no!=#{member_no} and
 		qa_board_delete_status=1 order
 		by
 		qa_board_date desc
+		) A
+				<![CDATA[
+					where rownum <= #{endrow} 
+				]]>
+		)B 
+			<![CDATA[
+			WHERE rnum >= #{startrow} 
+			]]>
 	</select>
-	<select id="sellerReviewList" parameterType="String"
-		resultType="com.bitcamp.DTO.productdetail.BuyReviewDTO">
-		select * from list_board lb inner join order_board ob on
+	<!-- -->
+	<select id="getSellerReviewCount" parameterType="Object"
+		resultType="int">
+		select count(*) from list_board lb inner join order_board
+		ob on
 		lb.list_no=ob.list_no inner join buy_review br on
-		ob.order_no=br.order_no where upper(list_artist)=upper(#{user_id})
+		ob.order_no=br.order_no where upper(list_artist)=upper(#{user_id}) and
+		buy_review_status=1
+	</select>
+	<select id="getSellerReviewList"
+		resultType="com.bitcamp.DTO.productdetail.BuyReviewDTO"
+		parameterType="Object">
+		select * from (
+		select rownum as rnum, A.*
+		from (
+		select * from
+		list_board lb inner join order_board ob on
+		lb.list_no=ob.list_no inner
+		join buy_review br on
+		ob.order_no=br.order_no where
+		upper(list_artist)=upper(#{user_id}) and buy_review_status=1
 		order by
 		buy_review_date desc
+		) A
+				<![CDATA[
+					where rownum <= #{endrow} 
+				]]>
+		)B 
+			<![CDATA[
+			WHERE rnum >= #{startrow} 
+			]]>
 	</select>
+	<!-- -->
 	<select id="findBuyer" parameterType="int"
 		resultType="com.bitcamp.DTO.member.MemberDTO">
 		select * from member where member_no=#{member_no}
@@ -210,7 +341,6 @@
 		order_status='배송중' where order_no=#{order_no}
 	</update>
 	<!-- -->
-	<!-- -->
 	<select id="getCQACount" parameterType="Object" resultType="int">
 		select count(*) from customer_qa_board where
 		member_no=#{member_no}
@@ -234,13 +364,6 @@
 				WHERE rnum >= #{startrow} 
 				]]>
 	</select>
-	<!-- -->
-	<select id="cQAList" parameterType="int"
-		resultType="com.bitcamp.DTO.customerqaboard.CustomerQABoardDTO">
-		select * from customer_qa_board where
-		member_no=#{member_no} order by question_date desc
-	</select>
-	<!-- -->
 	<!-- -->
 	<insert id="insertPQA"
 		parameterType="com.bitcamp.DTO.productdetail.QABoardDTO">

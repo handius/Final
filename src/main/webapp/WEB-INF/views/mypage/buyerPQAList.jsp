@@ -65,7 +65,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach var="list" items="${buyerPQList }" varStatus="status">
+			<c:forEach var="list" items="${buyerPQAList }" varStatus="status">
 				<tr class="accordion">
 					<td style="display: none;">${list.qa_board_no }</td>
 					<td><a href="productDetail/${list.list_no }">${list_title_list[status.index]}</a></td>
@@ -92,6 +92,26 @@
 			</c:forEach>
 		</tbody>
 	</table>
+	<div id="divPage">
+		<form class="formPage" action="/buyerPQAList" method="post">
+			<c:if test="${paging.startblock > 1 }">
+				<a href="#">◀</a>
+			</c:if>
+			<c:forEach var="i" begin="${paging.startblock }"
+				end="${paging.endblock }">
+				<c:if test="${i == currpage }">
+					<c:out value="${i }"></c:out>
+				</c:if>
+				<c:if test="${i != currpage }">
+					<input type="submit" class="btn btn-default" name="curr"
+						value="${i }">
+				</c:if>
+			</c:forEach>
+			<c:if test="${paging.endblock < paging.totalpage }">
+				<a href="#">▶</a>
+			</c:if>
+		</form>
+	</div>
 	<div class="modal fade" id="myModal">
 		<div class="modal-dialog">
 			<div class="modal-content">

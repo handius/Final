@@ -31,7 +31,7 @@
 	<table>
 		<thead>
 			<tr>
-				<th>번호</th>
+				<th style="display: none;">번호</th>
 				<th>상품명</th>
 				<th>내용</th>
 				<th>작성일</th>
@@ -40,7 +40,7 @@
 		<tbody>
 			<c:forEach var="list" items="${sellerReviewList }" varStatus="status">
 				<tr>
-					<td>${list.buy_review_no }</td>
+					<td style="display: none;">${list.buy_review_no }</td>
 					<td><a href="productDetail/${list.list_no }">${list_title_list[status.index] }</a></td>
 					<td>${list.buy_review_content }</td>
 					<td>${list.buy_review_date }</td>
@@ -48,5 +48,25 @@
 			</c:forEach>
 		</tbody>
 	</table>
+	<div id="divPage">
+		<form class="formPage" action="/sellerReviewList" method="post">
+			<c:if test="${paging.startblock > 1 }">
+				<a href="#">◀</a>
+			</c:if>
+			<c:forEach var="i" begin="${paging.startblock }"
+				end="${paging.endblock }">
+				<c:if test="${i == currpage }">
+					<c:out value="${i }"></c:out>
+				</c:if>
+				<c:if test="${i != currpage }">
+					<input type="submit" class="btn btn-default" name="curr"
+						value="${i }">
+				</c:if>
+			</c:forEach>
+			<c:if test="${paging.endblock < paging.totalpage }">
+				<a href="#">▶</a>
+			</c:if>
+		</form>
+	</div>
 </body>
 </html>
