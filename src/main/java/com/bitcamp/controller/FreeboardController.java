@@ -15,9 +15,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.bitcamp.DTO.comm.PageDTO;
 import com.bitcamp.DTO.freeboard.FreeboardDTO;
+import com.bitcamp.DTO.freeboard.FreeboardRepDTO;
 import com.bitcamp.DTO.member.MemberDTO;
 import com.bitcamp.service.FreeboardRepService;
 import com.bitcamp.service.FreeboardService;
@@ -31,8 +33,8 @@ public class FreeboardController {
 	@Resource(name = "freeboardRepService")
 	private FreeboardRepService replySerivce;
 
-//	@PreAuthorize("hasRole('ROLE_MEMBER')")
-	@RequestMapping(value="/freeboard")
+	// @PreAuthorize("hasRole('ROLE_MEMBER')")
+	@RequestMapping(value = "/freeboard")
 	public String freeboardList(
 			@RequestParam(value = "category", required = false, defaultValue = "전체") String freeboard_category,
 			@RequestParam(value = "searchType", required = false, defaultValue = "") String searchType,
@@ -133,6 +135,6 @@ public class FreeboardController {
 
 		return "redirect:/freeboard/detail?no=" + freeboard_no;
 	}
-	
+
 
 }

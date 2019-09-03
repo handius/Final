@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.bitcamp.DTO.comm.PageDTO;
 import com.bitcamp.DTO.freeboard.FreeboardRepDTO;
 import com.bitcamp.service.FreeboardRepService;
 
@@ -25,11 +27,27 @@ public class FreeboardRepController {
 	private FreeboardRepService replySerivce;
 
 	@RequestMapping(value = "/getReplyList", method = RequestMethod.POST)
-	public List<FreeboardRepDTO> getReplyList(@RequestParam("freeboard_no") int freeboard_no, Model model) {
+	public List<FreeboardRepDTO> getReplyList(@RequestParam("freeboard_no") int freeboard_no,
+			@RequestParam(required = false) String curr, Model model) {
 
-		List<FreeboardRepDTO> result = replySerivce.getReplyService(freeboard_no);
-		
-		System.out.println(result);
+		HashMap<String, Object> listMap = new HashMap<>();
+
+		// 페이징
+		int totalCount = replySerivce.countReplyService(freeboard_no);
+		int currpage = 1;
+		if (curr != null)
+			currpage = Integer.parseInt(curr);
+		int pagepercount = 10;
+		int blockSize = 10;
+
+		PageDTO page = new PageDTO(currpage, totalCount, pagepercount, blockSize);
+		listMap.put("startrow", page.getStartrow());
+		listMap.put("endrow", page.getEndrow());
+		listMap.put("freeboard_no", freeboard_no);
+
+		List<FreeboardRepDTO> result = replySerivce.getReplyService(listMap);
+
+		model.addAttribute("paging", page);
 
 		return result;
 	}
@@ -58,13 +76,13 @@ public class FreeboardRepController {
 		replySerivce.updateReplyDataService(rep_no, rep_content);
 	}
 
-	@RequestMapping(value="/deleteReply", method=RequestMethod.POST)
+	@RequestMapping(value = "/deleteReply", method = RequestMethod.POST)
 	@ResponseBody
 	public void deleteReply(@RequestParam int rep_no) {
 		replySerivce.deleteReplyService(rep_no);
 	}
 
-	@RequestMapping(value="freeboard/ReplyReply", method=RequestMethod.POST)
+	@RequestMapping(value = "freeboard/ReplyReply", method = RequestMethod.POST)
 	public @ResponseBody Map<String, Object> freeboardRepRep(@RequestBody FreeboardRepDTO repDTO) {
 		Map<String, Object> result = new HashMap<>();
 
@@ -81,5 +99,21 @@ public class FreeboardRepController {
 
 		return result;
 	}
+
+	@RequestMapping(value = "/freeboardRep", method = RequestMethod.GET)
+	public ModelAndView list(@RequestParam("no") int freeboard_no, ModelAndView mav) {
+
+		HashMap<String, Object> listMap = new HashMap<>();
+		listMap.put("freeboard_no", freeboard_no);
+
+		List<FreeboardRepDTO> list = replySerivce.getReplyService(listMap);
+
+		mav.setViewName("freeboard/freeboardRep");
+		mav.addObject("list", list);
+
+		return mav;
+	}
 	
+	
+
 }

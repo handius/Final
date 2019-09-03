@@ -1,5 +1,6 @@
 package com.bitcamp.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +19,11 @@ public class FreeboardRepService {
 		mapper.insertData(repDTO);
 	}
 	
-	public List<FreeboardRepDTO> getReplyService(int freeboard_no){
+	/*public List<FreeboardRepDTO> getReplyService(int freeboard_no){
 		return mapper.getData(freeboard_no);
+	}*/
+	public List<FreeboardRepDTO> getReplyService(HashMap<String, Object> listMap){
+		return mapper.getData(listMap);
 	}
 	
 	public void modifyReplyService(FreeboardRepDTO dto) {

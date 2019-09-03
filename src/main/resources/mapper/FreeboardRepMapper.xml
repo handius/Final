@@ -5,6 +5,7 @@
 <mapper namespace="com.bitcamp.mapper.FreeboardRepMapper">
 
 	<select id="getData"
+		parameterType="Object"
 		resultType="com.bitcamp.DTO.freeboard.FreeboardRepDTO">
 		select freeboard_rep.*, user_nick
 		from freeboard_rep
