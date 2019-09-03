@@ -7,11 +7,34 @@
 <head>
 <meta charset="utf-8">
 <title>Handius :: 우리가 만드는 핸드메이드 쇼핑몰</title>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <style>
 	#avoidHeader {
 		height: 120px;
 	}
+	
+	.gotopicon {
+        background-color: white;
+        border: 1px solid #D9D4CF;
+        border-radius: 50px;
+        padding: 7px 10px 10px 10px;
+        position: fixed;
+        z-index: 1;
+        bottom: 50px;
+        right: 50px;
+        width: 35px;
+        height: 35px;
+        color: #7C7877;
+        cursor: pointer;
+    }
 </style>
+<script>
+	$(document).ready(function(){
+    	$('.gotopicon').on('click', function() {
+        	$(window).scrollTop(0);
+    	});	
+	});
+</script>
 </head>
 <body>
 	<c:choose>
@@ -24,6 +47,9 @@
 		</c:otherwise>
 	</c:choose>
 	<div id="main"><tiles:insertAttribute name="body"/></div>
+	<div class="gotopicon">
+        <span class="glyphicon glyphicon-chevron-up"></span>
+    </div>
 	<div id="footer"><tiles:insertAttribute name="footer"/></div>
 </body>
 </html>
