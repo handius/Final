@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!DOCTYPE html">
 <html>
 <head>
@@ -58,104 +59,83 @@
 #divReply {
 	padding-bottom: 50px;
 }
+
+.tdHead {
+	text-align: center;
+	background-color: #f9f9f9;
+	font-weight: bold;
+}
+
+.rep_table {
+	width: 100%;
+	border-spacing: 10px;
+}
+
+.rep_regidate {
+	font-size: 12px;
+}
+
+.rep_nav {
+	width: 150px;
+	text-align: right;
+}
+
+.rep_nickname {
+	font-weight: 700;
+}
+
+.rep_no {
+	width: 20px;
+}
+
+.rep_content_td {
+	padding: 10px 0px 10px;
+}
+
+.table_tr {
+	padding: 200px;
+}
 </style>
 <script>
+	var sessionid = ${sessionScope.member.member_no};
+	var freeboard_no = ${board.freeboard_no};
 	$(document).ready(function() {
 		showReplyList();
+		/* listReply(freeboard_no); */
 	});
 
-	function showHtml(result) {
-		let html = "<table class='table table-striped table-bordered' style='margin-top: 10px;'><tbody id='rep_tbody'>";
+	var entityMap = {
+		'&' : '&amp;',
+		'<': '&lt;', '>' : '&gt;',
+		'"' : '&quot;',
+		"'" : '&#39;',
+		'/' : '&#x2F;',
+		'`' : '&#x60;',
+		'=' : '&#x3D;'
+	};
+
+	function escapeHtml(string) {
+		console.log('이스케이프');
+		console.log(string);
+		return String(string).replace(/[&<>"'`=\/]/g, function(s) {
+			return entityMap[s];
+		});
+	}
+
+	//댓글리스트 출력2
+	function listReply(num) {
 		$
-				.each(
-						result,
-						function(index, item) {
-							html += "<tr id='tr"+item.rep_no+"' align='center'>";
-							html += "<td id='rep_no"+item.rep_no+"'>"
-									+ (index + 1) + "</td>";
-							html += "<td class='nickname'>" + item.user_nick
-									+ "</td>";
-							html += "<td class='commentContent"+item.rep_no+"' align='left' width='450px'>"
-									+ item.rep_content + "</td>";
-							html += "<td>" + item.rep_regiDate;
-							html += "<a onclick='addReply(" + item.rep_no
-									+ ")'  style='padding-left:5px'> 답글 </a>";
-							html += '<a href="javascript:void(0)" onclick="editReply('
-									+ item.rep_no
-									+ ', \''
-									+ item.rep_content
-									+ '\')" style="padding-right:5px">수정</a>';
-							html += "<a onclick='deleteReply(" + item.rep_no
-									+ ")'> 삭제 </a>";
-							html += "</td>";
-							html += "</tr>";
-						});
-		html += "</tbody></table>";
-		/*   commPageNum = parseInt(commPageNum);        // 정수로 변경
-		  // commentCount는 동기화되어 값을 받아오기 때문에, 댓글 insert에 즉각적으로 처리되지 못한다.
-		  if("${article.commentCount}" > commPageNum * 10) {
-		      nextPageNum = commPageNum + 1;
-		      html +="<input type='button' class='btn btn-default' onclick='getComment(nextPageNum, event)' value='다음 comment 보기'>";
-		  } */
-
-		$("#repList").html(html);
+				.ajax({
+					type : "get",
+					url : "${pageContext.request.contextPath}/freeboardRep?no=${board.freeboard_no}&curr="
+							+ num,
+					success : function(result) {
+						$("#repList").html(result);
+					}
+				});
 	}
 
-	function addReply(rep_no) {
-		console.log("function 실행" + rep_no);
-
-		var a = '<tr><td></td><td class="nickname" align="center">${sessionScope.member.user_nick }</td>';
-		a += '<td colspan="2"><textarea id="repContent" class="form-control"></textarea><a onclick="writeRepRep('
-				+ rep_no
-				+ ')">답글달기</a><a onclick="showReplyList()">취소</a></td>';
-		a += '</tr>';
-
-		var trHtml = $("tr[id=tr" + rep_no + "]:last");
-		console.log(trHtml);
-		trHtml.after(a);
-	}
-
-	function editReply(rep_no, rep_content) {
-		var a = '';
-
-		a += '<div>';
-		a += '<input type="text" class="form-control" name="content_'+rep_no+'" value="'+rep_content+'"/>';
-		a += '<a onclick="commentUpdateProc(' + rep_no
-				+ ')">수정</a> <a onclick="showReplyList()">취소</a> </span>';
-		a += ''
-		a += '</div>';
-
-		$('.commentContent' + rep_no).html(a);
-	}
-
-	function commentUpdateProc(rep_no) {
-		var content = $('[name=content_' + rep_no + ']').val();
-		$.ajax({
-			url : '/modifyReply',
-			type : 'post',
-			data : {
-				'rep_content' : content,
-				'rep_no' : rep_no
-			},
-			success : function() {
-				showReplyList();
-			}
-		});
-	}
-
-	function deleteReply(rep_no) {
-		$.ajax({
-			url : '/deleteReply',
-			type : 'post',
-			data : {
-				'rep_no' : rep_no
-			},
-			success : function() {
-				showReplyList();
-			}
-		});
-	}
-
+	//댓글리스트 출력
 	function showReplyList() {
 		var url = "${pageContext.request.contextPath}/getReplyList";
 		var paramData = {
@@ -173,9 +153,115 @@
 		});
 
 	}
-	$('#btnRepWrite').click(function(event) {
-		event.preventDefault();
-	});
+	//댓글출력
+	function showHtml(result) {
+		let html = "<table class='rep_table' style='margin-top: 10px;'><tbody id='rep_tbody'>";
+		$
+				.each(
+						result,
+						function(index, item) {
+							html += "<tr class='table_tr'>";
+							if(item.rep_parent_no != null){
+								html+="<div style='padding-left:10px;'></div>";
+							}
+							html += "<td class='rep_no' id='rep_no"+item.rep_no+"'>"
+								+ (index + 1) + "</td>";	
+							html += "<td class='rep_nickname'>"
+									+ item.user_nick + "</td>"; //닉네임
+							html += "<td class='rep_nav'><a onclick='addReply("
+									+ item.rep_no
+									+ ")'  style='padding-left:5px'> 답글 </a>";
+
+							if (sessionid == item.member_no) {
+								html += '<a href="javascript:void(0)" onclick="editReply('
+										+ item.rep_no
+										+ ', \''
+										+ item.rep_content
+										+ '\')" style="padding-right:5px">수정</a>';
+								html += "<a onclick='deleteReply("
+										+ item.rep_no + ")'>삭제 </a>"; //답글 수정 삭제
+							}
+							html += "</td></tr>";
+							html += "<tr><td></td><td colspan='3'  class='rep_regidate'>"
+									+ item.rep_regiDate + "</td></tr>"; //작성일
+							html += "<tr class='table_tr_last'  id='tr"+item.rep_no+"'><td></td><td class='rep_content_td commentContent"+item.rep_no+"' align='left' width='450px'>"
+									+ item.rep_content + "</td>";
+							html += "</tr>";
+						});
+		html += "</tbody></table>";
+		/*   commPageNum = parseInt(commPageNum);        // 정수로 변경
+		  // commentCount는 동기화되어 값을 받아오기 때문에, 댓글 insert에 즉각적으로 처리되지 못한다.
+		  if("${article.commentCount}" > commPageNum * 10) {
+		      nextPageNum = commPageNum + 1;
+		      html +="<input type='button' class='btn btn-default' onclick='getComment(nextPageNum, event)' value='다음 comment 보기'>";
+		  } */
+
+		$("#repList").html(html);
+	}
+
+	//댓글등록
+	function addReply(rep_no) {
+		console.log("function 실행" + rep_no);
+
+		var a = '<tr><td></td><td class="nickname">${sessionScope.member.user_nick }</td></tr>';
+		a += '<tr><td></td><td colspan="2"><textarea id="repContent" class="form-control"></textarea><a onclick="writeRepRep('
+				+ rep_no
+				+ ') " style="padding-right:5px">답글달기</a><a onclick="showReplyList()">취소</a></td>';
+		a += '</tr>';
+
+		var trHtml = $("tr[id=tr" + rep_no + "]:last");
+		console.log(trHtml);
+		trHtml.after(a);
+	}
+
+	//댓글수정폼
+	function editReply(rep_no, rep_content) {
+		var a = '';
+
+		a += '<div>';
+		a += '<input type="text" class="form-control" name="content_' + rep_no
+				+ '" value="' + rep_content + '"/>';
+		a += '<a onclick="commentUpdateProc(' + rep_no
+				+ ')">수정</a> <a onclick="showReplyList()">취소</a> </span>';
+		a += ''
+		a += '</div>';
+
+		$('.commentContent' + rep_no).html(a);
+	}
+
+	//댓글수정
+	function commentUpdateProc(rep_no) {
+		var content = $('[name=content_' + rep_no + ']').val();
+		$.ajax({
+			url : '/modifyReply',
+			type : 'post',
+			data : {
+				'rep_content' : content,
+				'rep_no' : rep_no
+			},
+			success : function() {
+				alert('변경되었습니다!');
+				showReplyList();
+			}
+		});
+	}
+
+	//댓글삭제
+	function deleteReply(rep_no) {
+		$.ajax({
+			url : '/deleteReply',
+			type : 'post',
+			data : {
+				'rep_no' : rep_no
+			},
+			success : function() {
+				alert('삭제되었습니다!');
+				showReplyList();
+			}
+		});
+	}
+
+	//댓글작성
 	function writeReply() {
 
 		var freeboard_no = replyForm.board_no.value;
@@ -214,6 +300,7 @@
 		}
 	}
 
+	//답글작성
 	function writeRepRep(rep_no) {
 		var freeboard_no = replyForm.board_no.value;
 		var rep_content = $('#repContent').val();
@@ -253,28 +340,24 @@
 </script>
 <body>
 	<div id="wrap">
-		<table class="table">
-			<thead>
-				<tr>
-					<th>${board.freeboard_category }</th>
-				</tr>
-			<thead>
+		<table class="table table-bordered table-condensed">
 			<tbody>
 				<tr>
-					<td>제목</td>
-					<td class="title" colspan="6">${board.freeboard_title }</td>
+					<td class="tdHead">제목</td>
+					<td class="title" colspan="6">[${board.freeboard_category}]
+						${board.freeboard_title }</td>
 				</tr>
 				<tr>
-					<td>닉네임</td>
-					<td class="nickname">${board.user_nick}</td>
-					<td>작성일</td>
+					<td class="tdHead">닉네임</td>
+					<td>${board.user_nick}</td>
+					<td class="tdHead">작성일</td>
 					<td>${board.freeboard_regiTime }</td>
-					<td>조회수</td>
+					<td class="tdHead">조회수</td>
 					<td>${board.freeboard_hits }</td>
 				</tr>
 				<tr>
-					<td>내용</td>
-					<td colspan="6">${board.freeboard_content }</td>
+					<td class="tdHead">내용</td>
+					<td colspan="6" style="min-height: 100px">${board.freeboard_content }</td>
 				</tr>
 			</tbody>
 		</table>
@@ -296,7 +379,9 @@
 						onclick="writeReply()" value="댓글등록">
 				</form>
 			</div>
-			<div id="repList"></div>
+			<div id="repList">
+				<div id="divPage"></div>
+			</div>
 		</div>
 		<button class="btn" onclick="location='../freeboard'">목록으로</button>
 

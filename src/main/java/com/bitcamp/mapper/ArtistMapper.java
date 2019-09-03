@@ -47,6 +47,10 @@ public interface ArtistMapper {
 	public List<Integer> artistScoreListNoList(String user_id);
 	public List<Integer> artistScoreBuyReviewScoreList(int list_no);
 	public void artistScoreUpdate(HashMap<String, Object> hashmap);
+	//작가 자동 별점 계산 시작
+	public List<String> artistScoreSchedulerArtistList();
+	public List<Integer> artistScoreSchedulerListNoList(String user_id);
+	public List<Integer> artistScoreSchedulerBuyReviewScoreList(int list_no);
 	//작가 페이지 활성 토글 시작
 	public void artistDetailPageActiveToggle(HashMap<String, Object> hashmap);
 	public int artistDetailPageStatusCheck(int artist_no);

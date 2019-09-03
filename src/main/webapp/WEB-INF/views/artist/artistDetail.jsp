@@ -19,6 +19,10 @@
     <!-- 클립 보드 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js"></script>
     <style>
+    	* {
+    		font-family: 'Comfortaa', '맑은 고딕', cursive;
+    	}
+    	
         a:visited,
         a:active,
         a:link {

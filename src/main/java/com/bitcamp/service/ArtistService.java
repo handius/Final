@@ -39,6 +39,7 @@ public class ArtistService {
 		return map;
 	}
 	
+	@Transactional
 	public void artistBoardDetailCountService(HttpServletRequest request, HttpServletResponse response, int artist_no) {
 		//쿠키에서 작가페이지의 출입 확인
 		boolean cookieFind = false;
@@ -246,6 +247,50 @@ public class ArtistService {
 		}
 	}
 	
+	//일정 시간마다 자동 별점 계산
+	@Scheduled(cron="0 0/5 * * * ?") 
+	public void artistScoreScheduler() {
+		System.out.println("[작가 자동 별점 계산 시작]");
+		long start = System.currentTimeMillis();
+		int artistBoardCount = 0;
+		
+		List<String> artistBoardList = mapper.artistScoreSchedulerArtistList();		
+		if(artistBoardList.size() != 0) {
+			for(int i=0; i<artistBoardList.size(); i++) {
+				String user_id = artistBoardList.get(i);
+				List<Integer> list_noList = mapper.artistScoreSchedulerListNoList(user_id);
+				
+				float ScoreSum = 0;
+				int ScoreCount = 0;
+				if(list_noList.size() != 0) {
+					for(int j=0; j<list_noList.size(); j++) {
+						List<Integer> artist_board_scoreList = mapper.artistScoreSchedulerBuyReviewScoreList(list_noList.get(j));
+						
+						if(artist_board_scoreList.size() != 0) {
+							for(int k=0; k<artist_board_scoreList.size(); k++) {
+								ScoreSum += artist_board_scoreList.get(k);
+								ScoreCount++;
+							}
+						}
+					} //list_nolist for end
+					
+					if(ScoreCount != 0) {
+						ScoreSum = ScoreSum/ScoreCount;
+					}
+					HashMap<String, Object> hashmap = new HashMap<>();
+					hashmap.put("user_id", user_id);
+					hashmap.put("artist_score", ScoreSum);
+					mapper.artistScoreUpdate(hashmap);
+				}
+				artistBoardCount++;
+			} //artistBoardList for end
+		}		
+		long end = System.currentTimeMillis();
+		System.out.println("자동 별점 계산 소요시간 : "+(end-start)/1000.0+"초 ");
+		System.out.println("갱신한 작가페이지 수 : "+artistBoardCount);
+		System.out.println("[작가 자동 별점 계산 종료]");
+	}
+	
 	@Transactional
 	public String artistDetailPageActiveToggleService(Map<String, Object> map) {
 		int artist_no = Integer.parseInt(map.get("artist_no").toString());
@@ -266,13 +311,6 @@ public class ArtistService {
 		
 		return resultMessage;
 		
-	}
-	
-	@Scheduled(cron="* /1 * * * *") //1분마다 실행
-	public void ArtistScoreScheduler() {
-		int i=0;
-		System.out.println("스케줄 작동 확인 완료 : "+ i);
-		i++;
 	}
 	
 }
