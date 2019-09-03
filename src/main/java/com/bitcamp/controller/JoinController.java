@@ -66,10 +66,9 @@ public class JoinController {
 			@RequestParam("name") String user_name, @RequestParam("email") String user_email,
 			@RequestParam String address1, @RequestParam String address2) throws Exception {
 		String user_address = address1 + " " + address2;
-		// user_name+user_email+user_address);
 		joinService.userRegisterService(user_id, user_password, user_name, user_email, user_address);
 
-		return "join/joinResult";
+		return "redirect:/";
 	}
 
 	@RequestMapping(value = "join/joinConfirm", method = RequestMethod.GET)

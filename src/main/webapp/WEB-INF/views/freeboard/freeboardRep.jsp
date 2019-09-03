@@ -145,7 +145,7 @@ function repUpdate(rep_no){
 
 </script>
 <body>
-	<div>
+	<div id = "wraprep">
 		<c:set var="freeboard_no" value="${freeboard_no}" />
 		<c:forEach var="list" items="${list}">
 			<div id="rep_box">
