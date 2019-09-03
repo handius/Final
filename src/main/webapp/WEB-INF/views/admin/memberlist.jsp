@@ -147,9 +147,14 @@
             </table>
             
           <!-- Paging Block -->
+		<c:if test="${paging.totalcount == 0 }">
+          <div class="pagination_block">
+			<p>검색결과가 없습니다.</p>          
+          </div>
+        </c:if>
           <div class="pagination_block">
 		  <form action="/admin" method="post">
-		  	  <c:if test="${memberList != null }">
+		  	  <c:if test="${paging.totalcount != 0 }">
 		  	  
 				<!-- 검색 값 -->
 		 		<c:forEach var="test" items="${test }" varStatus="status">
