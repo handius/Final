@@ -9,9 +9,9 @@
 		insert into freeboard
 		values(freeboard_seq.nextval,
 		#{freeboard_title},
-		#{freeboard_content}, to_char(sysdate,'MM.DD HH:MI:SS'), 0, 1,
+		#{freeboard_content}, to_char(sysdate,'YY.MM.DD AMHH:MI'), 0, 1,
 		#{freeboard_category},
-		#{freeboard_member_no})
+		#{freeboard_member_no}, #{freeboard_user_nick})
 	</insert>
 
 	<select id="getDetail"
@@ -51,7 +51,7 @@
 					select freeboard_no, freeboard_title,
 						freeboard_content,
 						freeboard_regitime, freeboard_hits,
-						freeboard_member_no, user_nick,
+						freeboard_member_no, freeboard_user_nick,
 						(select count(*) from freeboard_rep
 								where freeboard_no = f.freeboard_no and rep_status=1) as freeboard_rep_count
 					from
@@ -62,6 +62,7 @@
 					<where>
 						freeboard_status = 1
 						<include refid="search_category"></include>
+						<include refid="search_board"></include>
 					</where>
 					order by freeboard_no desc
 					) A
@@ -96,7 +97,7 @@
 			and freeboard_title like '%'||#{searchKeyword}||'%'
 		</if>
 		<if test="searchType=='닉네임'">
-			and user_nick like '%'||#{searchKeyword}||'%'
+			and freeboard_user_nick like '%'||#{searchKeyword}||'%'
 		</if>
 	</sql>
 	<sql id="search_category">

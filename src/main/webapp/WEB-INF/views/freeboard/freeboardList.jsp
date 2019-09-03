@@ -119,12 +119,15 @@ thead {
 					</tr>
 				</thead>
 				<tbody>
+				<c:if test="${empty list}">
+					<tr><td colspan="5" style="text-align : center;">검색된 결과가 없습니다.</td></tr>
+				</c:if>
 					<c:forEach items="${list}" var="list">
 						<tr>
 							<td><c:out value="${list.freeboard_no}"></c:out></td>
 							<td><a href="freeboard/detail?no=${list.freeboard_no}"><c:out
 										value="${list.freeboard_title}"></c:out> [${list.freeboard_rep_count }]</a></td>
-							<td><c:out value="${list.user_nick}"></c:out></td>
+							<td><c:out value="${list.freeboard_user_nick}"></c:out></td>
 							<td><c:out value="${list.freeboard_regiTime}"></c:out></td>
 							<td><c:out value="${list.freeboard_hits}"></c:out></td>
 						</tr>
