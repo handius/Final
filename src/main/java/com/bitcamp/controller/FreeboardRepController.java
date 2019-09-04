@@ -26,32 +26,6 @@ public class FreeboardRepController {
 	@Resource(name = "freeboardRepService")
 	private FreeboardRepService replySerivce;
 
-	@RequestMapping(value = "/getReplyList", method = RequestMethod.POST)
-	public List<FreeboardRepDTO> getReplyList(@RequestParam("freeboard_no") int freeboard_no,
-			@RequestParam(required = false) String curr, Model model) {
-
-		HashMap<String, Object> listMap = new HashMap<>();
-
-		// 페이징
-		int totalCount = replySerivce.countReplyService(freeboard_no);
-		int currpage = 1;
-		if (curr != null)
-			currpage = Integer.parseInt(curr);
-		int pagepercount = 10;
-		int blockSize = 10;
-
-		PageDTO page = new PageDTO(currpage, totalCount, pagepercount, blockSize);
-		listMap.put("startrow", page.getStartrow());
-		listMap.put("endrow", page.getEndrow());
-		listMap.put("freeboard_no", freeboard_no);
-
-		List<FreeboardRepDTO> result = replySerivce.getReplyService(listMap);
-
-		model.addAttribute("paging", page);
-
-		return result;
-	}
-
 	@RequestMapping(value = "/freeboard/freeboardReply", method = RequestMethod.POST)
 	public @ResponseBody Map<String, Object> freeboardReply(@RequestBody FreeboardRepDTO repDTO) {
 
@@ -101,7 +75,7 @@ public class FreeboardRepController {
 	}
 
 	@RequestMapping(value = "/freeboardRep", method = RequestMethod.GET)
-	public ModelAndView list(@RequestParam("no") int freeboard_no, ModelAndView mav) {
+	public ModelAndView list(@RequestParam("no") int freeboard_no, ModelAndView mav, Model model) {
 
 		HashMap<String, Object> listMap = new HashMap<>();
 		listMap.put("freeboard_no", freeboard_no);
@@ -110,7 +84,8 @@ public class FreeboardRepController {
 
 		mav.setViewName("freeboard/freeboardRep");
 		mav.addObject("list", list);
-
+		model.addAttribute("freeboard_no", freeboard_no);
+		
 		return mav;
 	}
 	

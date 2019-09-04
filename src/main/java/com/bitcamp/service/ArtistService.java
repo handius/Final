@@ -180,7 +180,7 @@ public class ArtistService {
 		
 		//스크롤 기능
 		int currentPage = Integer.parseInt(map.get("currentArtistList").toString());
-		int sizeSql = 5;
+		int sizeSql = 6;
 		int maxSql = mapper.artistListMaxCount(hashmap);
 		ScrollCalculation scroll = new ScrollCalculation(currentPage, sizeSql, maxSql);
 		int startSql = scroll.getStartSql();
@@ -200,14 +200,6 @@ public class ArtistService {
 				
 				List<Integer> listNo = mapper.artistListListNoGet(artistBoardList.get(i).getUser_id());
 				if(listNo != null) {
-					List<String> listImg = new ArrayList<>();
-					for(int j=0; j<listNo.size(); j++) {
-						List<String> tmpListImg = mapper.artistListImgGet(listNo.get(j));
-						if(tmpListImg.size() != 0) {
-							listImg.add(tmpListImg.get(0));
-						}
-					}
-					artistListdto.setListImg(listImg);
 					artistListdto.setListNo(listNo);
 				}
 				artistList.add(artistListdto);

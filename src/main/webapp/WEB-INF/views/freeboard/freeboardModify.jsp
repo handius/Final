@@ -71,7 +71,7 @@
 				<label for="writer" class="col-sm-2 control-label">글쓴이</label>
 				<div class="col-sm-10">
 					<input type="text" id="writer" name="writer"
-						value="${board.user_nick}" readonly="readonly"
+						value="${board.freeboard_user_nick}" readonly="readonly"
 						class="form-control">
 				</div>
 			</div>
