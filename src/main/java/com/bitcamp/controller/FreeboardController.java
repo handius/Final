@@ -98,7 +98,7 @@ public class FreeboardController {
 		dto.setFreeboard_title(freeboard_title);
 		dto.setFreeboard_content(freeboard_content);
 		dto.setFreeboard_member_no(member_no);
-
+		
 		fbservice.writeService(dto);
 
 		return "redirect:/freeboard";

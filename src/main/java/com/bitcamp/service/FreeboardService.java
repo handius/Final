@@ -22,14 +22,13 @@ public class FreeboardService {
 	private MemberMapper memMapper;
 
 	public void writeService(FreeboardDTO dto) {
+		String user_nick = memMapper.readMemberbyMemberNo(dto.getFreeboard_member_no()).getUser_nick();
+		dto.setFreeboard_user_nick(user_nick);
 		fbMapper.insertData(dto);
 	}
 
 	public FreeboardDTO detailService(int freeboard_no) {
 		FreeboardDTO dto = fbMapper.getDetail(freeboard_no);
-		String user_nick = memMapper.readMemberbyMemberNo(dto.getFreeboard_member_no()).getUser_nick();
-		dto.setUser_nick(user_nick);
-
 		return dto;
 	}
 

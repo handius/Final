@@ -18,10 +18,7 @@ public class FreeboardRepService {
 	public void saveReplyService(FreeboardRepDTO repDTO) {
 		mapper.insertData(repDTO);
 	}
-	
-	/*public List<FreeboardRepDTO> getReplyService(int freeboard_no){
-		return mapper.getData(freeboard_no);
-	}*/
+
 	public List<FreeboardRepDTO> getReplyService(HashMap<String, Object> listMap){
 		return mapper.getData(listMap);
 	}
