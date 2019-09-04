@@ -14,6 +14,7 @@
 
     <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Comfortaa&display=swap" rel="stylesheet">
     <style>
     	* {
     		font-family: 'Comfortaa', '맑은 고딕', cursive;
@@ -46,8 +47,18 @@
             background-image: url("/resources/image/ArtistMain.jpg");
             background-size: cover;
             background-position: 0 70%;
-            padding: 0;
             margin-bottom: 0 !important;
+        }
+        
+        #jumbotronTextBox {
+        	max-width: 1170px;
+        	line-height: 300px;
+        	color: white;
+            font-size: 3vw;
+            font-weight: bold;
+            text-shadow: 0 0 2px #7C7877;
+            text-align: center;
+            margin: auto;
         }
         
         /*네비*/
@@ -107,7 +118,7 @@
         #artistListUl li {
         	width: 31%;
         	border: 1px solid silver;
-        	display: inline-block;
+        	display: none;
         	margin: 20px 10px 0 10px;
         }
         .artistListTitleImgBox {
@@ -259,7 +270,6 @@
     $(document).ready(function(){
     	artistList("인기순","");
     	listTypeColorInit();
-    	topLankInit();
     	$('.artistListNavTypeBlock').on('click',listTypeReplace);
     	$('.drowdownList').on('click', listTypeReplace);
     	$('.artistListNavSearchButton').on('click',search);
@@ -405,6 +415,13 @@
     			}
     			$('#artistListUl').append(result);
     			$('#currentArtistList').val(Number(currentArtistList)+1);
+    			
+    			for(let i=0; i<artistListLank; i++) {
+    				setTimeout(function() {
+    					$('#artistListUl>li:eq('+i+')').fadeIn();
+    					$('#artistListUl>li:eq('+i+')').css('display', 'inline-block');
+    				}, 100*i);
+    			}
     		}
     		,error:function(data) {
     			console.log('작가 리스트 실패');
@@ -432,90 +449,14 @@
     	}
     	return result;
     }
-    
-    function topLankInit() {
-        for(let i=0; i<3; i++) {  
-            setTimeout(function() {
-                $('.topLankList:eq('+i+')').fadeIn();
-                $('.topLankList:eq('+i+')').css('display', 'inline-block');
-            }, 500*i);
-        }
-    }
-    
     </script>
-    <style>
-    	#topLankBox {
-       		max-width: 1170px;
-        	height: 300px;
-        	margin: auto;
-        }
-        
-        #topLankBox ul {
-        	text-align: center;
-        }
-        
-        .topLankList {
-        	width: 29%;
-        	height: 240px;
-        	display: inline-block;
-        	display: none;
-        	background-color: #a2a2a162;
-        	margin: 20px 10px 0 10px;
-        }
-        
-        .topLankNum {
-        	width: 80%;
-        	height: 50px;
-        	line-height: 50px;
-        	color: black;
-        	font-size: 30px;
-        	text-align: center;
-        	font-weight: bold;
-        	border-bottom: 1px solid silver;
-        	margin: auto;
-        }
-    </style>
 </head>
 <body>
 <input type="hidden" value="1" id="currentArtistList" readonly="readonly">
     <section>
-        <div class="jumbotron"> 
-        	<div id="topLankBox" class="container">
-        		<ul>
-        			<li class="topLankList">
-        				<div class="topLankNum">1</div>
-        				<div class="artistListTitleName">이름넣기</div>
-        				<div class="row">
-        					<div class="col-sm-8 col-xs-12 artistListStarScore">★★★★★</div>
-        					<div class="col-sm-4 col-xs-12 artistListNumScore">5</div>
-        				</div>
-        				<div class="artistListDetailTitle">
-        					내용내용내용내용
-        				</div>
-        			</li>
-        			<li class="topLankList">
-        				<div class="topLankNum">2</div>
-        				<div class="artistListTitleName">이름넣기</div>
-        				<div class="row">
-        					<div class="col-sm-8 col-xs-12 artistListStarScore">★★★★★</div>
-        					<div class="col-sm-4 col-xs-12 artistListNumScore">5</div>
-        				</div>
-        				<div class="artistListDetailTitle">
-        					내용내용내용내용
-        				</div>
-        			</li>
-        			<li class="topLankList">
-        				<div class="topLankNum">3</div>
-        				<div class="artistListTitleName">이름넣기</div>
-        				<div class="row">
-        					<div class="col-sm-8 col-xs-12 artistListStarScore">★★★★★</div>
-        					<div class="col-sm-4 col-xs-12 artistListNumScore">5</div>
-        				</div>
-        				<div class="artistListDetailTitle">
-        					내용내용내용내용내용
-        				</div>
-        			</li>
-        		</ul>
+        <div class="jumbotron">
+        	<div id="jumbotronTextBox">
+        		찾고 싶은 작가님들을 검색해 보세요!
         	</div>
         </div>
         <div id="artistListNaxBox">

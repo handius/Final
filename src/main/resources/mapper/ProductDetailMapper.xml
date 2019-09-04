@@ -63,11 +63,11 @@
 	, qa_board_parent_no, qa_board_delete_status, user_name, level
 	from qa_board inner join member
 	on qa_board.member_no = member.member_no
-	where rownum <![CDATA[<]]>= #{end_sql} and list_no = #{list_no}
+	where rownum <![CDATA[<]]>= #{end_sql} and list_no = #{list_no} and qa_board_delete_status = 1
 	start with qa_board_parent_no is null
     connect by prior qa_board_no = qa_board_parent_no
     order siblings by qa_board_date desc) e
-	where num <![CDATA[>]]>= #{start_sql} and qa_board_delete_status = 1
+	where num <![CDATA[>]]>= #{start_sql}
 </select>
 <select id="productDetailOrderResultList" resultType="com.bitcamp.DTO.productdetail.OrderResultDTO">
 	select list_order_board.list_order_no ,order_name, order_option, order_value, list_order_member_no

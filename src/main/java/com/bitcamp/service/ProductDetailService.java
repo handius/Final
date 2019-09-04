@@ -94,7 +94,6 @@ public class ProductDetailService {
 		int maxSql = mapper.productDetailQandAListMaxCount(list_no);
 		
 		ScrollCalculation scroll = new ScrollCalculation(currentPage, sizeSql, maxSql);
-		
 		QABoardDTO dto = new QABoardDTO();
 		dto.setList_no(list_no);
 		dto.setStart_sql(scroll.startSql);
@@ -102,7 +101,6 @@ public class ProductDetailService {
 		map.put("QABoardDTO", dto);
 		
 		List<QABoardDTO> qalist = mapper.productDetailQandAList(dto);
-		
 		Object objMemberNo = map.get("member_no");
 		int member_no = -1;
 		if(objMemberNo != null) {
