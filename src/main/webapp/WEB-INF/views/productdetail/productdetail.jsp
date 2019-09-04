@@ -132,36 +132,47 @@
         	margin-left: 10% !important;
         }
         
-        .productDetailQandAResponse .productDetailQandAStatus{
+        .productDetailQandAResponse .productDetailQandAStatus .productDetailQandAStatusCircle{
         	background-color: #ABD0CE;
         	color: white;
         }
 
         .productDetailQandAStatus {
             height: 100px;
-            background-color: #D9D4CF;
+            padding: 10px 0 30px 0 !important;
+        }
+        
+        .productDetailQandAStatusCircle {
+        	width: 60px !important;
+        	height: 60px;
+        	line-height: 60px;
             color: #7C7877;
             text-align: center;
             font-size: 20px;
-            padding: 5% 0;
-            border-bottom: 1px solid #7C7877;
+        	border-radius: 50%;
+            background-color: #D9D4CF;
+            float: right !important;
+            padding: 0 !important;
         }
 
         .productDetailQandAWriter {
             height: 30px;
             font-size: 15px;
+            padding-top: 10px;
         }
 
         .productDetailQandAWriterDate {
             height: 30px;
             font-size: 15px;
             text-align: right;
+            padding-top: 10px;
         }
 
         .productDetailQandAContent {
             height: 70px;
             font-size: 15px;
-            border-bottom: 1px solid silver;
+            padding-top: 5px;
+            padding-bottom: 10px;
         }
 
         #productDetailQandAInputBox {
@@ -503,23 +514,12 @@
             margin-top: 5px;
         }
 
-        .asideBasket {
-            width: 100%;
-            height: 56px;
-            background-color: #ABD0CE;
-            border: 2px solid #ABD0CE;
-            margin-top: 10px;
-            color: white;
-            font-size: 25px;
-            font-weight: bold;
-        }
-
         .asideBuyButton,
         .MobileBuyLinkButton {
             width: 100%;
             height: 56px;
-            border: 2px solid #7C7877;
-            background-color: #7C7877;
+            border: 2px solid #ABD0CE;
+            background-color: #ABD0CE;
             color: white;
             font-size: 25px;
             font-weight: bold;
@@ -587,6 +587,10 @@
             
             .productDetailQandA{
                 max-width: 100%;
+            }
+            
+            .productDetailQandAResponse {
+            	width: 90%;
             }
             
             .productDetailBuyReview {
@@ -689,7 +693,6 @@
             $('#productDetailQandAInputButton').on('click', qaBoardInsert);
             $('#productDetailQandAMoreButton').on('click', qaBoardList);
             $('#productDetailBuyReviewMoreButton').on('click',buyReviewList);
-            $('.asideBasket').on('click',cookieInsert);
             $('#artistDetailPageMove').on('click', artistDetailPageMove);
             $('#productRemove').on('click',productRemove);
         });
@@ -932,18 +935,18 @@
     						//해당 작가가 아니라면
     						if(qalist[i].level == 1) {
     							result += '<div class="row productDetailQandA">';
-    							result += '<div class="col-xs-2 productDetailQandAStatus">'+qalist[i].qa_board_status+'</div>';
-        						result += '<div class="col-xs-5 productDetailQandAWriter">'+qalist[i].user_name+'</div>';
-        						result += '<div class="col-xs-5 productDetailQandAWriterDate">'+jsonDateConverter(qalist[i].qa_board_date)+'</div>';
-        						result += '<div class="col-xs-10 productDetailQandAContent">'+qalist[i].qa_board_content+'</div>';
+    							result += '<div class="col-sm-1 col-xs-2 productDetailQandAStatus"><div class="col-xs-12 productDetailQandAStatusCircle">'+qalist[i].qa_board_status+'</div></div>';
+        						result += '<div class="col-sm-6 col-xs-5 productDetailQandAWriter">'+qalist[i].user_name+'</div>';
+        						result += '<div class="col-sm-5 col-xs-5 productDetailQandAWriterDate">'+jsonDateConverter(qalist[i].qa_board_date)+'</div>';
+        						result += '<div class="col-sm-11 col-xs-10 productDetailQandAContent">'+qalist[i].qa_board_content+'</div>';
         						result += '</div>';
     						}
     						else {
     							result += '<div class="row productDetailQandAResponse">';
-    							result += '<div class="col-xs-2 productDetailQandAStatus">답변</div>';
-        						result += '<div class="col-xs-5 productDetailQandAWriter">'+qalist[i].user_name+'</div>';
-        						result += '<div class="col-xs-5 productDetailQandAWriterDate">'+jsonDateConverter(qalist[i].qa_board_date)+'</div>';
-        						result += '<div class="col-xs-10 productDetailQandAContent">'+qalist[i].qa_board_content+'</div>';
+    							result += '<div class="col-sm-1 col-xs-2 productDetailQandAStatus"><div class="col-xs-12 productDetailQandAStatusCircle">답변</div></div>';
+        						result += '<div class="col-sm-6 col-xs-5 productDetailQandAWriter">'+qalist[i].user_name+'</div>';
+        						result += '<div class="col-sm-5 col-xs-5 productDetailQandAWriterDate">'+jsonDateConverter(qalist[i].qa_board_date)+'</div>';
+        						result += '<div class="col-sm-11 col-xs-10 productDetailQandAContent">'+qalist[i].qa_board_content+'</div>';
         						result += '</div>';
     						}
     					}
@@ -1015,25 +1018,6 @@
     			}
     		});
 		}
-        
-        function cookieInsert() {
-        	let formdata = $('#productDetailResultForm').serializeArray();
-        	$.ajax({
-    			url:'/ajaxCookieInsert'
-    			,contentType: 'application/json; charset=utf-8'
-    			,data: JSON.stringify({formData:formdata})
-    			,type: 'POST'
-    			,dataType: "text"
-    			,success: function(data) {
-					console.log('쿠키등록 성공');
-					alert("장바구니에 등록되었습니다.");
-				}
-    			,error:function(data){
-					console.log('쿠키등록 실패');
-					alert("장바구니 등록에 실패했습니다.");
-				}
-    		});
-        }
         
         function jsonDateConverter(milliseconds){
         	let date = new Date(milliseconds);
@@ -1215,7 +1199,6 @@
                         </div>
                     </div>
                     <div class="productDetailAsideBlock">
-                        <button type="button" class="asideBasket">장바구니</button>
                         <input type="submit" class="asideBuyButton" value="구매">
                     </div>
                 </form>
