@@ -22,15 +22,64 @@
 * {
 	font-family: 'Comfortaa', '맑은 고딕', cursive;
 }
+
+.container {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	background-color: #D9D4CF;
+	margin: 5%;
+	padding: 3% 5% !important;
+	border-radius: 5%;
+}
+
+.container * {
+	margin: 5px;
+}
+
+.container h1 {
+	color: white;
+	font-size: 3vw;
+	font-weight: bold;
+	text-shadow: 0 0 2px #7C7877;
+}
+
+.container hr {
+	width: 45%;
+	margin: 1%;
+	border: 1px solid white;
+}
+
+.container form {
+	margin: 5% 1%;
+}
+
+#password {
+	width: 50%;
+}
+
+.button {
+	width: 10%;
+	background-color: #ABD0CE;
+	color: white;
+	border: 3px solid #ABD0CE;
+	font-size: 15px;
+	font-weight: bold;
+}
 </style>
 </head>
 <body>
-	<form method="post" action="pWCheckResult">
-		<ul>
-			<li><input type="password" name="password" id="password"></li>
-			<li><input type="submit" value="전송"></li>
-		</ul>
-	</form>
+	<div class="container">
+		<h1>비밀번호확인</h1>
+		<small class="text-muted">회원님의 정보를 안전하게 보호하기 위해 비밀번호를 다시
+			확인합니다.</small>
+		<hr>
+		<form method="post" action="pWCheckResult" class="form-inline">
+			<input type="password" name="password" id="password"
+				class="form-control"> <input type="submit" value="확인"
+				class="button">
+		</form>
+	</div>
 	<script>
 		var msg = '${msg}';
 		if (msg != "" && msg != null) {

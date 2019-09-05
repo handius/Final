@@ -22,6 +22,49 @@
 * {
 	font-family: 'Comfortaa', '맑은 고딕', cursive;
 }
+
+.container {
+	background-color: #F0E5DE;
+	margin: 5%;
+	padding: 3% 5% !important;
+	border-radius: 5%;
+}
+
+.container * {
+	margin: 5px;
+}
+
+.container h1 {
+	color: white;
+	font-size: 3vw;
+	font-weight: bold;
+	text-shadow: 0 0 2px #7C7877;
+}
+
+.container hr {
+	width: 45%;
+	margin: 1%;
+	border: 1px solid #D9D4CF;
+}
+
+.row {
+	display: flex;
+	justify-content: center;
+	margin: 5%;
+}
+
+.form-group {
+	width: 55%;
+}
+
+.button {
+	width: 10%;
+	background-color: #ABD0CE;
+	color: white;
+	border: 3px solid #ABD0CE;
+	font-size: 15px;
+	font-weight: bold;
+}
 </style>
 </head>
 <script>
@@ -123,31 +166,52 @@
 	}
 </script>
 <body>
-	<form method="post" action="userInfoResult" onsubmit="return checks()">
-		<ul>
-			<li><label for="user_id">아이디</label><input type="text"
-				name="user_id" id="user_id" value="${memberDTO.getUser_id() }"
-				readonly></li>
-			<li><label for="password">새 비밀번호</label><input type="password"
-				name="password" id="password"> <label for="password_check">새
-					비밀번호 확인 </label><input type="password" name="password_check"
-				id="password_check"></li>
-			<li><label for="user_name">이름</label><input type="text"
-				name="user_name" id="user_name" value="${memberDTO.getUser_name() }"></li>
-			<li><label for="user_nick">닉네임</label><input type="text"
-				name="user_nick" id="user_nick" value="${memberDTO.getUser_nick() }"></li>
-			<li><label for="user_email">이메일</label><input type="text"
-				name="user_email" id="user_email"
-				value="${memberDTO.getUser_email() }"></li>
-			<li><label for="user_address">주소</label><input type="text"
-				name="user_address" id="user_address"
-				value="${memberDTO.getUser_address() }"></li>
-			<li><label for="user_call">전화번호</label><input type="text"
-				name="user_call" id="user_call" value="${memberDTO.getUser_call() }"></li>
-			<li><input type="button" value="작가 신청하기" id="customerQA"><input
-				type="button" value="탈퇴하기" id="withdraw"></li>
-			<li><input type="submit" value="수정"></li>
-		</ul>
-	</form>
+	<div class="container">
+		<h1>회원정보수정</h1>
+		<hr>
+		<form method="post" action="userInfoResult" onsubmit="return checks()">
+			<div class="form-group">
+				<label for="user_id">아이디</label><input type="text" name="user_id"
+					id="user_id" value="${memberDTO.getUser_id() }" readonly
+					class="form-control">
+			</div>
+			<div class="form-group">
+				<label for="password">새 비밀번호</label><input type="password"
+					name="password" id="password" class="form-control"><label
+					for="password_check">새 비밀번호 확인 </label><input type="password"
+					name="password_check" id="password_check" class="form-control">
+			</div>
+			<div class="form-group">
+				<label for="user_name">이름</label><input type="text" name="user_name"
+					id="user_name" value="${memberDTO.getUser_name() }"
+					class="form-control">
+			</div>
+			<div class="form-group">
+				<label for="user_nick">닉네임</label><input type="text"
+					name="user_nick" id="user_nick"
+					value="${memberDTO.getUser_nick() }" class="form-control">
+			</div>
+			<div class="form-group">
+				<label for="user_email">이메일</label><input type="text"
+					name="user_email" id="user_email"
+					value="${memberDTO.getUser_email() }" class="form-control">
+			</div>
+			<div class="form-group">
+				<label for="user_address">주소</label><input type="text"
+					name="user_address" id="user_address"
+					value="${memberDTO.getUser_address() }" class="form-control">
+			</div>
+			<div class="form-group">
+				<label for="user_call">전화번호</label><input type="text"
+					name="user_call" id="user_call"
+					value="${memberDTO.getUser_call() }" class="form-control">
+			</div>
+			<div class="row">
+				<input type="button" value="작가신청" id="customerQA" class="button"><input
+					type="button" value="탈퇴하기" id="withdraw" class="button"><input
+					type="submit" value="수정하기" class="button">
+			</div>
+		</form>
+	</div>
 </body>
 </html>
