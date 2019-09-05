@@ -103,22 +103,17 @@
 					value="로그인"> <input name="${_csrf.parameterName}"
 					type="hidden" value="${_csrf.token}">
 			</form>
-			<div id="naver_id_login"></div>
+			<!-- 네이버 로그인 -->
+			<div id="naver_id_login" style="text-align: center">
+				<a href="${url}"> <img width="223"
+					src="https://developers.naver.com/doc/review_201802/CK_bEFnWMeEBjXpQ5o8N_20180202_7aot50.png" /></a>
+			</div>
+			<br>
 		</div>
 		<div id="nav">
 			<a href="join">회원 가입</a> | <a href="searchID">아이디 찾기</a> | <a
 				href="searchPassword">비밀번호 찾기</a>
 		</div>
 	</div>
-	<script type="text/javascript">
-		var naver_id_login = new naver_id_login("QqZ9G6FEqL4e_sdVLtPw",
-				"YOUR_CALLBACK_URL");
-		var state = naver_id_login.getUniqState();
-		naver_id_login.setButton("white", 2, 40);
-		naver_id_login.setDomain("http://localhost:8080");
-		naver_id_login.setState(state);
-		naver_id_login.setPopup();
-		naver_id_login.init_naver_id_login();
-	</script>
 </body>
 </html>
