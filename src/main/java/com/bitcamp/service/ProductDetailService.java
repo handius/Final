@@ -9,12 +9,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bitcamp.DTO.Product.ListDTO;
-import com.bitcamp.DTO.Product.OptionDTO;
 import com.bitcamp.DTO.member.MemberDTO;
 import com.bitcamp.DTO.productdetail.BuyReviewDTO;
 import com.bitcamp.DTO.productdetail.OrderResultDTO;
 import com.bitcamp.DTO.productdetail.ProductDetailOptionListDTO;
 import com.bitcamp.DTO.productdetail.QABoardDTO;
+import com.bitcamp.comm.ComplementaryColor;
 import com.bitcamp.comm.ScrollCalculation;
 import com.bitcamp.mapper.ProductDetailMapper;
 
@@ -124,7 +124,15 @@ public class ProductDetailService {
 	}
 	
 	public List<OrderResultDTO> productDetailOrderService(List<Integer> list_order_member_no) {
-		return mapper.productDetailOrderResultList(list_order_member_no);
+		List<OrderResultDTO> list = mapper.productDetailOrderResultList(list_order_member_no);
+		for(int i=0; i<list.size(); i++) {
+			OrderResultDTO orderResultdto = list.get(i);
+			if(orderResultdto.getOrder_option().equals("color")) {
+				orderResultdto.setOrder_value_TextColor(ComplementaryColor.complementaryColorConverter(orderResultdto.getOrder_value()));
+			}
+			list.set(i, orderResultdto);
+		}
+		return list;
 	}
 	
 	public Map<String, Object> productDetailBuyReviewListService(Map<String, Object> map) {

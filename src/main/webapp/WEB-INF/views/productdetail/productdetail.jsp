@@ -280,7 +280,11 @@
         	width: 100%;
         	height: 50px;
         	display: none;
-        	margin-top: 20px;
+        	border: 2px solid #7C7877;
+        	color: #7C7877;
+        	font-size: 20px;
+        	font-weight: bold;
+        	background-color: white;
         }
 
         #productDetailAside {
@@ -585,6 +589,14 @@
                 z-index: 9;
             }
             
+            .productDetailAsideOptionPriceResult {
+            	margin-right: 0;
+            }
+            
+            .totalOptionPriceResult {
+            	margin-right: 0;	
+            }
+            
             .productDetailQandA{
                 max-width: 100%;
             }
@@ -635,7 +647,7 @@
             #MobileBuyLinkButtonBox {
             	max-width: 100%;
             	width: 100%;
-            	height: 60px;
+            	height: 100%;
             	right: 0;
                 display: inherit;
             }
@@ -1120,7 +1132,7 @@
                 <div id="MobileBuyCloseButtonBox">
                     <span class="glyphicon glyphicon-chevron-down MobileBuyCloseButton"></span>
                 </div>
-                <input type="button" class="btn btn-default" value="상품 삭제" id="productRemove">
+                <input type="button" value="상품 삭제" id="productRemove">
                 <div class="productDetailAsideBlock" id="productDetailAsideProductName">
                     	<c:out value="${listDTO.list_title }"></c:out>
                 </div>
@@ -1172,7 +1184,7 @@
                         	<c:if test="${orderList.order_option eq 'color' }">
                         		<div class="customerOrderValueColorBox productDetailAsideBlock">
                         			<div class="col-xs-12 customerOrderTitle">주문옵션${i.index+1} : <c:out value="${orderList.order_name }"></c:out></div>
-                        			<div class="col-xs-12 customerOrderValueColor" style="background-color: ${orderList.order_value}">
+                        			<div class="col-xs-12 customerOrderValueColor" style="background-color: ${orderList.order_value}; color: ${orderList.order_value_TextColor}">
                         				<c:out value="색상 : ${orderList.order_value }"></c:out>
                         			</div>
                         		</div>
