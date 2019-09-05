@@ -72,6 +72,11 @@
 .formInline {
 	display: inline-block;
 }
+
+#id_check_result{
+	padding-bottom: 10px;
+	color: #CC0000;
+}
 </style>
 <script>
 	function id_checks() {
@@ -187,7 +192,8 @@
 			$("#name").focus();
 			return false;
 		}
-
+		
+		alert('이메일로 전송된 링크를 통해 회원가입을 완료해주세요 :)');
 		return true;
 	}
 
@@ -224,7 +230,7 @@
 				<input type="text" class="form-control inputCheck" id="id" name="id"
 					required="required" placeholder="아이디">
 			</div>
-			<button id="id_check" class="btn btnCheck" onclick="id_checks();">중복체크</button>
+			<button type="button" id="id_check" class="btn btnCheck" onclick="id_checks();">중복체크</button>
 			<div id="id_check_result"></div>
 			<div class="form-group">
 				<label for="password">비밀번호 *</label> <input type="password"
@@ -252,7 +258,7 @@
 					id="address1" placeholder="주소" readonly="readonly"
 					onclick="goPopup()">
 			</div>
-			<button class="btn btnCheck" onclick="goPopup()">주소찾기</button>
+			<button type="button" class="btn btnCheck" onclick="goPopup()">주소찾기</button>
 			<input type="text" class="form-control" name="address2" id="address2">
 			<div class="p">
 				<p>이메일을 통한 인증이 완료되어야</p>

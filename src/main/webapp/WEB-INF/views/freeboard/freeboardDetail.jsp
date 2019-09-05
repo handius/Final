@@ -58,6 +58,11 @@
 
 .tdHead {
 	background-color: #F0E5DE;
+	text-align: center;
+}
+
+#repList{
+	width: 900px;
 }
 </style>
 <script>
@@ -179,7 +184,6 @@
 				</form>
 			</div>
 			<div id="repList">
-				<div id="divPage"></div>
 			</div>
 		</div>
 		<button class="btn" onclick="location='../freeboard'">목록으로</button>

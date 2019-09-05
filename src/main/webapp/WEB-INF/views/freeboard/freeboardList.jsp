@@ -27,14 +27,13 @@
 }
 
 #wrap {
-	margin: 0 auto;
-	width: 1000px;
+	margin: 3% 10%;
 }
 
 .nav {
 	color: #7C7877;
 	text-align: center;
-	padding: 20px;
+	padding-bottom: 40px;
 }
 
 .nav a {
@@ -65,7 +64,8 @@ thead {
 }
 
 .formSearch {
-	padding: 10px 270px;
+	display: flex;
+	justify-content: center;
 }
 
 #searchKeyword {
@@ -73,7 +73,9 @@ thead {
 }
 
 .formPage {
-	margin: 0px auto 0px auto;
+	display: flex;
+	justify-content: center;
+	margin: 10px;
 }
 
 .jumbotron {
@@ -89,6 +91,11 @@ thead {
 .divPage {
 	padding: 10px 100px;
 }
+
+.trHead th, .text_center{
+	text-align: center;
+}
+
 </style>
 <script>
 	function search() {
@@ -109,7 +116,7 @@ thead {
 		</div>
 		<div>
 			<table class="table">
-				<thead align="center">
+				<thead>
 					<tr class="trHead">
 						<th width="70px">번호</th>
 						<th>제목</th>
@@ -120,23 +127,23 @@ thead {
 				</thead>
 				<tbody>
 				<c:if test="${empty list}">
-					<tr><td colspan="5" style="text-align : center;">검색된 결과가 없습니다.</td></tr>
+					<tr><td colspan="5" class="text_center">검색된 결과가 없습니다.</td></tr>
 				</c:if>
 					<c:forEach items="${list}" var="list">
 						<tr>
-							<td><c:out value="${list.freeboard_no}"></c:out></td>
+							<td class="text_center"><c:out value="${list.freeboard_no}"></c:out></td>
 							<td><a href="freeboard/detail?no=${list.freeboard_no}"><c:out
 										value="${list.freeboard_title}"></c:out> [${list.freeboard_rep_count }]</a></td>
-							<td><c:out value="${list.freeboard_user_nick}"></c:out></td>
-							<td><c:out value="${list.freeboard_regiTime}"></c:out></td>
-							<td><c:out value="${list.freeboard_hits}"></c:out></td>
+							<td class="text_center"><c:out value="${list.freeboard_user_nick}"></c:out></td>
+							<td class="text_center"><c:out value="${list.freeboard_regiTime}"></c:out></td>
+							<td class="text_center"><c:out value="${list.freeboard_hits}"></c:out></td>
 						</tr>
 					</c:forEach>
 				</tbody>
 			</table>
 		</div>
-		<button class="btn btnWrite" onclick="location='freeboard/write'">글쓰기</button>
 		<br>
+		<button class="btn btnWrite" onclick="location='freeboard/write'">글쓰기</button>
 		<div id="divPage">
 			<form class="formPage" action="/freeboard" method="post">
 				<c:if test="${paging.startblock > 1 }">
@@ -158,6 +165,7 @@ thead {
 			</form>
 		</div>
 		<div class="form-group form-inline formSearch">
+		<span class="glyphicon glyphicon-search" style="font-size:30px;"></span>
 			<select id="searchType" class="form-control">
 				<option value="제목">제목</option>
 				<option value="닉네임">닉네임</option>

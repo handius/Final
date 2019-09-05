@@ -145,28 +145,51 @@ function repUpdate(rep_no){
 
 </script>
 <body>
-	<div>
+	<div id="wraprep">
 		<c:set var="freeboard_no" value="${freeboard_no}" />
 		<c:forEach var="list" items="${list}">
-			<div id="rep_box">
-				<div>
-					<div class="nickname">${list.user_nick}
-						<div class="btna">
-							<a onclick="addReply(${list.rep_no})">답글</a>
-							<c:if test="${sessionScope.member.member_no eq list.member_no }">
-								<a onclick="editReply('${list.rep_no}', '${list.rep_content}')">수정</a>
-								<a onclick="deleteReply('${list.rep_no}')">삭제</a>
-							</c:if>
+			<c:if test="${list.rep_parent_no eq null || list.rep_parent_no == ''}">
+				<div id="rep_box">
+					<div>
+						<div class="nickname">${list.user_nick}
+							<div class="btna">
+								<a onclick="addReply(${list.rep_no})">답글</a>
+								<c:if test="${sessionScope.member.member_no eq list.member_no }">
+									<a onclick="editReply('${list.rep_no}', '${list.rep_content}')">수정</a>
+									<a onclick="deleteReply('${list.rep_no}')">삭제</a>
+								</c:if>
+							</div>
 						</div>
 					</div>
+					<div>
+						<div class="regidate">${list.rep_regiDate}</div>
+					</div>
+					<div>
+						<div id="rep_content${list.rep_no}">${list.rep_content}</div>
+					</div>
 				</div>
-				<div>
-					<div class="regidate">${list.rep_regiDate}</div>
+			</c:if>
+			<c:if test="${list.rep_parent_no>=1}">
+				<div id="rep_box" style="margin-left: 50px;">
+					<div>
+						<div class="nickname">${list.user_nick}
+							<div class="btna">
+								<a onclick="addReply(${list.rep_no})">답글</a>
+								<c:if test="${sessionScope.member.member_no eq list.member_no }">
+									<a onclick="editReply('${list.rep_no}', '${list.rep_content}')">수정</a>
+									<a onclick="deleteReply('${list.rep_no}')">삭제</a>
+								</c:if>
+							</div>
+						</div>
+					</div>
+					<div>
+						<div class="regidate">${list.rep_regiDate}</div>
+					</div>
+					<div>
+						<div id="rep_content${list.rep_no}">${list.rep_content}</div>
+					</div>
 				</div>
-				<div>
-					<div id="rep_content${list.rep_no}">${list.rep_content}</div>
-				</div>
-			</div>
+			</c:if>
 		</c:forEach>
 	</div>
 </body>
