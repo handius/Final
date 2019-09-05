@@ -46,12 +46,11 @@
 	padding: 20px 0px;
 }
 
-
 .divTable {
 	padding-top: 30px;
 }
 
-p{
+p {
 	padding-bottom: 10px;
 }
 
@@ -59,14 +58,17 @@ table {
 	padding: 50px 0px;
 }
 
-.btnTab{
-	width : 130px;
+.btnTab {
+	width: 130px;
 }
 
-.divForm{
+.divForm {
 	padding-right: 20px;
 }
 
+#searchIDResult {
+	color: #CC0000;
+}
 </style>
 <script>
 	function searchID() {

@@ -57,6 +57,7 @@ padding-bottom: 30px;
 
 #searchPwdResult{
 	padding-top: 50px;
+	color: #CC0000;
 }
 </style>
 <script>

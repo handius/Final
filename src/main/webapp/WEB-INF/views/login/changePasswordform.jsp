@@ -44,6 +44,10 @@
 p{
 padding-bottom: 50px;
 }
+
+#result{
+	color: #CC0000;
+}
 </style>
 <script type="text/javascript"
 	src="//code.jquery.com/jquery-3.4.1.min.js"></script>

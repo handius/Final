@@ -66,6 +66,12 @@
 	padding: 0px 10px;
 	color: #7C7877;
 }
+
+#errormsg{
+	padding-bottom:10px;
+	color: #CC0000;
+	text-align: center;
+}
 </style>
 <body onload="document.form.id.focus()">
 	<div id="wrap">
@@ -74,11 +80,6 @@
 		</div>
 		<div id="form">
 			<form name="form" action="login" method="post">
-				<div>
-					<c:if test="${not empty ERRORMSG}">
-						<p>${ERRORMSG}</p>
-					</c:if>
-				</div>
 				<div class="form-group">
 					<input type="text" class="form-control input-lg" id="id"
 						name="username" placeholder="아이디를 입력해주세요.">
@@ -86,6 +87,11 @@
 				<div class="form-group">
 					<input type="password" class="form-control input-lg"
 						name="password" placeholder="비밀번호를 입력해주세요.">
+				</div>
+				<div id="errormsg">
+					<c:if test="${not empty ERRORMSG}">
+						<p>${ERRORMSG}</p>
+					</c:if>
 				</div>
 				<input id="btnLogin" class="btn btn-lg" name="submit" type="submit"
 					value="로그인"> <input name="${_csrf.parameterName}"
