@@ -12,4 +12,5 @@ public class OrderResultDTO {
 	private String order_option;
 	private int list_order_member_no;
 	private String order_value;
+	private String order_value_TextColor;
 }
