@@ -34,16 +34,13 @@
 
 #wrap {
 	height: 100%;
-	margin: 0 auto;
 	position: relative;
-	padding: 150px 0px;
-	width: 500px;
 	text-align: center;
+	margin: 10em 20%;
 }
 
 .divContent {
-	display: inline-block;
-	padding: 20px 0px;
+	padding: 3em;
 }
 
 .divTable {
@@ -51,7 +48,7 @@
 }
 
 p {
-	padding-bottom: 10px;
+	padding-bottom: 3em;
 }
 
 table {
@@ -68,6 +65,16 @@ table {
 
 #searchIDResult {
 	color: #CC0000;
+}
+
+#searchIDResult span{
+	vertical-align: middle;
+	font-size: 15px;
+}
+
+#btnSearch{
+	font-size: 16px;
+	font-weight: bold;
 }
 </style>
 <script>
@@ -86,7 +93,9 @@ table {
 			data : postData,
 			dataType : 'html',
 			success : function(data) {
-				$("#searchIDResult").html(data);
+				$("#searchIDResult").html(
+						"<span class='glyphicon glyphicon-remove-circle'></span> <span>"
+								+ data +"</span>");
 			},
 			error : function(request, status, error) {
 				console.log("실패");
@@ -123,7 +132,7 @@ table {
 				value="아이디 찾기" class="btn btnTab">
 		</div>
 		<br>
-		<div id="searchIDResult" class="divContent"></div>
+		<div id="searchIDResult"></div>
 	</div>
 </body>
 </html>

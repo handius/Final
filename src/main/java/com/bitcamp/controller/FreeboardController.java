@@ -63,7 +63,9 @@ public class FreeboardController {
 
 		model.addAttribute("list", list);
 		model.addAttribute("paging", page);
-
+		model.addAttribute("category", freeboard_category);
+		System.out.println(freeboard_category);
+		
 		return "freeboard/freeboardList.mall";
 	}
 

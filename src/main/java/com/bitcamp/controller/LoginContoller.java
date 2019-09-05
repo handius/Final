@@ -46,9 +46,6 @@ public class LoginContoller {
 	@RequestMapping(value = "/changePassword", method = RequestMethod.POST)
 	public String changePassword(HttpServletRequest request, Model model) {
 		String user_id = request.getParameter("id");
-		System.out.println("아이디");
-		System.out.println(user_id);
-
 		model.addAttribute("id", user_id);
 		return "login/changePasswordform.mall";
 	}
@@ -69,9 +66,6 @@ public class LoginContoller {
 	@RequestMapping(value = "/searchIDResult", method = RequestMethod.POST, produces = "application/text; charset=utf8")
 	@ResponseBody
 	public String SearchIDResult(@ModelAttribute MemberDTO dto) {
-		System.out.println("dddddd");
-		System.out.println(dto.getUser_name());
-		System.out.println(dto.getUser_email());
 		String data = memberService.searchID(dto);
 		return data;
 	}
@@ -107,5 +101,17 @@ public class LoginContoller {
 		System.out.println("로갓");
 
 		return "redirect:/";
+	}
+	
+	@RequestMapping("logintest")
+	public String lg(Principal prin){
+		
+		return "login/logintest";
+	}
+	
+	@RequestMapping("callback")
+	public String ca(){
+		
+		return "login/callback";
 	}
 }

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html">
 <html>
 <head>
@@ -32,8 +33,14 @@
 	float: right;
 }
 
-.nickname {
+.btna a{
+	font-weight:normal;
+	color: #7C7877;
+}
+
+.nickname span{
 	font-weight: 600;
+	vertical-align: middle;
 }
 
 .regidate {
@@ -41,7 +48,7 @@
 }
 
 #rep_box {
-	padding: 5px;
+	padding: 5px 15px;
 	padding-bottom: 20px;
 }
 </style>
@@ -151,7 +158,8 @@ function repUpdate(rep_no){
 			<c:if test="${list.rep_parent_no eq null || list.rep_parent_no == ''}">
 				<div id="rep_box">
 					<div>
-						<div class="nickname">${list.user_nick}
+						<div class="nickname">
+						<span class="glyphicon glyphicon-user"></span> <span>${list.user_nick}</span>
 							<div class="btna">
 								<a onclick="addReply(${list.rep_no})">답글</a>
 								<c:if test="${sessionScope.member.member_no eq list.member_no }">
@@ -168,11 +176,10 @@ function repUpdate(rep_no){
 						<div id="rep_content${list.rep_no}">${list.rep_content}</div>
 					</div>
 				</div>
-			</c:if>
-			<c:if test="${list.rep_parent_no>=1}">
+				
 				<div id="rep_box" style="margin-left: 50px;">
 					<div>
-						<div class="nickname">${list.user_nick}
+						<div class="nickname"><span class="glyphicon glyphicon-user"></span> <span>${list.user_nick}</span>
 							<div class="btna">
 								<a onclick="addReply(${list.rep_no})">답글</a>
 								<c:if test="${sessionScope.member.member_no eq list.member_no }">
