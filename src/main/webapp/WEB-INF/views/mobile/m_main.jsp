@@ -39,12 +39,8 @@
     }
     .mainproductslide {
         margin-top: 30px;
-        width: 100%;
-    }
-    .swiper-slide img.mainproductslide {
-        width: 200%;
-        position: relative;
-        right: 50%;
+        width: 740px;
+        height: 600px;
     }
     .mainproductname {
         padding: 10px;
