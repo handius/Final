@@ -38,9 +38,9 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 		String errormsg = "로그인에 실패하였습니다. 관리자에게 문의하세요.";
 		
 		if (exception instanceof BadCredentialsException) {
-			errormsg = "아이디나 비밀번호가 맞지 않습니다. 다시 확인해주세요";
+			errormsg = "아이디나 비밀번호가 맞지 않습니다. 다시 확인해주세요.";
 		} else if (exception instanceof InternalAuthenticationServiceException) {
-			errormsg = "아이디나 비밀번호가 맞지 않습니다. 다시 확인해주세요";
+			errormsg = "아이디나 비밀번호가 맞지 않습니다. 다시 확인해주세요.";
 		}
 		
 		request.setAttribute("ERRORMSG", errormsg);

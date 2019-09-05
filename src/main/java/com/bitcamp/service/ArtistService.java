@@ -246,7 +246,7 @@ public class ArtistService {
 		long start = System.currentTimeMillis();
 		int artistBoardCount = 0;
 		
-		List<String> artistBoardList = mapper.artistScoreSchedulerArtistList();		
+		List<String> artistBoardList = mapper.artistScoreSchedulerArtistList();
 		if(artistBoardList.size() != 0) {
 			for(int i=0; i<artistBoardList.size(); i++) {
 				String user_id = artistBoardList.get(i);
@@ -299,7 +299,7 @@ public class ArtistService {
 		int statusCheck = mapper.artistDetailPageStatusCheck(artist_no);
 		if(statusCheck == activeType) {
 			resultMessage = "성공했습니다.";
-		}	
+		}
 		
 		return resultMessage;
 		

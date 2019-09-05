@@ -308,6 +308,10 @@
         	width: 45%;
         	height: 35px;
         	display: none;
+        	border: 2px solid #7C7877;
+        	color: black;
+        	font-size: 16px;
+        	font-weight: bold;
         	margin-top: 5px;
         }
         
@@ -708,9 +712,9 @@
                 <img src="${artistBoardDetail.artist_main_img }" alt="메인이미지" id="artistDetailTitleImg">
            </div>
            <div class="col-md-3" id="artistAsideArtistInfoBox">
-           	   <button class="btn btn-default" id="artistDetailModifyPage">페이지 관리</button>
-           	   <button class="btn btn-default artistDetailActiveToggle" id="pageNonActive">페이지 비활성</button>
-           	   <button class="btn btn-default artistDetailActiveToggle" id="pageActive">페이지 활성</button>
+           	   <button  id="artistDetailModifyPage">페이지 수정</button>
+           	   <button class="artistDetailActiveToggle" id="pageNonActive">페이지 비활성</button>
+           	   <button class="artistDetailActiveToggle" id="pageActive">페이지 활성</button>
                <div id="artistAsideArtistInfoArtistName">
                    	<c:out value="${artistInfo.user_name }"></c:out>
                </div>

@@ -9,6 +9,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Handius 로그인</title>
 </head>
+<!-- 네이버 아이디로 로그인 -->
+<script type="text/javascript"
+	src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js"
+	charset="utf-8"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <!-- 합쳐지고 최소화된 최신 CSS -->
 <link rel="stylesheet"
@@ -66,6 +70,12 @@
 	padding: 0px 10px;
 	color: #7C7877;
 }
+
+#errormsg {
+	padding-bottom: 10px;
+	color: #CC0000;
+	text-align: center;
+}
 </style>
 <body onload="document.form.id.focus()">
 	<div id="wrap">
@@ -74,11 +84,6 @@
 		</div>
 		<div id="form">
 			<form name="form" action="login" method="post">
-				<div>
-					<c:if test="${not empty ERRORMSG}">
-						<p>${ERRORMSG}</p>
-					</c:if>
-				</div>
 				<div class="form-group">
 					<input type="text" class="form-control input-lg" id="id"
 						name="username" placeholder="아이디를 입력해주세요.">
@@ -87,10 +92,23 @@
 					<input type="password" class="form-control input-lg"
 						name="password" placeholder="비밀번호를 입력해주세요.">
 				</div>
+				<div id="errormsg">
+					<c:if test="${not empty ERRORMSG}">
+						<p>
+							<span class="glyphicon glyphicon-ban-circle"></span> ${ERRORMSG}
+						</p>
+					</c:if>
+				</div>
 				<input id="btnLogin" class="btn btn-lg" name="submit" type="submit"
 					value="로그인"> <input name="${_csrf.parameterName}"
 					type="hidden" value="${_csrf.token}">
 			</form>
+			<!-- 네이버 로그인 -->
+			<div id="naver_id_login" style="text-align: center">
+				<a href="${url}"> <img width="223"
+					src="https://developers.naver.com/doc/review_201802/CK_bEFnWMeEBjXpQ5o8N_20180202_7aot50.png" /></a>
+			</div>
+			<br>
 		</div>
 		<div id="nav">
 			<a href="join">회원 가입</a> | <a href="searchID">아이디 찾기</a> | <a

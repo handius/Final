@@ -106,6 +106,8 @@
             border: 2px solid #7C7877;
             background-color: #7C7877;
             color: white;
+            position: relative;
+            bottom: 1px;
             margin-left: -5px;
         }
         
@@ -181,7 +183,7 @@
             white-space: normal;
         }
 
-        @media (max-width: 991px) {
+       @media (max-width: 1199px) {
             
             .artistListNavSearchText {
                 width: 80%;
@@ -196,9 +198,10 @@
             }
         }
         
-        @media (max-width: 767px) {
+        @media (max-width: 991px) {
         	.container {
         		padding: 0 !important;
+        		width: 100% !important;
         	}
             #mobileArtistListNavBox {
                 display: contents;

@@ -29,7 +29,6 @@
 
 .mainlogo {
 	margin-bottom: 50px;
-	padding: 0px 100px;
 	text-align: center;
 }
 
@@ -43,9 +42,7 @@
 #wrap {
 	padding-top: 50px;
 	padding-bottom: 50px;
-	width: 400px;
-	margin: 0 auto;
-	width: 400px;
+	margin: 0% 10%;
 }
 
 #reg_submit {
@@ -72,37 +69,62 @@
 .formInline {
 	display: inline-block;
 }
+
+#id_check_result {
+	padding-bottom: 10px;
+	color: #CC0000;
+}
+
+.content {
+	display: flex;
+	justify-content: center;
+}
+
+#id_check_result span{
+	vertical-align: middle;
+}
 </style>
 <script>
 	function id_checks() {
 		var id = $("#id").val();
 		var isEnabled = false;
-		$.ajax({
-			url : '${pageContext.request.contextPath}/user/idCheck',
-			data : {
-				user_id : id
-			},
-			dataType : 'json',
-			type : 'post',
-			async : false,
-			success : function(data) {
-				if (data == 1) {
-					$("#id_check_result").text("아이디는 영문 및 숫자만 입력 가능합니다.");
-				} else if (data == 2) {
-					$("#id_check_result").text("이미 사용중인 아이디입니다.");
-				} else if (data == 3) {
-					$("#id_check_result").text("아이디를 4~12자까지 입력해주세요.");
-				} else if (data == 5) {
-					$("#id_check_result").text("아이디를 입력해주세요.");
-				} else {
-					$("#id_check_result").text("사용가능한 아이디입니다.");
-					isEnabled = true;
-				}
-			},
-			error : function() {
-				console.log("실패");
-			}
-		});
+		$
+				.ajax({
+					url : '${pageContext.request.contextPath}/user/idCheck',
+					data : {
+						user_id : id
+					},
+					dataType : 'json',
+					type : 'post',
+					async : false,
+					success : function(data) {
+						if (data == 1) {
+							$("#id_check_result")
+									.html(
+											"<span class='glyphicon glyphicon-remove-circle'></span> <span>아이디는 영문 및 숫자만 입력 가능합니다.</span>");
+						} else if (data == 2) {
+							$("#id_check_result")
+									.html(
+											"<span class='glyphicon glyphicon-remove-circle'></span> <span>이미 사용중인 아이디입니다.</span>");
+						} else if (data == 3) {
+							$("#id_check_result")
+									.html(
+											"<span class='glyphicon glyphicon-remove-circle'></span> <span>아이디를 4~12자까지 입력해주세요.</span>");
+						} else if (data == 5) {
+							$("#id_check_result")
+									.html(
+											"<span class='glyphicon glyphicon-remove-circle'></span> <span>아이디를 입력해주세요.</span>");
+						} else {
+							$("#id_check_result")
+									.html(
+											"<span class='glyphicon glyphicon glyphicon-ok-circle'></span> <span>사용가능한 아이디입니다.</span>");
+							isEnabled = true;
+						}
+					},
+					error : function() {
+						console.log("실패");
+					}
+				});
 		return isEnabled;
 	}
 
@@ -188,6 +210,7 @@
 			return false;
 		}
 
+		alert('이메일로 전송된 링크를 통해 회원가입을 완료해주세요 :)');
 		return true;
 	}
 
@@ -215,52 +238,58 @@
 	<div id="wrap">
 		<div class="mainlogo">
 			<a href="/">Handius</a>
-			<h1>회원 가입</h1>
+			<h1>
+				<span class="glyphicon glyphicon-ok"></span> 회원 가입
+			</h1>
 		</div>
-		<form name="joinform" action="joinResult" method="post"
-			onsubmit="return checks();">
-			<label for="id">아이디 *</label><br>
-			<div class="form-group formInline">
-				<input type="text" class="form-control inputCheck" id="id" name="id"
-					required="required" placeholder="아이디">
-			</div>
-			<button id="id_check" class="btn btnCheck" onclick="id_checks();">중복체크</button>
-			<div id="id_check_result"></div>
-			<div class="form-group">
-				<label for="password">비밀번호 *</label> <input type="password"
-					class="form-control" id="password" name="password"
-					required="required" placeholder="비밀번호">
-			</div>
-			<div class="form-group">
-				<label for="password_check">비밀번호 확인 *</label> <input type="password"
-					class="form-control" id="password_check" name="password_check"
-					required="required" placeholder="비밀번호 확인">
-			</div>
-			<div class="form-group">
-				<label for="name">이름 *</label> <input type="text"
-					class="form-control" id="name" name="name" required="required"
-					placeholder="이름">
-			</div>
-			<div class="form-group">
-				<label for="email">이메일 *</label> <input type="text"
-					class="form-control" id="email" name="email" required="required"
-					placeholder="이메일">
-			</div>
-			<label for="address1">주소</label><br>
-			<div class="form-group formInline">
-				<input type="text" class="form-control inputCheck" name="address1"
-					id="address1" placeholder="주소" readonly="readonly"
-					onclick="goPopup()">
-			</div>
-			<button class="btn btnCheck" onclick="goPopup()">주소찾기</button>
-			<input type="text" class="form-control" name="address2" id="address2">
-			<div class="p">
-				<p>이메일을 통한 인증이 완료되어야</p>
-				<p>서비스를 이용하실 수 있습니다.</p>
-			</div>
-			<br> <input type="submit" class="btn btn-block btn-lg" id="reg_submit"
-				value="가입하기">
-		</form>
+		<div class="content">
+			<form name="joinform" action="joinResult" method="post"
+				onsubmit="return checks();">
+				<label for="id">아이디 *</label><br>
+				<div class="form-group formInline">
+					<input type="text" class="form-control inputCheck" id="id"
+						name="id" required="required" placeholder="아이디">
+				</div>
+				<button type="button" id="id_check" class="btn btnCheck"
+					onclick="id_checks();">중복체크</button>
+				<div id="id_check_result"></div>
+				<div class="form-group">
+					<label for="password">비밀번호 *</label> <input type="password"
+						class="form-control" id="password" name="password"
+						required="required" placeholder="비밀번호">
+				</div>
+				<div class="form-group">
+					<label for="password_check">비밀번호 확인 *</label> <input
+						type="password" class="form-control" id="password_check"
+						name="password_check" required="required" placeholder="비밀번호 확인">
+				</div>
+				<div class="form-group">
+					<label for="name">이름 *</label> <input type="text"
+						class="form-control" id="name" name="name" required="required"
+						placeholder="이름">
+				</div>
+				<div class="form-group">
+					<label for="email">이메일 *</label> <input type="text"
+						class="form-control" id="email" name="email" required="required"
+						placeholder="이메일">
+				</div>
+				<label for="address1">주소</label><br>
+				<div class="form-group formInline">
+					<input type="text" class="form-control inputCheck" name="address1"
+						id="address1" placeholder="주소" readonly="readonly"
+						onclick="goPopup()">
+				</div>
+				<button type="button" class="btn btnCheck" onclick="goPopup()">주소찾기</button>
+				<input type="text" class="form-control" name="address2"
+					id="address2">
+				<div class="p">
+					<p>이메일을 통한 인증이 완료되어야</p>
+					<p>서비스를 이용하실 수 있습니다.</p>
+				</div>
+				<br> <input type="submit" class="btn btn-block btn-lg"
+					id="reg_submit" value="가입하기">
+			</form>
+		</div>
 	</div>
 </body>
 </html>

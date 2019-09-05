@@ -29,20 +29,28 @@
 
 #wrap {
 	height: 100%;
-	margin: 0 auto;
 	position: relative;
-	padding: 150px 0px 210px;
-	width: 500px;
+	text-align: center;
+	margin: 10em 20%;
 	text-align: center;
 }
 
 #btnResult {
 	background-color: #ABD0CE;
 	color: white;
+	font-weight: bold;
 }
 
-p{
-padding-bottom: 50px;
+p {
+	padding-bottom: 50px;
+}
+
+#result {
+	color: #CC0000;
+}
+
+.divContent {
+	padding: 3em;
 }
 </style>
 <script type="text/javascript"
@@ -78,9 +86,13 @@ padding-bottom: 50px;
 				form.submit();
 				alert('비밀번호가 변경되었습니다.');
 			}
-			$("#result").text("비밀번호가 상이합니다.");
+			$("#result")
+					.html(
+							"<span class='glyphicon glyphicon-remove-circle'></span> 비밀번호가 상이합니다.");
 		} else {
-			$("#result").text("비밀번호는 4~12자리의 영문 및 숫자만 가능합니다.");
+			$("#result")
+					.html(
+							"<span class='glyphicon glyphicon-remove-circle'></span> 비밀번호는 4~12자리의 영문 및 숫자만 가능합니다.");
 		}
 	}
 </script>
@@ -103,7 +115,10 @@ padding-bottom: 50px;
 						required="required" placeholder="비밀번호를 다시 입력해주세요.">
 				</div>
 			</div>
-			<button id="btnResult" class="btn" onclick="checkPwd()">비밀번호 재설정</button>
+			<div class="divContent">
+				<button id="btnResult" class="btn" onclick="checkPwd()">비밀번호
+					재설정</button>
+			</div>
 			<div id="result"></div>
 		</div>
 	</div>

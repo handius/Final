@@ -58,6 +58,15 @@
 
 .tdHead {
 	background-color: #F0E5DE;
+	text-align: center;
+}
+
+#repList{
+	width: 900px;
+}
+
+.nickname span{
+	vertical-align: middle;
 }
 </style>
 <script>
@@ -155,7 +164,7 @@
 					<td>${board.freeboard_hits }</td>
 				</tr>
 				<tr>
-					<td class="tdHead">내용</td>
+					<td class="tdHead" style="vertical-align: middle;">내용</td>
 					<td colspan="6" style="min-height: 100px">${board.freeboard_content }</td>
 				</tr>
 			</tbody>
@@ -170,7 +179,7 @@
 						id="board_no" name="no" type="hidden"
 						value="${board.freeboard_no}">
 					<div class="form-group">
-						<label>${sessionScope.member.user_nick }</label>
+						<label class='nickname'><span class="glyphicon glyphicon-user"></span> <span>${sessionScope.member.user_nick }</span></label>
 						<textarea class="form-control" id="replyText"
 							placeholder="댓글을 입력해주세요"></textarea>
 					</div>
@@ -179,7 +188,6 @@
 				</form>
 			</div>
 			<div id="repList">
-				<div id="divPage"></div>
 			</div>
 		</div>
 		<button class="btn" onclick="location='../freeboard'">목록으로</button>
