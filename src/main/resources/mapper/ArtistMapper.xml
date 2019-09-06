@@ -130,11 +130,8 @@
                 	<if test="!searchText != null || searchText.equals('')">
                 		and user_name like '%' || #{searchText} || '%'
                 	</if>
-                	<if test="!user_authority.equals('ROLE_ADMIN')">
+                	<if test="!(user_authority.equals('ROLE_ADMIN') || user_authority.equals('ROLE_SELLER'))">
                 		and artist_board_status = 1
-                		<if test="user_authority.equals('ROLE_SELLER')">
-                			or artist_board.member_no = #{member_no}
-                		</if>
                 	</if>
                 </where>
                 <if test="listType.equals('인기순')">

@@ -155,6 +155,11 @@
             margin-bottom: 10px;
         }
         
+        .artistAsideRepContentArtist .artistAsideRepUserName {
+        	color: #ABD0CE;
+        	font-weight: bolder;
+        }
+        
         .artistAsideRepUserName {
             height: 15px;
             font-size: 12px;

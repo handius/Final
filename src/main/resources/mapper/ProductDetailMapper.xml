@@ -55,7 +55,7 @@
 <select id="productDetailQandAListMaxCount" parameterType="int" resultType="int">
 	select count(*)
 	from qa_board
-	where list_no = #{list_no}
+	where list_no = #{list_no} and qa_board_delete_status = 1
 </select>
 <select id="productDetailQandAList" parameterType="com.bitcamp.DTO.productdetail.QABoardDTO" resultType="com.bitcamp.DTO.productdetail.QABoardDTO">
  	 select num, e.*

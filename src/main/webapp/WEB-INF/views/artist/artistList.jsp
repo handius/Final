@@ -46,7 +46,7 @@
             height: 400px;
             background-image: url("/resources/image/ArtistMain.jpg");
             background-size: cover;
-            background-position: 0 70%;
+            background-position: 0 90%;
             margin-bottom: 0 !important;
         }
         
@@ -56,7 +56,7 @@
         	color: white;
             font-size: 3vw;
             font-weight: bold;
-            text-shadow: 0 0 2px #7C7877;
+            text-shadow: 0 0 5px black;
             text-align: center;
             margin: auto;
         }
@@ -98,6 +98,7 @@
             height: 40px;
             border: 0;
             border: 2px solid #7C7877;
+            padding-left: 10px;
         }
         
         .artistListNavSearchButton {
@@ -327,7 +328,6 @@
     let searchTextSave = ""; //검색 저장값
     function search() {
     	let searchText = $(this).prev().val();
-
     	if(!searchText) {
     		alert("검색어를 입력하세요");
     	}
@@ -360,7 +360,7 @@
     		
     		setTimeout(function() {
     			delayScrollTokken = 0;
-			}, 500);
+			}, 250);
     	}
     }
     
