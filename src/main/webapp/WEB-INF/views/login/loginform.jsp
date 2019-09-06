@@ -9,6 +9,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Handius 로그인</title>
 </head>
+<!-- 네이버 아이디로 로그인 -->
+<script type="text/javascript"
+	src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js"
+	charset="utf-8"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <!-- 합쳐지고 최소화된 최신 CSS -->
 <link rel="stylesheet"
@@ -67,8 +71,8 @@
 	color: #7C7877;
 }
 
-#errormsg{
-	padding-bottom:10px;
+#errormsg {
+	padding-bottom: 10px;
 	color: #CC0000;
 	text-align: center;
 }
@@ -90,13 +94,21 @@
 				</div>
 				<div id="errormsg">
 					<c:if test="${not empty ERRORMSG}">
-						<p>${ERRORMSG}</p>
+						<p>
+							<span class="glyphicon glyphicon-ban-circle"></span> ${ERRORMSG}
+						</p>
 					</c:if>
 				</div>
 				<input id="btnLogin" class="btn btn-lg" name="submit" type="submit"
 					value="로그인"> <input name="${_csrf.parameterName}"
 					type="hidden" value="${_csrf.token}">
 			</form>
+			<!-- 네이버 로그인 -->
+			<div id="naver_id_login" style="text-align: center">
+				<a href="${url}"> <img width="223"
+					src="https://developers.naver.com/doc/review_201802/CK_bEFnWMeEBjXpQ5o8N_20180202_7aot50.png" /></a>
+			</div>
+			<br>
 		</div>
 		<div id="nav">
 			<a href="join">회원 가입</a> | <a href="searchID">아이디 찾기</a> | <a

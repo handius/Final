@@ -27,13 +27,13 @@
 }
 
 #wrap {
-	margin: 3% 10%;
+	margin: 0% 10% 3%;
 }
 
 .nav {
 	color: #7C7877;
 	text-align: center;
-	padding-bottom: 40px;
+	padding: 3em 0em;
 }
 
 .nav a {
@@ -53,16 +53,17 @@
 
 #btnSearch {
 	background-color: #F0E5DE;
+	margin: 0px 3px;
 }
 
 table {
 	width: 100%;
 }
 
-thead {
+/* thead {
 	background-color: #F0E5DE;
 }
-
+ */
 .formSearch {
 	display: flex;
 	justify-content: center;
@@ -92,10 +93,36 @@ thead {
 	padding: 10px 100px;
 }
 
-.trHead th, .text_center{
+.trHead th, .text_center {
 	text-align: center;
 }
 
+.btnPage {
+	width: 25px;
+	height: 25px;
+	margin: 5px;
+	background-color: transparent;
+	border: none;
+	background-color: transparent;
+	margin: 5px;
+}
+
+.btnCurrPage {
+	width: 25px;
+	height: 25px;
+	margin: 5px;
+	background-color: transparent;
+	border: none;
+	color: #ABD0CE;
+}
+
+#searchType {
+	margin: 0px 3px;
+}
+
+.navColor {
+	color: #ABD0CE;
+}
 </style>
 <script>
 	function search() {
@@ -110,10 +137,30 @@ thead {
 	<div class="jumbotron"></div>
 	<div id="wrap">
 		<div class="nav">
-			<a href="freeboard">전체</a> | <a href="freeboard?category=정보">정보</a> |
+			<c:if test="${category eq '정보'}">
+				<a href="freeboard">전체</a> | <a href="freeboard?category=정보"
+					style="color: #ABD0CE;">정보</a> |
 			<a href="freeboard?category=교환">교환</a> | <a
-				href="freeboard?category=잡담">잡담</a>
+					href="freeboard?category=잡담">잡담</a>
+			</c:if>
+			<c:if test="${category eq '교환'}">
+				<a href="freeboard">전체</a> | <a href="freeboard?category=정보">정보</a> |
+			<a href="freeboard?category=교환" style="color: #ABD0CE;">교환</a> | <a
+					href="freeboard?category=잡담">잡담</a>
+			</c:if>
+			<c:if test="${category eq '잡담'}">
+				<a href="freeboard">전체</a> | <a href="freeboard?category=정보">정보</a> |
+			<a href="freeboard?category=교환">교환</a> | <a
+					href="freeboard?category=잡담" style="color: #ABD0CE;">잡담</a>
+			</c:if>
+			<c:if test="${category eq '전체' || category eq ''}">
+				<a href="freeboard" style="color: #ABD0CE;">전체</a> | <a
+					href="freeboard?category=정보">정보</a> |
+			<a href="freeboard?category=교환">교환</a> | <a
+					href="freeboard?category=잡담">잡담</a>
+			</c:if>
 		</div>
+		<hr style="border: 0.5px solid black; margin: 0px;">
 		<div>
 			<table class="table">
 				<thead>
@@ -126,24 +173,32 @@ thead {
 					</tr>
 				</thead>
 				<tbody>
-				<c:if test="${empty list}">
-					<tr><td colspan="5" class="text_center">검색된 결과가 없습니다.</td></tr>
-				</c:if>
+					<c:if test="${empty list}">
+						<tr>
+							<td colspan="5" class="text_center">검색된 결과가 없습니다.</td>
+						</tr>
+					</c:if>
 					<c:forEach items="${list}" var="list">
 						<tr>
 							<td class="text_center"><c:out value="${list.freeboard_no}"></c:out></td>
 							<td><a href="freeboard/detail?no=${list.freeboard_no}"><c:out
-										value="${list.freeboard_title}"></c:out> [${list.freeboard_rep_count }]</a></td>
-							<td class="text_center"><c:out value="${list.freeboard_user_nick}"></c:out></td>
-							<td class="text_center"><c:out value="${list.freeboard_regiTime}"></c:out></td>
-							<td class="text_center"><c:out value="${list.freeboard_hits}"></c:out></td>
+										value="${list.freeboard_title}"></c:out>
+									[${list.freeboard_rep_count }]</a></td>
+							<td class="text_center"><c:out
+									value="${list.freeboard_user_nick}"></c:out></td>
+							<td class="text_center"><c:out
+									value="${list.freeboard_regiTime}"></c:out></td>
+							<td class="text_center"><c:out
+									value="${list.freeboard_hits}"></c:out></td>
 						</tr>
 					</c:forEach>
 				</tbody>
 			</table>
 		</div>
 		<br>
-		<button class="btn btnWrite" onclick="location='freeboard/write'">글쓰기</button>
+		<div>
+			<button class="btn btnWrite" onclick="location='freeboard/write'">글쓰기</button>
+		</div>
 		<div id="divPage">
 			<form class="formPage" action="/freeboard" method="post">
 				<c:if test="${paging.startblock > 1 }">
@@ -151,11 +206,13 @@ thead {
 				</c:if>
 				<c:forEach var="i" begin="${paging.startblock }"
 					end="${paging.endblock }">
-					<c:if test="${i == currpage }">
-						<c:out value="${i }"></c:out>
+					<c:if test="${i == paging.currpage }">
+						<button class="btnCurrPage">
+							<c:out value="${i }"></c:out>
+						</button>
 					</c:if>
-					<c:if test="${i != currpage }">
-						<input type="submit" class="btn btn-default" name="curr"
+					<c:if test="${i != paging.currpage }">
+						<input type="submit" name="curr" class="btnPage" id="btnPage"
 							value="${i }">
 					</c:if>
 				</c:forEach>
@@ -165,7 +222,7 @@ thead {
 			</form>
 		</div>
 		<div class="form-group form-inline formSearch">
-		<span class="glyphicon glyphicon-search" style="font-size:30px;"></span>
+			<span class="glyphicon glyphicon-search" style="font-size: 30px;"></span>
 			<select id="searchType" class="form-control">
 				<option value="제목">제목</option>
 				<option value="닉네임">닉네임</option>

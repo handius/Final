@@ -26,38 +26,42 @@
 
 #wrap {
 	height: 100%;
-	margin: 0 auto;
 	position: relative;
-	padding: 110px 0px 200px; width : 500px;
 	text-align: center;
-	width: 500px;
+	margin: 10em 20%;
+	/* width: 500px;
+	padding: 110px 0px 200px;
+	margin: 0 auto;
+	width : 500px; */
 }
 
 #btnNext {
 	background-color: #ABD0CE;
 	color: white;
-	width : 100px;
+	width: 100px;
+	font-size: 16px;
+	font-weight: bold;
 }
 
 .divContent {
-	padding-bottom: 30px;
+	padding: 3em;
 }
 
 p {
-	padding-bottom: 20px;
+	padding-bottom: 3em;
 }
 
 .btnTab {
 	width: 130px;
 }
 
-.divForm{
-padding-bottom: 30px;
+#searchPwdResult {
+	color: #CC0000;
 }
 
-#searchPwdResult{
-	padding-top: 50px;
-	color: #CC0000;
+#searchPwdResult span {
+	vertical-align: middle;
+	font-size: 15px;
 }
 </style>
 <script>
@@ -70,30 +74,33 @@ padding-bottom: 30px;
 			'user_email' : email
 		};
 
-		$.ajax({
-			url : '/searchPasswordResult',
-			type : 'post',
-			data : postData,
-			dataType : 'html',
-			success : function(data) {
-				if (data == 0) {
-					$("#searchPwdResult").html("일치하는 정보가 없습니다.");
-				} else {
-					var form = document.createElement("form");
-					form.setAttribute("charset", "UTF-8");
-					form.setAttribute("method", "Post"); //Post 방식
-					form.setAttribute("action", "/changePassword"); //요청 보낼 주소
+		$
+				.ajax({
+					url : '/searchPasswordResult',
+					type : 'post',
+					data : postData,
+					dataType : 'html',
+					success : function(data) {
+						if (data == 0) {
+							$("#searchPwdResult")
+									.html(
+											"<span class='glyphicon glyphicon-remove-circle'></span> <span>일치하는 정보가 없습니다.</span>");
+						} else {
+							var form = document.createElement("form");
+							form.setAttribute("charset", "UTF-8");
+							form.setAttribute("method", "Post"); //Post 방식
+							form.setAttribute("action", "/changePassword"); //요청 보낼 주소
 
-					var hiddenField = document.createElement("input");
-					hiddenField.setAttribute("type", "hidden");
-					hiddenField.setAttribute("name", "id");
-					hiddenField.setAttribute("value", id);
-					form.appendChild(hiddenField);
-					document.body.appendChild(form);
-					form.submit();
-				}
-			}
-		});
+							var hiddenField = document.createElement("input");
+							hiddenField.setAttribute("type", "hidden");
+							hiddenField.setAttribute("name", "id");
+							hiddenField.setAttribute("value", id);
+							form.appendChild(hiddenField);
+							document.body.appendChild(form);
+							form.submit();
+						}
+					}
+				});
 	}
 </script>
 <body>
@@ -120,7 +127,9 @@ padding-bottom: 30px;
 				</div>
 			</div>
 		</div>
-		<button class="btn" id="btnNext" onclick="searchPassword()">다음</button>
+		<div class="divContent">
+			<button class="btn" id="btnNext" onclick="searchPassword()">다음</button>
+		</div>
 		<div id="searchPwdResult"></div>
 	</div>
 </body>

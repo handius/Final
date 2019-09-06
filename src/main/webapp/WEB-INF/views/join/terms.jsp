@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Handius :: 회원가입 이용약관</title>
 </head>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <!-- 합쳐지고 최소화된 최신 CSS -->
@@ -94,7 +94,9 @@ label {
 	<div id="wrap">
 		<div class="mainlogo">
 			<a href="/">Handius</a>
-			<h1>Terms & Policy</h1>
+			<h1>
+				<span class="glyphicon glyphicon-ok"></span> Terms & Policy
+			</h1>
 		</div>
 		<form name="form" action="joinform" method="post">
 			<div>
@@ -174,12 +176,13 @@ label {
 			<div>
 				<label><input type="checkbox" name="checkAll"
 					value="checkAll" onclick="checkedAll()"> 이용약관, 개인정보 수집 및
-					이용에 모두 동의합니다. </label><br><br>
+					이용에 모두 동의합니다. </label><br>
+				<br>
 			</div>
 			<div class="nav">
-				<input type="button" class="btn btn-lg" value="취소" onclick="denied()">
-				<input type="button" class="btn btnAcc btn-lg" value="동의"
-					onclick="acceptTerms()">
+				<input type="button" class="btn btn-lg" value="취소"
+					onclick="denied()"> <input type="button"
+					class="btn btnAcc btn-lg" value="동의" onclick="acceptTerms()">
 			</div>
 		</form>
 	</div>

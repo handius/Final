@@ -30,7 +30,7 @@
 	background-color: #F0E5DE;
 	margin: 5%;
 	padding: 5%;
-	border-radius: 25% 10%;
+	border-radius: 5%;
 }
 
 .row {
@@ -55,8 +55,7 @@
 	width: 5px;
 	height: 100%;
 	background-color: #D9D4CF;
-	margin-left: auto;
-	margin-right: auto;
+	margin: 0 auto;
 }
 
 .right {
@@ -66,16 +65,20 @@
 	padding: 5%;
 }
 
-ul {
+.right ul {
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
-	margin: 5%;
+	padding: 15px;
 	list-style: none;
 }
 
-a {
-	color: black !important;
+.right ul li span {
+	margin: 5px;
+}
+
+.right ul li a {
+	color: #7C7877 !important;
 	font-size: 15px;
 }
 </style>
@@ -83,36 +86,46 @@ a {
 <body>
 	<div class="container">
 		<div class="row">
-			<div class="col-md-4 col-md-offset-1 left">
+			<div class="col-xs-6 col-xs-offset-3 col-md-4 col-md-offset-1 left">
 				<sec:authorize access="!hasRole('ROLE_SELLER')">
-					<img alt="buyer" src="/resources/image/wink.png">
 					<h3>구매자</h3>
+					<img alt="buyer" src="/resources/image/mypage/buyer.png">
 				</sec:authorize>
 				<sec:authorize access="hasRole('ROLE_SELLER')">
-					<img alt="seller" src="/resources/image/cool.png">
 					<h3>판매자</h3>
+					<img alt="seller" src="/resources/image/mypage/seller.png">
 				</sec:authorize>
 				<sec:authentication property="principal.member.user_id"
 					var="user_id" />
-				<h3>${user_id }님</h3>
+				<h3>${user_id }<small class="text-muted">고객님 환영합니다.</small>
+				</h3>
 			</div>
 			<div class="col-md-2 visible-md visible-lg">
 				<div class="line"></div>
 			</div>
-			<div class="col-md-4 right">
+			<div class="col-xs-6 col-xs-offset-3 col-md-4 right col-md-offset-0">
 				<ul>
-					<li><a href="pWCheck">회원 정보 수정</a></li>
-					<li><a href="buyList">나의 구매 내역</a></li>
-					<li><a href="cQAList">나의 고객 문의</a></li>
-					<li><a href="buyerPQAList">나의 상품 문의</a></li>
-					<li><a href="buyerReviewList">나의 상품 후기</a></li>
+					<li><span class="glyphicon glyphicon-pencil"></span><a
+						href="pWCheck">회원 정보 수정</a></li>
+					<li><span class="glyphicon glyphicon-pencil"></span><a
+						href="buyList">나의 구매 내역</a></li>
+					<li><span class="glyphicon glyphicon-pencil"></span><a
+						href="cQAList">나의 고객 문의</a></li>
+					<li><span class="glyphicon glyphicon-pencil"></span><a
+						href="buyerPQAList">나의 상품 문의</a></li>
+					<li><span class="glyphicon glyphicon-pencil"></span><a
+						href="buyerReviewList">나의 상품 후기</a></li>
 				</ul>
 				<sec:authorize access="hasRole('ROLE_SELLER')">
 					<ul>
-						<li><a href="registerList">나의 등록 내역</a></li>
-						<li><a href="sellList">나의 판매 내역</a></li>
-						<li><a href="sellerPQAList">상품 문의 관리</a></li>
-						<li><a href="sellerReviewList">상품 후기 관리</a></li>
+						<li><span class="glyphicon glyphicon-barcode"></span><a
+							href="registerList">나의 등록 내역</a></li>
+						<li><span class="glyphicon glyphicon-barcode"></span><a
+							href="sellList">나의 판매 내역</a></li>
+						<li><span class="glyphicon glyphicon-barcode"></span><a
+							href="sellerPQAList">상품 문의 관리</a></li>
+						<li><span class="glyphicon glyphicon-barcode"></span><a
+							href="sellerReviewList">상품 후기 관리</a></li>
 					</ul>
 				</sec:authorize>
 			</div>
