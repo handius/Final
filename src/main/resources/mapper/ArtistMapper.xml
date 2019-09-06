@@ -85,6 +85,15 @@
 	select count(*) from artist_rep
 	where artist_rep_no = #{artist_rep_no}
 </select>
+<delete id="artistBoardDetailRepDelete" parameterType="int">
+	delete from artist_rep
+	where artist_rep_no = #{artist_rep_no}
+</delete>
+<select id="artistBoardDetailRepDeleteCheck" parameterType="int" resultType="Integer">
+	select count(*)
+	from artist_rep
+	where artist_rep_no = #{artist_rep_no}
+</select>
 <select id="artistRepListMaxCount" parameterType="int" resultType="int">
 	select count(*)
 	from artist_rep

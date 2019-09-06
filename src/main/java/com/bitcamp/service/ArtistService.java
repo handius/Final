@@ -143,6 +143,19 @@ public class ArtistService {
 		return mapper.artistRepInsertCheck(artist_rep_no); 
 	}
 	
+	public String artistBoardDetailRepDeleteService(Map<String, Integer> map) {
+		int artist_rep_no = map.get("artist_rep_no");
+		mapper.artistBoardDetailRepDelete(artist_rep_no);
+		int deleteResult = mapper.artistBoardDetailRepDeleteCheck(artist_rep_no);
+		
+		String resultMessage = "삭제 성공";
+		if(deleteResult != 0) {
+			resultMessage = "삭제 실패";
+		}
+		
+		return resultMessage;
+	}
+	
 	@Transactional
 	public Map<String, Object> artistBoardDetailRepListService(Map<String, Integer> map) {
 		int artist_no = map.get("artist_no");
