@@ -121,7 +121,7 @@
 		  </div>
     	  <div class="col-sm-4 col-sm-offset-4">
 			<form class="form-inline" role="form" method="post">
-				<input type="text" name="search" class="form-control" id="text" placeholder="검색어 등록">
+				<input type="text" name="search" class="form-control" id="search" placeholder="검색어 등록">
 				<input type="button" id="provSearcher" class="btn btn-default" value="등록">
 			</form>
 		  </div>

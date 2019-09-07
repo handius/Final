@@ -6,14 +6,16 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Insert title here</title>
 <link href="https://fonts.googleapis.com/css?family=Comfortaa&display=swap" rel="stylesheet">
 <style>
+	.active a{
+		background-color: #7c7877 !important; 
+	}
 	body{
 		margin: 0px;
 		padding: 0px;
-		background-color: #F0E5DE !important;
+		background-color: white !important;
 	}
 	.category a{
 		color: rgba(93,93,93) !important;
@@ -98,6 +100,7 @@
 		box-shadow: 6px 4px 2px rgba(109,109,109,0.8);
 	}
 	.listbox .thumbnail img{
+		width: 100%;
 		height: 220px;
 		border: 1px double silver;
 		border-radius: 5px;
@@ -446,7 +449,7 @@
 			</ul>
 			<div id="deletebtn">
 				<c:if test="${isAdmin }">
-					<button type="button" class="btn btn-success" onclick="onDelete()">게시글 삭제</button>
+					<button type="button" class="btn" style="background-color:#ABD0CE; color:white;" onclick="onDelete()">게시글 삭제</button>
 				</c:if>
 			</div>
 		</div>
