@@ -56,12 +56,16 @@ public class MyPageService {
 		return mapper.getBuyCount(listMap);
 	}
 
-	public List<OrderDTO> getBuyList(Map<String, Object> listMap) {
+	public Map<String, Object> getBuyList(Map<String, Object> listMap) {
 		// TODO Auto-generated method stub
+		Map<String, Object> parameters = new HashMap<>();
 		List<OrderDTO> buyList = mapper.getBuyList(listMap);
+		List<String> buyListImage_loc = new ArrayList<>();
 		for (int i = 0; i < buyList.size(); i++) {
 			String list_title = mapper.findList_title(buyList.get(i).getList_no());
 			buyList.get(i).setList_title(list_title);
+			List<String> image_loc = mapper.findImage_loc(buyList.get(i).getList_no());
+			buyListImage_loc.add(image_loc.get(0));
 			Map<String, Object> results = mapper.findOption(buyList.get(i).getOrder_no());
 			String order_add_option = (String) results.get("ORDER_ADD_OPTION");
 			String order_amount = (String) results.get("ORDER_AMOUNT");
@@ -99,7 +103,9 @@ public class MyPageService {
 			buyList.get(i).setOption_name(option_name_list);
 			buyList.get(i).setOption_price(option_price_list);
 		}
-		return buyList;
+		parameters.put("buyList", buyList);
+		parameters.put("buyListImage_loc", buyListImage_loc);
+		return parameters;
 	}
 
 	public int getBuyerPQACount(Map<String, Object> listMap) {

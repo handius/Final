@@ -19,9 +19,14 @@
 		option_no=#{option_no}
 	</select>
 	<select id="findOption_price" parameterType="int"
-		resultType="int">
+		resultType="java.lang.Integer">
 		select option_price from list_option_board where
 		option_no=#{option_no}
+	</select>
+	<select id="findImage_loc" parameterType="int"
+		resultType="String">
+		select list_image_loc from list_image_board where
+		list_no=#{list_no}
 	</select>
 	<update id="updateUserInfo"
 		parameterType="com.bitcamp.DTO.member.MemberDTO">

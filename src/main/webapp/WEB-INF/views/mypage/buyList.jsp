@@ -25,67 +25,130 @@
 * {
 	font-family: 'Comfortaa', '맑은 고딕', cursive;
 }
+
+.container {
+	background-color: #F0E5DE;
+	margin: 5%;
+	padding: 3% 5% !important;
+	border-radius: 5%;
+}
+
+.container * {
+	margin: 5px;
+}
+
+.container h1 {
+	color: white;
+	font-size: 3vw;
+	font-weight: bold;
+	text-shadow: 0 0 2px #7C7877;
+}
+
+.container hr {
+	width: 45%;
+	margin: 1%;
+	border: 1px solid #D9D4CF;
+}
+
+.buyList {
+	width: 100%;
+}
+
+.buyList tbody tr td table {
+	width: 100%;
+}
+
+.buyList tbody tr td table * {
+	padding: 1%;
+}
+
+.image {
+	width: 30%;
+}
+
+.buyList tbody tr td table tr td img {
+	width: 50%;
+}
+
+.button {
+	width: 75px;
+	background-color: #ABD0CE;
+	color: white;
+	border: 3px solid #ABD0CE;
+	font-size: 15px;
+	font-weight: bold;
+}
+
+.formPage {
+	display: flex;
+	justify-content: center;
+}
 </style>
 </head>
 <body>
-	<table>
-		<thead>
-			<tr>
-				<th>주문일자</th>
-				<th>상품정보</th>
-				<th>결제금액</th>
-				<th>상태</th>
-				<th></th>
-			</tr>
-		</thead>
-		<tbody>
-			<c:forEach var="list" items="${buyList }">
+	<div class="container">
+		<h1>나의구매내역</h1>
+		<hr>
+		<table class="buyList">
+			<thead>
 				<tr>
-					<td>${list.order_date }</td>
-					<td><a href="/productDetail/${list.list_no }">${list.list_title }</a><br>
-						<table>
-							<tr>
-								<td>옵션:</td>
-								<td><c:forEach var="item" items="${list.option_name }"
-										varStatus="status">
-							${item }/${list.order_amount[status.index] }개(+${list.order_amount[status.index]*list.option_price[status.index] }원)<br>
-									</c:forEach></td>
-							<tr>
-						</table></td>
-					<td>${list.order_price }</td>
-					<td>${list.order_status }</td>
-					<td><c:if test="${list.order_status == '배송중' }">
-							<input type="button" class="btn btn-default cor" name="cor"
-								value="수취완료">
-							<span style="display: none;">${list.order_no }</span>
-						</c:if> <c:if test="${list.order_status == '배송완료' }">
-							<input type="button" class="btn btn-default rw" name="rw"
-								value="리뷰쓰기" data-toggle="modal" data-target="#myModal">
-							<span style="display: none;">${list.order_no }</span>
-						</c:if></td>
+					<th>주문일자</th>
+					<th>상품정보</th>
+					<th>결제금액</th>
+					<th>상태</th>
 				</tr>
-			</c:forEach>
-		</tbody>
-	</table>
-	<div id="divPage">
-		<form class="formPage" action="/buyList" method="post">
-			<c:if test="${paging.startblock > 1 }">
-				<a href="#">◀</a>
-			</c:if>
-			<c:forEach var="i" begin="${paging.startblock }"
-				end="${paging.endblock }">
-				<c:if test="${i == currpage }">
-					<c:out value="${i }"></c:out>
+			</thead>
+			<tbody>
+				<c:forEach var="list" items="${buyList }" varStatus="status1">
+					<tr>
+						<td>${list.order_date }</td>
+						<td><table>
+								<tr>
+									<td rowspan="2" class="image"><img alt="image_loc"
+										src="${buyListImage_loc[status1.index] }"></td>
+									<td colspan="2"><a href="/productDetail/${list.list_no }">${list.list_title }</a></td>
+								<tr>
+									<td>옵션:</td>
+									<td><c:forEach var="item" items="${list.option_name }"
+											varStatus="status2">
+							${item }/${list.order_amount[status2.index] }개(+${list.order_amount[status2.index]*list.option_price[status2.index] }원)<br>
+										</c:forEach></td>
+								<tr>
+							</table></td>
+						<td>${list.order_price }</td>
+						<td>${list.order_status }</td>
+						<td><c:if test="${list.order_status == '배송중' }">
+								<input type="button" class="button cor" name="cor" value="수취완료">
+								<span style="display: none;">${list.order_no }</span>
+							</c:if> <c:if test="${list.order_status == '배송완료' }">
+								<input type="button" class="button rw" name="rw" value="리뷰쓰기"
+									data-toggle="modal" data-target="#myModal">
+								<span style="display: none;">${list.order_no }</span>
+							</c:if></td>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
+		<div id="divPage">
+			<form class="formPage" action="/buyList" method="post">
+				<c:if test="${paging.startblock > 1 }">
+					<a href="#">◀</a>
 				</c:if>
-				<c:if test="${i != currpage }">
-					<input type="submit" class="btn btn-default" name="curr"
-						value="${i }">
+				<c:forEach var="i" begin="${paging.startblock }"
+					end="${paging.endblock }">
+					<c:if test="${i == currpage }">
+						<c:out value="${i }"></c:out>
+					</c:if>
+					<c:if test="${i != currpage }">
+						<input type="submit" class="btn btn-default" name="curr"
+							value="${i }">
+					</c:if>
+				</c:forEach>
+				<c:if test="${paging.endblock < paging.totalpage }">
+					<a href="#">▶</a>
 				</c:if>
-			</c:forEach>
-			<c:if test="${paging.endblock < paging.totalpage }">
-				<a href="#">▶</a>
-			</c:if>
-		</form>
+			</form>
+		</div>
 	</div>
 	<div class="modal fade" id="myModal">
 		<div class="modal-dialog">

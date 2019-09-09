@@ -146,7 +146,6 @@
             </div>
                 <div class="admin_category_child categ4">
                     <p><a href="/admin/qna">1 : 1 문의</a></p>
-                    <p><a href="#">욕설 관리</a></p>
                 </div>
           </div>
           <div class="admin_content_wrap gridpaddingzero">
