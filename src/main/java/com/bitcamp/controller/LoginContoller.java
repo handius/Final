@@ -129,6 +129,13 @@ public class LoginContoller {
 		return "login/logintest";
 	}
 	
+	@RequestMapping("interceptFailure")
+	public String interceptfailure(@RequestParam String error){
+		System.out.println("권한없음");
+		System.out.println(error);
+		return "login/access_denied_page";
+	}
+	
 	@RequestMapping("callback")
 	public String ca(Model model, @RequestParam String code, @RequestParam String state, HttpSession session) throws IOException, ParseException {
 		

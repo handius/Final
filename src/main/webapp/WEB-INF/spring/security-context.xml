@@ -11,9 +11,11 @@
 		class="com.bitcamp.service.CustomUserDetailService"></beans:bean>
 	<beans:bean id="bcryptPasswordEncoder"
 		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></beans:bean>
+	<beans:bean id="InterceptFailure"
+		class="com.bitcamp.DAO.InterceptFailureHandler"></beans:bean>
 
+	<!-- 커스텀 로그인 페이지 연결 -->	
 	<http entry-point-ref="InterceptFailure">
-		<intercept-url pattern="/**" access="permitAll" />
 		<csrf disabled="true" />
 		<form-login username-parameter="username"
 			login-page="/login/loginform" default-target-url="/login/loginResult"
@@ -21,10 +23,12 @@
 		<logout logout-success-url="/logout" />
 		<access-denied-handler
 			error-page="/access_denied_page" />
+			
+		<!-- 사용자 권한에 따른 접근 제어 설정-->
+		<intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')"/>
 	</http>
 
-	<!-- authentication-failure-forward-url="/login?error" -->
-
+	<!-- 로그인 계정 정보 DB 연동/비밀번호 암호화 인코더 -->
 	<authentication-manager>
 		<authentication-provider
 			user-service-ref="customUserDetailService">
@@ -32,6 +36,7 @@
 		</authentication-provider>
 	</authentication-manager>
 
+	<!-- 로그인 실패시 띄우는 에러 메세지 핸들러 -->
 	<beans:bean id="loginFailureHandler"
 		class="com.bitcamp.DAO.LoginFailureHandler">
 		<beans:property name="defaultFailureUrl"
@@ -40,6 +45,4 @@
 		<beans:property name="errormsg" value="errormsg"></beans:property>
 	</beans:bean>
 
-	<beans:bean id="InterceptFailure"
-		class="com.bitcamp.DAO.InterceptFailureHandler"></beans:bean>
 </beans:beans>
