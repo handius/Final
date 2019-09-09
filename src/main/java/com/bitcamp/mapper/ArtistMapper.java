@@ -32,6 +32,9 @@ public interface ArtistMapper {
 	public void artistRepInsert(ArtistRepDTO dto);
 	public int artistRepInsertCheck(int artist_rep_no);
 	//
+	public void artistBoardDetailRepDelete(int artist_rep_no);
+	public Integer artistBoardDetailRepDeleteCheck(int artist_rep_no);
+	//
 	public int artistRepListMaxCount(int artist_no);
 	public List<ArtistRepDTO> artistRepList(HashMap<String, Integer> map);
 	//

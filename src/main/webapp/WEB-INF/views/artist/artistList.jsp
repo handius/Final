@@ -56,7 +56,7 @@
         	color: white;
             font-size: 3vw;
             font-weight: bold;
-            text-shadow: 0 0 2px #7C7877;
+            text-shadow: 0 0 5px black;
             text-align: center;
             margin: auto;
         }
@@ -98,6 +98,7 @@
             height: 40px;
             border: 0;
             border: 2px solid #7C7877;
+            padding-left: 10px;
         }
         
         .artistListNavSearchButton {
@@ -266,6 +267,18 @@
     </style>
     <script>
     
+    window.onresize = function(event) {
+    	let innerWidth =  window.innerWidth;
+    	if(innerWidth < 991) {
+    		let text = $('.artistListNavSearchText:eq(1)').val();
+    		$('.artistListNavSearchText:eq(0)').val(text);
+    	}
+    	else {
+    		let text = $('.artistListNavSearchText:eq(0)').val();
+    		$('.artistListNavSearchText:eq(1)').val(text);
+    	}
+    };
+    
     $(window).scroll(function() {
     	scrollArtistList();
     });
@@ -314,20 +327,27 @@
     	
     	if(DelaylistTypeTokken == 0) {
     		DelaylistTypeTokken = 1;
+    		delayScrollTokken = 1; //스크롤 잠금
     		artistList(listType, searchTextSave);
     		
     		setTimeout(function() {
     			DelaylistTypeTokken = 0;
+    			delayScrollTokken = 0; //스크롤 잠금 해제
 			}, 500);
     	}
     }
+    
+    function enterkeyPress() {	
+    	if(event.keyCode == 13) {
+    		search();
+    	}
+	}
     
     //검색에 의한 재정렬
     DelaysearchTextTokken = 0; //토큰값
     let searchTextSave = ""; //검색 저장값
     function search() {
-    	let searchText = $(this).prev().val();
-
+    	let searchText = $('.artistListNavSearchText:eq(0)').val();
     	if(!searchText) {
     		alert("검색어를 입력하세요");
     	}
@@ -337,6 +357,7 @@
     		$('#currentArtistList').val(1);
     		searchTextSave = searchText;
     		artistListLank = 1; //랭크 초기화
+    		delayScrollTokken = 1; //스크롤 잠금
     		
     		if(DelaysearchTextTokken == 0) {
     			DelaysearchTextTokken = 1;
@@ -344,6 +365,7 @@
     			
     			setTimeout(function() {
     				DelaysearchTextTokken = 0;
+    				delayScrollTokken = 0; //스크롤 잠금 해제
     			}, 500);
     		}
     	}
@@ -360,7 +382,7 @@
     		
     		setTimeout(function() {
     			delayScrollTokken = 0;
-			}, 500);
+			}, 250);
     	}
     }
     
@@ -396,34 +418,43 @@
     		,success: function(data) {
     			console.log('작가 리스트 성공');
     			let result = "";
-    			for(let i=0; i<data.length; i++) {
-    				let artistBoarddto = data[i].artistBoarddto;
-    				let listNo = data[i].listNo;
-    				let listImg = data[i].listImg;
-    				result += '<li>';
-    				result += 	 '<div class="artistListTitleImgBox">';
-    				result += 		'<div class="artistListLank">'+artistListLank+'</div>';
-    				result += 		'<a href="/artistDetail/'+artistBoarddto.artist_no+'">';
-    				result += 			'<img src="'+artistBoarddto.artist_main_img+'" alt="타이틀 이미지">';
-    				result += 		'</a>';
-    				result +=	 '</div>';
-    				result += 	 '<div class="row artistListDetailBox">';
-    				result += 		'<div class="col-xs-12 artistListTitleName"><a href="/artistDetail/'+artistBoarddto.artist_no+'">'+artistBoarddto.user_name+'</a></div>';
-    				result += 		'<div class="col-xs-8 artistListStarScore">'+starScoreCel(artistBoarddto.artist_score)+'</div>';
-    				result += 		'<div class="col-xs-4 artistListNumScore">'+artistBoarddto.artist_score+'</div>';
-    				result += 		'<div class="col-xs-12 artistListDetailTitle">'+artistBoarddto.artist_board_title+'</div>';
-    				result += 	 '</div>';
-    				result += '</li>';
-    				artistListLank++; // 랭크증가
+    			if(data.length == 0) {
+    				console.log('없음@@!!');
+    				result += 	'<div id="jumbotronTextBox">';
+    				result += 		'결과값이 없습니다';
+    				result += 	'</div>';
+    				$('#artistListUl').append(result);
     			}
-    			$('#artistListUl').append(result);
-    			$('#currentArtistList').val(Number(currentArtistList)+1);
+    			else {
+    				for(let i=0; i<data.length; i++) {
+    					let artistBoarddto = data[i].artistBoarddto;
+    					let listNo = data[i].listNo;
+    					let listImg = data[i].listImg;
+    					result += '<li>';
+    					result += 	 '<div class="artistListTitleImgBox">';
+    					result += 		'<div class="artistListLank">'+artistListLank+'</div>';
+    					result += 		'<a href="/artistDetail/'+artistBoarddto.artist_no+'">';
+    					result += 			'<img src="'+artistBoarddto.artist_main_img+'" alt="타이틀 이미지">';
+    					result += 		'</a>';
+    					result +=	 '</div>';
+    					result += 	 '<div class="row artistListDetailBox">';
+    					result += 		'<div class="col-xs-12 artistListTitleName"><a href="/artistDetail/'+artistBoarddto.artist_no+'">'+artistBoarddto.user_name+'</a></div>';
+    					result += 		'<div class="col-xs-8 artistListStarScore">'+starScoreCel(artistBoarddto.artist_score)+'</div>';
+    					result += 		'<div class="col-xs-4 artistListNumScore">'+artistBoarddto.artist_score+'</div>';
+    					result += 		'<div class="col-xs-12 artistListDetailTitle">'+artistBoarddto.artist_board_title+'</div>';
+    					result += 	 '</div>';
+    					result += '</li>';
+    					artistListLank++; // 랭크증가
+    				}
+    				$('#artistListUl').append(result);
+    				$('#currentArtistList').val(Number(currentArtistList)+1);
     			
-    			for(let i=0; i<artistListLank; i++) {
-    				setTimeout(function() {
-    					$('#artistListUl>li:eq('+i+')').fadeIn();
-    					$('#artistListUl>li:eq('+i+')').css('display', 'inline-block');
-    				}, 100*i);
+    				for(let i=0; i<artistListLank; i++) {
+    					setTimeout(function() {
+    						$('#artistListUl>li:eq('+i+')').fadeIn();
+    						$('#artistListUl>li:eq('+i+')').css('display', 'inline-block');
+    					}, 100*i);
+    				}
     			}
     		}
     		,error:function(data) {
@@ -469,7 +500,7 @@
                     <div class="col-sm-2 artistListNavTypeBlock"><a href="#2">평점순</a></div>
                     <div class="col-sm-2 artistListNavTypeBlock"><a href="#3">최신순</a></div>
                     <div class="col-sm-6" id="artistListNavSearchBox">
-                        <input type="text" class="artistListNavSearchText" onchange=" SearchChangeTokken()">
+                        <input type="text" class="artistListNavSearchText" onkeydown="enterkeyPress()">
                         <input type="button" class="artistListNavSearchButton" value="검색">
                     </div>
                 </div>
@@ -498,7 +529,7 @@
                    </div>
                    <div class="col-xs-8">
                         <div id="artistListNavSearchBox">
-                            <input type="text" class="artistListNavSearchText" onchange=" SearchChangeTokken()">
+                            <input type="text" class="artistListNavSearchText" onkeydown="enterkeyPress()">
                             <input type="button" class="artistListNavSearchButton" value="검색">
                         </div>
                    </div>

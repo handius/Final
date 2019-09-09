@@ -115,6 +115,12 @@ public class ArtistController {
 	}
 	
 	@ResponseBody
+	@RequestMapping(value="/ajaxArtistBoardDetailRepDelete", produces="application/text; charset=utf-8")
+	public String ajaxArtistBoardDetailRepDelete(@RequestBody Map<String, Integer> map) {
+		return service.artistBoardDetailRepDeleteService(map);
+	}
+	
+	@ResponseBody
 	@RequestMapping("/ajaxArtistBoardDetailRepList")
 	public Map<String, Object> ajaxArtistBoardDetailRepList(@RequestBody Map<String, Integer> map) {
 		return service.artistBoardDetailRepListService(map);

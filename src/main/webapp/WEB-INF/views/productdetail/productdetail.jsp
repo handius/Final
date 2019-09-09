@@ -188,11 +188,18 @@
         #productDetailQandAInputCheckBox {
             font-size: 15px;
             text-align: right;
+            margin-top: 15px;
+        }
+        
+        #productDetailQandAInputCheckBox label {
+        	position: relative;
+        	bottom: 4px;
+        	font-size: 20px;
         }
 
         #productDetailQandAInputCheckBox input {
-            width: 15px;
-            height: 15px;
+            width: 22px;
+            height: 22px;
         }
         
 
@@ -200,6 +207,8 @@
         	width: 85%;
             height: 70px;
             border: 2px solid #7C7877;
+            font-size: 20px;
+            padding-left: 10px;
         }
 
         #productDetailQandAInputButton {

@@ -6,7 +6,6 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <!-- Latest compiled and minified CSS -->
@@ -21,7 +20,7 @@
 	body{
 		margin: 0px;
 		padding: 0px;
-		background-color: #F0E5DE !important;
+		background-color: white !important;
 	}
 	hr{
 		border-top: 3px double #D9D4CF !important;
@@ -173,8 +172,8 @@
 			<div class="row btnfrm">
 				<input type="hidden" name="member_no" value="${member_no }">
 				<input type="hidden" name="list_no" value="${ListDTO.list_no }">
-				<input type="reset" class="btn btn-default" value="취소">
-				<input type="submit" class="btn btn-primary" value="확인">
+				<input type="reset" class="btn" style="background-color: #7c7877; color:white;" value="취소">
+				<input type="submit" class="btn" style="background-color: #7c7877; color:white;" value="확인">
 			</div>
 		</form>
 		

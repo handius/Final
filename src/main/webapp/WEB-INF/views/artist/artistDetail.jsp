@@ -155,10 +155,23 @@
             margin-bottom: 10px;
         }
         
+        .artistAsideRepContentArtist .artistAsideRepUserName {
+        	color: #ABD0CE;
+        	font-weight: bolder;
+        }
+        
         .artistAsideRepUserName {
-            height: 15px;
-            font-size: 12px;
+            height: 25px;
+            font-size: 15px;
             padding: 0 10px;
+        }
+        
+        .repRemove {
+        	color: white;
+        	border: 0;
+        	font-weight: normal;
+        	background-color: #7C7877;
+        	margin: 0 10px;
         }
         
         .artistAsideRepUserContent {
@@ -380,6 +393,10 @@
                 margin-bottom: 60px;
             }
             
+            #artistDetailTitleBox {
+            	padding: 0 20px;
+            }
+            
             .artistDetailBuyReview {
             	min-height:200px;
             	height: 100%;
@@ -567,6 +584,12 @@
     	});
     }
     
+    function enterkeyPress() {
+    	if(event.keyCode == 13) {
+    		artistDetailRepInsert();
+    	}
+	}
+    
     function artistDetailRepInsert() {
     	let artistNo = $('#artist_no').val();
     	let artistRepContent = $('#artistAsideRepInput').val();
@@ -580,7 +603,7 @@
         		,dataType: "text"
         		,success: function(data) {
         			console.log('성공');
-        			alert(data);
+        			console.log(data);
         			$('#artistAsideRepInput').val("");
         			$('#currentRep').val(1);
         			$('#artistAsideRepContent').empty();
@@ -595,6 +618,27 @@
         		}
     		});
     	}
+    }
+    
+    function artistDetailRepDelete(artist_rep_no) {
+    	$.ajax({
+    		url: "/ajaxArtistBoardDetailRepDelete"
+            	,contentType: "application/json; charset=utf-8"
+            	,data: JSON.stringify({artist_rep_no : Number(artist_rep_no)})
+            	,type: "POST"
+            	,dataType: "text"
+            	,success: function(data) {
+            		console.log('댓글 삭제 성공');
+            		alert(data);
+            		$('#currentRep').val(1);
+        			$('#artistAsideRepContent').empty();
+        			artistDetailRepList();
+            	}
+            	,error: function(data) {
+            		console.log('댓글 삭제 실패');
+            	}
+
+    	});
     }
     
     function artistDetailRepList() {
@@ -614,17 +658,27 @@
         		let replist = data.replist;
         		let end_sql = data.end_sql;
         		let max_sql = data.max_sql;
+        		let master = $("#master").val();
         		if(replist.length != 0) {
         			for(let i=replist.length-1; i>=0; i--) {
         				if(replist[i].user_name == artistName) {
         					result += '<li class="artistAsideRepContentArtist">';
-                			result += '<div class="artistAsideRepUserName">'+replist[i].user_name+'</div>';
+                			result += '<div class="artistAsideRepUserName">';
+                			if(master == 'true') {
+                				result += '<button class="repRemove" onclick="artistDetailRepDelete('+replist[i].artist_rep_no+')">삭제</button>';
+                			}
+                			result += replist[i].user_name+'</div>';
                 			result += '<div class="artistAsideRepUserContent">'+replist[i].artist_rep_content+'</div>';
                 			result += '</li>';
         				}
         				else {
         					result += '<li class="artistAsideRepContentUser">';
-                			result += '<div class="artistAsideRepUserName">'+replist[i].user_name+'</div>';
+                			result += '<div class="artistAsideRepUserName">'+replist[i].user_name;
+                			if(master == 'true') {
+                				result += '<button class="repRemove" onclick="artistDetailRepDelete('+replist[i].artist_rep_no+')">삭제</button>';
+
+                			}
+                			result += '</div>';
                 			result += '<div class="artistAsideRepUserContent">'+replist[i].artist_rep_content+'</div>';
                 			result += '</li>';
         				}
@@ -759,7 +813,7 @@
                 <div id="artistAsideRepInputBox">
                 	<div class="row" id="artistAsideRepInputInnerRow">
                 		<div class="col-xs-10 artistAsideRepInputInnerBox">
-                			<input type="text" id="artistAsideRepInput" maxlength="30" required="required">
+                			<input type="text" id="artistAsideRepInput" maxlength="30" required="required" onkeydown="enterkeyPress()">
                 		</div>
                 		<div class="col-xs-2 artistAsideRepInputInnerBox" >
                 			<button id="artistAsideRepButton">전송</button>

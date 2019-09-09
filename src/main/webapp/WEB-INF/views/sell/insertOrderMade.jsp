@@ -4,7 +4,6 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Insert title here</title>
 <style>
 	.simHash{
@@ -62,7 +61,7 @@
 		Tagform+='<input type="text" class="form-control inputstyle" name="list_hash" placeholder="태그를 입력해주세요." required="required" autocomplete="off">';
 		Tagform+='</div>';
 		Tagform+='<div class="col-md-1">';
-		Tagform+='<input type="button" class="btn searchTag btn-info" value="검색")>';
+		Tagform+='<input type="button" class="btn searchTag" style="background-color: #7c7877; color:white;" value="검색")>';
 		Tagform+='</div>';
 		Tagform+='<div class="col-md-1">';
 		Tagform+='<button type="button" class="removeOpt"><span class="glyphicon glyphicon-minus-sign"></span></button>';
@@ -210,7 +209,7 @@
 	body{
 		margin: 0px;
 		padding: 0px;
-		background-color: #F0E5DE !important;
+		background-color: white !important;
 	}
 	hr{
 		border-top: 3px double #D9D4CF !important;;
@@ -342,13 +341,7 @@
 		  	</div>
 		</div>
 	<div id="intro" class="container">
-		<p>뜨거운지라 인간의 동산에는 사랑의 풀이 돋고 이상의 꽃이 피고 희망의 놀이 뜨고 열락의 새가 운다사랑의 풀
-		이 없으면 인간은 사막이다 오아이스도 없는 사막이다 보이는 끝까지 찾아다녀도 목숨이 있는 때까지 방황하여도 보
-		이는 것은 거친뜨거운지라 인간의 동산에는 사랑의 풀이 돋고 이상의 꽃이 피고 희망의 놀이 뜨고 열락의 새가 운다
-		사랑의 풀이 없으면 인간은 사막이다 오아이스도 없는 사막이다 보이는 끝까지 찾아다녀도 목숨이 있는 때까지 방황
-		하여도 보이는 것은 거친뜨거운지라 인간의 동산에는 사랑의 풀이 돋고 이상의 꽃이 피고 희망의 놀이 뜨고 열락의
-		 새가 운다사랑의 풀이 없으면 인간은 사막이다 오아이스도 없는 사막이다 보이는 끝까지 찾아다녀도 목숨이 있는 때
-		 까지 방황하여도 보이는 것은 거친</p>
+		<p></p>
 	</div>
 	<hr>
 	<div class="container">
@@ -518,7 +511,7 @@
 							<input type="text" class="form-control inputstyle" name="list_hash" placeholder="태그를 입력해주세요." required="required" autocomplete="off">
 						</div>
 						<div class="col-md-1">
-							<input type="button" class="btn searchTag btn-info" value="검색">
+							<input type="button" class="btn searchTag" style="background-color: #7c7877; color:white;" value="검색">
 						</div>
 						<div class="col-md-6 tagdiv"></div>
 					</div>
@@ -528,7 +521,7 @@
 							<input type="text" class="form-control inputstyle" name="list_hash" placeholder="태그를 입력해주세요." required="required" autocomplete="off">
 						</div>
 						<div class="col-md-1">
-							<input type="button" class="btn searchTag btn-info" value="검색">
+							<input type="button" class="btn searchTag" style="background-color: #7c7877; color:white;" value="검색">
 						</div>
 						<div class="col-md-1">
 							<button type="button" class="removeOpt"><span class="glyphicon glyphicon-minus-sign"></span></button>
@@ -541,7 +534,7 @@
 							<input type="text" class="form-control inputstyle" name="list_hash" placeholder="태그를 입력해주세요." required="required" autocomplete="off">
 						</div>
 						<div class="col-md-1">
-							<input type="button" class="btn searchTag btn-info" value="검색">
+							<input type="button" class="btn searchTag" style="background-color: #7c7877; color:white;" value="검색">
 						</div>
 						<div class="col-md-1">
 							<button type="button" class="removeOpt"><span class="glyphicon glyphicon-minus-sign"></span></button>
@@ -676,8 +669,8 @@
 				
 			</div>
 			<div class="form-group">
-				<input type="reset" class="btn btn-default" id="reset" value="취소"> 
-				<input type="submit" class="btn btn-primary" id="submit" value="제출"> 
+				<input type="reset" class="btn" style="background-color:#1ed676; color:white;" id="reset" value="취소"> 
+				<input type="submit" class="btn" style="background-color:#a6c7c6; color:white;" id="submit" value="제출"> 
 			</div>
 			
 		</form>

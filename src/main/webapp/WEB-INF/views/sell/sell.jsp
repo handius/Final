@@ -4,7 +4,6 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <!-- Latest compiled and minified CSS -->
@@ -17,7 +16,7 @@
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 <style>
 	body{
-		background-color: #F0E5DE !important;
+		background-color: white !important;
 	}
 	.jumbotron{
 		margin-top:0px;
