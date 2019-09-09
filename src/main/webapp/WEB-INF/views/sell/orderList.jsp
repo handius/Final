@@ -183,10 +183,100 @@
 	.captionSelector + .caption{
 		background-color: #D9D4CF;
 	}
-	@media(max-width:769px){
+	@media(max-width:991px){
 		
+		.container {
+			width: 100% !important;
+			margin: 0 !important;
+		}
+		
+		.dropdown-menu>li>a {
+			height: 100px;
+			font-size: 50px;
+		}
+		
+		#hashplus {
+			width: 50px;
+			height: 50px;
+			font-size: 30px;
+		}
+		
+		.checkbox-inline {
+			height: 50px;
+			line-height: 50px;
+			font-size: 20px;
+		}
+		
+		#hasStock {
+			width: 30px;
+			height: 30px;
+			margin: 10px 0;
+		}
+		
+		.searchClass {
+			height: 50px;
+			margin: 0 !important;
+		}
+		
+		#searchType {
+			width: 150px;
+			height: 50px;
+			font-size: 20px;
+		}
+		
+		#searchData  {
+			width: 300px;
+			height: 50px;
+			font-size: 20px;
+		}
+		
+		#subbtn {
+			width: 50px;
+			height: 50px;
+			font-size: 30px;
+		}
+		
+		.listbox .thumbnail {
+			height: 670px;
+		}
+		
+		.listbox .thumbnail img {
+			height: 520px;
+		}
+		
+		.listbox .caption {
+			height: 133px;
+		}
+		
+		.listbox .caption h4 a {
+			font-size: 30px;
+		}
+		
+		.arttxt {
+			font-size: 25px;
+		}
+		
+		.listbox .caption .price {
+			font-size: 30px;
+			position: static;
+		}
+		
+		#hashform label {
+			width: 30%;
+			height: 50px;
+			border-radius: 50px;
+			line-height: 50px;
+			font-size: 30px;
+			text-align: center;
+		}
+		
+		.pagination>li>a {
+			width: 50px;
+			height: 50px;
+			font-size: 30px;
+		}
 	}
-	@media(max-width:770px){
+	@media(max-width:980px){
 		.pc{
 			display: none;
 		}
@@ -194,7 +284,7 @@
 			display: block;
 		}
 	}
-	@media(min-width:771px) {
+	@media(min-width:981px) {
 		.pc{
 			display: block;
 		}
@@ -363,7 +453,7 @@
 							<span>품절 품목 제외</span>
 						</label>
 					</div>
-					<div class="col-md-5 col-md-offset-5 col-xs-6 col-xs-offset-2 searchClass">
+					<div class="col-md-5 col-md-offset-5 col-xs-8 col-xs-offset-2 searchClass">
 						<label for="searchType">
 							<select name="searchType" id="searchType" class="form-control">
 								<option value="title">제목</option>
@@ -388,7 +478,7 @@
 			
 		 	<div class="row">
 		 		<c:forEach var="item" items="${list }">
-			    	<div class="col-sm-6 col-md-3 listbox">
+			    	<div class="col-sm-12 col-md-6 col-lg-3 listbox">
 			      		<div class="thumbnail">
 			      			<c:forEach var="image" items="${item.list_image_loc }" end="1">
 			      				<a href="/checkIsOrdered?no=${item.list_no} "><img src="${image }" alt="이미지가 없습니다."></a>
