@@ -101,9 +101,9 @@ public class FreeboardController {
 		dto.setFreeboard_content(freeboard_content);
 		dto.setFreeboard_member_no(member_no);
 		
-		fbservice.writeService(dto);
-
-		return "redirect:/freeboard";
+		int no = fbservice.writeService(dto);
+		
+		return "redirect:/freeboard/detail?no="+no;
 	}
 
 	@RequestMapping("freeboard/boardDelete")

@@ -22,10 +22,13 @@
 			authentication-failure-handler-ref="loginFailureHandler" />
 		<logout logout-success-url="/logout" />
 		<access-denied-handler
-			error-page="/access_denied_page" />
+			error-page="/interceptFailure" />
 			
 		<!-- 사용자 권한에 따른 접근 제어 설정-->
-		<intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')"/>
+<!-- 		<intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')"/>
+		<intercept-url pattern="/freeboard/**" access="hasRole('ROLE_MEMBER')"/>
+		<intercept-url pattern="/sell/**" access="hasRole('ROLE_SELLER')"/>
+		<intercept-url pattern="/myPage/**" access="isAuthenticated()"/> -->
 	</http>
 
 	<!-- 로그인 계정 정보 DB 연동/비밀번호 암호화 인코더 -->

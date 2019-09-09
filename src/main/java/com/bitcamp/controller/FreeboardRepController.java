@@ -43,14 +43,14 @@ public class FreeboardRepController {
 		return result;
 	}
 
-	@RequestMapping(value = "/modifyReply", method = RequestMethod.POST)
+	@RequestMapping(value = "/freeboard/modifyReply", method = RequestMethod.POST)
 	@ResponseBody
 	public void modifyReply(@RequestParam int rep_no, @RequestParam String rep_content) {
 		// return replySerivce.getReplyData(rep_no);
 		replySerivce.updateReplyDataService(rep_no, rep_content);
 	}
 
-	@RequestMapping(value = "/deleteReply", method = RequestMethod.POST)
+	@RequestMapping(value = "/freeboard/deleteReply", method = RequestMethod.POST)
 	@ResponseBody
 	public void deleteReply(@RequestParam int rep_no) {
 		replySerivce.deleteReplyService(rep_no);
@@ -74,7 +74,7 @@ public class FreeboardRepController {
 		return result;
 	}
 
-	@RequestMapping(value = "/freeboardRep", method = RequestMethod.GET)
+	@RequestMapping(value = "/freeboard/freeboardRep", method = RequestMethod.GET)
 	public ModelAndView list(@RequestParam("no") int freeboard_no, ModelAndView mav, Model model) {
 
 		HashMap<String, Object> listMap = new HashMap<>();

@@ -105,16 +105,6 @@ public class LoginContoller {
 		return "redirect:/";
 	}
 
-	@RequestMapping("login/loginFail")
-	public String loginFail() {
-		return "login/loginFail";
-	}
-
-	@RequestMapping(value = "/access_denied_page")
-	public String accessDeniedPage() throws Exception {
-		return "login/access_denied_page";
-	}
-
 	@RequestMapping("login/logout")
 	public String logout(HttpSession session) {
 
@@ -130,9 +120,8 @@ public class LoginContoller {
 	}
 	
 	@RequestMapping("interceptFailure")
-	public String interceptfailure(@RequestParam String error){
-		System.out.println("권한없음");
-		System.out.println(error);
+	public String interceptfailure(){
+		System.out.println("접근거부");
 		return "login/access_denied_page";
 	}
 	

@@ -9,6 +9,8 @@ import com.bitcamp.DTO.freeboard.FreeboardDTO;
 public interface FreeboardMapper {
 
 	public void insertData(FreeboardDTO dto);
+	
+	public int insertDataSequence();
 
 	public FreeboardDTO getDetail(int freeboard_no);
 

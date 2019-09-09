@@ -70,7 +70,8 @@
 }
 </style>
 <script>
-	var sessionid = ${sessionScope.member.member_no};
+	<c:set var="memberNo"><sec:authentication property="principal.member.member_no" /></c:set>
+	var sessionid = '<c:out value="${memberNo}"/>';
 	var freeboard_no = ${board.freeboard_no};
 	$(document).ready(function() {
 		listReply(freeboard_no);
@@ -99,7 +100,7 @@
 		$
 				.ajax({
 					type : "get",
-					url : "${pageContext.request.contextPath}/freeboardRep?no=${board.freeboard_no}&curr="
+					url : "${pageContext.request.contextPath}/freeboard/freeboardRep?no=${board.freeboard_no}&curr="
 							+ num,
 					success : function(result) {
 						$("#repList").html(result);
@@ -147,6 +148,8 @@
 	}
 </script>
 <body>
+<c:set var="memberNo"><sec:authentication property="principal.member.member_no" /></c:set>
+<c:set var="userNick"><sec:authentication property="principal.member.user_nick" /></c:set>
 	<div id="wrap">
 		<table class="table table-bordered table-condensed">
 			<tbody>
@@ -175,11 +178,11 @@
 			<div id="divReply">
 				<form id="replyForm">
 					<input id="member_no" type="hidden"
-						value="${sessionScope.member.member_no}"> <input
+						value="${memberNo}"> <input
 						id="board_no" name="no" type="hidden"
 						value="${board.freeboard_no}">
 					<div class="form-group">
-						<label class='nickname'><span class="glyphicon glyphicon-user"></span> <span>${sessionScope.member.user_nick }</span></label>
+						<label class='nickname'><span class="glyphicon glyphicon-user"></span> <span>${userNick}</span></label>
 						<textarea class="form-control" id="replyText"
 							placeholder="댓글을 입력해주세요"></textarea>
 					</div>
@@ -193,7 +196,7 @@
 		<button class="btn" onclick="location='../freeboard'">목록으로</button>
 
 		<c:if
-			test="${sessionScope.member.member_no eq board.freeboard_member_no}">
+			test="${memberNo eq board.freeboard_member_no}">
 			<button class="btn btnMod"
 				onclick="location='boardModify?no=${board.freeboard_no}'">수정</button>
 			<button class="btn btnMod"
