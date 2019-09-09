@@ -137,8 +137,9 @@
 			 		<input type="hidden" name="search_date_year" value="${date.date1 }">
 			 		<input type="hidden" name="search_date_month" value="${date.date2 }">
 							
+					<!-- 페이징 -->
 					<c:if test="${paging.startblock > 1 }">
-						<a href="#">◀</a>
+						<button class="btn btn-default" name="curr" value="${paging.startblock - 1 }">◀</button>
 					</c:if>
 					<c:forEach var="i" begin="${paging.startblock }" end="${paging.endblock }">
 						<c:if test="${i == paging.currpage }">
@@ -149,7 +150,7 @@
 						</c:if>
 					</c:forEach>
 					<c:if test="${paging.endblock < paging.totalpage }">
-						<a href="#">▶</a>
+						<button class="btn btn-default" name="curr" value="${paging.endblock + 1 }">▶</button>
 					</c:if>
 				  </c:if>
 			  </form>
