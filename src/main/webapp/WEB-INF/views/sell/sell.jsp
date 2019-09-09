@@ -68,6 +68,17 @@
 		border: 2px solid green;
 		box-shadow: 5px 7px silver;
 	}
+	
+	@media (max-width: 991px) {
+		.order h2 {
+			font-size: 50px;
+			margin-bottom: 10px;
+		}
+		
+		.col-md-6 {
+			margin-bottom: 100px;
+		}
+	}
 }
 	
 </style>

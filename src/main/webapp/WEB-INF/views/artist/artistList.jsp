@@ -419,11 +419,13 @@
     			console.log('작가 리스트 성공');
     			let result = "";
     			if(data.length == 0) {
-    				console.log('없음@@!!');
-    				result += 	'<div id="jumbotronTextBox">';
-    				result += 		'결과값이 없습니다';
-    				result += 	'</div>';
-    				$('#artistListUl').append(result);
+    				if($('.artistListTitleImgBox').length == 0 && $('#artistListUl>#jumbotronTextBox').length == 0) {
+    					console.log($('.artistListTitleImgBox').length);
+    					result += 	'<div id="jumbotronTextBox">';
+    					result += 		'결과값이 없습니다';
+    					result += 	'</div>';
+    					$('#artistListUl').append(result);
+    				}
     			}
     			else {
     				for(let i=0; i<data.length; i++) {

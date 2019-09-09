@@ -284,6 +284,10 @@
 		font-size: 1.4em;
 		color:green;
 	}
+	
+	@media (max-width: 991px) {
+
+	}
 </style>
 </head>
 <body>
