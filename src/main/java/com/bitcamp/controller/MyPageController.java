@@ -165,10 +165,13 @@ public class MyPageController {
 		listMap.put("startrow", page.getStartrow());
 		listMap.put("endrow", page.getEndrow());
 
-		List<OrderDTO> buyList = service.getBuyList(listMap);
+		Map<String, Object> parameters = service.getBuyList(listMap);
+		List<OrderDTO> buyList = (List<OrderDTO>) parameters.get("buyList");
+		List<String> buyListImage_loc = (List<String>) parameters.get("buyListImage_loc");
 		//
 
 		model.addAttribute("buyList", buyList);
+		model.addAttribute("buyListImage_loc", buyListImage_loc);
 		model.addAttribute("paging", page);
 		return "mypage/buyList.mall";
 	}

@@ -73,7 +73,7 @@
 <body>
 	<div class="container">
 		<h1>1:1문의하기</h1>
-		<hr>
+		<hr> 
 		<form method="post" action="customerQAResult">
 			<div class="form-group">
 				<label for="question_type">문의유형</label> <select name="question_type"

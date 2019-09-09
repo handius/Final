@@ -19,13 +19,15 @@ public interface MyPageMapper {
 
 	String findOption_name(int option_no);
 
-	int findOption_price(int option_no);
+	Integer findOption_price(int option_no);
 
-	void withdraw(String user_id);
+	List<String> findImage_loc(int list_no);
+
+	void updateUserInfo(MemberDTO memberDTO);
 
 	void insertCQA(Map<String, Object> parameters);
 
-	void updateUserInfo(MemberDTO memberDTO);
+	void withdraw(String user_id);
 
 	void updateUser_password(Map<String, Object> parameters);
 
