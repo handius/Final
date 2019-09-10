@@ -137,7 +137,7 @@
 						<td>${list.qa_board_date }</td>
 						<td>${list.qa_board_status }</td>
 						<td><c:if test="${list.qa_board_status == '미답변' }">
-								<button class="btn btn-default btn-block ifanswered"
+								<button class="btn btn-default btn-block ifnotanswered"
 									value="${list.qa_board_no }" data-toggle="modal"
 									data-target="#myModal">수정</button>
 							</c:if></td>
@@ -238,7 +238,7 @@
 		}
 
 		// '수정' 버튼
-		$('.ifanswered').click(function() {
+		$('.ifnotanswered').click(function() {
 			$.ajax({
 				url : "/updateQa_board_content/" + $(this).val(),
 				type : "GET",
