@@ -51,8 +51,16 @@
 }
 
 .registerList {
-	width: 100%;
-	margin: 5% 0;
+	width: 90% !important;
+	margin: 5%;
+}
+
+.registerList thead {
+	background-color: #7C7877;
+}
+
+.registerList tbody {
+	background-color: white;
 }
 
 .listDTO {
@@ -74,7 +82,7 @@
 	<div class="container">
 		<h1>나의등록내역</h1>
 		<hr>
-		<table class="registerList">
+		<table class="table registerList">
 			<thead>
 				<tr>
 					<th>상품번호</th>
@@ -82,6 +90,7 @@
 					<th>등록일자</th>
 					<th>기본가</th>
 					<th>주문수량</th>
+					<th></th>
 				</tr>
 			</thead>
 			<tbody>

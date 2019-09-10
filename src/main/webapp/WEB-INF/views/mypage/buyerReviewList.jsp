@@ -51,8 +51,16 @@
 }
 
 .buyerReviewList {
-	width: 100%;
-	margin: 5% 0;
+	width: 90% !important;
+	margin: 5%;
+}
+
+.buyerReviewList thead {
+	background-color: #7C7877;
+}
+
+.buyerReviewList tbody {
+	background-color: white;
 }
 
 .buyReviewDTO {
@@ -88,13 +96,15 @@
 	<div class="container">
 		<h1>나의상품후기</h1>
 		<hr>
-		<table class="buyerReviewList">
+		<table class="table buyerReviewList">
 			<thead>
 				<tr>
 					<th style="display: none;">번호</th>
 					<th>상품명</th>
 					<th>내용</th>
 					<th>작성일</th>
+					<th></th>
+					<th></th>
 				</tr>
 			</thead>
 			<tbody>

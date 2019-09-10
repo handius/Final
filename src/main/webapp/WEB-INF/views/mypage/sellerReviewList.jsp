@@ -51,8 +51,16 @@
 }
 
 .sellerReviewList {
-	width: 100%;
-	margin: 5% 0;
+	width: 90% !important;
+	margin: 5%;
+}
+
+.sellerReviewList thead {
+	background-color: #7C7877;
+}
+
+.sellerReviewList tbody {
+	background-color: white;
 }
 
 .buyReviewDTO {
@@ -70,13 +78,14 @@
 	<div class="container">
 		<h1>상품후기관리</h1>
 		<hr>
-		<table class="sellerReviewList">
+		<table class="table sellerReviewList">
 			<thead>
 				<tr>
 					<th style="display: none;">번호</th>
 					<th>상품명</th>
 					<th>내용</th>
 					<th>작성일</th>
+					<th>작성자</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -87,6 +96,7 @@
 						<td><a href="productDetail/${list.list_no }">${list_title_list[status.index] }</a></td>
 						<td>${list.buy_review_content }</td>
 						<td>${list.buy_review_date }</td>
+						<td>${list.user_name }</td>
 					</tr>
 				</c:forEach>
 			</tbody>

@@ -77,11 +77,16 @@
 }
 
 .buyerPQAList {
-	width: 100%;
-	margin: 5% 0;
+	width: 90% !important;
+	margin: 5%;
+}
+
+.buyerPQAList thead {
+	background-color: #7C7877;
 }
 
 .accordion {
+	background-color: white;
 	border-top: 1px solid #D9D4CF;
 	border-bottom: 1px solid #D9D4CF;
 }
@@ -97,6 +102,10 @@
 .formPage {
 	display: flex;
 	justify-content: center;
+}
+
+.active>td {
+	background-color: #ccc !important;
 }
 
 .modal-header {
@@ -118,7 +127,7 @@
 	<div class="container">
 		<h1>나의상품문의</h1>
 		<hr>
-		<table class="buyerPQAList">
+		<table class="table buyerPQAList">
 			<thead>
 				<tr>
 					<th style="display: none;">번호</th>
@@ -126,6 +135,8 @@
 					<th>내용</th>
 					<th>문의일</th>
 					<th>상태</th>
+					<th></th>
+					<th></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -219,12 +230,13 @@
 						data : {
 							qa_board_no : d
 						},
-						dataType : "text",
+						dataType : "json",
 						type : "post",
 						success : function(data) {
 							/* if (!data) { */
 							/* $('#answer' + d).empty(); */
-							$('#answer' + d).append(data);
+							var qa_board_content = data.qa_board_content;
+							$('#answer' + d).append(qa_board_content);
 							/* } */
 						},
 						error : function(data) {

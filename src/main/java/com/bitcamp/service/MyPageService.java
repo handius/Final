@@ -224,6 +224,9 @@ public class MyPageService {
 		for (int i = 0; i < sellerPQAList.size(); i++) {
 			String list_title = mapper.findList_title(sellerPQAList.get(i).getList_no());
 			list_title_list.add(list_title);
+			// BuyReviewDTO 사용을 위해 user_name에 user_id를 set함
+			String user_id = mapper.findBuyer(sellerPQAList.get(i).getMember_no()).getUser_id();
+			sellerPQAList.get(i).setUser_name(user_id);
 		}
 		parameters.put("sellerPQAList", sellerPQAList);
 		parameters.put("list_title_list", list_title_list);
@@ -243,6 +246,9 @@ public class MyPageService {
 		for (int i = 0; i < sellerReviewList.size(); i++) {
 			String list_title = mapper.findList_title(sellerReviewList.get(i).getList_no());
 			list_title_list.add(list_title);
+			// BuyReviewDTO 사용을 위해 user_name에 user_id를 set함
+			String user_id = mapper.findBuyer(sellerReviewList.get(i).getMember_no()).getUser_id();
+			sellerReviewList.get(i).setUser_name(user_id);
 		}
 		parameters.put("sellerReviewList", sellerReviewList);
 		parameters.put("list_title_list", list_title_list);

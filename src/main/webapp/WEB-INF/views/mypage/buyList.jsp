@@ -51,8 +51,16 @@
 }
 
 .buyList {
-	width: 100%;
-	margin: 5% 0;
+	width: 90% !important;
+	margin: 5%;
+}
+
+.buyList thead {
+	background-color: #7C7877;
+}
+
+.buyList tbody {
+	background-color: white;
 }
 
 .orderDTO {
@@ -108,13 +116,14 @@
 	<div class="container">
 		<h1>나의구매내역</h1>
 		<hr>
-		<table class="buyList">
+		<table class="table buyList">
 			<thead>
 				<tr>
 					<th>주문일자</th>
 					<th>상품정보</th>
 					<th>결제금액</th>
 					<th>상태</th>
+					<th></th>
 				</tr>
 			</thead>
 			<tbody>

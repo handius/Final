@@ -52,8 +52,16 @@
 }
 
 .sellList {
-	width: 100%;
-	margin: 5% 0;
+	width: 95% !important;
+	margin: 2.5%;
+}
+
+.sellList thead {
+	background-color: #7C7877;
+}
+
+.sellList tbody {
+	background-color: white;
 }
 
 .orderDTO {
@@ -75,7 +83,7 @@
 	<div class="container">
 		<h1>나의판매내역</h1>
 		<hr>
-		<table class="sellList">
+		<table class="table sellList">
 			<thead>
 				<tr>
 					<th>주문번호</th>
@@ -86,6 +94,7 @@
 					<th>총금액</th>
 					<th>상태</th>
 					<th>구매자정보</th>
+					<th></th>
 				</tr>
 			</thead>
 			<tbody>
