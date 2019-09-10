@@ -105,16 +105,6 @@ public class LoginContoller {
 		return "redirect:/";
 	}
 
-	@RequestMapping("login/loginFail")
-	public String loginFail() {
-		return "login/loginFail";
-	}
-
-	@RequestMapping(value = "/access_denied_page")
-	public String accessDeniedPage() throws Exception {
-		return "login/access_denied_page";
-	}
-
 	@RequestMapping("login/logout")
 	public String logout(HttpSession session) {
 
@@ -127,6 +117,12 @@ public class LoginContoller {
 	@RequestMapping("logintest")
 	public String lg(Principal prin){
 		return "login/logintest";
+	}
+	
+	@RequestMapping("interceptFailure")
+	public String interceptfailure(){
+		System.out.println("접근거부");
+		return "login/access_denied_page";
 	}
 	
 	@RequestMapping("callback")

@@ -183,6 +183,7 @@
 	.captionSelector + .caption{
 		background-color: #D9D4CF;
 	}
+	
 	@media(max-width:991px){
 		
 		.container {

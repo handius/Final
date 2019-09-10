@@ -99,6 +99,63 @@
 	.ibox{
 		height: 300px;
 	}
+	
+	@media (max-width: 991px) {
+		.container {
+			width: 90% !important;
+			margin: auto !important;
+		}
+		
+		.ibox {
+			height: 500px;
+			padding: 0 !important;
+		}
+		
+		.cspan {
+			width: 200px;
+			height: 60px;
+			font-size: 30px !important;
+		}
+		
+		.gspan {
+			height: 60px;
+			font-size: 30px !important;
+		}
+		
+		.align  {
+			height: 60px;
+			font-size: 30px !important;
+		}
+		
+		#textfrm {
+			font-size: 60px;
+			overflow: auto;
+		}
+		
+		.mbox {
+			height: 80px;
+			padding: 0;
+		}
+		
+		input {
+			width: 95%;
+			height: 60px;
+			border: 0;
+			font-size: 35px !important;
+			margin-top: 10px !important;
+			margin-left: 2.5% !important;
+		}
+		
+		label[for=uploadFile] {
+			font-size: 25px;
+		}
+		
+		input[type=submit], input[type=reset] {
+			width: 200px;
+			height: 60px;
+			font-size: 30px;
+		}
+	}
 </style>
 </head>
 <body>
@@ -161,7 +218,7 @@
 							</c:if>
 							<c:if test="${ord.order_option eq 'text'}">
 								<div class="bold align"><label><c:out value="${ord.order_name }"/></label></div>
-								<div class="mbox"><input type="text" name="order_text" required="required"></div>
+								<div class="mbox"><input type="text" name="order_text" value="텍스트를 입력하세요" required="required"></div>
 								<div><input type="hidden" name="order_count" value="t${status.index }o${ord.list_order_no}"></div>
 							</c:if>
 						</c:forEach>
@@ -172,8 +229,8 @@
 			<div class="row btnfrm">
 				<input type="hidden" name="member_no" value="${member_no }">
 				<input type="hidden" name="list_no" value="${ListDTO.list_no }">
-				<input type="reset" class="btn" style="background-color: #7c7877; color:white;" value="취소">
-				<input type="submit" class="btn" style="background-color: #7c7877; color:white;" value="확인">
+				<input type="reset" class="btn" style="background-color:#a6c7c6; color:white;" value="취소">
+				<input type="submit" class="btn" style="background-color:#1ed676; color:white;" value="확인">
 			</div>
 		</form>
 		

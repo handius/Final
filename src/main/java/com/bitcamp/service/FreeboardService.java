@@ -21,10 +21,12 @@ public class FreeboardService {
 	@Autowired
 	private MemberMapper memMapper;
 
-	public void writeService(FreeboardDTO dto) {
+	public int writeService(FreeboardDTO dto) {
 		String user_nick = memMapper.readMemberbyMemberNo(dto.getFreeboard_member_no()).getUser_nick();
 		dto.setFreeboard_user_nick(user_nick);
 		fbMapper.insertData(dto);
+		
+		return fbMapper.insertDataSequence();
 	}
 
 	public FreeboardDTO detailService(int freeboard_no) {
