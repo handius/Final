@@ -9,15 +9,15 @@
 <!-- 합쳐지고 최소화된 최신 CSS -->
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-
 <!-- 부가적인 테마 -->
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
-
 <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-
+<link
+	href="https://fonts.googleapis.com/css?family=Comfortaa&display=swap"
+	rel="stylesheet">
 <script>
 	$(document).ready(function() {
 		$('#imgUploadButton').on('click', imgUpload);
@@ -76,39 +76,79 @@
 	width: 70px;
 	height: 70px;
 }
+
+* {
+	font-family: 'Comfortaa', '맑은 고딕', cursive;
+}
+
+.wrapper {
+	padding: 4%;
+}
+
+.wrapper * {
+	margin: 10px;
+}
+
+.wrapper hr {
+	width: 45%;
+	margin: 5% 0;
+	border: 1px solid #D9D4CF;
+}
+
+.starButton {
+	background-color: #f4f4f4;
+}
+
+.wrapper form ul {
+	list-style: none;
+	padding: 0;
+}
+
+.btn {
+	width: 100px;
+}
+
+#imgUpload {
+	display: none !important;
+}
+
+.row {
+	display: flex;
+	justify-content: center;
+}
 </style>
 <body>
-	<h1>별점!</h1>
-	<div class="starBox">
-		<button id="star1" class="starButton">☆</button>
-		<button id="star2" class="starButton">☆</button>
-		<button id="star3" class="starButton">☆</button>
-		<button id="star4" class="starButton">☆</button>
-		<button id="star5" class="starButton">☆</button>
-	</div>
-	<h1>구매후기 등록페이지</h1>
-	<div class="container">
-		<div class="row">
-			<div>
-				<form method="post" action="/buyReviewResult">
-					<ul>
-						<li style="display: none;"><input type="number" value="1"
-							id="startScoreInput" name="BuyReviewScore" required="required">
-						</li>
-						<li><input type="text" value="구매후기" name="BuyReviewContent"
-							required="required"></li>
-						<li style="display: none;"><input type="text" value=""
-							name="BuyReviewImg" id="BuyReviewImg"></li>
-						<li><input type="file" id="imgUpload"></li>
-						<li><input type="button" class="btn" id="imgUploadButton"
-							value="업로드"></li>
-						<li><img src="" alt="이미지를 등록해주세요" id="imgUploadTag"></li>
-						<li><input type="hidden" value="${order_no }" name="order_no"></li>
-						<li><input type="submit" value="전송"></li>
-					</ul>
-				</form>
-			</div>
+	<div class="wrapper">
+		<h1>별점</h1>
+		<hr>
+		<div class="starBox">
+			<button id="star1" class="starButton">☆</button>
+			<button id="star2" class="starButton">☆</button>
+			<button id="star3" class="starButton">☆</button>
+			<button id="star4" class="starButton">☆</button>
+			<button id="star5" class="starButton">☆</button>
 		</div>
+		<h1>구매후기</h1>
+		<hr>
+		<form method="post" action="/buyReviewResult">
+			<ul>
+				<li style="display: none;"><input type="number" value="1"
+					id="startScoreInput" name="BuyReviewScore" required="required">
+				</li>
+				<li><input type="text" name="BuyReviewContent"
+					required="required" class="form-control"></li>
+				<li style="display: none;"><input type="text" value=""
+					name="BuyReviewImg" id="BuyReviewImg"></li>
+				<li><label for="imgUpload" class="btn btn-default">파일
+						선택</label><input type="file" id="imgUpload"></li>
+				<li><input type="button" id="imgUploadButton" value="업로드"
+					class="btn btn-default"></li>
+				<li><img src="" alt="이미지를 등록해주세요" id="imgUploadTag"></li>
+				<li><input type="hidden" value="${order_no }" name="order_no"></li>
+				<li class="row"><input type="submit" value="전송"
+					class="btn btn-default"></li>
+			</ul>
+		</form>
 	</div>
 </body>
 </html>

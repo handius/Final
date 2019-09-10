@@ -89,11 +89,11 @@
 			<div class="col-xs-6 col-xs-offset-3 col-md-4 col-md-offset-1 left">
 				<sec:authorize access="!hasRole('ROLE_SELLER')">
 					<h3>구매자</h3>
-					<img alt="buyer" src="/resources/image/mypage/buyer.png">
+					<img alt="buyer" src="/resources/image/mypage/customer.png">
 				</sec:authorize>
 				<sec:authorize access="hasRole('ROLE_SELLER')">
 					<h3>판매자</h3>
-					<img alt="seller" src="/resources/image/mypage/seller.png">
+					<img alt="seller" src="/resources/image/mypage/craftsman.png">
 				</sec:authorize>
 				<sec:authentication property="principal.member.user_id"
 					var="user_id" />

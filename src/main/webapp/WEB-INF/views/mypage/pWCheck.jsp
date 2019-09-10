@@ -51,20 +51,16 @@
 }
 
 .container form {
-	margin: 5% 1%;
+	margin: 5% 0;
 }
 
 #password {
 	width: 50%;
 }
 
-.button {
-	width: 10%;
-	background-color: #ABD0CE;
-	color: white;
-	border: 3px solid #ABD0CE;
-	font-size: 15px;
-	font-weight: bold;
+.btn {
+	width: 100px;
+	margin: 0;
 }
 </style>
 </head>
@@ -77,7 +73,7 @@
 		<form method="post" action="pWCheckResult" class="form-inline">
 			<input type="password" name="password" id="password"
 				class="form-control"> <input type="submit" value="확인"
-				class="button">
+				class="btn btn-default">
 		</form>
 	</div>
 	<script>
