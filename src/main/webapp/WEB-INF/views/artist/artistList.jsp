@@ -375,7 +375,13 @@
     function scrollArtistList() {
     	let windowHeight = window.innerHeight;
     	let scrollWindowBottom = $(window).scrollTop() + $(window).height();
-    	let endBlockTop = $('#footer').offset().top;
+    	let endBlockTop = 0;
+        if($('#footer').length == 1) {
+        	endBlockTop = $('#footer').offset().top;
+        }
+        else {
+        	endBlockTop = $('#mobileFooter').offset().top;
+        }
     	if(scrollWindowBottom > endBlockTop && delayScrollTokken == 0) {
     		delayScrollTokken = 1;
     		artistList(listTypeSave, searchTextSave);
