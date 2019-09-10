@@ -52,13 +52,19 @@
 
 .buyList {
 	width: 100%;
+	margin: 5% 0;
 }
 
-.buyList tbody tr td table {
+.orderDTO {
+	border-top: 1px solid #D9D4CF;
+	border-bottom: 1px solid #D9D4CF;
+}
+
+.orderDTO td table {
 	width: 100%;
 }
 
-.buyList tbody tr td table * {
+.orderDTO td table * {
 	padding: 1%;
 }
 
@@ -66,22 +72,35 @@
 	width: 30%;
 }
 
-.buyList tbody tr td table tr td img {
+.orderDTO td table tr td img {
 	width: 50%;
 }
 
-.button {
-	width: 75px;
-	background-color: #ABD0CE;
-	color: white;
-	border: 3px solid #ABD0CE;
-	font-size: 15px;
-	font-weight: bold;
+.option {
+	width: 50px;
+}
+
+.btn {
+	margin: 0;
 }
 
 .formPage {
 	display: flex;
 	justify-content: center;
+}
+
+.modal-header {
+	display: flex;
+	justify-content: flex-end;
+	border-bottom: 1px solid #D9D4CF !important;
+}
+
+.modal-content {
+	background-color: #f4f4f4 !important;
+}
+
+.modal-footer {
+	border-top: 1px solid #D9D4CF !important;
 }
 </style>
 </head>
@@ -100,7 +119,7 @@
 			</thead>
 			<tbody>
 				<c:forEach var="list" items="${buyList }" varStatus="status1">
-					<tr>
+					<tr class="orderDTO">
 						<td>${list.order_date }</td>
 						<td><table>
 								<tr>
@@ -108,7 +127,7 @@
 										src="${buyListImage_loc[status1.index] }"></td>
 									<td colspan="2"><a href="/productDetail/${list.list_no }">${list.list_title }</a></td>
 								<tr>
-									<td>옵션:</td>
+									<td class="option">옵션:</td>
 									<td><c:forEach var="item" items="${list.option_name }"
 											varStatus="status2">
 							${item }/${list.order_amount[status2.index] }개(+${list.order_amount[status2.index]*list.option_price[status2.index] }원)<br>
@@ -118,11 +137,13 @@
 						<td>${list.order_price }</td>
 						<td>${list.order_status }</td>
 						<td><c:if test="${list.order_status == '배송중' }">
-								<input type="button" class="button cor" name="cor" value="수취완료">
+								<input type="button" class="btn btn-default btn-block cor"
+									name="cor" value="수취완료">
 								<span style="display: none;">${list.order_no }</span>
 							</c:if> <c:if test="${list.order_status == '배송완료' }">
-								<input type="button" class="button rw" name="rw" value="리뷰쓰기"
-									data-toggle="modal" data-target="#myModal">
+								<input type="button" class="btn btn-default btn-block rw"
+									name="rw" value="리뷰쓰기" data-toggle="modal"
+									data-target="#myModal">
 								<span style="display: none;">${list.order_no }</span>
 							</c:if></td>
 					</tr>
@@ -153,7 +174,9 @@
 	<div class="modal fade" id="myModal">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<div class="modal-header"></div>
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">X</button>
+				</div>
 				<div class="modal-body" id="insertBuyReview"></div>
 				<div class="modal-footer"></div>
 			</div>

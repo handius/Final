@@ -51,83 +51,155 @@
 	display: none;
 	overflow: hidden;
 }
+
+.container {
+	background-color: #F0E5DE;
+	margin: 5%;
+	padding: 3% 5% !important;
+	border-radius: 5%;
+}
+
+.container * {
+	margin: 5px;
+}
+
+.container h1 {
+	color: white;
+	font-size: 3vw;
+	font-weight: bold;
+	text-shadow: 0 0 2px #7C7877;
+}
+
+.container hr {
+	width: 45%;
+	margin: 1%;
+	border: 1px solid #D9D4CF;
+}
+
+.sellerPQAList {
+	width: 100%;
+	margin: 5% 0;
+}
+
+.accordion {
+	border-top: 1px solid #D9D4CF;
+	border-bottom: 1px solid #D9D4CF;
+}
+
+.btn {
+	margin: 0;
+}
+
+.panel {
+	width: 100%;
+}
+
+.formPage {
+	display: flex;
+	justify-content: center;
+}
+
+.modal-header {
+	display: flex;
+	justify-content: space-between;
+	border-bottom: 1px solid #D9D4CF !important;
+}
+
+.modal-content {
+	background-color: #f4f4f4 !important;
+}
+
+.modal-footer {
+	display: flex;
+	justify-content: center;
+	border-top: 1px solid #D9D4CF !important;
+}
+
+.btn {
+	width: 100px;
+}
 </style>
 </head>
 <body>
-	<table>
-		<thead>
-			<tr>
-				<th style="display: none;">번호</th>
-				<th>상품명</th>
-				<th>내용</th>
-				<th>문의일</th>
-				<th>상태</th>
-			</tr>
-		</thead>
-		<tbody>
-			<c:forEach var="list" items="${sellerPQAList }" varStatus="status">
-				<tr class="accordion">
-					<td style="display: none;">${list.qa_board_no }</td>
-					<td><a href="productDetail/${list.list_no }">${list_title_list[status.index]}</a></td>
-					<td>${list.qa_board_content }</td>
-					<td>${list.qa_board_date }</td>
-					<td>${list.qa_board_status }</td>
-					<td><c:if test="${list.qa_board_status == '미답변' }">
-							<button
-								class="btn btn-default btn-block answerpadding ifnotanswered"
-								data-list_no="${list.list_no }"
-								data-qa_board_no="${list.qa_board_no }" data-toggle="modal"
-								data-target="#myModal">답변</button>
-						</c:if></td>
+	<div class="container">
+		<h1>상품문의관리</h1>
+		<hr>
+		<table class="sellerPQAList">
+			<thead>
+				<tr>
+					<th style="display: none;">번호</th>
+					<th>상품명</th>
+					<th>내용</th>
+					<th>문의일</th>
+					<th>상태</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach var="list" items="${sellerPQAList }" varStatus="status">
+					<tr class="accordion">
+						<td style="display: none;">${list.qa_board_no }</td>
+						<td><a href="productDetail/${list.list_no }">${list_title_list[status.index]}</a></td>
+						<td>${list.qa_board_content }</td>
+						<td>${list.qa_board_date }</td>
+						<td>${list.qa_board_status }</td>
+						<td><c:if test="${list.qa_board_status == '미답변' }">
+								<button class="btn btn-default btn-block ifnotanswered"
+									data-list_no="${list.list_no }"
+									data-qa_board_no="${list.qa_board_no }" data-toggle="modal"
+									data-target="#myModal">답변</button>
+							</c:if></td>
+					</tr>
 					<c:if test="${list.qa_board_status == '답변' }">
 						<tr class="panel">
 							<td colspan="4" id="answer${list.qa_board_no }"></td>
 							<td><button
-									class="btn btn-default btn-block answerpadding delete_answer_btn"
+									class="btn btn-default btn-block delete_answer_btn"
 									value="${list.qa_board_no }">삭제</button></td>
 						</tr>
 					</c:if>
-				</tr>
-			</c:forEach>
-		</tbody>
-	</table>
-	<div id="divPage">
-		<form class="formPage" action="/sellerPQAList" method="post">
-			<c:if test="${paging.startblock > 1 }">
-				<a href="#">◀</a>
-			</c:if>
-			<c:forEach var="i" begin="${paging.startblock }"
-				end="${paging.endblock }">
-				<c:if test="${i == currpage }">
-					<c:out value="${i }"></c:out>
+				</c:forEach>
+			</tbody>
+		</table>
+		<div id="divPage">
+			<form class="formPage" action="/sellerPQAList" method="post">
+				<c:if test="${paging.startblock > 1 }">
+					<a href="#">◀</a>
 				</c:if>
-				<c:if test="${i != currpage }">
-					<input type="submit" class="btn btn-default" name="curr"
-						value="${i }">
+				<c:forEach var="i" begin="${paging.startblock }"
+					end="${paging.endblock }">
+					<c:if test="${i == currpage }">
+						<c:out value="${i }"></c:out>
+					</c:if>
+					<c:if test="${i != currpage }">
+						<input type="submit" class="btn btn-default" name="curr"
+							value="${i }">
+					</c:if>
+				</c:forEach>
+				<c:if test="${paging.endblock < paging.totalpage }">
+					<a href="#">▶</a>
 				</c:if>
-			</c:forEach>
-			<c:if test="${paging.endblock < paging.totalpage }">
-				<a href="#">▶</a>
-			</c:if>
-		</form>
+			</form>
+		</div>
 	</div>
 	<div class="modal fade" id="myModal">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<div class="modal-header">
-					<h4 class="modal-title">답변하기</h4>
-				</div>
-				<div class="modal-body">
-					<form action="insertPQAResult" method="post">
+				<form action="insertPQAResult" method="post">
+					<div class="modal-header">
+						<h4 class="modal-title">답변하기</h4>
+						<button type="button" class="close" data-dismiss="modal">X</button>
+					</div>
+					<div class="modal-body">
 						<input type="hidden" name="list_no" id="list_no">
-						<textarea name="qa_board_content" id="qa_board_content"></textarea>
+						<textarea name="qa_board_content" id="qa_board_content" rows="10"
+							class="form-control"></textarea>
 						<input type="hidden" name="qa_board_parent_no"
-							id="qa_board_parent_no"> <input type="submit" value="답변">
-					</form>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
-				</div>
+							id="qa_board_parent_no">
+					</div>
+					<div class="modal-footer">
+						<input type="submit" value="답변" class="btn btn-default">
+					</div>
+				</form>
 			</div>
 		</div>
 	</div>
@@ -144,10 +216,10 @@
 
 					/* Toggle between hiding and showing the active panel */
 					var panel = this.nextElementSibling;
-					if (panel.style.display === "block") {
+					if (panel.style.display === "table-row") {
 						panel.style.display = "none";
 					} else {
-						panel.style.display = "block";
+						panel.style.display = "table-row";
 					}
 				}
 			});

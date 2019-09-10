@@ -132,7 +132,7 @@ public class MyPageController {
 		CustomUser user = (CustomUser) userService.loadUserByUsername(prin.getName());
 		MemberDTO memberDTO = user.getMember();
 		service.insertCQA(memberDTO.getMember_no(), question_type, question_title, question_content);
-		return "redirect:myPage";
+		return "redirect:cQAList";
 	}
 
 	@RequestMapping("withdraw")
@@ -186,7 +186,7 @@ public class MyPageController {
 		Map<String, Object> listMap = new HashMap<>();
 		listMap.put("member_no", memberDTO.getMember_no());
 		// 페이징
-		int totalCount = service.getBuyCount(listMap);
+		int totalCount = service.getCQACount(listMap);
 		int currpage = 1;
 		if (curr != null)
 			currpage = Integer.parseInt(curr);

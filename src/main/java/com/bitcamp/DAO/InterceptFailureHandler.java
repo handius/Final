@@ -14,6 +14,8 @@ public class InterceptFailureHandler implements AuthenticationEntryPoint{
 	@Override
 	public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
 			throws IOException, ServletException {
+		System.out.println("오류 핸들러");
+		System.out.println(authException);
 		response.sendRedirect(request.getContextPath()+"/interceptFailure?error="+authException.getLocalizedMessage());
 	}
 
