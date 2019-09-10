@@ -47,6 +47,10 @@
 	border: 1px solid #D9D4CF;
 }
 
+.container form {
+	margin: 5% 0;
+}
+
 .row {
 	display: flex;
 	justify-content: center;
@@ -57,34 +61,21 @@
 	width: 55%;
 }
 
-.button {
-	width: 10%;
-	background-color: #ABD0CE;
-	color: white;
-	border: 3px solid #ABD0CE;
-	font-size: 15px;
-	font-weight: bold;
+.btn {
+	width: 100px;
 }
 </style>
 </head>
 <script>
-	$(document).ready(function() {
-		$("#customerQA").click(function() {
-			location.href = "customerQA";
+	function withdrawconfirm() {
+		if (confirm("정말로 탈퇴하시겠습니까?")) {
+			alert("탈퇴가 완료되었습니다.");
+			return true;
+		} else {
+			alert("탈퇴를 취소하였습니다.");
 			return false;
-		});
-	});
-	$(document).ready(function() {
-		$("#withdraw").click(function() {
-			if (confirm("정말로 탈퇴하시겠습니까?")) {
-				alert("탈퇴가 완료되었습니다.");
-				location.href = "withdraw";
-			} else {
-				alert("탈퇴를 취소하였습니다.");
-			}
-			return false;
-		});
-	});
+		}
+	}
 	function checks() {
 		var getMail = RegExp(/^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/);
 		var getCheck = RegExp(/^[a-zA-Z0-9]{4,12}$/);
@@ -206,10 +197,12 @@
 					name="user_call" id="user_call"
 					value="${memberDTO.getUser_call() }" class="form-control">
 			</div>
+			<div>
+				<a href="customerQA">작가신청</a> <a href="withdraw"
+					onclick="return withdrawconfirm()">탈퇴하기</a>
+			</div>
 			<div class="row">
-				<input type="button" value="작가신청" id="customerQA" class="button"><input
-					type="button" value="탈퇴하기" id="withdraw" class="button"><input
-					type="submit" value="수정하기" class="button">
+				<input type="submit" value="수정하기" class="btn btn-default">
 			</div>
 		</form>
 	</div>

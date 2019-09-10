@@ -47,6 +47,10 @@
 	border: 1px solid #D9D4CF;
 }
 
+.container form {
+	margin: 5% 0;
+}
+
 .form-group {
 	width: 55%;
 }
@@ -60,20 +64,15 @@
 	justify-content: center;
 }
 
-.button {
-	width: 10%;
-	background-color: #ABD0CE;
-	color: white;
-	border: 3px solid #ABD0CE;
-	font-size: 15px;
-	font-weight: bold;
+.btn {
+	width: 100px;
 }
 </style>
 </head>
 <body>
 	<div class="container">
 		<h1>1:1문의하기</h1>
-		<hr> 
+		<hr>
 		<form method="post" action="customerQAResult">
 			<div class="form-group">
 				<label for="question_type">문의유형</label> <select name="question_type"
@@ -93,7 +92,7 @@
 					cols="30" class="form-control"></textarea>
 			</div>
 			<div class="row">
-				<input type="submit" value="문의하기" class="button">
+				<input type="submit" value="문의하기" class="btn btn-default">
 			</div>
 		</form>
 	</div>

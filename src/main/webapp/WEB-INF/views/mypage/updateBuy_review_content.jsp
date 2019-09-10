@@ -22,13 +22,33 @@
 * {
 	font-family: 'Comfortaa', '맑은 고딕', cursive;
 }
+
+form {
+	padding: 1%;
+}
+
+form * {
+	margin: 5px;
+}
+
+.row {
+	display: flex;
+	justify-content: center;
+}
+
+.btn {
+	width: 100px;
+}
 </style>
 </head>
 <body>
 	<form method="post"
 		action="/updateBuy_review_contentResult/${buyReviewDTO.getBuy_review_no() }">
-		<textarea id="buy_review_content" name="buy_review_content">${buyReviewDTO.getBuy_review_content() }</textarea>
-		<input type="submit" value="수정">
+		<textarea id="buy_review_content" name="buy_review_content" rows="10"
+			class="form-control">${buyReviewDTO.getBuy_review_content() }</textarea>
+		<div class="row">
+			<input type="submit" value="수정" class="btn btn-default">
+		</div>
 	</form>
 </body>
 </html>

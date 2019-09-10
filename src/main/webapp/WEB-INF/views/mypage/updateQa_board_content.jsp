@@ -22,13 +22,33 @@
 * {
 	font-family: 'Comfortaa', '맑은 고딕', cursive;
 }
+
+form {
+	padding: 1%;
+}
+
+form * {
+	margin: 5px;
+}
+
+.row {
+	display: flex;
+	justify-content: center;
+}
+
+.btn {
+	width: 100px;
+}
 </style>
 </head>
 <body>
 	<form method="post"
 		action="/updateQa_board_contentResult/${qABoardDTO.getQa_board_no() }">
-		<textarea id="qa_board_content" name="qa_board_content">${qABoardDTO.getQa_board_content() }</textarea>
-		<input type="submit" value="수정">
+		<textarea id="qa_board_content" name="qa_board_content" rows="10"
+			class="form-control">${qABoardDTO.getQa_board_content() }</textarea>
+		<div class="row">
+			<input type="submit" value="수정" class="btn btn-default">
+		</div>
 	</form>
 </body>
 </html>
