@@ -183,34 +183,30 @@
 		</div>
 	</div>
 	<script>
-		$(document).ready(function() {
-			$("input[name=cor]").click(function() {
-				var d = $(this).next().text();
-				if (confirm("상품을 받으셨나요?\n상품을 받으신 분만 수취확인을 해주세요.")) {
-					alert("수취확인이 완료되었습니다.");
-					location.href = "cor/" + d;
-				} else {
-					alert("수취확인을 취소하였습니다.");
-				}
-				return false;
-			});
+		$("input[name=cor]").click(function() {
+			var d = $(this).next().text();
+			if (confirm("상품을 받으셨나요?\n상품을 받으신 분만 수취확인을 해주세요.")) {
+				alert("수취확인이 완료되었습니다.");
+				location.href = "cor/" + d;
+			} else {
+				alert("수취확인을 취소하였습니다.");
+			}
+			return false;
 		});
-		$(document).ready(function() {
-			$("input[name=rw]").click(function() {
-				var d = $(this).next().text();
-				$.ajax({
-					url : "/rw",
-					type : "GET",
-					data : "order_no=" + d,
-					dataType : "html",
-					success : function(data) {
-						$('#insertBuyReview').empty();
-						$('#insertBuyReview').append(data);
-					},
-					error : function(data) {
-						alert("error");
-					}
-				});
+		$("input[name=rw]").click(function() {
+			var d = $(this).next().text();
+			$.ajax({
+				url : "/rw",
+				type : "GET",
+				data : "order_no=" + d,
+				dataType : "html",
+				success : function(data) {
+					$('#insertBuyReview').empty();
+					$('#insertBuyReview').append(data);
+				},
+				error : function(data) {
+					alert("error");
+				}
 			});
 		});
 	</script>

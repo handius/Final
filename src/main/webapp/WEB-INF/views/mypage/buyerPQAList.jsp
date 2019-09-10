@@ -137,12 +137,12 @@
 						<td>${list.qa_board_date }</td>
 						<td>${list.qa_board_status }</td>
 						<td><c:if test="${list.qa_board_status == '미답변' }">
-								<button class="btn btn-default btn-block ifnotanswered"
+								<button class="btn btn-default btn-block update_btn"
 									value="${list.qa_board_no }" data-toggle="modal"
 									data-target="#myModal">수정</button>
 							</c:if></td>
 						<td><c:if test="${list.qa_board_status == '미답변' }">
-								<button class="btn btn-default btn-block delete_question_btn"
+								<button class="btn btn-default btn-block delete_btn"
 									value="${list.qa_board_no }">삭제</button>
 							</c:if></td>
 					</tr>
@@ -238,7 +238,7 @@
 		}
 
 		// '수정' 버튼
-		$('.ifnotanswered').click(function() {
+		$('.update_btn').click(function() {
 			$.ajax({
 				url : "/updateQa_board_content/" + $(this).val(),
 				type : "GET",
@@ -254,7 +254,7 @@
 		});
 
 		// '삭제' 버튼
-		$('.delete_question_btn').click(
+		$('.delete_btn').click(
 				function() {
 					if (confirm('정말로 삭제하시겠습니까?')) {
 						alert("삭제가 완료되었습니다.");

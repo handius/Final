@@ -152,8 +152,7 @@
 					<c:if test="${list.qa_board_status == '답변' }">
 						<tr class="panel">
 							<td colspan="4" id="answer${list.qa_board_no }"></td>
-							<td><button
-									class="btn btn-default btn-block delete_answer_btn"
+							<td><button class="btn btn-default btn-block delete_btn"
 									value="${list.qa_board_no }">삭제</button></td>
 						</tr>
 					</c:if>
@@ -262,7 +261,7 @@
 		});
 
 		// '삭제' 버튼
-		$('.delete_answer_btn').click(
+		$('.delete_btn').click(
 				function() {
 					if (confirm('정말로 삭제하시겠습니까?')) {
 						alert("삭제가 완료되었습니다.");

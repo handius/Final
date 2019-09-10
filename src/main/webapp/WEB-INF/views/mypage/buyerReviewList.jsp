@@ -104,12 +104,10 @@
 						<td><a href="productDetail/${list.list_no }">${list_title_list[status.index] }</a></td>
 						<td>${list.buy_review_content }</td>
 						<td>${list.buy_review_date }</td>
-						<td><button
-								class="btn btn-default btn-block answerpadding ifanswered"
+						<td><button class="btn btn-default btn-block update_btn"
 								value="${list.buy_review_no }" data-toggle="modal"
 								data-target="#myModal">수정</button></td>
-						<td><button
-								class="btn btn-default btn-block answerpadding delete_question_btn"
+						<td><button class="btn btn-default btn-block delete_btn"
 								value="${list.buy_review_no }">삭제</button></td>
 					</tr>
 				</c:forEach>
@@ -150,7 +148,7 @@
 	</div>
 	<script>
 		// '수정' 버튼
-		$('.ifanswered').click(function() {
+		$('.update_btn').click(function() {
 			$.ajax({
 				url : "/updateBuy_review_content/" + $(this).val(),
 				type : "GET",
@@ -166,7 +164,7 @@
 		});
 
 		// '삭제' 버튼
-		$('.delete_question_btn').click(function() {
+		$('.delete_btn').click(function() {
 			if (confirm('정말로 삭제하시겠습니까?')) {
 				alert("삭제가 완료되었습니다.");
 				location.href = "/updateBuy_review_status/" + $(this).val();
