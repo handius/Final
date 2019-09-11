@@ -165,7 +165,7 @@
 					</tr>
 					<c:if test="${list.qa_board_status == '답변' }">
 						<tr class="panel">
-							<td colspan="4" id="answer${list.qa_board_no }"></td>
+							<td colspan="5" id="answer${list.qa_board_no }"></td>
 							<td><button class="btn btn-default btn-block update_btn"
 									id="update_btn${list.qa_board_no }" data-toggle="modal"
 									data-target="#myModal2">수정</button></td>
@@ -237,7 +237,7 @@
 
 		for (i = 0; i < acc.length; i++) {
 			acc[i].addEventListener("click", function() {
-				if ($(this).children().eq(4).text() == "답변") {
+				if ($(this).children().eq(5).text() == "답변") {
 					/* Toggle between adding and removing the "active" class,
 					to highlight the button that controls the panel */
 					this.classList.toggle("active");
@@ -255,7 +255,7 @@
 
 		for (i = 0; i < acc.length; i++) {
 			acc[i].addEventListener("click", function() {
-				if ($(this).children().eq(4).text() == "답변") {
+				if ($(this).children().eq(5).text() == "답변") {
 					var d = $(this).find('td:eq(0)').text();
 					var e = $(this).children().eq(0).text();
 					$.ajax({
