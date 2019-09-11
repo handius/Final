@@ -42,4 +42,9 @@ public class OrderController {
 		service.updateUserInfo(memberDTO.getMember_no(), name, call, address);
 		return "order/orderResult.mall";
 	}
+
+	@RequestMapping("qqq")
+	public String qqq() {
+		return "order/orderResult.mall";
+	}
 }

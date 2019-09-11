@@ -103,7 +103,7 @@
 			<div class="col-md-2 visible-md visible-lg">
 				<div class="line"></div>
 			</div>
-			<div class="col-xs-6 col-xs-offset-3 col-md-4 right col-md-offset-0">
+			<div class="col-xs-6 col-xs-offset-3 col-md-4 col-md-offset-0 right">
 				<ul>
 					<li><span class="glyphicon glyphicon-pencil"></span><a
 						href="pWCheck">회원 정보 수정</a></li>
