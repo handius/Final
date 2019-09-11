@@ -984,7 +984,7 @@
         				<h4 class="modal-title" id="myModalLabel">후원하기</h4>
       				</div>
       				<div class="modal-body">
-          				<form method="post" action="list.do">
+          				<form method="post" action="../support/${artistBoardDetail.artist_no }" id="support">
              				<ul id="donationList">
                 				<li>
                     				<span class="glyphicon glyphicon-cutlery donationIcon"></span>
@@ -1015,5 +1015,42 @@
   			</div> <!-- 모달 다이얼로그 -->
 		</div> <!-- 모달 전체 윈도우 -->
     </div>
+    <!-- 후원하기 -->
+    <script type="text/javascript"
+		src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+	<script>
+		$('#support').on('submit', function(event) {
+			event.preventDefault();
+			var IMP = window.IMP; // 생략가능
+			IMP.init('imp85472948'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
+			var support_amount = $('input[name="donation"]:checked').val();
+			IMP.request_pay({
+				pg : 'html5_inicis', // version 1.1.0부터 지원.
+				pay_method : 'card',
+				merchant_uid : 'merchant_' + new Date().getTime(),
+				name : '${artistInfo.user_id }님 후원',
+				amount : support_amount,
+				buyer_email : '${memberDTO.user_email}',
+				buyer_name : '${memberDTO.user_id}',
+				buyer_tel : '${memberDTO.user_call}',
+				buyer_addr : '${memberDTO.user_address}',
+			//m_redirect_url : 'https://www.yourdomain.com/payments/complete'
+			}, function(rsp) {
+				if (rsp.success) {
+					var msg = '결제가 완료되었습니다.';
+					msg += '고유ID : ' + rsp.imp_uid;
+					msg += '상점 거래ID : ' + rsp.merchant_uid;
+					msg += '결제 금액 : ' + rsp.paid_amount;
+					msg += '카드 승인번호 : ' + rsp.apply_num;
+					$('#payment').off('submit');
+					$('#payment').trigger('submit');
+				} else {
+					var msg = '결제에 실패하였습니다.';
+					msg += '에러내용 : ' + rsp.error_msg;
+				}
+				alert(msg);
+			});
+		});
+	</script>
 </body>
 </html>

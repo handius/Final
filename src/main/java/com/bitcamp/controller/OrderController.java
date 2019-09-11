@@ -1,5 +1,6 @@
 package com.bitcamp.controller;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,8 +44,8 @@ public class OrderController {
 		return "order/orderResult.mall";
 	}
 
-	@RequestMapping("qqq")
-	public String qqq() {
-		return "order/orderResult.mall";
+	@RequestMapping("support/{artist_no}")
+	public String support(Principal prin, HttpSession session, @PathVariable int artist_no) {
+		return "redirect:/artistDetail/" + artist_no;
 	}
 }

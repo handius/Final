@@ -180,37 +180,35 @@
 	<script type="text/javascript"
 		src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 	<script>
-		$(document).ready(function() {
-			$('#payment').on('submit', function(event) {
-				event.preventDefault();
-				var IMP = window.IMP; // 생략가능
-				IMP.init('imp85472948'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
-				IMP.request_pay({
-					pg : 'html5_inicis', // version 1.1.0부터 지원.
-					pay_method : 'card',
-					merchant_uid : 'merchant_' + new Date().getTime(),
-					name : '${orderDTO.list_title}',
-					amount : '${orderDTO.order_price}',
-					buyer_email : '${memberDTO.user_email}',
-					buyer_name : '${memberDTO.user_name}',
-					buyer_tel : '${memberDTO.user_call}',
-					buyer_addr : '${memberDTO.user_address}',
-				//m_redirect_url : 'https://www.yourdomain.com/payments/complete'
-				}, function(rsp) {
-					if (rsp.success) {
-						var msg = '결제가 완료되었습니다.';
-						msg += '고유ID : ' + rsp.imp_uid;
-						msg += '상점 거래ID : ' + rsp.merchant_uid;
-						msg += '결제 금액 : ' + rsp.paid_amount;
-						msg += '카드 승인번호 : ' + rsp.apply_num;
-						$('#payment').off('submit');
-						$('#payment').trigger('submit');
-					} else {
-						var msg = '결제에 실패하였습니다.';
-						msg += '에러내용 : ' + rsp.error_msg;
-					}
-					alert(msg);
-				});
+		$('#payment').on('submit', function(event) {
+			event.preventDefault();
+			var IMP = window.IMP; // 생략가능
+			IMP.init('imp85472948'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
+			IMP.request_pay({
+				pg : 'html5_inicis', // version 1.1.0부터 지원.
+				pay_method : 'card',
+				merchant_uid : 'merchant_' + new Date().getTime(),
+				name : '${orderDTO.list_title}',
+				amount : '${orderDTO.order_price}',
+				buyer_email : '${memberDTO.user_email}',
+				buyer_name : '${memberDTO.user_name}',
+				buyer_tel : '${memberDTO.user_call}',
+				buyer_addr : '${memberDTO.user_address}',
+			//m_redirect_url : 'https://www.yourdomain.com/payments/complete'
+			}, function(rsp) {
+				if (rsp.success) {
+					var msg = '결제가 완료되었습니다.';
+					msg += '고유ID : ' + rsp.imp_uid;
+					msg += '상점 거래ID : ' + rsp.merchant_uid;
+					msg += '결제 금액 : ' + rsp.paid_amount;
+					msg += '카드 승인번호 : ' + rsp.apply_num;
+					$('#payment').off('submit');
+					$('#payment').trigger('submit');
+				} else {
+					var msg = '결제에 실패하였습니다.';
+					msg += '에러내용 : ' + rsp.error_msg;
+				}
+				alert(msg);
 			});
 		});
 	</script>
