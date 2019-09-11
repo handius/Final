@@ -34,4 +34,8 @@ public interface ProductDetailMapper {
 	//
 	public int productDetailBuyReviewListMaxCount(int list_no);
 	public List<BuyReviewDTO> productDetailBuyReviewList(BuyReviewDTO buyreviewdto);
+	//
+	public List<Integer> ScheduledListOrderMemberNoList();
+	public List<Integer> ScheduledOrderMadeNoList();
+	public void ScheduledListOrderMemberNoDelete(int list_order_member_no);
 }
