@@ -1,10 +1,14 @@
 package com.bitcamp.service;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -67,6 +71,7 @@ public class ProductDetailService {
 		return map;
 	}
 	
+	@Transactional
 	public String productDelete(HashMap<String, Object> hashmap) {
 		String resultMessage = "삭제 실패";
 		mapper.productDelete(hashmap);
@@ -78,6 +83,25 @@ public class ProductDetailService {
 		}
 		return resultMessage;
 	}
+	
+	@Transactional
+	public String listOrderMemberNoDeleteService(HashMap<String, Object> hashmap) {
+		int list_order_member_no = Integer.parseInt(hashmap.get("list_order_member_no").toString());
+		mapper.listOrderMemberNoDelete(list_order_member_no);
+		System.out.println("작동됨!!");
+		int checkResult = mapper.listOrderMemberNoDeleteCheck(list_order_member_no);
+		String resultMessage = Integer.toString(list_order_member_no);
+		
+		if(checkResult == 0) {
+			resultMessage += "번 주문 삭제 성공";
+		}
+		else {
+			resultMessage += "번 주문 삭제 실패";
+		}
+		
+		System.out.println(resultMessage);
+		return resultMessage;
+	}
 
 	@Transactional
 	public int productDetailQandAInsertService(QABoardDTO qaboarddto) {
@@ -87,6 +111,7 @@ public class ProductDetailService {
 		return mapper.productDetailQandAInsertCheck(qa_board_no);
 	}
 
+	@Transactional
 	public Map<String, Object> productDetailQandAListService(Map<String, Object> map) {
 		int list_no = Integer.parseInt(map.get("list_no").toString());
 		int currentPage = Integer.parseInt(map.get("currentpage").toString());
@@ -135,6 +160,7 @@ public class ProductDetailService {
 		return list;
 	}
 	
+	@Transactional
 	public Map<String, Object> productDetailBuyReviewListService(Map<String, Object> map) {
 		int list_no = Integer.parseInt(map.get("list_no").toString());
 		int currentPage = Integer.parseInt(map.get("currentpage").toString());
@@ -155,4 +181,11 @@ public class ProductDetailService {
 		
 		return map;
 	}
+	
+	/*@Scheduled(cron="0 0/1 * * * ?")
+	public void listOrderMemberBoardGarbageCollector() {
+		System.out.println("작동확인");
+		String rootPath = System.getProperty("user.dir");
+        System.out.println("현재 프로젝트의 경로 : "+rootPath );
+	}*/
 }

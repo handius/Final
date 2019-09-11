@@ -858,7 +858,7 @@
         //창 크기가 줄어들었을때 모바일 창을 작동
         window.onresize = function(event) {
         	mobileViewConverter();
-        };
+        }
         
         //새로고침 했을때 이전사이트로 이동 (82 : r키, 116 : f5)
         document.onkeydown = function(event) {
@@ -868,14 +868,56 @@
         		let list_no = $('#list_no').val();
         		
         		if(orderList) {
-        			alert("이전으로 돌아갑니다.");
-        			window.location.href="/checkIsOrdered?no="+list_no;
+        			//새로고침시 주문삭제
+        			if(confirm("주문옵션이 저장되지 않습니다. 계속 하시겠습니까?") == true) {
+        				let order = $('input[name="list_order_member_no"]');
+        				for(let i=0; i<order.length; i++) {
+        					let list_order_member_no = Number($('input[name="list_order_member_no"]:eq('+i+')').val());
+        					$.ajax({
+        		    			url:"/ajaxListOrderMemberNoDelete"
+        		    			,contentType: 'application/json; charset=utf-8'
+        		    			,data: JSON.stringify({list_order_member_no : list_order_member_no})
+        		    			,dataType: "text"
+        		    			,type: "POST"
+        		    			,success:function(data){
+        		    				console.log(data);
+        		    			}
+        		    			,error:function(data){
+        		    				console.log('주문 삭제 실패');
+        		    			}
+        		    		});
+        				}
+        				window.location.href="/checkIsOrdered?no="+list_no;
+        			}
         		}
         		else {
         			window.location.href="/productDetail/"+list_no;
         		}
         	}
 		}
+        
+        function orderlistDelete() {
+        	if(confirm("주문옵션이 저장되지 않습니다. 계속 하시겠습니까?") == true) {
+				let order = $('input[name="list_order_member_no"]');
+				for(let i=0; i<order.length; i++) {
+					let list_order_member_no = Number($('input[name="list_order_member_no"]:eq('+i+')').val());
+					$.ajax({
+		    			url:"/ajaxListOrderMemberNoDelete"
+		    			,contentType: 'application/json; charset=utf-8'
+		    			,data: JSON.stringify({list_order_member_no : list_order_member_no})
+		    			,dataType: "text"
+		    			,type: "POST"
+		    			,success:function(data){
+		    				console.log(data);
+		    			}
+		    			,error:function(data){
+		    				console.log('주문 삭제 실패');
+		    			}
+		    		});
+				}
+				window.location.href="/checkIsOrdered?no="+list_no;
+			}
+        }
         
         //스크롤이 푸터영역에 다다르면 사이드창을 고정시킴
         $(window).scroll(function() {

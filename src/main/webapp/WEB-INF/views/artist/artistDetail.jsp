@@ -388,13 +388,58 @@
         		margin: 0 !important;
         	}
         	
+        	#artistDetailImgBox {
+        		height: 400px;
+        	}
+        	
+        	#artistAsideArtistInfoBox {
+        		height: 600px;
+        	}
+        	
+        	#artistDetailModifyPage, #artistDetailActiveToggle {
+        		height: 70px;
+        		font-size: 32px;
+        		margin-top: 20px;
+        	}
+        	
+        	#artistAsideArtistInfoArtistName {
+        		height: 100px;
+        		font-size: 50px;
+        	}
+        	
+        	#artistAsideArtistInfoScore {
+        		height: 100px;
+        		font-size: 60px;
+        	}
+        	
+        	#artistAsideArtistInfoNumScore {
+        		font-size: 50px;
+        	}
+        	
+        	#artistAsideArtistInfoVisitCount {
+        		height: 180px;
+        		font-size: 30px;
+        	}
+        	
+        	#artistDetailUrlCoppy, #artistDetailDonation {
+        		height: 90px;
+        		font-size: 40px;
+        		margin-bottom: 20px;
+        	}
+        	
             #artistDetailBox {
                 padding: 30px 0;
                 margin-bottom: 60px;
             }
             
             #artistDetailTitleBox {
+            	height: 400px;
+            	font-size: 40px;
             	padding: 0 20px;
+            }
+            
+            .artistDetailLine {
+            	font-size: 40px;
             }
             
             .artistDetailBuyReview {
@@ -412,10 +457,119 @@
             	height: 100%;
             }
             
+            .artistDetailBuyReviewProductTitle {
+            	line-height: 80px;
+            	font-size: 40px;
+            }
+            
+            .artistDetailBuyReviewProductOption {
+            	line-height: 60px;
+            	font-size: 30px;
+            }
+            
+            .artistDetailBuyReviewContent {
+            	height: 180px;
+            	font-size: 30px;
+            }
+            
+            .artistDetailBuyReviewStarScore {
+            	line-height: 60px;
+            	font-size: 60px;
+            }
+            
+            .artistDetailBuyReviewUserName {
+            	line-height: 60px;
+            	font-size: 40px;
+            	padding-top: 10px;
+            }
+            
+            
             #artistDetailProductCollectionButton, #artistDetailBuyReviewCollectionButton {
+            	height: 80px;
+            	font-size: 40px;
             	margin-left: 25%;
             	margin-top: 20px;
             }
+            
+            #artistAsideRepBox {
+            	height: 1400px;
+            }
+            
+            #artistAsideRepTitle {
+            	height: 100px;
+            	font-size: 40px;
+            	padding-top: 40px;
+            }
+            
+            #artistAsideRepContentBox {
+            	height: 1200px;
+            }
+            
+            .artistAsideRepUserName {
+            	height: 50px;
+            	font-size: 30px;
+            }
+            
+            .artistAsideRepUserContent {
+            	min-height: 60px;
+            	border-radius: 20%;
+            	font-size: 30px;
+            	padding: 16px 20px;
+            }
+            
+            #artistAsideRepInputBox {
+            	height: 100px;
+            }
+            
+            #artistAsideRepInput {
+            	height: 70px;
+            	line-height: 70px;
+            	font-size: 30px;
+            }
+            
+            #artistAsideRepButton {
+            	height: 70px;
+            	font-size: 30px;
+            }
+            /* 모달창 */
+            .modal-dialog {
+            	max-width: 100%;
+            }
+            
+            .close span {
+            	font-size: 50px;
+            }
+            
+            .modal-content {
+            	height: 500px;
+            }
+            
+            .modal-title {
+            	font-size: 50px !important;
+            }
+            
+            .modal-body {
+            	height: 370px;
+            }
+            
+            #donationList li span {
+            	font-size: 40px;
+            }
+            
+            #donationList li label {
+            	font-size: 40px;
+            }
+            
+            #donationList li input {
+            	width: 30px;
+            	height: 30px;
+            }
+            
+            .donationButton {
+            	height: 90px;
+            	font-size: 50px;
+            }
+            
         }
         
     </style>

@@ -204,12 +204,21 @@
         		padding: 0 !important;
         		width: 100% !important;
         	}
+        	
+        	#jumbotronTextBox {
+				font-size: 5vw;        	
+        	}
+        	
             #mobileArtistListNavBox {
                 display: contents;
             }
             
             #mobileArtistListNavBox .container {
                 border-bottom: 1px solid silver;
+            }
+            
+            #mobileArtistListNavBoxBackground {
+            	height: 
             }
             
             .dropdown {
@@ -222,10 +231,14 @@
             
             .artistListNavSearchText {
                 width: 80%;
+                height: 90px;
+                font-size: 40px;
             }
             
             .artistListNavSearchButton {
                 width: 20%;
+                height: 90px;
+                font-size: 40px;
             }
             
             #artistListNaxBox {
@@ -238,11 +251,21 @@
             
             #dropdownButton {
                 width: 100%;
-                height: 40px;
+                height: 90px;
                 color: white;
                 background-color: #7C7877;
                 border: 1px solid silver;
                 margin: 5px 0;
+            }
+            
+            #dropdownButton span {
+            	border-top: 15px solid;
+            	border-right: 15px solid transparent;
+            	border-left: 15px solid transparent;
+            }
+            
+            #dropdownResultBox {
+            	font-size: 30px;
             }
             
             .dropdown-menu {
@@ -253,8 +276,9 @@
             }
             
             .drowdownList a {
-                height: 40px;
-                padding: 10px 0 !important;
+                height: 80px;
+                font-size: 30px;
+                padding: 20px 0 !important;
                 
             }
             
@@ -262,6 +286,33 @@
             	width: 100%;
             	margin: 0;
             	margin-top: 40px;
+            }
+            
+            .artistListLank {
+            	width: 100px;
+            	height: 100px;
+            	line-height: 100px;
+            	font-size: 40px;
+            }
+            
+            .artistListTitleName {
+            	height: 80px;
+            	font-size: 40px;
+            }
+            
+            .artistListStarScore {
+            	line-height: 60px;
+            	font-size: 60px;
+            }
+            
+            .artistListNumScore {
+            	line-height: 60px;
+            	font-size: 40px;
+            }
+            
+            .artistListDetailTitle {
+            	height: 240px;
+            	font-size: 32px;
             }
         }
     </style>

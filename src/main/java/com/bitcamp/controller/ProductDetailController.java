@@ -9,6 +9,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -108,6 +109,11 @@ public class ProductDetailController {
 		return resultMessage;
 	}
 	
+	@ResponseBody
+	@RequestMapping(value="ajaxListOrderMemberNoDelete", produces="application/text; charset=utf-8")
+	public String ajaxListOrderMemberNoDelete(@RequestBody HashMap<String, Object> hashmap) {
+		return service.listOrderMemberNoDeleteService(hashmap);
+	}
 	
 	@RequestMapping("/ajaxqaboardinsert")
 	public @ResponseBody String ajaxqaboardinsert(@RequestBody Map<String, Object> map, HttpSession session) {
@@ -247,4 +253,12 @@ public class ProductDetailController {
 			
 		return "성공";
 	}
+	
+	/*@Autowired
+	private 
+	
+	@Scheduled(cron="0 0/1 * * * ?")
+	public void test(@PathVariable(name="fileName") String name) {
+		System.out.println("테스트중 입니다 : ");
+	}*/
 }

@@ -39,6 +39,14 @@
 	from list_board
 	where list_no = #{list_no}
 </select>
+<delete id="listOrderMemberNoDelete" parameterType="int">
+	delete from list_order_member_board
+	where list_order_member_no = #{list_order_member_no}
+</delete>
+<select id="listOrderMemberNoDeleteCheck" parameterType="int" resultType="int">
+	select count(*) from list_order_member_board
+	where list_order_member_no = #{list_order_member_no}
+</select>
 <select id="productDetailQandAInsertSeq" resultType="int">
 	select qa_board_seq.nextval from dual
 </select>

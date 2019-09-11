@@ -21,6 +21,9 @@ public interface ProductDetailMapper {
 	public void productDelete(HashMap<String, Object> hashmap);
 	public int productDeleteCheck(int list_no);
 	//
+	public void listOrderMemberNoDelete(int list_order_member_no);
+	public int listOrderMemberNoDeleteCheck(int list_order_member_no);
+	//
 	public int productDetailQandAInsertSeq();
 	public int productDetailQandAInsert(QABoardDTO qaboarddto);
 	public int productDetailQandAInsertCheck(int qa_board_no);
