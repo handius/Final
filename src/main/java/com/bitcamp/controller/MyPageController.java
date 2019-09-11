@@ -594,5 +594,4 @@ public class MyPageController {
 		service.insertPQA(list_noInt, memberDTO.getMember_no(), qa_board_content, qa_board_parent_noInt);
 		return "redirect:/sellerPQAList";
 	}
-
 }

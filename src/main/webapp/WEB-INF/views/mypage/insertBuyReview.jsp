@@ -81,15 +81,15 @@
 	font-family: 'Comfortaa', '맑은 고딕', cursive;
 }
 
-.wrapper {
+.container {
 	padding: 4%;
 }
 
-.wrapper * {
+.container * {
 	margin: 10px;
 }
 
-.wrapper hr {
+.container hr {
 	width: 45%;
 	margin: 5% 0;
 	border: 1px solid #D9D4CF;
@@ -99,7 +99,7 @@
 	background-color: #f4f4f4;
 }
 
-.wrapper form ul {
+.container form ul {
 	list-style: none;
 	padding: 0;
 }
@@ -118,7 +118,7 @@
 }
 </style>
 <body>
-	<div class="wrapper">
+	<div class="container">
 		<h1>별점</h1>
 		<hr>
 		<div class="starBox">

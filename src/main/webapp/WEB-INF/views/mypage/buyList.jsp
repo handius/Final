@@ -80,7 +80,7 @@
 	width: 30%;
 }
 
-.orderDTO td table tr td img {
+.image img {
 	width: 50%;
 }
 
