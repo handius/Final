@@ -1030,10 +1030,10 @@
 				merchant_uid : 'merchant_' + new Date().getTime(),
 				name : '${artistInfo.user_id }님 후원',
 				amount : support_amount,
-				buyer_email : '${memberDTO.user_email}',
-				buyer_name : '${memberDTO.user_id}',
-				buyer_tel : '${memberDTO.user_call}',
-				buyer_addr : '${memberDTO.user_address}',
+				buyer_email : '${sessionScope.member.user_email}',
+				buyer_name : '${sessionScope.member.user_id}',
+				buyer_tel : '${sessionScope.member.user_call}',
+				buyer_addr : '${sessionScope.member.user_address}',
 			//m_redirect_url : 'https://www.yourdomain.com/payments/complete'
 			}, function(rsp) {
 				if (rsp.success) {
