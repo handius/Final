@@ -390,4 +390,10 @@
 		qa_board
 		set qa_board_status='답변' where qa_board_no=#{qa_board_no}
 	</update>
+	<select id="findOrderOrderDTO" parameterType="int"
+		resultType="com.bitcamp.DTO.mypage.OrderOrderDTO">
+		select * from list_order_member_board lomb inner join
+		list_order_board lob on lomb.list_order_no=lob.list_order_no where
+		list_order_member_no=#{ordermade_no_int}
+	</select>
 </mapper>

@@ -13,6 +13,7 @@ import com.bitcamp.DTO.Product.ListDTO;
 import com.bitcamp.DTO.customerqaboard.CustomerQABoardDTO;
 import com.bitcamp.DTO.freeboard.FreeboardDTO;
 import com.bitcamp.DTO.member.MemberDTO;
+import com.bitcamp.DTO.mypage.OrderOrderDTO;
 import com.bitcamp.DTO.order.OrderDTO;
 import com.bitcamp.DTO.productdetail.BuyReviewDTO;
 import com.bitcamp.DTO.productdetail.QABoardDTO;
@@ -61,6 +62,7 @@ public class MyPageService {
 		Map<String, Object> parameters = new HashMap<>();
 		List<OrderDTO> buyList = mapper.getBuyList(listMap);
 		List<String> buyListImage_loc = new ArrayList<>();
+		List<List<OrderOrderDTO>> orderOrderList2 = new ArrayList<>();
 		for (int i = 0; i < buyList.size(); i++) {
 			String list_title = mapper.findList_title(buyList.get(i).getList_no());
 			buyList.get(i).setList_title(list_title);
@@ -86,13 +88,21 @@ public class MyPageService {
 				buyList.get(i).setOrder_amount(order_amount_list);
 			}
 			if (ordermade_no != null) {
-				if (ordermade_no.contains("/")) {
-					String[] ordermade_no_array = ordermade_no.split("/");
-					for (int j = 0; j < ordermade_no_array.length; j++) {
-						ordermade_no_list.add(Integer.parseInt(ordermade_no_array[j]));
-					}
-					buyList.get(i).setOrdermade_no(ordermade_no_list);
+				// if (ordermade_no.contains("/")) {
+				String[] ordermade_no_array = ordermade_no.split("/");
+				List<OrderOrderDTO> orderOrderList1 = new ArrayList<>();
+				for (int j = 0; j < ordermade_no_array.length; j++) {
+					int ordermade_no_int = Integer.parseInt(ordermade_no_array[j]);
+					ordermade_no_list.add(ordermade_no_int);
+					orderOrderList1.add(mapper.findOrderOrderDTO(ordermade_no_int));
 				}
+				buyList.get(i).setOrdermade_no(ordermade_no_list);
+				orderOrderList2.add(orderOrderList1);
+				// }
+			} else {
+				List<OrderOrderDTO> orderOrderList1 = new ArrayList<>();
+				orderOrderList1.add(new OrderOrderDTO());
+				orderOrderList2.add(orderOrderList1);
 			}
 			for (int j = 0; j < order_add_option_list.size(); j++) {
 				String option_name = mapper.findOption_name(order_add_option_list.get(j));
@@ -105,6 +115,7 @@ public class MyPageService {
 		}
 		parameters.put("buyList", buyList);
 		parameters.put("buyListImage_loc", buyListImage_loc);
+		parameters.put("orderOrderList2", orderOrderList2);
 		return parameters;
 	}
 
@@ -166,6 +177,7 @@ public class MyPageService {
 		Map<String, Object> parameters = new HashMap<>();
 		List<OrderDTO> sellList = mapper.getSellList(listMap);
 		List<MemberDTO> buyerList = new ArrayList<>();
+		List<List<OrderOrderDTO>> orderOrderList2 = new ArrayList<>();
 		for (int i = 0; i < sellList.size(); i++) {
 			MemberDTO buyer = mapper.findBuyer(sellList.get(i).getMember_no());
 			buyerList.add(buyer);
@@ -189,13 +201,21 @@ public class MyPageService {
 				sellList.get(i).setOrder_amount(order_amount_list);
 			}
 			if (ordermade_no != null) {
-				if (ordermade_no.contains("/")) {
-					String[] ordermade_no_array = ordermade_no.split("/");
-					for (int j = 0; j < ordermade_no_array.length; j++) {
-						ordermade_no_list.add(Integer.parseInt(ordermade_no_array[j]));
-					}
-					sellList.get(i).setOrdermade_no(ordermade_no_list);
+				// if (ordermade_no.contains("/")) {
+				String[] ordermade_no_array = ordermade_no.split("/");
+				List<OrderOrderDTO> orderOrderList1 = new ArrayList<>();
+				for (int j = 0; j < ordermade_no_array.length; j++) {
+					int ordermade_no_int = Integer.parseInt(ordermade_no_array[j]);
+					ordermade_no_list.add(ordermade_no_int);
+					orderOrderList1.add(mapper.findOrderOrderDTO(ordermade_no_int));
 				}
+				sellList.get(i).setOrdermade_no(ordermade_no_list);
+				orderOrderList2.add(orderOrderList1);
+				// }
+			} else {
+				List<OrderOrderDTO> orderOrderList1 = new ArrayList<>();
+				orderOrderList1.add(new OrderOrderDTO());
+				orderOrderList2.add(orderOrderList1);
 			}
 			for (int j = 0; j < order_add_option_list.size(); j++) {
 				String option_name = mapper.findOption_name(order_add_option_list.get(j));
@@ -208,6 +228,7 @@ public class MyPageService {
 		}
 		parameters.put("sellList", sellList);
 		parameters.put("buyerList", buyerList);
+		parameters.put("orderOrderList2", orderOrderList2);
 		return parameters;
 	}
 

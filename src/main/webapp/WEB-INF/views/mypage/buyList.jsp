@@ -51,8 +51,7 @@
 }
 
 .buyList {
-	width: 90% !important;
-	margin: 5%;
+	font-size: 13px;
 }
 
 .buyList thead {
@@ -121,6 +120,7 @@
 				<tr>
 					<th>주문일자</th>
 					<th>상품정보</th>
+					<th>주문제작정보</th>
 					<th>결제금액</th>
 					<th>상태</th>
 					<th></th>
@@ -143,6 +143,44 @@
 										</c:forEach></td>
 								<tr>
 							</table></td>
+						<td><c:if test="${list.ordermade_no==null }">완제품</c:if> <c:if
+								test="${list.ordermade_no!=null }">
+								<table>
+									<c:forEach var="item"
+										items="${orderOrderList2[status1.index] }" varStatus="i">
+										<c:if test="${item.order_option eq 'picture' }">
+											<tr>
+												<td>주문옵션${i.index+1}</td>
+												<td>${item.order_name }</td>
+											</tr>
+											<tr>
+												<td colspan="2"><img src="${item.order_value }"
+													alt="주문사진"></td>
+											</tr>
+										</c:if>
+										<c:if test="${item.order_option eq 'color' }">
+											<tr>
+												<td>주문옵션${i.index+1}</td>
+												<td>${item.order_name }</td>
+											</tr>
+											<tr>
+												<td colspan="2"><span
+													style="background-color: ${item.order_value}">
+														색상:${item.order_value }</span></td>
+											</tr>
+										</c:if>
+										<c:if test="${item.order_option eq 'text' }">
+											<tr>
+												<td>주문옵션${i.index+1}</td>
+												<td>${item.order_name }</td>
+											</tr>
+											<tr>
+												<td colspan="2">${item.order_value }</td>
+											</tr>
+										</c:if>
+									</c:forEach>
+								</table>
+							</c:if></td>
 						<td>${list.order_price }</td>
 						<td>${list.order_status }</td>
 						<td><c:if test="${list.order_status == '배송중' }">
