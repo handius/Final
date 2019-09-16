@@ -116,7 +116,7 @@
 				<div
 					class="col-xs-12 col-md-6 col-md-offset-0 panel panel-default left">
 					<div class="panel-heading">
-						<h3 class="panel-title">구매자 정보</h3>
+						<h3>구매자 정보</h3>
 					</div>
 					<div class="panel-body">
 						<div class="form-group">
