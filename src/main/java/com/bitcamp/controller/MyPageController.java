@@ -31,6 +31,7 @@ import com.bitcamp.DTO.comm.PageDTO;
 import com.bitcamp.DTO.customerqaboard.CustomerQABoardDTO;
 import com.bitcamp.DTO.freeboard.FreeboardDTO;
 import com.bitcamp.DTO.member.MemberDTO;
+import com.bitcamp.DTO.mypage.OrderOrderDTO;
 import com.bitcamp.DTO.order.OrderDTO;
 import com.bitcamp.DTO.productdetail.BuyReviewDTO;
 import com.bitcamp.DTO.productdetail.QABoardDTO;
@@ -168,11 +169,14 @@ public class MyPageController {
 		Map<String, Object> parameters = service.getBuyList(listMap);
 		List<OrderDTO> buyList = (List<OrderDTO>) parameters.get("buyList");
 		List<String> buyListImage_loc = (List<String>) parameters.get("buyListImage_loc");
+		List<List<OrderOrderDTO>> orderOrderList2 = (List<List<OrderOrderDTO>>) parameters.get("orderOrderList2");
 		//
 
 		model.addAttribute("buyList", buyList);
 		model.addAttribute("buyListImage_loc", buyListImage_loc);
+		model.addAttribute("orderOrderList2", orderOrderList2);
 		model.addAttribute("paging", page);
+		System.out.println("a-" + orderOrderList2);
 		return "mypage/buyList.mall";
 	}
 
@@ -322,10 +326,12 @@ public class MyPageController {
 		Map<String, Object> parameters = service.getSellList(listMap);
 		List<OrderDTO> sellList = (List<OrderDTO>) parameters.get("sellList");
 		List<MemberDTO> buyerList = (List<MemberDTO>) parameters.get("buyerList");
+		List<List<OrderOrderDTO>> orderOrderList2 = (List<List<OrderOrderDTO>>) parameters.get("orderOrderList2");
 		//
 
 		model.addAttribute("sellList", sellList);
 		model.addAttribute("buyerList", buyerList);
+		model.addAttribute("orderOrderList2", orderOrderList2);
 		model.addAttribute("paging", page);
 		return "mypage/sellList.mall";
 	}
@@ -459,15 +465,14 @@ public class MyPageController {
 		return "redirect:/buyList";
 	}
 
-	@RequestMapping(value = "/findPA", produces = "application/text; charset=utf8")
+	@RequestMapping(value = "/findPA", produces = "application/json; charset=utf8")
 	@ResponseBody
-	public String findPA(Principal prin, HttpSession session, @RequestParam int qa_board_no, Model model) {
+	public QABoardDTO findPA(Principal prin, HttpSession session, @RequestParam int qa_board_no, Model model) {
 		// MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
 		CustomUser user = (CustomUser) userService.loadUserByUsername(prin.getName());
 		MemberDTO memberDTO = user.getMember();
 		QABoardDTO qABoardDTO = service.findPA(qa_board_no);
-		String qa_board_content = qABoardDTO.getQa_board_content();
-		return qa_board_content;
+		return qABoardDTO;
 	}
 
 	// @RequestMapping(value = "/findPAN", produces = "application/text;
@@ -491,18 +496,29 @@ public class MyPageController {
 		CustomUser user = (CustomUser) userService.loadUserByUsername(prin.getName());
 		MemberDTO memberDTO = user.getMember();
 		QABoardDTO qABoardDTO = service.findQABoardDTO(qa_board_no);
+		if (qABoardDTO.getQa_board_parent_no() == 0) {
+			model.addAttribute("qAndA", "question");
+		} else {
+			model.addAttribute("qAndA", "answer");
+		}
 		model.addAttribute("qABoardDTO", qABoardDTO);
 		return "mypage/updateQa_board_content";
 	}
 
 	@RequestMapping("updateQa_board_contentResult/{qa_board_no}")
 	public String updateQa_board_contentResult(Principal prin, HttpSession session, @PathVariable int qa_board_no,
-			@RequestParam String qa_board_content, Model model) {
+			@RequestParam String qAndA, @RequestParam String qa_board_content, Model model) {
 		// MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
 		CustomUser user = (CustomUser) userService.loadUserByUsername(prin.getName());
 		MemberDTO memberDTO = user.getMember();
 		service.updateQa_board_content(qa_board_no, qa_board_content);
-		return "redirect:/buyerPQAList";
+		String redirect;
+		if ("question".equals(qAndA)) {
+			redirect = "redirect:/buyerPQAList";
+		} else {
+			redirect = "redirect:/sellerPQAList";
+		}
+		return redirect;
 	}
 
 	@RequestMapping("/updateQa_board_delete_status/{qa_board_no}")
@@ -584,5 +600,4 @@ public class MyPageController {
 		service.insertPQA(list_noInt, memberDTO.getMember_no(), qa_board_content, qa_board_parent_noInt);
 		return "redirect:/sellerPQAList";
 	}
-
 }

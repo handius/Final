@@ -784,8 +784,8 @@
 				
 			</div>
 			<div class="form-group">
-				<input type="reset" class="btn" style="background-color:#1ed676; color:white;" id="reset" value="취소"> 
-				<input type="submit" class="btn" style="background-color:#a6c7c6; color:white;" id="submit" value="제출"> 
+				<input type="reset" class="btn" style="background-color:#a6c7c6; color:white;" id="reset" value="취소"> 
+				<input type="submit" class="btn" style="background-color:#1ed676; color:white;" id="submit" value="제출"> 
 			</div>
 			
 		</form>

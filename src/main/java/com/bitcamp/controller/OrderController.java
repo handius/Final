@@ -1,5 +1,6 @@
 package com.bitcamp.controller;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,5 +42,10 @@ public class OrderController {
 		service.buyProduct(memberDTO.getMember_no(), orderDTO);
 		service.updateUserInfo(memberDTO.getMember_no(), name, call, address);
 		return "order/orderResult.mall";
+	}
+
+	@RequestMapping("support/{artist_no}")
+	public String support(Principal prin, HttpSession session, @PathVariable int artist_no) {
+		return "redirect:/artistDetail/" + artist_no;
 	}
 }

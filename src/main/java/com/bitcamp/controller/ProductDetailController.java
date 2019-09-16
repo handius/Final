@@ -108,6 +108,11 @@ public class ProductDetailController {
 		return resultMessage;
 	}
 	
+	@ResponseBody
+	@RequestMapping(value="ajaxListOrderMemberNoDelete", produces="application/text; charset=utf-8")
+	public String ajaxListOrderMemberNoDelete(@RequestBody HashMap<String, Object> hashmap) {
+		return service.listOrderMemberNoDeleteService(hashmap);
+	}
 	
 	@RequestMapping("/ajaxqaboardinsert")
 	public @ResponseBody String ajaxqaboardinsert(@RequestBody Map<String, Object> map, HttpSession session) {

@@ -1,10 +1,14 @@
 package com.bitcamp.service;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -67,6 +71,7 @@ public class ProductDetailService {
 		return map;
 	}
 	
+	@Transactional
 	public String productDelete(HashMap<String, Object> hashmap) {
 		String resultMessage = "삭제 실패";
 		mapper.productDelete(hashmap);
@@ -78,6 +83,25 @@ public class ProductDetailService {
 		}
 		return resultMessage;
 	}
+	
+	@Transactional
+	public String listOrderMemberNoDeleteService(HashMap<String, Object> hashmap) {
+		int list_order_member_no = Integer.parseInt(hashmap.get("list_order_member_no").toString());
+		mapper.listOrderMemberNoDelete(list_order_member_no);
+		System.out.println("작동됨!!");
+		int checkResult = mapper.listOrderMemberNoDeleteCheck(list_order_member_no);
+		String resultMessage = Integer.toString(list_order_member_no);
+		
+		if(checkResult == 0) {
+			resultMessage += "번 주문 삭제 성공";
+		}
+		else {
+			resultMessage += "번 주문 삭제 실패";
+		}
+		
+		System.out.println(resultMessage);
+		return resultMessage;
+	}
 
 	@Transactional
 	public int productDetailQandAInsertService(QABoardDTO qaboarddto) {
@@ -87,6 +111,7 @@ public class ProductDetailService {
 		return mapper.productDetailQandAInsertCheck(qa_board_no);
 	}
 
+	@Transactional
 	public Map<String, Object> productDetailQandAListService(Map<String, Object> map) {
 		int list_no = Integer.parseInt(map.get("list_no").toString());
 		int currentPage = Integer.parseInt(map.get("currentpage").toString());
@@ -135,6 +160,7 @@ public class ProductDetailService {
 		return list;
 	}
 	
+	@Transactional
 	public Map<String, Object> productDetailBuyReviewListService(Map<String, Object> map) {
 		int list_no = Integer.parseInt(map.get("list_no").toString());
 		int currentPage = Integer.parseInt(map.get("currentpage").toString());
@@ -154,5 +180,40 @@ public class ProductDetailService {
 		map.put("maxSql", maxSql);
 		
 		return map;
+	}
+	
+	//주문제작 쓰래기값 제거기 
+	@Scheduled(cron="0 0/60 * * * ?")
+	public void listOrderMemberBoardGarbageCollector() {
+		System.out.println("[주문제작 쓰래기제거 함수 시작]");
+		long start = System.currentTimeMillis();
+		List<Integer> listOrderMemberNoList = mapper.ScheduledListOrderMemberNoList();
+		List<Integer> ordermadeNoList = mapper.ScheduledOrderMadeNoList();
+		int deleteCount = 0;
+		
+		//물건살때 옵션이 날라가는것을 방지하기 위한 함수 제한 브레이크
+		int safeBreakSize = 0;
+		if(listOrderMemberNoList.size() != 0) {
+			//제한 브레이크는 총 여유량의 20%
+			safeBreakSize = (int) (listOrderMemberNoList.size()*0.2);
+			
+			//최소 여유량을 10으로 지정
+			if(safeBreakSize < 10) {
+				safeBreakSize = 10;
+			}
+		}
+		for(int i=0; i<listOrderMemberNoList.size()-safeBreakSize; i++) {
+			int list_order_member_no = listOrderMemberNoList.get(i);
+			if(!ordermadeNoList.contains(list_order_member_no)) {
+				mapper.ScheduledListOrderMemberNoDelete(list_order_member_no);
+				deleteCount++;
+			}
+		}
+		
+		long end = System.currentTimeMillis();
+		System.out.println("주문제작 쓰래기 제거하는데 걸린 시간 : "+(end-start)/1000.0+"초 ");
+		System.out.println("제거한 주문제작 쓰래기 개수 : "+deleteCount);
+		System.out.println("현재 쓰래기 가용량 : "+safeBreakSize);
+		System.out.println("[주문제작 쓰래기제거 함수 종료]");
 	}
 }

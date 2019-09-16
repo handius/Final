@@ -44,6 +44,7 @@ form * {
 <body>
 	<form method="post"
 		action="/updateQa_board_contentResult/${qABoardDTO.getQa_board_no() }">
+		<input type="hidden" name="qAndA" value="${qAndA }">
 		<textarea id="qa_board_content" name="qa_board_content" rows="10"
 			class="form-control">${qABoardDTO.getQa_board_content() }</textarea>
 		<div class="row">

@@ -106,9 +106,9 @@
   </div>
 </div>
 
-<div class="mainsettemplate">
-  <c:forEach var="i" items="${mainviewlist }">
-    <c:if test="${i.main_view_no == 2 && i.main_view_use == 1 }">
+<c:forEach var="i" items="${mainviewlist }">
+  <c:if test="${i.main_view_no == 2 && i.main_view_use == 1 }">
+	<div class="mainsettemplate">
       <div class="maintemplatetitle">${i.main_view_name }</div>
 	    <div class="row">
           <c:forEach var="i" items="${product1 }">
@@ -119,25 +119,25 @@
 	         </div>
           </c:forEach>
 	    </div>
-    </c:if>
-  </c:forEach>
-</div>
+	</div>
+  </c:if>
+</c:forEach>
 
-<div class="mainimgtemplate">
-  <c:forEach var="i" items="${mainimglist }">
-    <c:if test="${i.main_view_no == 3}">
+<c:forEach var="i" items="${mainimglist }">
+  <c:if test="${i.main_view_no == 3}">
+	<div class="mainimgtemplate">
       <div class="row">
       	<div class="col-xs-12">
-      	  <img src="${i.main_image_path }" alt="2">
+      	  <a href="${i.main_image_link }"><img src="${i.main_image_path }" alt="2"></a>
       	</div>
       </div>
-    </c:if>
-  </c:forEach>
-</div>
+	</div>
+  </c:if>
+</c:forEach>
 
-<div class="mainsettemplate">
-  <c:forEach var="i" items="${mainviewlist }">
-    <c:if test="${i.main_view_no == 4 && i.main_view_use == 1 }">
+<c:forEach var="i" items="${mainviewlist }">
+  <c:if test="${i.main_view_no == 4 && i.main_view_use == 1 }">
+	<div class="mainsettemplate">
       <div class="maintemplatetitle">${i.main_view_name }</div>
 	    <div class="row">
           <c:forEach var="i" items="${product2 }">
@@ -148,12 +148,12 @@
 	         </div>
           </c:forEach>
 	    </div>
-    </c:if>
-  </c:forEach>
-</div>
-<div class="mainsettemplate">
-  <c:forEach var="i" items="${mainviewlist }">
-    <c:if test="${i.main_view_no == 5 && i.main_view_use == 1 }">
+	</div>
+  </c:if>
+</c:forEach>
+<c:forEach var="i" items="${mainviewlist }">
+  <c:if test="${i.main_view_no == 5 && i.main_view_use == 1 }">
+	<div class="mainsettemplate">
       <div class="maintemplatetitle">${i.main_view_name }</div>
 	    <div class="row">
           <c:forEach var="i" items="${product3 }">
@@ -164,9 +164,9 @@
 	         </div>
           </c:forEach>
 	    </div>
-    </c:if>
-  </c:forEach>
-</div>
+	</div>
+  </c:if>
+</c:forEach>
     <div class="gotopicon">
         <span class="glyphicon glyphicon-chevron-up"></span>
     </div>

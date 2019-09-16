@@ -52,8 +52,15 @@
 }
 
 .sellList {
-	width: 100%;
-	margin: 5% 0;
+	font-size: 13px;
+}
+
+.sellList thead {
+	background-color: #7C7877;
+}
+
+.sellList tbody {
+	background-color: white;
 }
 
 .orderDTO {
@@ -75,17 +82,19 @@
 	<div class="container">
 		<h1>나의판매내역</h1>
 		<hr>
-		<table class="sellList">
+		<table class="table sellList">
 			<thead>
 				<tr>
-					<th>주문번호</th>
-					<th>주문일자</th>
-					<th>상품번호</th>
+					<th>결제번호</th>
+					<th>결제일자</th>
+					<th>결제번호</th>
 					<th>상품명</th>
-					<th>주문정보</th>
+					<th>결제정보</th>
+					<th>주문제작정보</th>
 					<th>총금액</th>
 					<th>상태</th>
 					<th>구매자정보</th>
+					<th></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -99,6 +108,44 @@
 								varStatus="status2">
 					${item }/${list.order_amount[status2.index] }개(+${list.order_amount[status2.index]*list.option_price[status2.index] }원)<br>
 							</c:forEach></td>
+						<td><c:if test="${list.ordermade_no==null }">완제품</c:if> <c:if
+								test="${list.ordermade_no!=null }">
+								<table>
+									<c:forEach var="item"
+										items="${orderOrderList2[status1.index] }" varStatus="i">
+										<c:if test="${item.order_option eq 'picture' }">
+											<tr>
+												<td>주문옵션${i.index+1}</td>
+												<td>${item.order_name }</td>
+											</tr>
+											<tr>
+												<td colspan="2"><img src="${item.order_value }"
+													alt="주문사진"></td>
+											</tr>
+										</c:if>
+										<c:if test="${item.order_option eq 'color' }">
+											<tr>
+												<td>주문옵션${i.index+1}</td>
+												<td>${item.order_name }</td>
+											</tr>
+											<tr>
+												<td colspan="2"><span
+													style="background-color: ${item.order_value}">
+														색상:${item.order_value }</span></td>
+											</tr>
+										</c:if>
+										<c:if test="${item.order_option eq 'text' }">
+											<tr>
+												<td>주문옵션${i.index+1}</td>
+												<td>${item.order_name }</td>
+											</tr>
+											<tr>
+												<td colspan="2">${item.order_value }</td>
+											</tr>
+										</c:if>
+									</c:forEach>
+								</table>
+							</c:if></td>
 						<td>${list.order_price }</td>
 						<td>${list.order_status }</td>
 						<td>${buyerList[status1.index].user_id }<br>

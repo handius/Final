@@ -77,11 +77,16 @@
 }
 
 .buyerPQAList {
-	width: 100%;
-	margin: 5% 0;
+	width: 90% !important;
+	margin: 5%;
+}
+
+.buyerPQAList thead {
+	background-color: #7C7877;
 }
 
 .accordion {
+	background-color: white;
 	border-top: 1px solid #D9D4CF;
 	border-bottom: 1px solid #D9D4CF;
 }
@@ -97,6 +102,10 @@
 .formPage {
 	display: flex;
 	justify-content: center;
+}
+
+.active>td {
+	background-color: #ccc !important;
 }
 
 .modal-header {
@@ -118,7 +127,7 @@
 	<div class="container">
 		<h1>나의상품문의</h1>
 		<hr>
-		<table class="buyerPQAList">
+		<table class="table buyerPQAList">
 			<thead>
 				<tr>
 					<th style="display: none;">번호</th>
@@ -126,6 +135,8 @@
 					<th>내용</th>
 					<th>문의일</th>
 					<th>상태</th>
+					<th></th>
+					<th></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -137,12 +148,12 @@
 						<td>${list.qa_board_date }</td>
 						<td>${list.qa_board_status }</td>
 						<td><c:if test="${list.qa_board_status == '미답변' }">
-								<button class="btn btn-default btn-block ifnotanswered"
+								<button class="btn btn-default btn-block update_btn"
 									value="${list.qa_board_no }" data-toggle="modal"
 									data-target="#myModal">수정</button>
 							</c:if></td>
 						<td><c:if test="${list.qa_board_status == '미답변' }">
-								<button class="btn btn-default btn-block delete_question_btn"
+								<button class="btn btn-default btn-block delete_btn"
 									value="${list.qa_board_no }">삭제</button>
 							</c:if></td>
 					</tr>
@@ -219,12 +230,13 @@
 						data : {
 							qa_board_no : d
 						},
-						dataType : "text",
+						dataType : "json",
 						type : "post",
 						success : function(data) {
 							/* if (!data) { */
 							/* $('#answer' + d).empty(); */
-							$('#answer' + d).append(data);
+							var qa_board_content = data.qa_board_content;
+							$('#answer' + d).append(qa_board_content);
 							/* } */
 						},
 						error : function(data) {
@@ -238,7 +250,7 @@
 		}
 
 		// '수정' 버튼
-		$('.ifnotanswered').click(function() {
+		$('.update_btn').click(function() {
 			$.ajax({
 				url : "/updateQa_board_content/" + $(this).val(),
 				type : "GET",
@@ -254,7 +266,7 @@
 		});
 
 		// '삭제' 버튼
-		$('.delete_question_btn').click(
+		$('.delete_btn').click(
 				function() {
 					if (confirm('정말로 삭제하시겠습니까?')) {
 						alert("삭제가 완료되었습니다.");

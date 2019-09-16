@@ -388,13 +388,58 @@
         		margin: 0 !important;
         	}
         	
+        	#artistDetailImgBox {
+        		height: 400px;
+        	}
+        	
+        	#artistAsideArtistInfoBox {
+        		height: 600px;
+        	}
+        	
+        	#artistDetailModifyPage, #artistDetailActiveToggle {
+        		height: 70px;
+        		font-size: 32px;
+        		margin-top: 20px;
+        	}
+        	
+        	#artistAsideArtistInfoArtistName {
+        		height: 100px;
+        		font-size: 50px;
+        	}
+        	
+        	#artistAsideArtistInfoScore {
+        		height: 100px;
+        		font-size: 60px;
+        	}
+        	
+        	#artistAsideArtistInfoNumScore {
+        		font-size: 50px;
+        	}
+        	
+        	#artistAsideArtistInfoVisitCount {
+        		height: 180px;
+        		font-size: 30px;
+        	}
+        	
+        	#artistDetailUrlCoppy, #artistDetailDonation {
+        		height: 90px;
+        		font-size: 40px;
+        		margin-bottom: 20px;
+        	}
+        	
             #artistDetailBox {
                 padding: 30px 0;
                 margin-bottom: 60px;
             }
             
             #artistDetailTitleBox {
+            	height: 400px;
+            	font-size: 40px;
             	padding: 0 20px;
+            }
+            
+            .artistDetailLine {
+            	font-size: 40px;
             }
             
             .artistDetailBuyReview {
@@ -412,10 +457,119 @@
             	height: 100%;
             }
             
+            .artistDetailBuyReviewProductTitle {
+            	line-height: 80px;
+            	font-size: 40px;
+            }
+            
+            .artistDetailBuyReviewProductOption {
+            	line-height: 60px;
+            	font-size: 30px;
+            }
+            
+            .artistDetailBuyReviewContent {
+            	height: 180px;
+            	font-size: 30px;
+            }
+            
+            .artistDetailBuyReviewStarScore {
+            	line-height: 60px;
+            	font-size: 60px;
+            }
+            
+            .artistDetailBuyReviewUserName {
+            	line-height: 60px;
+            	font-size: 40px;
+            	padding-top: 10px;
+            }
+            
+            
             #artistDetailProductCollectionButton, #artistDetailBuyReviewCollectionButton {
+            	height: 80px;
+            	font-size: 40px;
             	margin-left: 25%;
             	margin-top: 20px;
             }
+            
+            #artistAsideRepBox {
+            	height: 1400px;
+            }
+            
+            #artistAsideRepTitle {
+            	height: 100px;
+            	font-size: 40px;
+            	padding-top: 40px;
+            }
+            
+            #artistAsideRepContentBox {
+            	height: 1200px;
+            }
+            
+            .artistAsideRepUserName {
+            	height: 50px;
+            	font-size: 30px;
+            }
+            
+            .artistAsideRepUserContent {
+            	min-height: 60px;
+            	border-radius: 20%;
+            	font-size: 30px;
+            	padding: 16px 20px;
+            }
+            
+            #artistAsideRepInputBox {
+            	height: 100px;
+            }
+            
+            #artistAsideRepInput {
+            	height: 70px;
+            	line-height: 70px;
+            	font-size: 30px;
+            }
+            
+            #artistAsideRepButton {
+            	height: 70px;
+            	font-size: 30px;
+            }
+            /* 모달창 */
+            .modal-dialog {
+            	max-width: 100%;
+            }
+            
+            .close span {
+            	font-size: 50px;
+            }
+            
+            .modal-content {
+            	height: 500px;
+            }
+            
+            .modal-title {
+            	font-size: 50px !important;
+            }
+            
+            .modal-body {
+            	height: 370px;
+            }
+            
+            #donationList li span {
+            	font-size: 40px;
+            }
+            
+            #donationList li label {
+            	font-size: 40px;
+            }
+            
+            #donationList li input {
+            	width: 30px;
+            	height: 30px;
+            }
+            
+            .donationButton {
+            	height: 90px;
+            	font-size: 50px;
+            }
+            
         }
         
     </style>
@@ -830,7 +984,7 @@
         				<h4 class="modal-title" id="myModalLabel">후원하기</h4>
       				</div>
       				<div class="modal-body">
-          				<form method="post" action="list.do">
+          				<form method="post" action="../support/${artistBoardDetail.artist_no }" id="support">
              				<ul id="donationList">
                 				<li>
                     				<span class="glyphicon glyphicon-cutlery donationIcon"></span>
@@ -861,5 +1015,42 @@
   			</div> <!-- 모달 다이얼로그 -->
 		</div> <!-- 모달 전체 윈도우 -->
     </div>
+    <!-- 후원하기 -->
+    <script type="text/javascript"
+		src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+	<script>
+		$('#support').on('submit', function(event) {
+			event.preventDefault();
+			var IMP = window.IMP; // 생략가능
+			IMP.init('imp85472948'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
+			var support_amount = $('input[name="donation"]:checked').val();
+			IMP.request_pay({
+				pg : 'html5_inicis', // version 1.1.0부터 지원.
+				pay_method : 'card',
+				merchant_uid : 'merchant_' + new Date().getTime(),
+				name : '${artistInfo.user_id }님 후원',
+				amount : support_amount,
+				buyer_email : '${sessionScope.member.user_email}',
+				buyer_name : '${sessionScope.member.user_id}',
+				buyer_tel : '${sessionScope.member.user_call}',
+				buyer_addr : '${sessionScope.member.user_address}',
+			//m_redirect_url : 'https://www.yourdomain.com/payments/complete'
+			}, function(rsp) {
+				if (rsp.success) {
+					var msg = '결제가 완료되었습니다.';
+					msg += '고유ID : ' + rsp.imp_uid;
+					msg += '상점 거래ID : ' + rsp.merchant_uid;
+					msg += '결제 금액 : ' + rsp.paid_amount;
+					msg += '카드 승인번호 : ' + rsp.apply_num;
+					$('#payment').off('submit');
+					$('#payment').trigger('submit');
+				} else {
+					var msg = '결제에 실패하였습니다.';
+					msg += '에러내용 : ' + rsp.error_msg;
+				}
+				alert(msg);
+			});
+		});
+	</script>
 </body>
 </html>

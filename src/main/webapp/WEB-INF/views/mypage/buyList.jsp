@@ -51,8 +51,15 @@
 }
 
 .buyList {
-	width: 100%;
-	margin: 5% 0;
+	font-size: 13px;
+}
+
+.buyList thead {
+	background-color: #7C7877;
+}
+
+.buyList tbody {
+	background-color: white;
 }
 
 .orderDTO {
@@ -72,7 +79,7 @@
 	width: 30%;
 }
 
-.orderDTO td table tr td img {
+.image img {
 	width: 50%;
 }
 
@@ -108,13 +115,15 @@
 	<div class="container">
 		<h1>나의구매내역</h1>
 		<hr>
-		<table class="buyList">
+		<table class="table buyList">
 			<thead>
 				<tr>
 					<th>주문일자</th>
 					<th>상품정보</th>
+					<th>주문제작정보</th>
 					<th>결제금액</th>
 					<th>상태</th>
+					<th></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -134,6 +143,44 @@
 										</c:forEach></td>
 								<tr>
 							</table></td>
+						<td><c:if test="${list.ordermade_no==null }">완제품</c:if> <c:if
+								test="${list.ordermade_no!=null }">
+								<table>
+									<c:forEach var="item"
+										items="${orderOrderList2[status1.index] }" varStatus="i">
+										<c:if test="${item.order_option eq 'picture' }">
+											<tr>
+												<td>주문옵션${i.index+1}</td>
+												<td>${item.order_name }</td>
+											</tr>
+											<tr>
+												<td colspan="2"><img src="${item.order_value }"
+													alt="주문사진"></td>
+											</tr>
+										</c:if>
+										<c:if test="${item.order_option eq 'color' }">
+											<tr>
+												<td>주문옵션${i.index+1}</td>
+												<td>${item.order_name }</td>
+											</tr>
+											<tr>
+												<td colspan="2"><span
+													style="background-color: ${item.order_value}">
+														색상:${item.order_value }</span></td>
+											</tr>
+										</c:if>
+										<c:if test="${item.order_option eq 'text' }">
+											<tr>
+												<td>주문옵션${i.index+1}</td>
+												<td>${item.order_name }</td>
+											</tr>
+											<tr>
+												<td colspan="2">${item.order_value }</td>
+											</tr>
+										</c:if>
+									</c:forEach>
+								</table>
+							</c:if></td>
 						<td>${list.order_price }</td>
 						<td>${list.order_status }</td>
 						<td><c:if test="${list.order_status == '배송중' }">
@@ -183,34 +230,30 @@
 		</div>
 	</div>
 	<script>
-		$(document).ready(function() {
-			$("input[name=cor]").click(function() {
-				var d = $(this).next().text();
-				if (confirm("상품을 받으셨나요?\n상품을 받으신 분만 수취확인을 해주세요.")) {
-					alert("수취확인이 완료되었습니다.");
-					location.href = "cor/" + d;
-				} else {
-					alert("수취확인을 취소하였습니다.");
-				}
-				return false;
-			});
+		$("input[name=cor]").click(function() {
+			var d = $(this).next().text();
+			if (confirm("상품을 받으셨나요?\n상품을 받으신 분만 수취확인을 해주세요.")) {
+				alert("수취확인이 완료되었습니다.");
+				location.href = "cor/" + d;
+			} else {
+				alert("수취확인을 취소하였습니다.");
+			}
+			return false;
 		});
-		$(document).ready(function() {
-			$("input[name=rw]").click(function() {
-				var d = $(this).next().text();
-				$.ajax({
-					url : "/rw",
-					type : "GET",
-					data : "order_no=" + d,
-					dataType : "html",
-					success : function(data) {
-						$('#insertBuyReview').empty();
-						$('#insertBuyReview').append(data);
-					},
-					error : function(data) {
-						alert("error");
-					}
-				});
+		$("input[name=rw]").click(function() {
+			var d = $(this).next().text();
+			$.ajax({
+				url : "/rw",
+				type : "GET",
+				data : "order_no=" + d,
+				dataType : "html",
+				success : function(data) {
+					$('#insertBuyReview').empty();
+					$('#insertBuyReview').append(data);
+				},
+				error : function(data) {
+					alert("error");
+				}
 			});
 		});
 	</script>

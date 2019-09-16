@@ -75,11 +75,16 @@
 }
 
 .cQAList {
-	width: 100%;
-	margin: 5% 0;
+	width: 90% !important;
+	margin: 5%;
+}
+
+.cQAList thead {
+	background-color: #7C7877;
 }
 
 .accordion {
+	background-color: white;
 	border-top: 1px solid #D9D4CF;
 	border-bottom: 1px solid #D9D4CF;
 }
@@ -87,11 +92,16 @@
 .customerQA {
 	display: flex;
 	justify-content: flex-end;
+	margin: 0 5%;
 }
 
 .formPage {
 	display: flex;
 	justify-content: center;
+}
+
+.active>td {
+	background-color: #ccc !important;
 }
 </style>
 </head>
@@ -99,7 +109,7 @@
 	<div class="container">
 		<h1>나의고객문의</h1>
 		<hr>
-		<table class="cQAList">
+		<table class="table cQAList">
 			<thead>
 				<tr>
 					<th>문의유형</th>

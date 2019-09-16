@@ -21,6 +21,9 @@ public interface ProductDetailMapper {
 	public void productDelete(HashMap<String, Object> hashmap);
 	public int productDeleteCheck(int list_no);
 	//
+	public void listOrderMemberNoDelete(int list_order_member_no);
+	public int listOrderMemberNoDeleteCheck(int list_order_member_no);
+	//
 	public int productDetailQandAInsertSeq();
 	public int productDetailQandAInsert(QABoardDTO qaboarddto);
 	public int productDetailQandAInsertCheck(int qa_board_no);
@@ -31,4 +34,8 @@ public interface ProductDetailMapper {
 	//
 	public int productDetailBuyReviewListMaxCount(int list_no);
 	public List<BuyReviewDTO> productDetailBuyReviewList(BuyReviewDTO buyreviewdto);
+	//
+	public List<Integer> ScheduledListOrderMemberNoList();
+	public List<Integer> ScheduledOrderMadeNoList();
+	public void ScheduledListOrderMemberNoDelete(int list_order_member_no);
 }

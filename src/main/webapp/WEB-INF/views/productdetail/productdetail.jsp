@@ -567,7 +567,8 @@
             font-size: 50px;
             display: none;
         }
-
+		
+		/* 일반 반응형 */
         @media (max-width: 991px) {
             .container {
                 width: 100% !important;
@@ -598,20 +599,73 @@
                 z-index: 9;
             }
             
-            .productDetailAsideOptionPriceResult {
-            	margin-right: 0;
+            #productDetailContent {
+				font-size: 30px;            
             }
             
-            .totalOptionPriceResult {
-            	margin-right: 0;	
+            .productDetailLine div, .productDetailLine span {
+            	font-size: 35px;
+            }
+            
+            #productDetailTap li a {
+            	font-size: 30px;
             }
             
             .productDetailQandA{
                 max-width: 100%;
+                height: 200px;
             }
             
             .productDetailQandAResponse {
             	width: 90%;
+            	height: 200px;
+            }
+            
+            .productDetailQandAStatusCircle {
+            	width: 150px !important;
+            	height: 150px;
+            	line-height: 150px;
+            	font-size: 40px;
+            }
+            
+            .productDetailQandAWriter {
+            	height: 60px;
+            	font-size: 30px;
+            }
+            
+            .productDetailQandAWriterDate {
+            	height: 60px;
+            	font-size: 30px;
+            }
+            
+            .productDetailQandAContent {
+            	height: 140px;
+            	font-size: 30px;
+            }
+            
+            #productDetailQandAInputCheckBox label{
+            	font-size: 30px;
+            }
+            
+            #productDetailQandASecretCheckBox input {
+            	width: 30px;
+            	height: 30px;
+            }
+            
+            #productDetailQandAInput {
+            	height: 100px;
+            	font-size: 35px;
+            	margin-bottom: 30px;
+            }
+            
+            #productDetailQandAInputButton {
+            	height: 100px;
+            	font-size: 36px;
+            }
+            
+            .moreButton {
+            	height: 80px;
+            	font-size: 40px;
             }
             
             .productDetailBuyReview {
@@ -630,9 +684,136 @@
                 width: 100%;
                 height: 100%;
             }
+            
+            .productDetailBuyReviewOption {
+            	height: 40px;
+            	font-size: 30px;
+            }
+            
+            .productDetailBuyReviewContent {
+            	height: 200px;
+            	font-size: 30px;
+            }
+            
+            .productDetailBuyReviewScore {
+            	height: 60px;
+            	font-size: 50px !important;
+            }
+            
+            .productDetailBuyReviewWriter, .productDetailBuyReviewWriteDate{
+            	height: 60px;
+            	font-size: 30px;
+            }
+            
+            .table {
+            	font-size: 25px;
+            }
+            
+            #MobileBuyCloseButtonBox {
+            	font-size: 100px;
+            }
+            
+            #productDetailAsideProductName {
+            	font-size: 50px;
+            }
+            
+            #productDetailAsideArtistName {
+            	font-size: 30px;
+            }
+            
+            .productDetailAsideOptionResultBox {
+            	height: 180px;
+            }
+            
+            .productDetailAsideOptionName {
+            	height: 80px;
+            	line-height: 70px;
+            }
+            
+            .productDetailAsideOptionNameResult {
+            	font-size: 30px;
+            }
+            
+            .productDetailAsideOptionCancel {
+            	height: 80px;
+            }
+            
+            .productDetailAsideOptionCancel span {
+            	font-size: 40px;
+            }
+            
+            .productDetailAsideOptionNumBox {
+            	height: 60px;
+            	padding-top: 15px;
+            }
+            
+            .productDetailAsideOptionNumBox .numButton {
+            	width: 50px;
+            	height: 50px;
+            	font-size: 32px;
+            }
+            
+            .productDetailAsideOptionNum {
+            	width: 100px;
+            	height: 50px;
+            	font-size: 30px;
+            	padding-left: 45px;
+            }
+            
+            .productDetailAsideOptionPrice {
+            	height: 60px;
+            	padding-top: 15px;
+            }
+            
+            .productDetailAsideOptionPrice span  {
+            	font-size: 30px;
+            }
+            
+            .productDetailAsideOptionPriceResult {
+            	font-size: 30px;
+            	margin-right: 0;
+            }
+            
+            #totalOptionPriceBox .col-xs-5 {
+            	font-size: 30px;
+            }
+            
+            .totalOptionPriceResult {
+            	font-size: 30px;
+            	margin-right: 0;	
+            }
+            
+            .totalOptionPrice span {
+            	font-size: 30px;
+            }
+            
+            .asideOptionButton {
+            	height: 70px;
+            	font-size: 30px;
+            }
+            
+            .dropdown-menu li {
+            	height: 50px;
+            	font-size: 28px;
+            }
+            
+            .customerOrderTitle, .customerOrderValueColor {
+            	height: 70px;
+            	line-height: 70px;
+            	font-size: 30px;
+            }
+            
+            .customerOrderValueTextBox {
+            	height: 210px;
+            }
+            
+            .customerOrderValueText {
+            	height: 138px;
+            	font-size: 30px;
+            }
         
         	.customerOrderValueImgBox {
-        	height: 400px;
+        		height: 400px;
         	}
         
         	.customerOrderValueImg {
@@ -644,12 +825,15 @@
             	height: 100%;
             	object-fit: cover;
         	}
+        	
 
             .productDetailMain {
                 padding: 0;
             }
 
             .MobileBuyLinkButton {
+            	height: 100px;
+            	font-size: 60px;
             	margin: 0;
             }
             
@@ -661,6 +845,11 @@
                 display: inherit;
             }
             
+            .asideBuyButton {
+            	height: 100px;
+            	font-size: 50px;
+            }
+            
         }
     </style>
     <script>
@@ -669,7 +858,7 @@
         //창 크기가 줄어들었을때 모바일 창을 작동
         window.onresize = function(event) {
         	mobileViewConverter();
-        };
+        }
         
         //새로고침 했을때 이전사이트로 이동 (82 : r키, 116 : f5)
         document.onkeydown = function(event) {
@@ -679,14 +868,56 @@
         		let list_no = $('#list_no').val();
         		
         		if(orderList) {
-        			alert("이전으로 돌아갑니다.");
-        			window.location.href="/checkIsOrdered?no="+list_no;
+        			//새로고침시 주문삭제
+        			if(confirm("주문옵션이 저장되지 않습니다. 계속 하시겠습니까?") == true) {
+        				let order = $('input[name="list_order_member_no"]');
+        				for(let i=0; i<order.length; i++) {
+        					let list_order_member_no = Number($('input[name="list_order_member_no"]:eq('+i+')').val());
+        					$.ajax({
+        		    			url:"/ajaxListOrderMemberNoDelete"
+        		    			,contentType: 'application/json; charset=utf-8'
+        		    			,data: JSON.stringify({list_order_member_no : list_order_member_no})
+        		    			,dataType: "text"
+        		    			,type: "POST"
+        		    			,success:function(data){
+        		    				console.log(data);
+        		    			}
+        		    			,error:function(data){
+        		    				console.log('주문 삭제 실패');
+        		    			}
+        		    		});
+        				}
+        				window.location.href="/checkIsOrdered?no="+list_no;
+        			}
         		}
         		else {
         			window.location.href="/productDetail/"+list_no;
         		}
         	}
 		}
+        
+        function orderlistDelete() {
+        	if(confirm("주문옵션이 저장되지 않습니다. 계속 하시겠습니까?") == true) {
+				let order = $('input[name="list_order_member_no"]');
+				for(let i=0; i<order.length; i++) {
+					let list_order_member_no = Number($('input[name="list_order_member_no"]:eq('+i+')').val());
+					$.ajax({
+		    			url:"/ajaxListOrderMemberNoDelete"
+		    			,contentType: 'application/json; charset=utf-8'
+		    			,data: JSON.stringify({list_order_member_no : list_order_member_no})
+		    			,dataType: "text"
+		    			,type: "POST"
+		    			,success:function(data){
+		    				console.log(data);
+		    			}
+		    			,error:function(data){
+		    				console.log('주문 삭제 실패');
+		    			}
+		    		});
+				}
+				window.location.href="/checkIsOrdered?no="+list_no;
+			}
+        }
         
         //스크롤이 푸터영역에 다다르면 사이드창을 고정시킴
         $(window).scroll(function() {
@@ -753,7 +984,13 @@
             let asideHeight = $('#productDetailAside').innerHeight();
             let headerHeight = $('#mallmenu').innerHeight();
             let scrollPosition = $(window).scrollTop() + windowHeight +headerHeight;
-            let endBlockTop = $('#footer').offset().top;
+            let endBlockTop = 0;
+            if($('#footer').length == 1) {
+            	endBlockTop = $('#footer').offset().top;
+            }
+            else {
+            	endBlockTop = $('#mobileFooter').offset().top;
+            }
             
             if(windowWidth > 991) {
                 if (endBlockTop > scrollPosition) {
@@ -956,18 +1193,18 @@
     						//해당 작가가 아니라면
     						if(qalist[i].level == 1) {
     							result += '<div class="row productDetailQandA">';
-    							result += '<div class="col-sm-1 col-xs-2 productDetailQandAStatus"><div class="col-xs-12 productDetailQandAStatusCircle">'+qalist[i].qa_board_status+'</div></div>';
-        						result += '<div class="col-sm-6 col-xs-5 productDetailQandAWriter">'+qalist[i].user_name+'</div>';
-        						result += '<div class="col-sm-5 col-xs-5 productDetailQandAWriterDate">'+jsonDateConverter(qalist[i].qa_board_date)+'</div>';
-        						result += '<div class="col-sm-11 col-xs-10 productDetailQandAContent">'+qalist[i].qa_board_content+'</div>';
+    							result += '<div class="col-md-1 col-xs-2 productDetailQandAStatus"><div class="col-xs-12 productDetailQandAStatusCircle">'+qalist[i].qa_board_status+'</div></div>';
+        						result += '<div class="col-md-6 col-xs-5 productDetailQandAWriter">'+qalist[i].user_name+'</div>';
+        						result += '<div class="col-md-5 col-xs-5 productDetailQandAWriterDate">'+jsonDateConverter(qalist[i].qa_board_date)+'</div>';
+        						result += '<div class="col-md-11 col-xs-10 productDetailQandAContent">'+qalist[i].qa_board_content+'</div>';
         						result += '</div>';
     						}
     						else {
     							result += '<div class="row productDetailQandAResponse">';
-    							result += '<div class="col-sm-1 col-xs-2 productDetailQandAStatus"><div class="col-xs-12 productDetailQandAStatusCircle">답변</div></div>';
-        						result += '<div class="col-sm-6 col-xs-5 productDetailQandAWriter">'+qalist[i].user_name+'</div>';
-        						result += '<div class="col-sm-5 col-xs-5 productDetailQandAWriterDate">'+jsonDateConverter(qalist[i].qa_board_date)+'</div>';
-        						result += '<div class="col-sm-11 col-xs-10 productDetailQandAContent">'+qalist[i].qa_board_content+'</div>';
+    							result += '<div class="col-md-1 col-xs-2 productDetailQandAStatus"><div class="col-xs-12 productDetailQandAStatusCircle">답변</div></div>';
+        						result += '<div class="col-md-6 col-xs-5 productDetailQandAWriter">'+qalist[i].user_name+'</div>';
+        						result += '<div class="col-md-5 col-xs-5 productDetailQandAWriterDate">'+jsonDateConverter(qalist[i].qa_board_date)+'</div>';
+        						result += '<div class="col-md-11 col-xs-10 productDetailQandAContent">'+qalist[i].qa_board_content+'</div>';
         						result += '</div>';
     						}
     					}
