@@ -7,6 +7,7 @@ import com.bitcamp.DTO.Product.ListDTO;
 import com.bitcamp.DTO.customerqaboard.CustomerQABoardDTO;
 import com.bitcamp.DTO.freeboard.FreeboardDTO;
 import com.bitcamp.DTO.member.MemberDTO;
+import com.bitcamp.DTO.mypage.OrderOrderDTO;
 import com.bitcamp.DTO.order.OrderDTO;
 import com.bitcamp.DTO.productdetail.BuyReviewDTO;
 import com.bitcamp.DTO.productdetail.QABoardDTO;
@@ -100,4 +101,6 @@ public interface MyPageMapper {
 	void updateQa_board_statusU(int qa_board_no);
 
 	void updateQa_board_statusA(int qa_board_no);
+
+	OrderOrderDTO findOrderOrderDTO(int ordermade_no_int);
 }

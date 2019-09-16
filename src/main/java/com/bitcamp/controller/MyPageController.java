@@ -31,6 +31,7 @@ import com.bitcamp.DTO.comm.PageDTO;
 import com.bitcamp.DTO.customerqaboard.CustomerQABoardDTO;
 import com.bitcamp.DTO.freeboard.FreeboardDTO;
 import com.bitcamp.DTO.member.MemberDTO;
+import com.bitcamp.DTO.mypage.OrderOrderDTO;
 import com.bitcamp.DTO.order.OrderDTO;
 import com.bitcamp.DTO.productdetail.BuyReviewDTO;
 import com.bitcamp.DTO.productdetail.QABoardDTO;
@@ -168,11 +169,14 @@ public class MyPageController {
 		Map<String, Object> parameters = service.getBuyList(listMap);
 		List<OrderDTO> buyList = (List<OrderDTO>) parameters.get("buyList");
 		List<String> buyListImage_loc = (List<String>) parameters.get("buyListImage_loc");
+		List<List<OrderOrderDTO>> orderOrderList2 = (List<List<OrderOrderDTO>>) parameters.get("orderOrderList2");
 		//
 
 		model.addAttribute("buyList", buyList);
 		model.addAttribute("buyListImage_loc", buyListImage_loc);
+		model.addAttribute("orderOrderList2", orderOrderList2);
 		model.addAttribute("paging", page);
+		System.out.println("a-" + orderOrderList2);
 		return "mypage/buyList.mall";
 	}
 
@@ -322,10 +326,12 @@ public class MyPageController {
 		Map<String, Object> parameters = service.getSellList(listMap);
 		List<OrderDTO> sellList = (List<OrderDTO>) parameters.get("sellList");
 		List<MemberDTO> buyerList = (List<MemberDTO>) parameters.get("buyerList");
+		List<List<OrderOrderDTO>> orderOrderList2 = (List<List<OrderOrderDTO>>) parameters.get("orderOrderList2");
 		//
 
 		model.addAttribute("sellList", sellList);
 		model.addAttribute("buyerList", buyerList);
+		model.addAttribute("orderOrderList2", orderOrderList2);
 		model.addAttribute("paging", page);
 		return "mypage/sellList.mall";
 	}

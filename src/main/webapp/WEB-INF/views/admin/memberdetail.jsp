@@ -84,6 +84,7 @@
                         <c:if test="${detail.user_authority == 'ROLE_SELLER' }">작가</c:if>
                         <c:if test="${detail.user_authority == 'ROLE_MEMBER' }">회원</c:if>
                         <c:if test="${detail.user_authority == 'ROLE_USER' }">인증필요</c:if>
+                        <c:if test="${detail.user_authority == 'ROLE_ADMIN' }">관리자</c:if>
                       </td>
                       <td class="td_one">가입일</td>
                       <td class="td_two"><c:out value="${detail.user_regidate }"/></td>

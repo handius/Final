@@ -130,7 +130,7 @@
           </div>
 		</c:if>
           <div class="pagination_block">
-			  <form action="/admin/analnewmember" method="post">
+			  <form action="/admin/analproduct" method="post">
 			  	  <c:if test="${paging.totalcount != 0 }">
 			  	  
 					<!-- 검색 값 -->

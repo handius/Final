@@ -8,7 +8,10 @@
 	<select id="getMemberCount" parameterType="Object" resultType="int">
 		SELECT COUNT(*)
 		FROM MEMBER
-		<where><include refid="search_where"></include></where>
+		<where>
+        	USER_STATUS = 1
+			<include refid="search_where"></include>
+        </where>
 	</select>
 	<select id="getMemberList" parameterType="Object"
 							   resultType="com.bitcamp.DTO.member.MemberDTO">
@@ -25,6 +28,7 @@
 				ROWNUM <= #{endrow}
 		        ]]>
 		        	<include refid="search_where"></include>
+                AND USER_STATUS = 1
 		        </where>
 		        ORDER BY USER_REGIDATE DESC
 		     ) A
