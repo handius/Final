@@ -32,7 +32,7 @@
     
     .mobilegotopicon > img {
         position: fixed;
-        z-index: 1;
+        z-index: 11;
         bottom: 50px;
         right: 50px;
         height: 100px;

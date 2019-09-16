@@ -238,7 +238,7 @@
 		}
 		
 		.listbox .thumbnail {
-			height: 670px;
+			height: 720px;
 		}
 		
 		.listbox .thumbnail img {
@@ -246,7 +246,7 @@
 		}
 		
 		.listbox .caption {
-			height: 133px;
+			height: 183px;
 		}
 		
 		.listbox .caption h4 a {
@@ -262,6 +262,11 @@
 			position: static;
 		}
 		
+		.removeCheck {
+			width: 40px;
+			height: 40px;
+		}
+		
 		#hashform label {
 			width: 30%;
 			height: 50px;
@@ -275,6 +280,12 @@
 			width: 50px;
 			height: 50px;
 			font-size: 30px;
+		}
+		
+		#productDetailDeleteRemove {
+			width: 90%;
+			height: 100px;
+			font-size: 50px;
 		}
 	}
 	@media(max-width:980px){
@@ -540,7 +551,7 @@
 			</ul>
 			<div id="deletebtn">
 				<c:if test="${isAdmin }">
-					<button type="button" class="btn" style="background-color:#ABD0CE; color:white;" onclick="onDelete()">게시글 삭제</button>
+					<button type="button" class="btn" style="background-color:#ABD0CE; color:white;" onclick="onDelete()" id="productDetailDeleteRemove">게시글 삭제</button>
 				</c:if>
 			</div>
 		</div>

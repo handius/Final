@@ -253,6 +253,7 @@ public class ArtistService {
 	}
 	
 	//일정 시간마다 자동 별점 계산
+	@Transactional
 	@Scheduled(cron="0 0/5 * * * ?") 
 	public void artistScoreScheduler() {
 		System.out.println("[작가 자동 별점 계산 시작]");

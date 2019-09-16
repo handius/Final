@@ -285,7 +285,7 @@
 
         /* 사이드 */
         
-        #productRemove {
+        #productRemove, #productActive {
         	width: 100%;
         	height: 50px;
         	display: none;
@@ -946,7 +946,8 @@
             $('#productDetailQandAMoreButton').on('click', qaBoardList);
             $('#productDetailBuyReviewMoreButton').on('click',buyReviewList);
             $('#artistDetailPageMove').on('click', artistDetailPageMove);
-            $('#productRemove').on('click',productRemove);
+            $('#productRemove').on('click', productDetailPageToggle);
+            $('#productActive').on('click', productDetailPageToggle);
         });
         
         //반응형 사이드 변환함수
@@ -967,7 +968,7 @@
             if (windowWidth > 991 && mobileViewConverterToggle == 0) {
                 $('#productDetailAside').show();
                 $('#productDetailAside').css('display', 'inline-block');
-                $('#productDetailAside').css('top', '13%').css('position','fixed');
+                $('#productDetailAside').css('top', '12.8%').css('position','fixed');
                 $('#MobileBuyCloseButtonBox').hide();
                 mobileViewConverterToggle = 1;
             }
@@ -1300,32 +1301,31 @@
         	let productRemoveDecision = $('#productRemoveDecision').val();
         	if(productRemoveDecision == 'true') {
         		$('#productRemove').show();
+        		$('#productActive').show();
         	}
         }
         
-        function productRemove() {
+        function productDetailPageToggle() {
         	let listNo = $('#list_no').val();
-        	if(confirm("상품을 삭제하시겠습니까?")) {
-        		$.ajax({
-        			url:"/productDetail/ajaxProductDelete"
-        			,contentType: "application/json; charset=utf-8"
-        			,data: JSON.stringify({list_no:listNo})
-        			,dataType: "text"
-        			,type: "POST"
-        			,success: function(data) {
-        				alert(data);
-        				if(data == "삭제 성공") {
-        					location.href="/";
-        				}
-        				else if(data == "로그인부터 하세요") {
-        					location.href="/login";
-        				}
+        	$.ajax({
+        		url:"/productDetail/ajaxProductToggle"
+        		,contentType: "application/json; charset=utf-8"
+        		,data: JSON.stringify({list_no:listNo})
+        		,dataType: "text"
+        		,type: "POST"
+        		,success: function(data) {
+        			alert(data);
+        			if(data == "로그인부터 하세요") {
+        				location.href="/login";
         			}
-        			,error: function(data) {
-        				alert("알수없는 오류");
+        			else {
+        				location.href="/productDetail/"+listNo;
         			}
-        		});
-        	}
+        		}
+        		,error: function(data) {
+        			alert("알수없는 오류");
+        		}
+        	});
         }
          
     </script>
@@ -1378,7 +1378,12 @@
                 <div id="MobileBuyCloseButtonBox">
                     <span class="glyphicon glyphicon-chevron-down MobileBuyCloseButton"></span>
                 </div>
-                <input type="button" value="상품 삭제" id="productRemove">
+                <c:if test="${listDTO.list_status == 1 }">
+                	<input type="button" value="상품 비활성" id="productRemove">
+                </c:if>
+                <c:if test="${listDTO.list_status == 0 }">
+               		<input type="button" value="상품 활성" id="productActive">
+                </c:if>
                 <div class="productDetailAsideBlock" id="productDetailAsideProductName">
                     	<c:out value="${listDTO.list_title }"></c:out>
                 </div>
