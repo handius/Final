@@ -104,5 +104,21 @@ from (select rownum as num ,buy_review_no, buy_review_date, buy_review_content, 
     order by buy_review_date desc) e
     where num <![CDATA[>]]>= #{start_sql} and buy_review_status = 1
 </select>
+<select id="ScheduledListOrderMemberNoList" resultType="int">
+	select list_order_member_no
+	from list_order_member_board
+	order by list_order_member_no asc
+</select>
+<select id="ScheduledOrderMadeNoList" resultType="int">
+	select distinct regexp_substr(A.TXT, '[^/]+', 1, LEVEL) TXT
+    from (select ordermade_no TXT 
+         from order_board 
+         where ordermade_no is not null) A
+	connect by level <![CDATA[<]]>= length(regexp_replace(A.TXT, '[^/]+',''))
+</select>
+<delete id="ScheduledListOrderMemberNoDelete" parameterType="int">
+	delete from list_order_member_board
+	where list_order_member_no like #{list_order_member_no}
+</delete>
 </mapper>
   

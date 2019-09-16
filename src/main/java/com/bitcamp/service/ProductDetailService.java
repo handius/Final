@@ -182,10 +182,38 @@ public class ProductDetailService {
 		return map;
 	}
 	
-	/*@Scheduled(cron="0 0/1 * * * ?")
+	//주문제작 쓰래기값 제거기 
+	@Scheduled(cron="0 0/60 * * * ?")
 	public void listOrderMemberBoardGarbageCollector() {
-		System.out.println("작동확인");
-		String rootPath = System.getProperty("user.dir");
-        System.out.println("현재 프로젝트의 경로 : "+rootPath );
-	}*/
+		System.out.println("[주문제작 쓰래기제거 함수 시작]");
+		long start = System.currentTimeMillis();
+		List<Integer> listOrderMemberNoList = mapper.ScheduledListOrderMemberNoList();
+		List<Integer> ordermadeNoList = mapper.ScheduledOrderMadeNoList();
+		int deleteCount = 0;
+		
+		//물건살때 옵션이 날라가는것을 방지하기 위한 함수 제한 브레이크
+		int safeBreakSize = 0;
+		if(listOrderMemberNoList.size() != 0) {
+			//제한 브레이크는 총 여유량의 20%
+			safeBreakSize = (int) (listOrderMemberNoList.size()*0.2);
+			
+			//최소 여유량을 10으로 지정
+			if(safeBreakSize < 10) {
+				safeBreakSize = 10;
+			}
+		}
+		for(int i=0; i<listOrderMemberNoList.size()-safeBreakSize; i++) {
+			int list_order_member_no = listOrderMemberNoList.get(i);
+			if(!ordermadeNoList.contains(list_order_member_no)) {
+				mapper.ScheduledListOrderMemberNoDelete(list_order_member_no);
+				deleteCount++;
+			}
+		}
+		
+		long end = System.currentTimeMillis();
+		System.out.println("주문제작 쓰래기 제거하는데 걸린 시간 : "+(end-start)/1000.0+"초 ");
+		System.out.println("제거한 주문제작 쓰래기 개수 : "+deleteCount);
+		System.out.println("현재 쓰래기 가용량 : "+safeBreakSize);
+		System.out.println("[주문제작 쓰래기제거 함수 종료]");
+	}
 }

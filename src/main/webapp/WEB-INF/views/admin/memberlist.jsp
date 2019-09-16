@@ -136,8 +136,12 @@
 	  			<c:forEach var="i" varStatus="status" items="${memberList }">
                   <tr>
                       <td><c:out value="${status.count }"/></td>
-                      <td><c:out value="수정필요"/></td>
-                      <td><c:out value="${i.user_name }"/> :: <c:out value="${i.user_authority }"/></td>
+                      <td>
+                        <c:if test="${i.user_authority == 'ROLE_SELLER' }">작가</c:if>
+                        <c:if test="${i.user_authority == 'ROLE_MEMBER' }">회원</c:if>
+                        <c:if test="${i.user_authority == 'ROLE_USER' }">인증필요</c:if>
+                      </td>
+                      <td><c:out value="${i.user_name }"/></td>
                       <td><c:out value="${i.user_id }"/></td>
                       <td><c:out value="${i.user_regidate }"/></td>
                       <td><button class="btn btn-default btn-xs gomemberdetail" value="${i.member_no }">관리</button></td>

@@ -53,7 +53,7 @@
         <h2>Main Page Setting</h2>
         <div class="admin_content">
            <h4>Main Page Slide</h4>
-           <p>(최대 4장, 권장 사이즈 1980*600)</p>
+           <p>(최대 4장, 권장 사이즈 1980*720)</p>
         <div class="admin_content mainsettemplate">
         
         	<!-- TEMPLATE 1 -->
@@ -172,7 +172,7 @@
           
         <!-- TEMPLATE 3 -->
         <h4>Main Page Image</h4>
-        <p>(최대 1장, 권장 사이즈 1980*600)</p>
+        <p>(최대 1장, 권장 사이즈 1980*720)</p>
         <div class="admin_content mainsettemplate">
             <form class="form-horizontal" action="/admin/template1" method="post"
                   enctype="multipart/form-data" name="template3">
