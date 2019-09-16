@@ -27,7 +27,7 @@
 }
 
 #wrap {
-	margin: 0% 10% 3%;
+	margin: 0% 20% 3%;
 }
 
 .nav {
