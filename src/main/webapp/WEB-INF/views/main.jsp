@@ -19,6 +19,7 @@
     .item > a > img {
         max-width: none !important;
         height: 720px !important;
+        width: 100%;
     }
     .mainsettemplate {
         font-family: 'Comfortaa', 'Poor Story', cursive;
@@ -72,6 +73,9 @@
     #myCarousel {
     	height: 720px;
     	background-color: #7C7877;
+    }
+    .width100 {
+    	width: 100%;
     }
     
 </style>
@@ -128,7 +132,7 @@
 	<div class="mainimgtemplate">
       <div class="row">
       	<div class="col-xs-12">
-      	  <a href="${i.main_image_link }"><img src="${i.main_image_path }" alt="2"></a>
+      	  <a href="${i.main_image_link }"><img class="width100" src="${i.main_image_path }" alt="2"></a>
       	</div>
       </div>
 	</div>
