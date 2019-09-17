@@ -121,7 +121,7 @@
              <div class="admin_category_parent">
                  <h3>Admin Menu</h3>
              </div>
-            <div class="admin_category_parent pcateg1">화면
+            <div class="admin_category_parent pcateg1">회원
             </div>
                 <div class="admin_category_child categ1">
                     <p><a href="/admin">회원 관리</a></p>
