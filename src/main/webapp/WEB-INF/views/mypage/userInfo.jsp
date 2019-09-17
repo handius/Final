@@ -99,6 +99,15 @@
 	width: 55%;
 }
 
+.address {
+	width: 135%;
+}
+
+.juso {
+	justify-content: flex-start;
+	margin: 0 !important;
+}
+
 .btn {
 	width: 100px;
 }
@@ -193,6 +202,26 @@
 
 		return true;
 	}
+
+	function goPopup() {
+		// 호출된 페이지(jusopopup.jsp)에서 실제 주소검색URL(http://www.juso.go.kr/addrlink/addrLinkUrl.do)를 호출하게 됩니다.
+		var pop = window.open("../join/popup/jusoPopup", "pop",
+				"width=570,height=420, scrollbars=yes, resizable=yes");
+
+		// 모바일 웹인 경우, 호출된 페이지(jusopopup.jsp)에서 실제 주소검색URL(http://www.juso.go.kr/addrlink/addrMobileLinkUrl.do)를 호출하게 됩니다.
+		//var pop = window.open("/popup/jusoPopup.jsp","pop","scrollbars=yes, resizable=yes"); 
+	}
+	/** API 서비스 제공항목 확대 (2017.02) **/
+	function jusoCallBack(roadFullAddr, roadAddrPart1, addrDetail,
+			roadAddrPart2, engAddr, jibunAddr, zipNo, admCd, rnMgtSn, bdMgtSn,
+			detBdNmList, bdNm, bdKdcd, siNm, sggNm, emdNm, liNm, rn, udrtYn,
+			buldMnnm, buldSlno, mtYn, lnbrMnnm, lnbrSlno, emdNo) {
+		// 팝업페이지에서 주소입력한 정보를 받아서, 현 페이지에 정보를 등록합니다.
+		document.getElementById('address1').value = roadAddrPart1 + " "
+				+ roadAddrPart2;
+		document.getElementById('address2').value = addrDetail;
+
+	}
 </script>
 <body>
 	<div class="jumbotron"></div>
@@ -263,9 +292,18 @@
 					value="${memberDTO.getUser_email() }" class="form-control">
 			</div>
 			<div class="form-group">
-				<label for="user_address">주소</label><input type="text"
-					name="user_address" id="user_address"
-					value="${memberDTO.getUser_address() }" class="form-control">
+				<label class="address">주소
+					<div class="row juso">
+						<input type="text" class="form-control address" name="address1"
+							id="address1" placeholder="주소" readonly="readonly"
+							onclick="goPopup()">
+						<button type="button" class="btn btn-default" onclick="goPopup()">주소찾기</button>
+					</div>
+					<div class="row juso">
+						<input type="text" class="form-control address" name="address2"
+							id="address2" value="${memberDTO.getUser_address() }">
+					</div>
+				</label>
 			</div>
 			<div class="form-group">
 				<label for="user_call">전화번호</label><input type="text"
