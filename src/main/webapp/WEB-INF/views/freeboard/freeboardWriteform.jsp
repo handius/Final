@@ -47,10 +47,13 @@
 </style>
 
 <body>
+	<c:set var="memberNo">
+		<sec:authentication property="principal.member.member_no" />
+	</c:set>
 	<div id="wrap">
 		<form action="freeboardWriteResult" method="post"
 			class="form-horizontal">
-			<input type="hidden" name="member_no" value="${member.member_no }">
+			<input type="hidden" name="member_no" value="${memberNo}">
 			<div class="form-group">
 				<label for="category" class="col-sm-2 control-label">카테고리</label>
 				<div class="col-sm-10">

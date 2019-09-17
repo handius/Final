@@ -81,12 +81,13 @@ public class JoinController {
 
 		joinService.updateCertStatusService(user_id, user_email, user_certkey);
 
-		return "redirect:/";
+		return "join/joinconfirm";
 	}
 	
 	@RequestMapping("join/popup/jusoPopup")
 	public String addressAPI(){
 		return "join/popup/jusoPopup";
 	}
+
 
 }

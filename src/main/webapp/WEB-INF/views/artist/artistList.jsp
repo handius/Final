@@ -496,7 +496,13 @@
     					result += 			'<img src="'+artistBoarddto.artist_main_img+'" alt="타이틀 이미지">';
     					result += 		'</a>';
     					result +=	 '</div>';
-    					result += 	 '<div class="row artistListDetailBox">';
+    					result += 	 '<div class="row artistListDetailBox"';
+    					if(artistBoarddto.artist_board_status == 1) {
+    						result += '>';
+    					}
+    					else {
+    						result += 'style="background-color:#D9D4CF">';
+    					}
     					result += 		'<div class="col-xs-12 artistListTitleName"><a href="/artistDetail/'+artistBoarddto.artist_no+'">'+artistBoarddto.user_name+'</a></div>';
     					result += 		'<div class="col-xs-8 artistListStarScore">'+starScoreCel(artistBoarddto.artist_score)+'</div>';
     					result += 		'<div class="col-xs-4 artistListNumScore">'+artistBoarddto.artist_score+'</div>';
