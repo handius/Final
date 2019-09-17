@@ -94,7 +94,9 @@ public class FreeboardController {
 	public String freeboardWriteResult(@RequestParam("category") String freeboard_category,
 			@RequestParam("title") String freeboard_title, @RequestParam int member_no,
 			@RequestParam("summernote") String freeboard_content) {
-
+		
+		System.out.println("멤버번호");
+		System.out.println(member_no);
 		FreeboardDTO dto = new FreeboardDTO();
 		dto.setFreeboard_category(freeboard_category);
 		dto.setFreeboard_title(freeboard_title);
