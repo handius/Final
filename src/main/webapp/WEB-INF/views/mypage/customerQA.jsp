@@ -23,6 +23,11 @@
 <link
 	href="https://fonts.googleapis.com/css?family=Poor+Story&display=swap"
 	rel="stylesheet">
+<link
+	href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.css"
+	rel="stylesheet">
+<script
+	src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.js"></script>
 <style>
 * {
 	font-family: 'Comfortaa', '맑은 고딕', cursive;
@@ -69,10 +74,6 @@
 	border: 5px solid #ddd;
 }
 
-.container * {
-	margin: 5px;
-}
-
 .container h1 {
 	color: #7C7877;
 	font-size: 3vw;
@@ -89,10 +90,6 @@
 	margin: 5% 0;
 }
 
-.form-group {
-	width: 55%;
-}
-
 .form-group select {
 	width: 30%;
 }
@@ -102,8 +99,9 @@
 	justify-content: center;
 }
 
-.btn {
+.submit {
 	width: 100px;
+	margin: 50px;
 }
 </style>
 </head>
@@ -163,15 +161,45 @@
 			</div>
 			<div class="form-group">
 				<label for="question_content">내용</label>
-				<textarea name="question_content" id="question_content" rows="5"
-					cols="30" class="form-control"></textarea>
+				<textarea name="question_content" id="summernote"
+					class="form-control"></textarea>
 			</div>
 			<div class="row">
-				<input type="submit" value="문의하기" class="btn btn-default">
+				<input type="submit" value="문의하기" class="btn btn-default submit">
 			</div>
 		</form>
 	</div>
 	<script>
+		// 섬머노트
+		$('#summernote').summernote({
+			lang : 'ko-KR',
+			height : 500,
+			callbacks : {
+				onImageUpload : function(files, editor, welEditable) {
+					for (var i = files.length - 1; i >= 0; i--) {
+						sendFile(files[i], this);
+					}
+				}
+			}
+		});
+
+		function sendFile(file, el) {
+			var form_data = new FormData();
+			form_data.append('file', file);
+			$.ajax({
+				data : form_data,
+				type : "POST",
+				url : '/나중에할랭..',
+				cache : false,
+				contentType : false,
+				enctype : 'multipart/form-data',
+				processData : false,
+				success : function(img_name) {
+					$(el).summernote('editor.insertImage', img_name);
+				}
+			});
+		}
+
 		jQuery('form').submit(function() {
 			alert('문의가 완료되었습니다.');
 		});
