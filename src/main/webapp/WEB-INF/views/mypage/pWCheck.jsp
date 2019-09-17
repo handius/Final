@@ -23,14 +23,27 @@
 	font-family: 'Comfortaa', '맑은 고딕', cursive;
 }
 
+body {
+	background-color: #D9D4CF !important;
+}
+
+.jumbotron {
+	width: 100%;
+	height: 400px;
+	background-image: url("/resources/image/mypage/key.jpg");
+	background-size: cover;
+	background-position: 0 45%;
+	padding: 0;
+	margin-bottom: 0 !important;
+}
+
 .container {
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
-	background-color: #D9D4CF;
+	background-color: white;
 	margin: 5%;
 	padding: 3% 5% !important;
-	border-radius: 5%;
 }
 
 .container * {
@@ -38,16 +51,15 @@
 }
 
 .container h1 {
-	color: white;
+	color: #7C7877;
 	font-size: 3vw;
 	font-weight: bold;
-	text-shadow: 0 0 2px #7C7877;
 }
 
 .container hr {
 	width: 45%;
-	margin: 1%;
-	border: 1px solid white;
+	margin: 3% 1%;
+	border: 1px solid #7C7877;
 }
 
 .container form {
@@ -65,6 +77,7 @@
 </style>
 </head>
 <body>
+	<div class="jumbotron"></div>
 	<div class="container">
 		<h1>비밀번호확인</h1>
 		<small class="text-muted">회원님의 정보를 안전하게 보호하기 위해 비밀번호를 다시

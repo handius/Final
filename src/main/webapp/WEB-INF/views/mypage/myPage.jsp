@@ -26,11 +26,34 @@
 	font-family: 'Comfortaa', '맑은 고딕', cursive;
 }
 
+body {
+	background-color: #D9D4CF !important;
+}
+
+.buyer {
+	width: 100%;
+	height: 400px;
+	background-image: url("/resources/image/mypage/study.jpg");
+	background-size: cover;
+	background-position: 0 45%;
+	padding: 0;
+	margin-bottom: 0 !important;
+}
+
+.seller {
+	width: 100%;
+	height: 400px;
+	background-image: url("/resources/image/mypage/artist.jpg");
+	background-size: cover;
+	background-position: 0 45%;
+	padding: 0;
+	margin-bottom: 0 !important;
+}
+
 .container {
-	background-color: #F0E5DE;
+	background-color: white;
 	margin: 5%;
 	padding: 5%;
-	border-radius: 5%;
 }
 
 .row {
@@ -84,6 +107,12 @@
 </style>
 </head>
 <body>
+	<sec:authorize access="!hasRole('ROLE_SELLER')">
+		<div class="jumbotron buyer"></div>
+	</sec:authorize>
+	<sec:authorize access="hasRole('ROLE_SELLER')">
+		<div class="jumbotron seller"></div>
+	</sec:authorize>
 	<div class="container">
 		<div class="row">
 			<div class="col-xs-6 col-xs-offset-3 col-md-4 col-md-offset-1 left">

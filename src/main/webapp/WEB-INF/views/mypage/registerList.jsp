@@ -26,11 +26,24 @@
 	font-family: 'Comfortaa', '맑은 고딕', cursive;
 }
 
+body {
+	background-color: #D9D4CF !important;
+}
+
+.jumbotron {
+	width: 100%;
+	height: 400px;
+	background-image: url("/resources/image/mypage/list5.jpg");
+	background-size: cover;
+	background-position: 0 45%;
+	padding: 0;
+	margin-bottom: 0 !important;
+}
+
 .container {
-	background-color: #F0E5DE;
+	background-color: white;
 	margin: 5%;
 	padding: 3% 5% !important;
-	border-radius: 5%;
 }
 
 .container * {
@@ -38,16 +51,15 @@
 }
 
 .container h1 {
-	color: white;
+	color: #7C7877;
 	font-size: 3vw;
 	font-weight: bold;
-	text-shadow: 0 0 2px #7C7877;
 }
 
 .container hr {
 	width: 45%;
-	margin: 1%;
-	border: 1px solid #D9D4CF;
+	margin: 3% 1%;
+	border: 1px solid #7C7877;
 }
 
 .registerList {
@@ -79,6 +91,7 @@
 </style>
 </head>
 <body>
+	<div class="jumbotron"></div>
 	<div class="container">
 		<h1>나의등록내역</h1>
 		<hr>
@@ -86,8 +99,8 @@
 			<thead>
 				<tr>
 					<th>상품번호</th>
-					<th>게시글 제목</th>
-					<th>상품 이름</th>
+					<th>게시글명</th>
+					<th>상품명</th>
 					<th>카테고리</th>
 					<th>주문제작정보</th>
 					<th>등록일자</th>
