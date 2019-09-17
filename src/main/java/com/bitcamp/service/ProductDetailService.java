@@ -72,14 +72,25 @@ public class ProductDetailService {
 	}
 	
 	@Transactional
-	public String productDelete(HashMap<String, Object> hashmap) {
-		String resultMessage = "삭제 실패";
-		mapper.productDelete(hashmap);
+	public String productActiveToggle(HashMap<String, Object> hashmap) {
 		int list_no = Integer.parseInt(hashmap.get("list_no").toString());
+		ListDTO listdto = mapper.productDetailGet(list_no);
+		int list_status = listdto.getList_status();
+		System.out.println("상품정보 : "+list_status);
+		if(list_status == 0) {
+			list_status = 1;
+		}
+		else {
+			list_status = 0;
+		}
+		System.out.println("상품정보2 : "+list_status);
+		hashmap.put("list_status", list_status);
+		String resultMessage = "페이지 비활성";
+		mapper.productDelete(hashmap);
 		int deleteResult = mapper.productDeleteCheck(list_no);
 		
-		if(deleteResult == 0) {
-			resultMessage = "삭제 성공";
+		if(deleteResult == 1) {
+			resultMessage = "페이지 활성";
 		}
 		return resultMessage;
 	}
@@ -183,6 +194,7 @@ public class ProductDetailService {
 	}
 	
 	//주문제작 쓰래기값 제거기 
+	@Transactional
 	@Scheduled(cron="0 0/60 * * * ?")
 	public void listOrderMemberBoardGarbageCollector() {
 		System.out.println("[주문제작 쓰래기제거 함수 시작]");
@@ -197,16 +209,16 @@ public class ProductDetailService {
 			//제한 브레이크는 총 여유량의 20%
 			safeBreakSize = (int) (listOrderMemberNoList.size()*0.2);
 			
-			//최소 여유량을 10으로 지정
-			if(safeBreakSize < 10) {
-				safeBreakSize = 10;
-			}
 		}
-		for(int i=0; i<listOrderMemberNoList.size()-safeBreakSize; i++) {
-			int list_order_member_no = listOrderMemberNoList.get(i);
-			if(!ordermadeNoList.contains(list_order_member_no)) {
-				mapper.ScheduledListOrderMemberNoDelete(list_order_member_no);
-				deleteCount++;
+		
+		//제한 브레이크가 최소 10은 되야 함수 실행
+		if(safeBreakSize > 10) {
+			for(int i=0; i<listOrderMemberNoList.size()-safeBreakSize; i++) {
+				int list_order_member_no = listOrderMemberNoList.get(i);
+				if(!ordermadeNoList.contains(list_order_member_no)) {
+					mapper.ScheduledListOrderMemberNoDelete(list_order_member_no);
+					deleteCount++;
+				}
 			}
 		}
 		

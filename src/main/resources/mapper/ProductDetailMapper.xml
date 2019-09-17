@@ -31,8 +31,8 @@
 </select>
 <update id="productDelete" parameterType="HashMap">
 	update list_board set
-	list_status = 0
-	where list_no = #{list_no} and list_artist = #{user_id}
+	list_status = #{list_status}
+	where list_no = #{list_no}
 </update>
 <select id="productDeleteCheck" parameterType="int" resultType="int">
 	select list_status

@@ -31,6 +31,16 @@
 	font-family: 'Comfortaa', '맑은 고딕', cursive;
 }
 
+.jumbotron{
+	width: 100%;
+	height: 400px;
+	background-image: url("/resources/image/freeboard/community.jpg");
+	background-size: cover;
+	background-position: 0 45%;
+	padding: 0;
+	margin-bottom: 0 !important;
+}
+
 #wrap {
 	margin: 0 auto;
 	padding: 30px 50px;
@@ -61,18 +71,21 @@
 	text-align: center;
 }
 
-#repList{
+#repList {
 	width: 900px;
 }
 
-.nickname span{
+.nickname span {
 	vertical-align: middle;
 }
 </style>
 <script>
 	<c:set var="memberNo"><sec:authentication property="principal.member.member_no" /></c:set>
 	var sessionid = '<c:out value="${memberNo}"/>';
-	var freeboard_no = ${board.freeboard_no};
+	var freeboard_no = $
+	{
+		board.freeboard_no
+	};
 	$(document).ready(function() {
 		listReply(freeboard_no);
 	});
@@ -148,8 +161,13 @@
 	}
 </script>
 <body>
-<c:set var="memberNo"><sec:authentication property="principal.member.member_no" /></c:set>
-<c:set var="userNick"><sec:authentication property="principal.member.user_nick" /></c:set>
+	<c:set var="memberNo">
+		<sec:authentication property="principal.member.member_no" />
+	</c:set>
+	<c:set var="userNick">
+		<sec:authentication property="principal.member.user_nick" />
+	</c:set>
+	<div class="jumbotron"></div>
 	<div id="wrap">
 		<table class="table table-bordered table-condensed">
 			<tbody>
@@ -162,7 +180,7 @@
 					<td class="tdHead">닉네임</td>
 					<td>${board.freeboard_user_nick}</td>
 					<td class="tdHead">작성일</td>
-					<td>${board.freeboard_regiTime }</td>
+					<td width="200px">${board.freeboard_regiTime }</td>
 					<td class="tdHead">조회수</td>
 					<td>${board.freeboard_hits }</td>
 				</tr>
@@ -177,12 +195,12 @@
 			<p>댓글(${countRep})</p>
 			<div id="divReply">
 				<form id="replyForm">
-					<input id="member_no" type="hidden"
-						value="${memberNo}"> <input
+					<input id="member_no" type="hidden" value="${memberNo}"> <input
 						id="board_no" name="no" type="hidden"
 						value="${board.freeboard_no}">
 					<div class="form-group">
-						<label class='nickname'><span class="glyphicon glyphicon-user"></span> <span>${userNick}</span></label>
+						<label class='nickname'><span
+							class="glyphicon glyphicon-user"></span> <span>${userNick}</span></label>
 						<textarea class="form-control" id="replyText"
 							placeholder="댓글을 입력해주세요"></textarea>
 					</div>
@@ -190,13 +208,11 @@
 						onclick="writeReply()" value="댓글등록">
 				</form>
 			</div>
-			<div id="repList">
-			</div>
+			<div id="repList"></div>
 		</div>
 		<button class="btn" onclick="location='../freeboard'">목록으로</button>
 
-		<c:if
-			test="${memberNo eq board.freeboard_member_no}">
+		<c:if test="${memberNo eq board.freeboard_member_no}">
 			<button class="btn btnMod"
 				onclick="location='boardModify?no=${board.freeboard_no}'">수정</button>
 			<button class="btn btnMod"

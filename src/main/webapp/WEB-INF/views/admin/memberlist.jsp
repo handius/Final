@@ -140,6 +140,7 @@
                         <c:if test="${i.user_authority == 'ROLE_SELLER' }">작가</c:if>
                         <c:if test="${i.user_authority == 'ROLE_MEMBER' }">회원</c:if>
                         <c:if test="${i.user_authority == 'ROLE_USER' }">인증필요</c:if>
+                        <c:if test="${i.user_authority == 'ROLE_ADMIN' }">관리자</c:if>
                       </td>
                       <td><c:out value="${i.user_name }"/></td>
                       <td><c:out value="${i.user_id }"/></td>

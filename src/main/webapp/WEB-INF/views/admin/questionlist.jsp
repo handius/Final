@@ -68,10 +68,10 @@
                 <label class="col-sm-1 control-label" for="question_type">질문유형</label>
                 <div class="col-sm-4">
                     <label class="radio-inline">
-                        <input type="radio" name="question_type" id="question_type" value="제품 문의">제품 문의
+                        <input type="radio" name="question_type" id="question_type" value="문의하기">문의하기
                     </label>
                     <label class="radio-inline">
-                        <input type="radio" name="question_type" id="question_type" value="작가 문의">작가 문의
+                        <input type="radio" name="question_type" id="question_type" value="작가신청">작가신청
                     </label>
                     <label class="radio-inline">
                         <input type="radio" name="question_type" id="question_type" value="신고">신고
@@ -108,7 +108,7 @@
                 <div class="col-sm-4">
                     <select class="form-control" name="answer_status" id="answer_status">
                         <option value="">Status</option>
-                        <option value="답변대기">답변대기</option>
+                        <option value="대기">답변대기</option>
                         <option value="완료">완료</option>
                     </select>
                 </div>
@@ -154,7 +154,8 @@
 			<p>검색결과가 없습니다.</p>          
           </div>
         </c:if>
-          <div class="pagination_block">
+          <div class="pagination_block row">
+        	<div class="col-sm-11">
 			  <form action="/admin/qna" method="post">
 			  	  <c:if test="${paging.totalcount != 0 }">
 			  	  
@@ -181,12 +182,11 @@
 					</c:if>
 				  </c:if>
 			  </form>
-		  </div>
-        <div class="row">
-        	<div class="col-sm-1">
-        		<button class="btn btn-default btn-block" id="delete_all_btn">삭제</button>
         	</div>
-        </div>
+        	<div class="col-sm-1">
+        		<button class="btn btn-default" id="delete_all_btn">삭제</button>
+        	</div>
+		  </div>
         </div>
 <script>
 $('.anal_search_btn').click(function() {
@@ -219,11 +219,20 @@ $('.anal_search_btn').click(function() {
 	});
 	var sendvalue = "";
 	$('#delete_all_btn').click(function() {
-		$('input:checkbox[name="deletechkbox"]').each(function() {
-			var tf = $(this).is(":checked");
-			if (tf == true) sendvalue += $(this).val() + ",";
-		});
-		location.href = "/admin/deleteallquestion?deleteall=" + sendvalue;
+	 	var result = confirm('정말 삭제하시겠습니까?');
+		if (result) { 
+			$('input:checkbox[name="deletechkbox"]').each(function() {
+				var tf = $(this).is(":checked");
+				if (tf == true) sendvalue += $(this).val() + ",";
+			});
+			if(sendvalue == "") {
+				alert('삭제할 질문을 선택하세요.')
+			} else {
+				location.href = "/admin/deleteallquestion?deleteall=" + sendvalue;
+			}
+	 	} else {
+			
+		} 
 	});
 </script>
 </body>

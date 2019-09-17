@@ -63,11 +63,14 @@ public class ProductDetailController {
 			model.addAttribute("orderList", service.productDetailOrderService(list_order_member_no));
 		}
 		
-		//로그인한사람이 판매자라면
+		//로그인한사람이 해당 판매자거나 관리자 라면
 		boolean productRemoveDecision = false;
 		Object objmdto = session.getAttribute("member");
 		if(objmdto != null) {
 			MemberDTO mdto = (MemberDTO) objmdto;
+			if(mdto.getUser_authority().equals("ROLE_ADMIN")) {
+				productRemoveDecision = true;
+			}
 			int memberNo = mdto.getMember_no();
 			Object objArtistInfo = map.get("productDetailArtistInfo");
 			if(objArtistInfo != null) {
@@ -94,16 +97,12 @@ public class ProductDetailController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value="/productDetail/ajaxProductDelete", produces="application/text; charset=utf-8")
+	@RequestMapping(value="/productDetail/ajaxProductToggle", produces="application/text; charset=utf-8")
 	public String ajaxProductDelete(@RequestBody HashMap<String, Object> hashmap, HttpSession session) {
 		String resultMessage = "로그인부터 하세요";
 		Object objdto = session.getAttribute("member");
-		
 		if(objdto != null) {
-			MemberDTO memberdto = (MemberDTO) objdto;
-			String user_id = memberdto.getUser_id();
-			hashmap.put("user_id", user_id);
-			resultMessage = service.productDelete(hashmap);
+			resultMessage = service.productActiveToggle(hashmap);
 		}
 		return resultMessage;
 	}

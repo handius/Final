@@ -87,6 +87,7 @@ public class LoginContoller {
 	@RequestMapping(value = "/searchIDResult", method = RequestMethod.POST, produces = "application/text; charset=utf8")
 	@ResponseBody
 	public String SearchIDResult(@ModelAttribute MemberDTO dto) {
+		System.out.println("무슨오류");
 		String data = memberService.searchID(dto);
 		return data;
 	}
