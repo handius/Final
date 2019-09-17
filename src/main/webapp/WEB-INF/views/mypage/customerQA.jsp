@@ -64,8 +64,8 @@
 
 .container {
 	background-color: white;
-	margin: 1% 3%;
-	padding: 3% 1% !important;
+	margin: 5% 3%;
+	padding: 3% 5% !important;
 	border: 5px solid #ddd;
 }
 
