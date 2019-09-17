@@ -25,7 +25,7 @@ public interface ArtistMapper {
 	public List<Integer> artistBoardDetailProductListNo(HashMap<String, Object> hashmap);
 	public List<String> artistBoardDetailProductListImg(int list_no);
 	//
-	public int artistBoardDetailBuyReviewListMaxCount(int artist_no);
+	public int artistBoardDetailBuyReviewListMaxCount(String user_id);
 	public List<BuyReviewDTO> artistBoardDetailBuyReviewList(HashMap<String, Object> map);
 	//
 	public int artistRepInsertSeq();

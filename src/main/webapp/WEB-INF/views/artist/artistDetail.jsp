@@ -181,6 +181,7 @@
             font-size: 14px;
             padding: 8px 10px;
             display: inline-block;
+            text-align: left;
         }
         
         #artistAsideRepInputBox {

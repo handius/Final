@@ -12,7 +12,7 @@ public class ArtistBoardDTO {
 	private String artist_board_title;
 	private String artist_main_img;
 	private int artist_count;
-	private int artist_score;
+	private float artist_score;
 	private int artist_board_status;
 	private String user_id;
 	private String user_name;
