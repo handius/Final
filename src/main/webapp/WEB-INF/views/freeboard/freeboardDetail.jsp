@@ -82,10 +82,7 @@
 <script>
 	<c:set var="memberNo"><sec:authentication property="principal.member.member_no" /></c:set>
 	var sessionid = '<c:out value="${memberNo}"/>';
-	var freeboard_no = $
-	{
-		board.freeboard_no
-	};
+	var freeboard_no = ${board.freeboard_no};
 	$(document).ready(function() {
 		listReply(freeboard_no);
 	});

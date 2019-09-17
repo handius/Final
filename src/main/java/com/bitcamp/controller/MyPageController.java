@@ -100,12 +100,12 @@ public class MyPageController {
 	@RequestMapping("userInfoResult")
 	public String userInfoResult(Principal prin, HttpSession session, @RequestParam(value = "password") String password,
 			@RequestParam(value = "user_name") String user_name, @RequestParam(value = "user_nick") String user_nick,
-			@RequestParam(value = "user_email") String user_email,
-			@RequestParam(value = "user_address") String user_address,
-			@RequestParam(value = "user_call") String user_call) {
+			@RequestParam(value = "user_email") String user_email, @RequestParam String address1,
+			@RequestParam String address2, @RequestParam(value = "user_call") String user_call) {
 		// MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
 		CustomUser user = (CustomUser) userService.loadUserByUsername(prin.getName());
 		MemberDTO memberDTO = user.getMember();
+		String user_address = address1 + " " + address2;
 		memberDTO.setUser_name(user_name);
 		memberDTO.setUser_nick(user_nick);
 		memberDTO.setUser_email(user_email);
