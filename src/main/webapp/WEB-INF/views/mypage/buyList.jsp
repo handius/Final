@@ -205,7 +205,7 @@
 				<c:forEach var="list" items="${buyList }" varStatus="status1">
 					<tr class="orderDTO">
 						<td>${list.order_date }</td>
-						<td><table>
+						<td width="500px"><table>
 								<tr>
 									<td rowspan="2" class="image"><img alt="image_loc"
 										src="${buyListImage_loc[status1.index] }"></td>
@@ -218,14 +218,15 @@
 										</c:forEach></td>
 								<tr>
 							</table></td>
-						<td><c:if test="${list.ordermade_no==null }">완제품</c:if> <c:if
-								test="${list.ordermade_no!=null }">
+						<td width="250px"><c:if test="${list.ordermade_no==null }">
+								<p class="text-center">완제품</p>
+							</c:if> <c:if test="${list.ordermade_no!=null }">
 								<table>
 									<c:forEach var="item"
 										items="${orderOrderList2[status1.index] }" varStatus="i">
 										<c:if test="${item.order_option eq 'picture' }">
 											<tr>
-												<td>주문옵션${i.index+1}</td>
+												<td width="100px">주문옵션${i.index+1}</td>
 												<td>${item.order_name }</td>
 											</tr>
 											<tr>
@@ -236,7 +237,7 @@
 										</c:if>
 										<c:if test="${item.order_option eq 'color' }">
 											<tr>
-												<td>주문옵션${i.index+1}</td>
+												<td width="100px">주문옵션${i.index+1}</td>
 												<td>${item.order_name }</td>
 											</tr>
 											<tr>
@@ -247,7 +248,7 @@
 										</c:if>
 										<c:if test="${item.order_option eq 'text' }">
 											<tr>
-												<td>주문옵션${i.index+1}</td>
+												<td width="100px">주문옵션${i.index+1}</td>
 												<td>${item.order_name }</td>
 											</tr>
 											<tr>
