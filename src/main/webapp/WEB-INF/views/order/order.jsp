@@ -127,7 +127,8 @@
 						<div class="form-group">
 							<label for="call">연락처</label><input type="text" name="call"
 								id="call" required class="form-control"
-								value="${memberDTO.user_call }">
+								value="${memberDTO.user_call }"
+								oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
 						</div>
 						<div class="form-group">
 							<label for="address">주소</label><input type="text" name="address"

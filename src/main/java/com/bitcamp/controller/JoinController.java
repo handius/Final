@@ -81,7 +81,7 @@ public class JoinController {
 
 		joinService.updateCertStatusService(user_id, user_email, user_certkey);
 
-		return "join/joinConfirm.mall";
+		return "redirect:/";
 	}
 	
 	@RequestMapping("join/popup/jusoPopup")
