@@ -232,6 +232,7 @@
 												<td colspan="2"><img src="${item.order_value }"
 													alt="주문사진"></td>
 											</tr>
+
 										</c:if>
 										<c:if test="${item.order_option eq 'color' }">
 											<tr>
@@ -253,6 +254,7 @@
 												<td colspan="2">${item.order_value }</td>
 											</tr>
 										</c:if>
+
 									</c:forEach>
 								</table>
 							</c:if></td>

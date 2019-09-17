@@ -66,7 +66,7 @@
 	background-color: white;
 	margin: 1% 3%;
 	padding: 3% 1% !important;
-	border: 1px solid #ddd;
+	border: 5px solid #ddd;
 }
 
 .container * {

@@ -69,7 +69,7 @@
 	background-color: white;
 	margin: 5% 3%;
 	padding: 3% 5% !important;
-	border: 1px solid #ddd;
+	border: 5px solid #ddd;
 }
 
 .container * {

@@ -77,7 +77,7 @@
 	background-color: white;
 	margin: 5%;
 	padding: 5%;
-	border: 1px solid #ddd;
+	border: 5px solid #ddd;
 }
 
 .row {
