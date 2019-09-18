@@ -51,6 +51,14 @@ public class ArtistController {
 			if(objmember == null) {
 				return "redirect:/login"; 
 			}
+			else {
+				MemberDTO mdto = (MemberDTO) objmember;
+				String user_authority = mdto.getUser_authority();				
+				//관리자나 작가 권한이거나 해당 주인이이 아니라면 메인으로 튕겨버림
+				if(!(user_authority.equals("ROLE_ADMIN") || artistdto.getMember_no() == mdto.getMember_no())) {
+					return "redirect:/";
+				}
+			}
 		}
 		
 		//로그인이 되어있다면

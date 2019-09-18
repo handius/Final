@@ -55,7 +55,7 @@
     .gotopicon > img {
         position: fixed;
         z-index: 1;
-        bottom: 50px;
+        bottom: 100px;
         right: 50px;
         height: 100px;
         width: 100px;

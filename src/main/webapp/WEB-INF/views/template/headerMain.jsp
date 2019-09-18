@@ -103,7 +103,7 @@
 }
 
 #mallmenu {
-	z-index: 2;
+	z-index: 1000;
 }
 
 .menuhoversearch {

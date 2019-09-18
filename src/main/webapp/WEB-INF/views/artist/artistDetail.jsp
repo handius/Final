@@ -928,7 +928,8 @@
                    	<c:out value="${artistInfo.user_name }"></c:out>
                </div>
                <div id="artistAsideArtistInfoScore">
-                    <span id="artistAsideArtistInfoStarScore"></span><span id="artistAsideArtistInfoNumScore">${artistBoardDetail.artist_score }</span>
+                    <span id="artistAsideArtistInfoStarScore"></span>
+                    <span id="artistAsideArtistInfoNumScore">${artistBoardDetail.artist_score }</span>
                </div>
                <div class="row" id="artistAsideArtistInfoVisitCount">
                		<div class="col-xs-9">총 조회수 : </div><div class="col-xs-3">${artistBoardDetail.artist_count }</div>

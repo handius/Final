@@ -186,6 +186,25 @@ public class ProductDetailService {
 		dto.setEnd_sql(scroll.getEndSql());		
 		List<BuyReviewDTO> listBuyReview = mapper.productDetailBuyReviewList(dto);
 		
+		for(int i=0; i<listBuyReview.size(); i++) {
+			BuyReviewDTO buyReviewdto = listBuyReview.get(i);
+			String[] addOptionName= buyReviewdto.getOrder_add_option().split("/");
+			String[] addAmount = buyReviewdto.getOrder_amount().split("/");
+			String resultAddOption = "";
+			
+			if(!addOptionName[0].equals("X")) {
+				for(int j=0; j<addOptionName.length; j++) {
+					resultAddOption += mapper.productDetailBuyReviewOptionName(addOptionName[j]);
+					resultAddOption += " : "+ addAmount[j] + "개 ";
+					if(j != addOptionName.length-1 ) {
+						resultAddOption += "/";
+					}
+				}
+				buyReviewdto.setOrder_add_option(resultAddOption);
+				listBuyReview.set(i, buyReviewdto);
+			}
+		}
+		
 		map.put("listBuyReview", listBuyReview);
 		map.put("endSql", scroll.endSql);
 		map.put("maxSql", maxSql);

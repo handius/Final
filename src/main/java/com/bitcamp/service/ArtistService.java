@@ -126,6 +126,25 @@ public class ArtistService {
 			hashmap.put("start_sql", scroll.startSql);
 			hashmap.put("end_sql", scroll.endSql);
 			list = mapper.artistBoardDetailBuyReviewList(hashmap);
+			
+			for(int i=0; i<list.size(); i++) {
+				BuyReviewDTO buyReviewdto = list.get(i);
+				String[] addOptionName= buyReviewdto.getOrder_add_option().split("/");
+				String[] addAmount = buyReviewdto.getOrder_amount().split("/");
+				String resultAddOption = "";
+				
+				if(!addOptionName[0].equals("X")) {
+					for(int j=0; j<addOptionName.length; j++) {
+						resultAddOption += mapper.artistBoardDetailBuyReviewOptionName(addOptionName[j]);
+						resultAddOption += " : "+ addAmount[j] + "개 ";
+						if(j != addOptionName.length-1 ) {
+							resultAddOption += "/";
+						}
+					}
+					buyReviewdto.setOrder_add_option(resultAddOption);
+					list.set(i, buyReviewdto);
+				}
+			}
 		}
 		
 		Map<String, Object> hashmap = new HashMap<>();

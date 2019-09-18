@@ -27,6 +27,7 @@ public interface ArtistMapper {
 	//
 	public int artistBoardDetailBuyReviewListMaxCount(String user_id);
 	public List<BuyReviewDTO> artistBoardDetailBuyReviewList(HashMap<String, Object> map);
+	public String artistBoardDetailBuyReviewOptionName(String list_option_board);
 	//
 	public int artistRepInsertSeq();
 	public void artistRepInsert(ArtistRepDTO dto);

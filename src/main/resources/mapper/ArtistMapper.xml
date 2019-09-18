@@ -58,7 +58,7 @@
 <select id="artistBoardDetailBuyReviewList" parameterType="HashMap" resultType="com.bitcamp.DTO.productdetail.BuyReviewDTO">
 select num, e.*
     from (select rownum as num, e1.*
-          from (select buy_review_date, buy_review_content, buy_review_image_loc, buy_review_score, buy_review_status ,order_board.list_no, list_title ,order_add_option, user_name
+          from (select buy_review_date, buy_review_content, buy_review_image_loc, buy_review_score, buy_review_status ,order_board.list_no, list_title ,order_add_option, order_amount, user_name
                 from order_board inner join buy_review
                 on order_board.order_no = buy_review.order_no
                 inner join list_board
@@ -69,6 +69,11 @@ select num, e.*
         		order by buy_review_date desc) e1
           where rownum <![CDATA[<]]>= #{end_sql} ) e
     where num <![CDATA[>]]>= #{start_sql}
+</select>
+<select id="artistBoardDetailBuyReviewOptionName" parameterType="String" resultType="String">
+	select option_name
+	from list_option_board
+	where option_no = #{value}
 </select>
 <select id="artistRepInsertSeq" resultType="int">
 	select artist_rep_seq.nextval from dual
@@ -202,7 +207,7 @@ select num, e.*
 	select buy_review_score
 	from buy_review inner join order_board
 	on buy_review.order_no = order_board.order_no
-	where list_no = #{list_no}
+	where list_no = #{list_no} and buy_review_status = 1
 </select>
 <!-- 페이지 활성 여부 -->
 <update id="artistDetailPageActiveToggle" parameterType="HashMap">
