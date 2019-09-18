@@ -233,7 +233,6 @@
 												<td colspan="2"><img src="${item.order_value }"
 													alt="주문사진"></td>
 											</tr>
-
 										</c:if>
 										<c:if test="${item.order_option eq 'color' }">
 											<tr>
@@ -242,8 +241,7 @@
 											</tr>
 											<tr>
 												<td colspan="2"><span
-													style="background-color: ${item.order_value}">
-														색상:${item.order_value }</span></td>
+													style="background-color: ${item.order_value}">색상:${item.order_value }</span></td>
 											</tr>
 										</c:if>
 										<c:if test="${item.order_option eq 'text' }">
@@ -252,10 +250,9 @@
 												<td>${item.order_name }</td>
 											</tr>
 											<tr>
-												<td colspan="2">${item.order_value }</td>
+												<td colspan="2"><span>${item.order_value }</span></td>
 											</tr>
 										</c:if>
-
 									</c:forEach>
 								</table>
 							</c:if></td>

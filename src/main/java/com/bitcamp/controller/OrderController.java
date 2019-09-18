@@ -36,9 +36,10 @@ public class OrderController {
 
 	@RequestMapping("order/orderResult")
 	public String success(HttpSession session, @RequestParam String name, @RequestParam String call,
-			@RequestParam String address) {
+			@RequestParam String address1, @RequestParam String address2) {
 		MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
 		OrderDTO orderDTO = (OrderDTO) session.getAttribute("orderDTO");
+		String address = address1 + " " + address2;
 		service.buyProduct(memberDTO.getMember_no(), orderDTO);
 		service.updateUserInfo(memberDTO.getMember_no(), name, call, address);
 		return "order/orderResult.mall";
@@ -47,5 +48,10 @@ public class OrderController {
 	@RequestMapping("support/{artist_no}")
 	public String support(Principal prin, HttpSession session, @PathVariable int artist_no) {
 		return "redirect:/artistDetail/" + artist_no;
+	}
+
+	@RequestMapping("order/popup/jusoPopup")
+	public String addressAPI() {
+		return "order/popup/jusoPopup";
 	}
 }

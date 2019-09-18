@@ -59,6 +59,15 @@
 	margin: 0;
 }
 
+.address {
+	width: 100%;
+}
+
+.juso {
+	display: flex;
+	margin: 0 !important;
+}
+
 .right {
 	height: 400px;
 	margin: 0;
@@ -86,7 +95,7 @@
 	justify-content: center;
 }
 
-.btn {
+.btn-block {
 	width: 50% !important;
 	background-image: linear-gradient(to bottom, #ABD0CE 0, #77AAAD 100%)
 		!important;
@@ -96,7 +105,7 @@
 	letter-spacing: 10px;
 }
 
-.btn:hover, .btn:focus {
+.btn-block:hover, .btn-block:focus {
 	background-color: #77AAAD !important;
 }
 </style>
@@ -131,9 +140,18 @@
 								oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
 						</div>
 						<div class="form-group">
-							<label for="address">주소</label><input type="text" name="address"
-								id="address" required class="form-control"
-								value="${memberDTO.user_address }">
+							<label class="address">주소
+								<div class="row juso">
+									<input type="text" class="form-control address" name="address1"
+										id="address1" readonly="readonly" onclick="goPopup()">
+									<button type="button" class="btn btn-default"
+										onclick="goPopup()">주소찾기</button>
+								</div>
+								<div class="row juso">
+									<input type="text" class="form-control address" name="address2"
+										id="address2" value="${memberDTO.user_address }">
+								</div>
+							</label>
 						</div>
 					</div>
 				</div>
@@ -212,6 +230,26 @@
 				alert(msg);
 			});
 		});
+
+		function goPopup() {
+			// 호출된 페이지(jusopopup.jsp)에서 실제 주소검색URL(http://www.juso.go.kr/addrlink/addrLinkUrl.do)를 호출하게 됩니다.
+			var pop = window.open("../popup/jusoPopup", "pop",
+					"width=570,height=420, scrollbars=yes, resizable=yes");
+
+			// 모바일 웹인 경우, 호출된 페이지(jusopopup.jsp)에서 실제 주소검색URL(http://www.juso.go.kr/addrlink/addrMobileLinkUrl.do)를 호출하게 됩니다.
+			//var pop = window.open("/popup/jusoPopup.jsp","pop","scrollbars=yes, resizable=yes"); 
+		}
+
+		function jusoCallBack(roadFullAddr, roadAddrPart1, addrDetail,
+				roadAddrPart2, engAddr, jibunAddr, zipNo, admCd, rnMgtSn,
+				bdMgtSn, detBdNmList, bdNm, bdKdcd, siNm, sggNm, emdNm, liNm,
+				rn, udrtYn, buldMnnm, buldSlno, mtYn, lnbrMnnm, lnbrSlno, emdNo) {
+			// 팝업페이지에서 주소입력한 정보를 받아서, 현 페이지에 정보를 등록합니다.
+			document.getElementById('address1').value = roadAddrPart1 + " "
+					+ roadAddrPart2;
+			document.getElementById('address2').value = addrDetail;
+
+		}
 	</script>
 </body>
 </html>
