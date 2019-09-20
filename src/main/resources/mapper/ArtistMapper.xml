@@ -47,32 +47,33 @@
 	from list_image_board 
 	where list_no = #{list_no}
 </select>
-<select id="artistBoardDetailBuyReviewListMaxCount" parameterType="int" resultType="int">
+<select id="artistBoardDetailBuyReviewListMaxCount" parameterType="String" resultType="int">
 	select count(*)
-	from order_board inner join artist_board
-	on order_board.member_no = artist_board.member_no
-	inner join buy_review
-	on order_board.order_no = buy_review.order_no
-	inner join member
-	on order_board.member_no = member.member_no
-	where artist_no = #{artist_no} and buy_review_status = 1
+    from order_board inner join buy_review
+    on order_board.order_no = buy_review.order_no
+    inner join list_board
+    on order_board.list_no = list_board.list_no
+    where list_artist = #{value} and buy_review_status = 1
 </select>
 <select id="artistBoardDetailBuyReviewList" parameterType="HashMap" resultType="com.bitcamp.DTO.productdetail.BuyReviewDTO">
-	select num, e.*
+select num, e.*
     from (select rownum as num, e1.*
-          from (select buy_review_date, buy_review_content, buy_review_image_loc, buy_review_score, buy_review_status ,order_board.list_no, list_title ,order_add_option, user_name
-        		from order_board inner join artist_board
-        		on order_board.member_no = artist_board.member_no
-        		inner join buy_review
-        		on order_board.order_no = buy_review.order_no
-        		inner join member
-        		on order_board.member_no = member.member_no
-        		inner join list_board
-        		on order_board.list_no = list_board.list_no
-        		where artist_no = #{artist_no} and buy_review_status = 1
+          from (select buy_review_date, buy_review_content, buy_review_image_loc, buy_review_score, buy_review_status ,order_board.list_no, list_title ,order_add_option, order_amount, user_name
+                from order_board inner join buy_review
+                on order_board.order_no = buy_review.order_no
+                inner join list_board
+                on order_board.list_no = list_board.list_no
+                inner join member
+                on order_board.member_no = member.member_no
+                where list_artist = #{user_id}  and buy_review_status = 1
         		order by buy_review_date desc) e1
           where rownum <![CDATA[<]]>= #{end_sql} ) e
     where num <![CDATA[>]]>= #{start_sql}
+</select>
+<select id="artistBoardDetailBuyReviewOptionName" parameterType="String" resultType="String">
+	select option_name
+	from list_option_board
+	where option_no = #{value}
 </select>
 <select id="artistRepInsertSeq" resultType="int">
 	select artist_rep_seq.nextval from dual
@@ -139,8 +140,8 @@
                 	<if test="!searchText != null || searchText.equals('')">
                 		and user_name like '%' || #{searchText} || '%'
                 	</if>
-                	<if test="!(user_authority.equals('ROLE_ADMIN') || user_authority.equals('ROLE_SELLER'))">
-                		and artist_board_status = 1
+                	<if test="!user_authority.equals('ROLE_ADMIN')">
+                		and artist_board_status = 1 or artist_board.member_no = #{member_no}
                 	</if>
                 </where>
                 <if test="listType.equals('인기순')">
@@ -206,7 +207,7 @@
 	select buy_review_score
 	from buy_review inner join order_board
 	on buy_review.order_no = order_board.order_no
-	where list_no = #{list_no}
+	where list_no = #{list_no} and buy_review_status = 1
 </select>
 <!-- 페이지 활성 여부 -->
 <update id="artistDetailPageActiveToggle" parameterType="HashMap">

@@ -205,7 +205,7 @@
 
 	function goPopup() {
 		// 호출된 페이지(jusopopup.jsp)에서 실제 주소검색URL(http://www.juso.go.kr/addrlink/addrLinkUrl.do)를 호출하게 됩니다.
-		var pop = window.open("../join/popup/jusoPopup", "pop",
+		var pop = window.open("../order/popup/jusoPopup", "pop",
 				"width=570,height=420, scrollbars=yes, resizable=yes");
 
 		// 모바일 웹인 경우, 호출된 페이지(jusopopup.jsp)에서 실제 주소검색URL(http://www.juso.go.kr/addrlink/addrMobileLinkUrl.do)를 호출하게 됩니다.
@@ -295,8 +295,7 @@
 				<label class="address">주소
 					<div class="row juso">
 						<input type="text" class="form-control address" name="address1"
-							id="address1" placeholder="주소" readonly="readonly"
-							onclick="goPopup()">
+							id="address1" readonly="readonly" onclick="goPopup()">
 						<button type="button" class="btn btn-default" onclick="goPopup()">주소찾기</button>
 					</div>
 					<div class="row juso">

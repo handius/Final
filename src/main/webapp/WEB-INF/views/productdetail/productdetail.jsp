@@ -77,7 +77,6 @@
         .item img {
         	width: 100%;
         	height: 400px !important;
-        	object-fit: cover;
         	overflow: hidden;
         }
 
@@ -472,7 +471,6 @@
         .customerOrderValueImg img {
         	width: 100%;
             height: 100%;
-            object-fit: cover;
         }
         
         .customerOrderValueColor {

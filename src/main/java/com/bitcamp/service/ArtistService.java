@@ -114,18 +114,37 @@ public class ArtistService {
 	
 	@Transactional
 	public Map<String, Object> artistBoardDetailBuyReviewListService(Map<String, Integer> map) {
-		int artist_no = map.get("artist_no");
-		int maxCount = mapper.artistBoardDetailBuyReviewListMaxCount(artist_no);
+		String user_id = mapper.artistBoardDetailArtistInfo(map.get("artist_no")).getUser_id();
+		int maxCount = mapper.artistBoardDetailBuyReviewListMaxCount(user_id);
 		int currentPage = map.get("currentBuyReviewInput");
 		
 		ScrollCalculation scroll = new ScrollCalculation(currentPage, 5, maxCount);	
 		List<BuyReviewDTO> list = new ArrayList<>();
 		if(scroll.isActive()) {
 			HashMap<String, Object> hashmap = new HashMap<>();
-			hashmap.put("artist_no", map.get("artist_no"));
+			hashmap.put("user_id", user_id);
 			hashmap.put("start_sql", scroll.startSql);
 			hashmap.put("end_sql", scroll.endSql);
 			list = mapper.artistBoardDetailBuyReviewList(hashmap);
+			
+			for(int i=0; i<list.size(); i++) {
+				BuyReviewDTO buyReviewdto = list.get(i);
+				String[] addOptionName= buyReviewdto.getOrder_add_option().split("/");
+				String[] addAmount = buyReviewdto.getOrder_amount().split("/");
+				String resultAddOption = "";
+				
+				if(!addOptionName[0].equals("X")) {
+					for(int j=0; j<addOptionName.length; j++) {
+						resultAddOption += mapper.artistBoardDetailBuyReviewOptionName(addOptionName[j]);
+						resultAddOption += " : "+ addAmount[j] + "개 ";
+						if(j != addOptionName.length-1 ) {
+							resultAddOption += "/";
+						}
+					}
+					buyReviewdto.setOrder_add_option(resultAddOption);
+					list.set(i, buyReviewdto);
+				}
+			}
 		}
 		
 		Map<String, Object> hashmap = new HashMap<>();
@@ -265,9 +284,9 @@ public class ArtistService {
 			for(int i=0; i<artistBoardList.size(); i++) {
 				String user_id = artistBoardList.get(i);
 				List<Integer> list_noList = mapper.artistScoreSchedulerListNoList(user_id);
-				
 				float ScoreSum = 0;
 				int ScoreCount = 0;
+				
 				if(list_noList.size() != 0) {
 					for(int j=0; j<list_noList.size(); j++) {
 						List<Integer> artist_board_scoreList = mapper.artistScoreSchedulerBuyReviewScoreList(list_noList.get(j));

@@ -95,7 +95,7 @@
 </select>
 <select id="productDetailBuyReviewList" parameterType="com.bitcamp.DTO.productdetail.BuyReviewDTO" resultType="com.bitcamp.DTO.productdetail.BuyReviewDTO">
 	select num, e.*
-from (select rownum as num ,buy_review_no, buy_review_date, buy_review_content, buy_review_image_loc, buy_review_score, buy_review_status, buy_review.order_no, order_add_option, user_name
+from (select rownum as num ,buy_review_no, buy_review_date, buy_review_content, buy_review_image_loc, buy_review_score, buy_review_status, buy_review.order_no, order_add_option, order_amount, user_name
 	from buy_review inner join order_board
 	on buy_review.order_no = order_board.order_no
  	inner join member
@@ -103,6 +103,11 @@ from (select rownum as num ,buy_review_no, buy_review_date, buy_review_content, 
 	where rownum <![CDATA[<]]>= #{end_sql} and order_board.list_no = #{list_no}
     order by buy_review_date desc) e
     where num <![CDATA[>]]>= #{start_sql} and buy_review_status = 1
+</select>
+<select id="productDetailBuyReviewOptionName" parameterType="String" resultType="String">
+	select option_name
+	from list_option_board
+	where option_no = #{value}
 </select>
 <select id="ScheduledListOrderMemberNoList" resultType="int">
 	select list_order_member_no

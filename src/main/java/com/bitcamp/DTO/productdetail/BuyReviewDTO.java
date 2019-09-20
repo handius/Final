@@ -17,6 +17,7 @@ public class BuyReviewDTO {
 	private int buy_review_score;
 	private int buy_review_status;
 	private String order_add_option;
+	private String order_amount;
 	private int member_no;
 	private String user_name;
 	private int list_no;
