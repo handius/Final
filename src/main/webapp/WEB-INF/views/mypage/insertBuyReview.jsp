@@ -116,6 +116,10 @@
 	display: flex;
 	justify-content: center;
 }
+
+#imgUploadTag {
+	width: 100%;
+}
 </style>
 <body>
 	<div class="wrapper">
