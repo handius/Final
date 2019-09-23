@@ -610,7 +610,9 @@
     
     function repScrollDownInit() {
     	let currentHeight = $("#artistAsideRepContentBox")[0].scrollHeight;
-    	$('#artistAsideRepContentBox').animate({scrollTop : currentHeight}, 400);
+    	setTimeout(function() {
+			$('#artistAsideRepContentBox').scrollTop(currentHeight);
+		}, 50);
     }
     
     function starScoreCel() {
@@ -763,6 +765,7 @@
         			$('#currentRep').val(1);
         			$('#artistAsideRepContent').empty();
         			artistDetailRepList();
+        			repScrollDownInit();
         			if(data == '로그인부터 해주시기바랍니다.') {
         				console.log('hi');
         				location.href = 'http://localhost:8080/login';
@@ -788,6 +791,7 @@
             		$('#currentRep').val(1);
         			$('#artistAsideRepContent').empty();
         			artistDetailRepList();
+        			repScrollDownInit();
             	}
             	,error: function(data) {
             		console.log('댓글 삭제 실패');
