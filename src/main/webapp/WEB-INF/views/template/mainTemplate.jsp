@@ -57,7 +57,7 @@
     	for (var word in mobileKeyWords) {
     		if (navigator.userAgent.match(mobileKeyWords[word]) != null) {
     			let url = window.document.location.href;
-    			if(url == 'http://localhost:8080/') {
+    			if(url == 'http://localhost:8080/' || url == 'http://192.168.137.1:8080/') {
     				window.location.href = "/mobile";
     			}
     			break;

@@ -36,10 +36,14 @@
 	where list_status = 1 and list_artist like #{value}
 </select>
 <select id="artistBoardDetailProductListNo" parameterType="HashMap" resultType="int">
-	select list_no
+    select list_no
     from (select rownum as num , list_no
-        from list_board
-        where list_artist like #{user_id} and list_status = 1 and rownum <![CDATA[<]]>= #{end_sql}) 
+        from (select *
+              from list_board
+              where list_artist like #{user_id}
+              order by list_no desc ) e
+        where list_status = 1 and rownum <![CDATA[<]]>= #{end_sql}
+        order by list_no desc) 
     where num <![CDATA[>]]>= #{start_sql}
 </select>
 <select id="artistBoardDetailProductListImg" parameterType="int" resultType="String">
@@ -174,7 +178,7 @@ select num, e.*
 <select id="artistScoreListNoList" parameterType="String" resultType="int">
 	select list_no
 	from list_board
-	where list_artist like #{value}
+	where list_artist = #{value}
 </select>
 <select id="artistScoreBuyReviewScoreList" parameterType="int" resultType="int">
 	select buy_review_score 

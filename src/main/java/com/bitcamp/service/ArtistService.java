@@ -262,7 +262,7 @@ public class ArtistService {
 					sumCount++;
 				}
 			}
-			float artist_score = (float)(scoreSum + buy_review_score)/(sumCount + 1);
+			float artist_score = (float)scoreSum/sumCount;
 			HashMap<String, Object> hashmap = new HashMap<>();
 			hashmap.put("artist_score", artist_score);
 			hashmap.put("user_id", user_id);
@@ -273,7 +273,7 @@ public class ArtistService {
 	
 	//일정 시간마다 자동 별점 계산
 	@Transactional
-	@Scheduled(cron="0 0/5 * * * ?") 
+	@Scheduled(cron="0 0/10 * * * ?") 
 	public void artistScoreScheduler() {
 		System.out.println("[작가 자동 별점 계산 시작]");
 		long start = System.currentTimeMillis();
